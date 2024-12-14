@@ -1,5 +1,5 @@
 import AppError from "../utils/error.utils,js";
-import Substance from "../models/Substance.model,js";
+import Substance from "../models/Substance.model.js";
 
 const SubstanceData=async(req,res,next)=>{
     try{
