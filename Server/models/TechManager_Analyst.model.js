@@ -12,7 +12,7 @@ const techManager_AnalystSchema=new Schema(
                     type:Number,
                     default:0,
                 }
-        }],
+        },],
 
         Due_Date:{
             type:Date,
