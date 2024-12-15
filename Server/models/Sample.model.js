@@ -5,7 +5,7 @@ const sampleSchema=new Schema(
         Name:{
             type:String,
             required:[true,'Name is required'],
-            minlength:[8,'Name cannot be less than 8 character'],
+            minlength:[5,'Name cannot be less than 8 character'],
             maxlength:[50,'Name cannot be more than 50 characters'],
             trim:true,
         },
@@ -28,7 +28,7 @@ const sampleSchema=new Schema(
             // required:[true,'Customer Code is required'],
         },
         Packing_Type:{
-            type:'String',
+            type:String,
             enum:['SEALED','UNSEALED'],
             default:'SEALED'
         },
