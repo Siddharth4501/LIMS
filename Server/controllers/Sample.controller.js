@@ -4,9 +4,11 @@ import AppError from "../utils/error.utils.js";
 const SampleRegister=async(req,res,next)=>{
     try{
         const {Name,Quantity,Storage_Conditions,Registration_Number,Customer_Code,Packing_Type,Group,Type_Of_Analysis,Test_To_Be_Done}=req.body;
+        console.log(Test_To_Be_Done)
         if(!Name || !Quantity || !Storage_Conditions || !Registration_Number || !Customer_Code || !Packing_Type || !Group || !Type_Of_Analysis || !Test_To_Be_Done){
             return next(new AppError('All fields are required',400))
         }
+        console.log(Name)
         const sample=await Sample.create({
             Name,
             Quantity,
