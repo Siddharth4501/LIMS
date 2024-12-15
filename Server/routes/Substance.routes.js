@@ -1,5 +1,5 @@
 import {Router} from "express"
-import { SubstanceData,SubstanceEdit } from "../controllers/Substance.controller"
+import { SubstanceData,SubstanceEdit } from "../controllers/Substance.controller.js"
 const router=Router()
 
 
