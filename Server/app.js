@@ -13,9 +13,12 @@ app.use(cors({
     origin:'http://localhost:5174',
     methods: 'GET,PUT,HEAD,PATCH,POST,DELETE',
     credential:true,
-}));
+}))
 
-app.use(express.json());
+app.use(express.json())
+app.use(express.urlencoded({extended:true}));
+app.use(morgan('dev'));
+app.use(cookieParser());
 
 //lims main routes
 app.use('/api/v1/Sample',sampleRoutes);
@@ -23,9 +26,6 @@ app.use('/api/v1/user',userRoutes);
 app.use('/api/v1/Substance',substanceRoutes);
 app.use('/api/v1/Group',groupRoutes);
 
-app.use(express.json())
-app.use(express.urlencoded({extended:true}));
-app.use(morgan('dev'));
-app.use(cookieParser());
+
 
 export default app
