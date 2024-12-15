@@ -34,7 +34,7 @@ const sampleSchema=new Schema(
         },
         Group:
             {
-                type:[String],  
+                type:String,  
             },
 
         Type_Of_Analysis:
@@ -42,10 +42,13 @@ const sampleSchema=new Schema(
                 type:[String],
             }
         ,
-        Test_To_Be_Done:
+        Test_To_Be_Done:[
             {
-                type:[String],
+                Type_of_Testing:String,
+                Test:String,
             }
+        ]
+            
         
     },
     {
