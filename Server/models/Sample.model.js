@@ -43,7 +43,7 @@ const sampleSchema=new Schema(
             },
         Test_To_Be_Done:[
             {
-                Type_of_Testing:String,
+                Type_Of_Testing:String,
                 Test:String,
             },
         ],
