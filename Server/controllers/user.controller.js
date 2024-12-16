@@ -20,7 +20,6 @@ const Register=async(req,res,next)=>{
     }
     const user=await User.create({
         fullName,
-        userName,
         email,
         password,
     });
