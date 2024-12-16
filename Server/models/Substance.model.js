@@ -13,10 +13,12 @@ const substanceSchema=new Schema(
             required:[true,'Method is required'],
             trim:true,
         },
-        Unit_Of_Measurement:{
-            type:String,
-            required:[true,'Unit Of Measurement is required']
-        },  
+        Unit_Of_Measurement:[
+            {
+                Method_Of_Analysis:String,
+                Unit:String
+            },
+        ],  
         
     },
     {
