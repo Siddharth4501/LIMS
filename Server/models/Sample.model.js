@@ -1,5 +1,5 @@
 import {model,Schema} from 'mongoose'
-
+// subset
 const sampleSchema=new Schema(
     {
         Name:{
