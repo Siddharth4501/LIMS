@@ -9,9 +9,9 @@ const cookieOptions={
 }
 
 const Register=async(req,res,next)=>{
-    const {fullName,email,password}=req.body
+    const {fullName,email,password,roles}=req.body
 
-    if(!fullName || !email || !password){
+    if(!fullName || !email || !password || !roles){
         return next(new AppError("All fields are required",400));
     }
     const userExist=await User.findOne({email});
@@ -22,6 +22,7 @@ const Register=async(req,res,next)=>{
         fullName,
         email,
         password,
+        roles,
     });
     if(!user){
         return next(new AppError('User registration failed,please try again',400));
@@ -63,6 +64,24 @@ const Login=async(req,res,next)=>{
     
 }
 
+const UserData=async(req,res,next)=>{
+    try{
+        const users=await User.find({})
+        if(!users){
+            return next(new AppError('Error fetching Sample Data',400))
+        }
+        
+        res.status(201).json({
+            success:true,
+            message:'All sample Registration Data Fetch Successfully',
+            users,
+        })
+    }
+    catch(e){
+        return next(new AppError(e.message,500))
+    }
+}
+
 const Logout=async(req,res)=>{
     res.cookie('token',null,{
         secure:true,
@@ -80,4 +99,5 @@ export {
     Login,
     Register,
     Logout,
+    UserData,
 }
