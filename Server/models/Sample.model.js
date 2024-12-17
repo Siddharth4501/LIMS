@@ -37,11 +37,11 @@ const sampleSchema=new Schema(
                 type:String,  
             },
 
-        Type_Of_Analysis:
+        Type_Of_Testing:
             {
                 type:[String],
             },
-        Test_To_Be_Done:[
+        Tests:[
             {
                 Type_Of_Testing:String,
                 Test:String,
