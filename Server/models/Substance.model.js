@@ -8,7 +8,7 @@ const substanceSchema=new Schema(
             trim:true,
         },
 
-        Method_Of_Analysis:{
+        Method_Of_Testing:{
             type:[String],
             required:[true,'Method is required'],
             trim:true,
