@@ -36,16 +36,21 @@ const SampleRegister=async(req,res,next)=>{
 }
 
 const SampleData=async(req,res,next)=>{
-    const samples=await Sample.find({})
-    if(!samples){
-        return next(new AppError('Error fetching Sample Data',400))
+    try{
+        const samples=await Sample.find({})
+        if(!samples){
+            return next(new AppError('Error fetching Sample Data',400))
+        }
+        
+        res.status(201).json({
+            success:true,
+            message:'All sample Registration Data Fetch Successfully',
+            samples,
+        })
     }
-    
-    res.status(201).json({
-        success:true,
-        message:'All sample Registration Data Fetch Successfully',
-        samples,
-    })
+    catch(e){
+        return next(new AppError(e.message,500))
+    }
 }
 
 const SampleEdit=async(req,res,next)=>{
