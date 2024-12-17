@@ -31,15 +31,20 @@ const GroupUpdate=async(req,res,next)=>{
 }
 
 const GroupData=async(req,res,next)=>{
-    const group=await Group.find({})
-    if(!group){
-        return next(new AppError('Group cannot be created'))
+    try{
+        const group=await Group.find({})
+        if(!group){
+            return next(new AppError('Group cannot be created'))
+        }
+        res.status(200).json({
+            success:true,
+            message:'Group Data fetched Successfully',
+            group,
+        })
     }
-    res.status(200).json({
-        success:true,
-        message:'Group Data fetched Successfully',
-        group,
-    })
+    catch(e){
+        return next(new AppError(e.message,500))
+    }
 }
 
 export {
