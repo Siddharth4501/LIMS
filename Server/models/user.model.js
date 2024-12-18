@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import crypto from 'crypto'
 const userSchema=new Schema({
     fullName:{
-        type:'String',
+        type:String,
         // required:[true,'Name is required'],
         minLength:[5,'Name must be of 5 character'],
         maxLength:[50,'Name should be less than 50 character'],
@@ -12,7 +12,7 @@ const userSchema=new Schema({
         trim:true,//starting and ending space is trimmed
     },
     email:{
-        type:'String',
+        type:String,
         // required:[true,'Email is required'],
         lowercase:true,
         trim:true,
@@ -23,7 +23,7 @@ const userSchema=new Schema({
           ], // Matches email against regex
     },
     password:{
-        type:'String',
+        type:String,
         // required:[true,'Password is required'],
         minLength:[8,'Password must be of at least 8 character'],
         select:false //doesn't give access to password implicitly
@@ -32,7 +32,7 @@ const userSchema=new Schema({
     roles:[
         {
             role:{
-                type:'String',
+                type:String,
                 enum:['SYSTEM MANAGER (CHEMICAL)','SYSTEM MANAGER (BIOLOGY)','SYSTEM MANAGER (MECHANICAL)','ADMIN','ANALYST','SAMPLE REGISTRATION'],
                 default:'SAMPLE REGISTRATION'
             },
