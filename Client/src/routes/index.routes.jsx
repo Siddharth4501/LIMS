@@ -7,6 +7,8 @@ const router = createBrowserRouter([
     //     element: ,
     // },
     {
+
+        
         path: "/SampleRegister",
         element: <Register />,
     },

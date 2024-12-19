@@ -19,6 +19,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}));
 app.use(morgan('dev'));
 app.use(cookieParser());
+app.use(cors());
 
 //lims main routes
 app.use('/api/v1/Sample',sampleRoutes);
