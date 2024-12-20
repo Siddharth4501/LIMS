@@ -131,7 +131,9 @@ const Register = () => {
       return acc;
     }, {});
   };
-  
+  useEffect(()=>{
+    setSelectedTests(generateInitialStateOfTestData(testData))
+  },[testData])
 
   
   const [selectedTests,setSelectedTests]=useState(()=>generateInitialStateOfTestData(testData))
