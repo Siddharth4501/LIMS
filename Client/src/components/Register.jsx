@@ -1,12 +1,32 @@
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 const Register = () => {
+  const [groups,setGroup]=useState([])
+  const [choosenGroup,setChoosenGroup]=useState('');
+  const [analysisData,setAnalysisData]=useState([]);
+  const [testData,setTestData]=useState([])
+  const getGroupData=async()=>{
+    
+    const URL = 'http://localhost:5001/api/v1/Group/data';
+    try {
+      const groups = await axios.get(URL);
+      if (groups) {
+        console.log('Data fetched',groups,groups.data.group);
+        setGroup(groups.data.group);
+        
+      }
+    } catch (error) {
+      console.log("Error", error);
+    }
+  }
+
+  useEffect(()=>{getGroupData()},[])
   const handleSubmit = async (e) => {
     e.preventDefault();
     e.stopPropagation();
-    const URL = `${BACKEND_URL}/api/v1/SampleRegister`;
+    const URL = `${BACKEND_URL}/api/v1/Sample/register`;
     try {
       const response = await axios.post(URL);
       if (response) {
@@ -16,19 +36,106 @@ const Register = () => {
       console.log("Error", error);
     }
   };
+  
+  useEffect(()=>{
+    if(choosenGroup!=''){
+      const filteredGroup= groups.filter((group)=>{return group.Group_Name===choosenGroup});
+      if(filteredGroup){
+        setAnalysisData(filteredGroup[0].Type_Of_Testing);
+        const data=[];
+        console.log("ppp",data)
+        filteredGroup[0].Tests.map((item)=>{
+          console.log(item,"qqq")
+          if(data.length>0){
+            data.forEach(obj=>{
+              if(obj.name==item.Type_Of_Testing){
+                obj.subTests.push(item.Test)
+                console.log(data,"kk")
+              }
+              else{
+                const name=item.Type_Of_Testing
+                const subTests=[item.Test]
+                console.log(name,subTests,"ooo")
+                const obj={
+                  name:name,
+                  subTests:subTests
+                };
+                data.push(obj)
+                
+                }
+            })
+          }
+          else{
+            const name=item.Type_Of_Testing
+                const subTests=[item.Test]
+                console.log(name,subTests,"ooo0")
+                const obj={
+                  name:name,
+                  subTests:subTests
+                };
+                data.push(obj)
+          }
+          console.log(data,"siddd")
+          
+      })
+        setTestData(data)
+        console.log(filteredGroup[0].Type_Of_Testing,"ddjdjjw")
+        
+      }
+      
+    }
+  },[choosenGroup])
 
-  const [selectedAnalysis, setSelectedAnalysis] = useState({
-    Proximate: false,
-    Vitamins: false,
-    Mineral: false,
-  });
+  console.log(analysisData,"rrr")
 
-  const [selectedTests, setSelectedTests] = useState({
-    Proximate: { isChecked: false, subTests: { Protein: false, Fibre: false } },
-    Vitamins: { isChecked: false, subTests: { B12: false, B6: false, B2: false } },
-    Mineral: { isChecked: false, subTests: { Iron: false, Calcium: false } },
-  });
+  
 
+  const initialStateOfAnanlysis = analysisData?.reduce((acc, key) => {
+    acc[key] = false; // Set default value (false) for each key
+    return acc;
+  }, {});
+
+  const [selectedAnalysis, setSelectedAnalysis] = useState([]);
+  
+  useEffect(()=>{
+    if(analysisData!=[]){
+      
+      setSelectedAnalysis(initialStateOfAnanlysis);
+    }
+  },[analysisData])
+
+  console.log(selectedAnalysis,"www")
+  // const [selectedTests, setSelectedTests] = useState({
+  //   Proximate: { isChecked: false, subTests: { Protein: false, Fibre: false } },
+  //   Vitamins: { isChecked: false, subTests: { B12: false, B6: false, B2: false } },
+  //   Mineral: { isChecked: false, subTests: { Iron: false, Calcium: false } },
+  // });
+  // const testData = [
+  //   { name: "Proximate", subTests: ["Protein", "Fibre"] },
+  //   { name: "Vitamins", subTests: ["B12", "B6", "B2"] },
+  //   { name: "Mineral", subTests: ["Iron", "Calcium"] },
+  // ];
+
+  // Create initial state dynamically
+  const generateInitialStateOfTestData = (data) => {
+    console.log(data,"ttt")
+    return data.reduce((acc, test) => {
+      acc[test.name] = {
+        isChecked: false,
+        subTests: test.subTests.reduce((subAcc, subTest) => {
+          subAcc[subTest] = false; // Initialize sub-tests as false
+          return subAcc;
+        }, {}),
+      };
+      console.log(acc,"ccc")
+      return acc;
+    }, {});
+  };
+  
+
+  
+  const [selectedTests,setSelectedTests]=useState(()=>generateInitialStateOfTestData(testData))
+  console.log(selectedTests,"seletedTests")
   // Handle "Type of Analysis" section
   const handleAnalysisChange = (e) => {
     const { name, checked } = e.target;
@@ -49,7 +156,7 @@ const Register = () => {
       },
     }));
   };
-
+  
   // Handle group checkbox in "Test to be Done"
   const handleGroupTestChange = (group, checked) => {
     setSelectedTests((prev) => ({
@@ -85,8 +192,14 @@ const Register = () => {
     });
   };
 
+  const groupFunction=(GroupName)=>{
+    console.log(GroupName)
+    setChoosenGroup(GroupName);
+    console.log("gdgrt")
+  }
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 max-w-3xl mx-auto p-6">
+    <form onSubmit={handleSubmit} className="space-y-6 max-w-3xl mx-auto p-6" style={{backgroundColor:"slategray"}}>
       
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
@@ -147,10 +260,15 @@ const Register = () => {
         <select
           name="Group"
           className="w-full border border-gray-300 rounded-md p-2"
+          onChange={(e)=>groupFunction(e.target.value)}
         >
-          <option value="CHEMICAL">CHEMICAL</option>
-          <option value="BIOLOGICAL">BIOLOGICAL</option>
-          <option value="MECHANICAL">MECHANICAL</option>
+          {
+            groups.map((group,key)=>{
+              return <option id={key} value={group.Group_Name}>{group.Group_Name}</option>
+            })
+          }
+          
+          
         </select>
       </div>
 
