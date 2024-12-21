@@ -8,6 +8,8 @@ const Register = () => {
   const [choosenGroup,setChoosenGroup]=useState('');
   const [analysisData,setAnalysisData]=useState([]);
   const [testData,setTestData]=useState([])
+
+  
   const getGroupData=async()=>{
     
     const URL = 'http://localhost:5001/api/v1/Group/data';
@@ -27,6 +29,14 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     e.stopPropagation();
+    const Name=e.target[0].value
+    const Quantity=e.target[1].value
+    const Storage_Condititons=e.target[2].value
+    const Registration_Number=e.target[3].value
+    const Customer_Code=e.target[4].value
+    const Packing_Type=e.target[5].value
+    const Group=e.target[6].value
+    console.log(Name,Quantity,Storage_Condititons,Registration_Number,Customer_Code,Packing_Type,Group,selectedAnalysis,selectedTests,"jjj")
     const URL = `${BACKEND_URL}/api/v1/Sample/register`;
     try {
       const response = await axios.post(URL);
@@ -136,12 +146,12 @@ const Register = () => {
     setSelectedTests(generateInitialStateOfTestData(testData))
   },[testData])
 
-  
-  const [selectedTests,setSelectedTests]=useState(()=>generateInitialStateOfTestData(testData))
+  const [selectedTests,setSelectedTests]=useState({})
   console.log(selectedTests,"seletedTests")
   // Handle "Type of Analysis" section
   const handleAnalysisChange = (e) => {
     const { name, checked } = e.target;
+    
     setSelectedAnalysis((prev) => ({
       ...prev,
       [name]: checked,
@@ -197,8 +207,14 @@ const Register = () => {
 
   const groupFunction=(GroupName)=>{
     console.log(GroupName)
-    setChoosenGroup(GroupName);
+    if(GroupName=="Select"){
+      alert("Please Select A Group")
+    }
+    else{
+      setChoosenGroup(GroupName);
     console.log("gdgrt")
+    }
+    
   }
 
   return (
@@ -266,6 +282,7 @@ const Register = () => {
           className="w-full border border-gray-300 rounded-md p-2"
           onChange={(e)=>groupFunction(e.target.value)}
         >
+          <option value="Select">Select</option>
           {
             groups.map((group,key)=>{
               return <option id={key} value={group.Group_Name}>{group.Group_Name}</option>
@@ -277,9 +294,8 @@ const Register = () => {
       </div>
 
       {/* Type of Analysis */}
-      <div className="space-y-4">
-        <SearchFeature/>
-        <h2 className="font-bold text-xl mb-2">Type of Analysis</h2>
+      {/* <div className="space-y-4">
+        <h2 className="font-bold text-xl mb-2">Type of Testing</h2>
         {Object.keys(selectedAnalysis).map((key) => (
           <div key={key} className="flex items-center space-x-2">
             <input
@@ -292,8 +308,40 @@ const Register = () => {
             <label className="text-sm">{key}</label>
           </div>
         ))}
+      </div> */}
+      <div className="space-y-4">
+        <h2 className="font-bold text-xl mb-2">Type of Testing</h2>
+
+        
+        <div
+          className={`${
+            Object.keys(selectedAnalysis).length > 3
+              ? "max-h-32 overflow-y-auto"
+              : ""
+          } border rounded-md p-2`}
+        >
+          {Object.keys(selectedAnalysis).map((key) => (
+            <div key={key} className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                name={key}
+                checked={selectedAnalysis[key]}
+                onChange={handleAnalysisChange}
+                className="rounded-md"
+              />
+              <label className="text-sm">{key}</label>
+            </div>
+          ))}
+        </div>
       </div>
 
+
+      
+      
+  
+
+
+      
       {/* Test to be Done */}
       <div className="space-y-4">
         <h2 className="font-bold text-xl mb-2">Test</h2>
