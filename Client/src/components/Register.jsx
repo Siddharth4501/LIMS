@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import SearchFeature from "./SearchFeature";
 
 const Register = () => {
   const [groups,setGroup]=useState([])
@@ -201,8 +202,9 @@ const Register = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 max-w-3xl mx-auto p-6" style={{backgroundColor:"slategray"}}>
-      
+    <>
+    <form onSubmit={handleSubmit} className="space-y-6 max-w-3xl mx-auto p-6 bg-gray-600">
+      <div className="font-bold text-2xl">Sample Registration Form</div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-semibold mb-2">Name</label>
@@ -276,6 +278,7 @@ const Register = () => {
 
       {/* Type of Analysis */}
       <div className="space-y-4">
+        <SearchFeature/>
         <h2 className="font-bold text-xl mb-2">Type of Analysis</h2>
         {Object.keys(selectedAnalysis).map((key) => (
           <div key={key} className="flex items-center space-x-2">
@@ -338,6 +341,7 @@ const Register = () => {
         </button>
       </div>
     </form>
+    </>
   );
 };
 
