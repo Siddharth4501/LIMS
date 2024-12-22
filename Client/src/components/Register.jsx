@@ -316,7 +316,7 @@ const Register = () => {
             Object.keys(selectedAnalysis).length > 3
               ? "max-h-32 overflow-y-auto"
               : ""
-          } border rounded-md p-2`}
+          } border rounded-md p-2 bg-white border-black`}
         >
           {Object.keys(selectedAnalysis).map((key) => (
             <div key={key} className="flex items-center space-x-2">
@@ -379,6 +379,9 @@ const Register = () => {
           );
         })}
       </div>
+      
+
+
 
       {/* Submit Button */}
       <div>
