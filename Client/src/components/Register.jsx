@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import SearchFeature from './SearchFeature.jsx';
+
 
 const Register = () => {
   const [groups, setGroup] = useState([])
@@ -17,6 +17,50 @@ const Register = () => {
     );
     setFilteredItems(filtered);
   }, [query]);
+
+
+  const [testSearch, setTestSearch] = useState({});
+  const [filteredTestItems, setFilteredTestItems] = useState({});
+  // useEffect(() => {
+  //   if(choosenGroup !=''){
+  //     const filteredGroup = groups.find((group) => group.Group_Name === choosenGroup);
+  //     console.log(filteredGroup,"twada")
+  //     if(filteredGroup){
+  //       const subTestValue = [];
+  //       filteredGroup.Tests.map((item) => {
+  //         console.log("item", item)
+  //         subTestValue.push(item.Test)
+  //       })
+  //       console.log("subTestValue", subTestValue)
+  //       const filteredTest = subTestValue.filter(item =>
+  //         item.toLowerCase().includes(testSearch?.toLowerCase())
+  //       );
+  //       setFilteredTestItems(filteredTest);
+  //     }
+  //   }
+  // }, [testSearch]);
+  const handleTestSearchChange = (group, value) => {
+    setTestSearch((prev) => ({
+      ...prev,
+      [group]: value,
+    }));
+
+    if (value.length > 0) {
+      const filteredItems = Object.keys(selectedTests[group].subTests).filter((sub) =>
+        sub.toLowerCase().includes(value.toLowerCase())
+      );
+
+      setFilteredTestItems((prev) => ({
+        ...prev,
+        [group]: filteredItems,
+      }));
+    } else {
+      setFilteredTestItems((prev) => ({
+        ...prev,
+        [group]: [],
+      }));
+    }
+  };
 
   const getGroupData = async () => {
 
@@ -56,56 +100,82 @@ const Register = () => {
     }
   };
 
+  // useEffect(() => {
+  //   if (choosenGroup != '') {
+  //     const filteredGroup = groups.filter((group) => { return group.Group_Name === choosenGroup });
+  //     if (filteredGroup) {
+  //       setAnalysisData(filteredGroup[0].Type_Of_Testing);
+  //       const data = [];
+  //       console.log("ppp", data)
+  //       filteredGroup[0].Tests.map((item) => {
+  //         console.log(item, "qqq")
+  //         if (data.length > 0) {
+  //           data.forEach(obj => {
+  //             if (obj.name == item.Type_Of_Testing) {
+  //               obj.subTests.push(item.Test)
+  //               console.log(data, "kk")
+  //             }
+  //             else {
+  //               const name = item.Type_Of_Testing
+  //               const subTests = [item.Test]
+  //               console.log(name, subTests, "ooo")
+  //               const obj = {
+  //                 name: name,
+  //                 subTests: subTests
+  //               };
+  //               data.push(obj)
+
+  //             }
+  //           })
+  //         }
+  //         else {
+  //           const name = item.Type_Of_Testing
+  //           const subTests = [item.Test]
+  //           console.log(name, subTests, "ooo0")
+  //           const obj = {
+  //             name: name,
+  //             subTests: subTests
+  //           };
+  //           data.push(obj)
+  //         }
+  //         console.log(data, "siddd")
+
+  //       })
+  //       setTestData(data)
+  //       console.log(filteredGroup[0].Type_Of_Testing, "ddjdjjw")
+
+  //     }
+
+  //   }
+  // }, [choosenGroup])
+
   useEffect(() => {
-    if (choosenGroup != '') {
-      const filteredGroup = groups.filter((group) => { return group.Group_Name === choosenGroup });
-      
+    if (choosenGroup !== '') {
+      const filteredGroup = groups.find((group) => group.Group_Name === choosenGroup);
       if (filteredGroup) {
         setAnalysisData(filteredGroup.Type_Of_Testing);
+  
         const data = [];
-        console.log("ppp", data)
-        filteredGroup.Tests.map((item) => {
-          console.log(item, "qqq")
-          if (data.length > 0) {
-            data.forEach(obj => {
-              if (obj.name === item.Type_Of_Testing) {
-                obj.subTests.push(item.Test)
-                console.log(data, "kk")
-              }
-              else {
-                const name = item.Type_Of_Testing
-                const subTests = [item.Test]
-                console.log(name, subTests, "ooo")
-                const obj = {
-                  name: name,
-                  subTests: subTests
-                };
-                data.push(obj)
-
-              }
-            })
+        filteredGroup.Tests.forEach((item) => {
+          // Check if the object for this Type_Of_Testing already exists
+          const existingObj = data.find((obj) => obj.name === item.Type_Of_Testing);
+  
+          if (existingObj) {
+            // If it exists, push the new sub-test into its subTests array
+            existingObj.subTests.push(item.Test);
+          } else {
+            // If it doesn't exist, create a new object and push it to data
+            data.push({
+              name: item.Type_Of_Testing,
+              subTests: [item.Test],
+            });
           }
-          else {
-            const name = item.Type_Of_Testing
-            const subTests = [item.Test]
-            console.log(name, subTests, "ooo0")
-            const obj = {
-              name: name,
-              subTests: subTests
-            };
-            data.push(obj)
-          }
-          console.log(data, "siddd")
-
-        })
-        console.log("uio",data)
-        setTestData(data)
-        console.log(filteredGroup[0].Type_Of_Testing, "ddjdjjw")
-
+        });
+  
+        setTestData(data);
       }
-
     }
-  }, [choosenGroup])
+  }, [choosenGroup]);
 
   console.log(analysisData, "rrr")
 
@@ -197,6 +267,7 @@ const Register = () => {
 
   // Handle individual sub-test checkboxes
   const handleSubTestChange = (group, testName, checked) => {
+    setFilteredTestItems([]);
     setSelectedTests((prev) => {
       const updatedSubTests = {
         ...prev[group].subTests,
@@ -284,7 +355,14 @@ const Register = () => {
             </select>
           </div>
         </div>
-
+        <div>
+            <label className="block text-sm font-semibold mb-2">Remarks</label>
+            <input
+              type="text"
+              name="Remarks"
+              className="w-full border border-gray-300 rounded-md p-2"
+            />
+        </div>
         {/* Group Selection */}
         <div>
           <label className="block text-sm font-semibold mb-2">Group</label>
@@ -296,7 +374,7 @@ const Register = () => {
             <option value="Select">Select</option>
             {
               groups.map((group, key) => {
-                return <option id={key} value={group.Group_Name}>{group.Group_Name}</option>
+                return <option key={key} value={group.Group_Name}>{group.Group_Name}</option>
               })
             }
 
@@ -333,7 +411,7 @@ const Register = () => {
                 // <div key={index}>{item}</div>
                 <div
                   className={`${Object.keys(selectedAnalysis).length > 3
-                    ? "max-h-32 overflow-y-auto"
+                    ? "max-h-32 overflow-y-auto bg-white"
                     : ""
                     } border rounded-md p-2`}
                 >
@@ -351,26 +429,26 @@ const Register = () => {
                   ))}
                 </div>
               ) : (
-                  <div
-                    className={`${Object.keys(selectedAnalysis).length > 3
-                      ? "overflow-y-auto"
-                      : ""
-                      } border rounded-md p-2`}
-                  >
-                    {(filteredItems).map((data, key) => (
-                      <div key={key} className="flex items-center space-x-2">
-                        <input
-                          type="checkbox"
-                          name={data}
-                          checked={selectedAnalysis[data]}
-                          onChange={handleAnalysisChange}
-                          className="rounded-md"
-                        />
-                        <label className="text-sm">{data}</label>
-                      </div>
-                    ))}
-                  </div>
-                )
+                <div
+                  className={`${Object.keys(selectedAnalysis).length > 3
+                    ? "max-h-32 overflow-y-auto"
+                    : ""
+                    } border rounded-md p-2 bg-white`}
+                >
+                  {(filteredItems).map((data, key) => (
+                    <div key={key} className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        name={data}
+                        checked={selectedAnalysis[data]}
+                        onChange={handleAnalysisChange}
+                        className="rounded-md"
+                      />
+                      <label className="text-sm">{data}</label>
+                    </div>
+                  ))}
+                </div>
+              )
             }
 
 
@@ -386,7 +464,7 @@ const Register = () => {
 
 
         {/* Test to be Done */}
-        <div className="space-y-4">
+        {/* <div className="space-y-4">
           <h2 className="font-bold text-xl mb-2">Test</h2>
           {Object.keys(selectedTests).map((group) => {
             if (!selectedAnalysis[group]) return null;
@@ -423,6 +501,120 @@ const Register = () => {
               </div>
             );
           })}
+        </div> */}
+
+
+
+        <div className="space-y-4">
+          <h2 className="font-bold text-xl mb-2">Test</h2>
+          
+          <div
+            className={`border rounded-md p-2 ${Object.keys(selectedTests).filter((group) => selectedAnalysis[group])
+              .length > 3
+              ? "max-h-64 overflow-y-auto"
+              : ""
+              }`}
+          >
+            {Object.keys(selectedTests).map((group) => {
+              if (!selectedAnalysis[group]) return null;
+              const searchValue=testSearch[group] || ""
+              const filtered_Items=filteredTestItems[group] || []
+              return (
+                <div key={group} className="space-y-2">
+                  
+                  <div className="font-bold text-lg">
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        checked={selectedTests[group].isChecked}
+                        onChange={(e) => handleGroupTestChange(group, e.target.checked)}
+                        className="rounded-md"
+                      />
+                      <span>{group}</span>
+                    </div>
+                  </div>
+
+                  
+                  <div
+                    className={`ml-6 border rounded-md p-2 ${Object.keys(selectedTests[group].subTests).length > 3
+                      ? "max-h-32 overflow-y-auto"
+                      : ""
+                      }`}
+                  >
+                    <input type="text" id={`search-${group}`} placeholder="Search..." value={searchValue}
+                      onChange={(e) => {
+                        handleTestSearchChange(group,e.target.value)
+                        // if(e.target.value.length>0){setTestSearch(e.target.value)}
+                        // else if(e.target.value.length==0){setFilteredTestItems([]);setTestSearch()}
+                        }}
+                      className="p-1 border border-gray-300 rounded w-full mb-2"
+                    />
+                    {/* {Object.keys(selectedTests[group].subTests).map((sub) => (
+                      <div key={sub} className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          checked={selectedTests[group].subTests[sub]}
+                          onChange={(e) =>
+                            handleSubTestChange(group, sub, e.target.checked)
+                          }
+                          className="rounded-md"
+                        />
+                        <span>{sub}</span>
+                      </div>
+                    ))} */}
+
+                    {
+                      (filtered_Items.length === 0) ? (
+                        <div
+                          className={`${Object.keys(selectedTests).length > 3
+                            ? "max-h-32 overflow-y-auto"
+                            : ""
+                            } border rounded-md p-2 bg-white`}
+                        >
+                          {Object.keys(selectedTests[group].subTests).map((sub) => (
+                            <div key={sub} className="flex items-center space-x-2">
+                              {console.log("selectedTests[group].subTests",selectedTests[group].subTests)}
+                              <input
+                                type="checkbox"
+                                checked={selectedTests[group].subTests[sub]}
+                                onChange={(e) =>
+                                  handleSubTestChange(group, sub, e.target.checked)
+                                }
+                                className="rounded-md"
+                              />
+                              <span>{sub}</span>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div
+                          className={`${Object.keys(selectedTests).length > 3
+                            ? "max-h-32 overflow-y-auto"
+                            : ""
+                            } border rounded-md p-2 bg-white`}
+                        >
+                          {(filtered_Items).map((data, key) => (
+                            <div key={key} className="flex items-center space-x-2">
+                              <input
+                                type="checkbox"
+                                name={data}
+                                checked={selectedTests[group].subTests[data]}
+                                onChange={(e) =>
+                                  handleSubTestChange(group, data, e.target.checked)
+                                }
+                                className="rounded-md"
+                              />
+                              <label className="text-sm">{data}</label>
+                            </div>
+                          ))}
+                        </div>
+                      )
+                    }
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         {/* Submit Button */}
