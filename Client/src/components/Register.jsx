@@ -87,25 +87,32 @@ const Register = () => {
     const Registration_Number = e.target[3].value
     const Customer_Code = e.target[4].value
     const Packing_Type = e.target[5].value
-    const Date=e.target[6].value;
-    const Treatment_Type=e.target[7].value
-    const Remarks=e.target[8].value
+    const Date = e.target[6].value;
+    const Treatment_Type = e.target[7].value
+    const Remarks = e.target[8].value
     const Group = e.target[9].value
-    const Type_Of_Testing=[];
-    Object.keys(selectedAnalysis).map((key)=>{
-      if(selectedAnalysis[key]===true){Type_Of_Testing.push(key)}
+    const Type_Of_Testing = [];
+    Object.keys(selectedAnalysis).map((key) => {
+      if (selectedAnalysis[key] === true) { Type_Of_Testing.push(key) }
     })
-    console.log(Type_Of_Testing,"sor");
-    const Tests=[]
+    console.log(Type_Of_Testing, "sor");
+    const Tests = []
     //Using Object.keys here to iterate throught the objects
-    Object.keys(selectedTests).map((group)=>{
-      Object.keys(selectedTests[group].subTests).map((sub)=>{
-        if(selectedTests[group].subTests[sub]===true){Tests.push(sub)}
+    Object.keys(selectedTests).map((group) => {
+      Object.keys(selectedTests[group].subTests).map((sub) => {
+        if (selectedTests[group].subTests[sub] === true) {
+          const objTest = {
+            "Type_Of_Testing": group,
+            "Test": sub
+          }
+          Tests.push(objTest)
+
+        }
       })
     })
-    
-    console.log(Tests,"sor1")
-    console.log(Name, Quantity, Storage_Condititons, Registration_Number, Customer_Code, Packing_Type,Date,Treatment_Type,Remarks,Group, selectedAnalysis, selectedTests, "jjj")
+
+    console.log(Tests, "sor1")
+    console.log(Name, Quantity, Storage_Condititons, Registration_Number, Customer_Code, Packing_Type, Date, Treatment_Type, Remarks, Group, selectedAnalysis, selectedTests, "jjj")
     const URL = `${BACKEND_URL}/api/v1/Sample/register`;
     try {
       const response = await axios.post(URL);
@@ -171,12 +178,12 @@ const Register = () => {
       const filteredGroup = groups.find((group) => group.Group_Name === choosenGroup);
       if (filteredGroup) {
         setAnalysisData(filteredGroup.Type_Of_Testing);
-  
+
         const data = [];
         filteredGroup.Tests.forEach((item) => {
           // Check if the object for this Type_Of_Testing already exists
           const existingObj = data.find((obj) => obj.name === item.Type_Of_Testing);
-  
+
           if (existingObj) {
             // If it exists, push the new sub-test into its subTests array
             existingObj.subTests.push(item.Test);
@@ -188,7 +195,7 @@ const Register = () => {
             });
           }
         });
-  
+
         setTestData(data);
       }
     }
@@ -318,9 +325,9 @@ const Register = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="space-y-6 max-w-3xl mx-auto p-6 bg-gray-600">
-        <div className="font-bold text-2xl">Sample Registration Form</div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <form onSubmit={handleSubmit} className="space-y-6 max-w-full mx-auto p-6 bg-gray-600">
+        <div className="font-bold text-2xl text-center">Sample Registration Form</div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
             <label className="block text-sm font-semibold mb-2">Name</label>
             <input
@@ -366,7 +373,7 @@ const Register = () => {
             <select
               name="Packing_Type"
               className="w-full border border-gray-300 rounded-md p-2"
-            > 
+            >
               <option value="SEALED">SEALED</option>
               <option value="UNSEALED">UNSEALED</option>
             </select>
@@ -380,22 +387,22 @@ const Register = () => {
             />
           </div>
           <div>
-              <label className="block text-sm font-semibold mb-2">Treatment Type</label>
-              <input
-                type="text"
-                name="Treatment_Type"
-                className="w-full border border-gray-300 rounded-md p-2"
-              />
+            <label className="block text-sm font-semibold mb-2">Treatment Type</label>
+            <input
+              type="text"
+              name="Treatment_Type"
+              className="w-full border border-gray-300 rounded-md p-2"
+            />
           </div>
         </div>
         <div>
-              <label className="block text-sm font-semibold mb-2">Remarks</label>
-              <input
-                type="text"
-                name="Remarks"
-                className="w-full border border-gray-300 rounded-md p-2"
-              />
-          </div>
+          <label className="block text-sm font-semibold mb-2">Remarks</label>
+          <input
+            type="text"
+            name="Remarks"
+            className="w-full border border-gray-300 rounded-md p-2"
+          />
+        </div>
         {/* Group Selection */}
         <div>
           <label className="block text-sm font-semibold mb-2">Group</label>
@@ -442,49 +449,49 @@ const Register = () => {
             {
               (filteredItems.length === 0) && query.trim() !== "" ? (
                 <div className="text-white text-sm">No results found</div>
-              ):
-              !(filteredItems.length> 0) ? (
-                // <div key={index}>{item}</div>
-                <div
-                  className={`${Object.keys(selectedAnalysis).length > 3
-                    ? "max-h-32 overflow-y-auto bg-white"
-                    : ""
-                    } border rounded-md p-2`}
-                >
-                  {Object.keys(selectedAnalysis).map((key) => (
-                    <div key={key} className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        name={key}
-                        checked={selectedAnalysis[key]}
-                        onChange={handleAnalysisChange}
-                        className="rounded-md"
-                      />
-                      <label className="text-sm">{key}</label>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div
-                  className={`${Object.keys(selectedAnalysis).length > 3
-                    ? "max-h-32 overflow-y-auto"
-                    : ""
-                    } border rounded-md p-2 bg-white`}
-                >
-                  {(filteredItems).map((data, key) => (
-                    <div key={key} className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        name={data}
-                        checked={selectedAnalysis[data]}
-                        onChange={handleAnalysisChange}
-                        className="rounded-md"
-                      />
-                      <label className="text-sm">{data}</label>
-                    </div>
-                  ))}
-                </div>
-              )
+              ) :
+                !(filteredItems.length > 0) ? (
+                  // <div key={index}>{item}</div>
+                  <div
+                    className={`${Object.keys(selectedAnalysis).length > 3
+                      ? "max-h-32 overflow-y-auto bg-white"
+                      : ""
+                      } border rounded-md p-2`}
+                  >
+                    {Object.keys(selectedAnalysis).map((key) => (
+                      <div key={key} className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          name={key}
+                          checked={selectedAnalysis[key]}
+                          onChange={handleAnalysisChange}
+                          className="rounded-md"
+                        />
+                        <label className="text-sm">{key}</label>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div
+                    className={`${Object.keys(selectedAnalysis).length > 3
+                      ? "max-h-32 overflow-y-auto"
+                      : ""
+                      } border rounded-md p-2 bg-white`}
+                  >
+                    {(filteredItems).map((data, key) => (
+                      <div key={key} className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          name={data}
+                          checked={selectedAnalysis[data]}
+                          onChange={handleAnalysisChange}
+                          className="rounded-md"
+                        />
+                        <label className="text-sm">{data}</label>
+                      </div>
+                    ))}
+                  </div>
+                )
             }
 
 
@@ -543,7 +550,7 @@ const Register = () => {
 
         <div className="space-y-4">
           <h2 className="font-bold text-xl mb-2">Test</h2>
-          
+
           <div
             className={`border rounded-md p-2 ${Object.keys(selectedTests).filter((group) => selectedAnalysis[group])
               .length > 1
@@ -553,11 +560,11 @@ const Register = () => {
           >
             {Object.keys(selectedTests).map((group) => {
               if (!selectedAnalysis[group]) return null;
-              const searchValue=testSearch[group] || ""
-              const filtered_Items=filteredTestItems[group] || []
+              const searchValue = testSearch[group] || ""
+              const filtered_Items = filteredTestItems[group] || []
               return (
                 <div key={group} className="space-y-2">
-                  
+
                   <div className="font-bold text-lg">
                     <div className="flex items-center space-x-2">
                       <input
@@ -570,7 +577,7 @@ const Register = () => {
                     </div>
                   </div>
 
-                  
+
                   <div
                     className={`ml-6 border rounded-md p-2 ${Object.keys(selectedTests[group].subTests).length > 1
                       ? "max-h-32 overflow-y-auto"
@@ -579,10 +586,10 @@ const Register = () => {
                   >
                     <input type="text" id={`search-${group}`} placeholder="Search..." value={searchValue}
                       onChange={(e) => {
-                        handleTestSearchChange(group,e.target.value)
+                        handleTestSearchChange(group, e.target.value)
                         // if(e.target.value.length>0){setTestSearch(e.target.value)}
                         // else if(e.target.value.length==0){setFilteredTestItems([]);setTestSearch()}
-                        }}
+                      }}
                       className="p-1 border border-gray-300 rounded w-full mb-2"
                     />
                     {/* {Object.keys(selectedTests[group].subTests).map((sub) => (
@@ -602,52 +609,52 @@ const Register = () => {
                     {
                       (filtered_Items.length === 0) && searchValue.trim() !== "" ? (
                         <div className="text-white text-sm">No results found</div>
-                      ):
-                      (filtered_Items.length === 0) ? (
-                        <div
-                          className={`${Object.keys(selectedTests).length > 1
-                            ? "max-h-32 overflow-y-auto"
-                            : ""
-                            } border rounded-md p-2 bg-white`}
-                        >
-                          {Object.keys(selectedTests[group].subTests).map((sub) => (
-                            <div key={sub} className="flex items-center space-x-2">
-                              {console.log("selectedTests[group].subTests",selectedTests[group].subTests)}
-                              <input
-                                type="checkbox"
-                                checked={selectedTests[group].subTests[sub]}
-                                onChange={(e) =>
-                                  handleSubTestChange(group, sub, e.target.checked)
-                                }
-                                className="rounded-md"
-                              />
-                              <span>{sub}</span>
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
-                        <div
-                          className={`${Object.keys(selectedTests).length > 1
-                            ? "max-h-32 overflow-y-auto"
-                            : ""
-                            } border rounded-md p-2 bg-white`}
-                        >
-                          {(filtered_Items).map((data, key) => (
-                            <div key={key} className="flex items-center space-x-2">
-                              <input
-                                type="checkbox"
-                                name={data}
-                                checked={selectedTests[group].subTests[data]}
-                                onChange={(e) =>
-                                  handleSubTestChange(group, data, e.target.checked)
-                                }
-                                className="rounded-md"
-                              />
-                              <label className="text-sm">{data}</label>
-                            </div>
-                          ))}
-                        </div>
-                      )
+                      ) :
+                        (filtered_Items.length === 0) ? (
+                          <div
+                            className={`${Object.keys(selectedTests).length > 1
+                              ? "max-h-32 overflow-y-auto"
+                              : ""
+                              } border rounded-md p-2 bg-white`}
+                          >
+                            {Object.keys(selectedTests[group].subTests).map((sub) => (
+                              <div key={sub} className="flex items-center space-x-2">
+                                {console.log("selectedTests[group].subTests", selectedTests[group].subTests)}
+                                <input
+                                  type="checkbox"
+                                  checked={selectedTests[group].subTests[sub]}
+                                  onChange={(e) =>
+                                    handleSubTestChange(group, sub, e.target.checked)
+                                  }
+                                  className="rounded-md"
+                                />
+                                <span>{sub}</span>
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <div
+                            className={`${Object.keys(selectedTests).length > 1
+                              ? "max-h-32 overflow-y-auto"
+                              : ""
+                              } border rounded-md p-2 bg-white`}
+                          >
+                            {(filtered_Items).map((data, key) => (
+                              <div key={key} className="flex items-center space-x-2">
+                                <input
+                                  type="checkbox"
+                                  name={data}
+                                  checked={selectedTests[group].subTests[data]}
+                                  onChange={(e) =>
+                                    handleSubTestChange(group, data, e.target.checked)
+                                  }
+                                  className="rounded-md"
+                                />
+                                <label className="text-sm">{data}</label>
+                              </div>
+                            ))}
+                          </div>
+                        )
                     }
                   </div>
                 </div>

@@ -1,11 +1,12 @@
 import { createBrowserRouter } from "react-router-dom"
 import Register from "../components/Register"
 import SearchFeature from "../components/SearchFeature"
+import TM_Home from "../pages/TechnicalManager/TM_Home"
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element:<SearchFeature /> ,
+        element:<TM_Home /> ,
     },
     {
 
