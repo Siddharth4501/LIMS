@@ -87,8 +87,25 @@ const Register = () => {
     const Registration_Number = e.target[3].value
     const Customer_Code = e.target[4].value
     const Packing_Type = e.target[5].value
-    const Group = e.target[6].value
-    console.log(Name, Quantity, Storage_Condititons, Registration_Number, Customer_Code, Packing_Type, Group, selectedAnalysis, selectedTests, "jjj")
+    const Date=e.target[6].value;
+    const Treatment_Type=e.target[7].value
+    const Remarks=e.target[8].value
+    const Group = e.target[9].value
+    const Type_Of_Testing=[];
+    Object.keys(selectedAnalysis).map((key)=>{
+      if(selectedAnalysis[key]===true){Type_Of_Testing.push(key)}
+    })
+    console.log(Type_Of_Testing,"sor");
+    const Tests=[]
+    //Using Object.keys here to iterate throught the objects
+    Object.keys(selectedTests).map((group)=>{
+      Object.keys(selectedTests[group].subTests).map((sub)=>{
+        if(selectedTests[group].subTests[sub]===true){Tests.push(sub)}
+      })
+    })
+    
+    console.log(Tests,"sor1")
+    console.log(Name, Quantity, Storage_Condititons, Registration_Number, Customer_Code, Packing_Type,Date,Treatment_Type,Remarks,Group, selectedAnalysis, selectedTests, "jjj")
     const URL = `${BACKEND_URL}/api/v1/Sample/register`;
     try {
       const response = await axios.post(URL);
@@ -349,20 +366,36 @@ const Register = () => {
             <select
               name="Packing_Type"
               className="w-full border border-gray-300 rounded-md p-2"
-            >
+            > 
               <option value="SEALED">SEALED</option>
               <option value="UNSEALED">UNSEALED</option>
             </select>
           </div>
-        </div>
-        <div>
-            <label className="block text-sm font-semibold mb-2">Remarks</label>
+          <div>
+            <label className="block text-sm font-semibold mb-2">Date</label>
             <input
-              type="text"
-              name="Remarks"
+              type="Date"
+              name="Date"
               className="w-full border border-gray-300 rounded-md p-2"
             />
+          </div>
+          <div>
+              <label className="block text-sm font-semibold mb-2">Treatment Type</label>
+              <input
+                type="text"
+                name="Treatment_Type"
+                className="w-full border border-gray-300 rounded-md p-2"
+              />
+          </div>
         </div>
+        <div>
+              <label className="block text-sm font-semibold mb-2">Remarks</label>
+              <input
+                type="text"
+                name="Remarks"
+                className="w-full border border-gray-300 rounded-md p-2"
+              />
+          </div>
         {/* Group Selection */}
         <div>
           <label className="block text-sm font-semibold mb-2">Group</label>
