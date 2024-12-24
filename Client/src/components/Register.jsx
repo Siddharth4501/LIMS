@@ -543,7 +543,7 @@ const Register = () => {
           
           <div
             className={`border rounded-md p-2 ${Object.keys(selectedTests).filter((group) => selectedAnalysis[group])
-              .length > 3
+              .length > 1
               ? "max-h-64 overflow-y-auto"
               : ""
               }`}
@@ -569,7 +569,7 @@ const Register = () => {
 
                   
                   <div
-                    className={`ml-6 border rounded-md p-2 ${Object.keys(selectedTests[group].subTests).length > 3
+                    className={`ml-6 border rounded-md p-2 ${Object.keys(selectedTests[group].subTests).length > 1
                       ? "max-h-32 overflow-y-auto"
                       : ""
                       }`}
@@ -599,7 +599,7 @@ const Register = () => {
                     {
                       (filtered_Items.length === 0) ? (
                         <div
-                          className={`${Object.keys(selectedTests).length > 3
+                          className={`${Object.keys(selectedTests).length > 1
                             ? "max-h-32 overflow-y-auto"
                             : ""
                             } border rounded-md p-2 bg-white`}
@@ -621,7 +621,7 @@ const Register = () => {
                         </div>
                       ) : (
                         <div
-                          className={`${Object.keys(selectedTests).length > 3
+                          className={`${Object.keys(selectedTests).length > 1
                             ? "max-h-32 overflow-y-auto"
                             : ""
                             } border rounded-md p-2 bg-white`}
