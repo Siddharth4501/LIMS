@@ -440,7 +440,10 @@ const Register = () => {
               className="p-1 border border-gray-300 rounded w-full mb-2"
             />
             {
-              !(filteredItems.length) > 0 ? (
+              (filteredItems.length === 0) && query.trim() !== "" ? (
+                <div className="text-white text-sm">No results found</div>
+              ):
+              !(filteredItems.length> 0) ? (
                 // <div key={index}>{item}</div>
                 <div
                   className={`${Object.keys(selectedAnalysis).length > 3
@@ -597,6 +600,9 @@ const Register = () => {
                     ))} */}
 
                     {
+                      (filtered_Items.length === 0) && searchValue.trim() !== "" ? (
+                        <div className="text-white text-sm">No results found</div>
+                      ):
                       (filtered_Items.length === 0) ? (
                         <div
                           className={`${Object.keys(selectedTests).length > 1
