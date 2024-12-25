@@ -428,9 +428,9 @@ const Register = () => {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           
-          <div className="grid grid-rows-2">
+          <div className="">
             {/* Group Selection */}
-            <div className="">
+            <div className="mb-4">
               <label className="block text-sm font-semibold mb-2">Group</label>
               <select
                 name="Group"
@@ -449,9 +449,9 @@ const Register = () => {
               </select>
             </div>
             <div className="space-y-4">
-              <h2 className="font-bold text-xl mb-2">Type of Testing</h2>
+              <h3 className="font-semibold text-sm">Type of Testing</h3>
 
-              <div className={`${choosenGroup!=''?'p-4':'pt-3 pl-2 bg-slate-100 border rounded-md'}`}>
+              <div className={`${choosenGroup!=''?'p-4':'p-0'}`}>
                 {
                   choosenGroup!=''?
                     <input type="text" placeholder="Search..." value={query}
@@ -459,8 +459,8 @@ const Register = () => {
                     className="p-1 border border-gray-300 bg-slate-100 rounded w-full mb-2"
                     />
                     :<div className="w-full">
-                      <select name="" id="" className="w-full bg-slate-100">
-                        <option value="Select" className="w-full border border-gray-300 text-xl font-semibold rounded-md p-2">Select</option>
+                      <select name="" id="" className="w-full bg-slate-100 border border-gray-300 text-sm rounded-md p-2">
+                        <option value="Select" className="w-full p-2">Select</option>
                       </select>
                     </div>
                 }
@@ -519,12 +519,12 @@ const Register = () => {
           </div>
           
           <div className="">
-            <h2 className="font-bold text-xl mb-2">Tests</h2>
+            <h2 className="font-semibold text-sm mb-2">Tests</h2>
             {
               choosenGroup==''?(
                 <div className="w-full">
-                  <select name="" id="" className="w-full bg-slate-100">
-                    <option value="Select" className="w-full border border-gray-300 text-xl font-semibold rounded-md p-2">Select</option>
+                  <select name="" id="" className="w-full border border-gray-300 bg-slate-100 text-sm rounded-md p-2.5 ">
+                    <option value="Select" className="w-full p-2">Select</option>
                   </select>
                 </div>
               )
