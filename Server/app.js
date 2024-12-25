@@ -10,7 +10,7 @@ import groupRoutes from './routes/Group.routes.js'
 const app=express();
 
 app.use(cors({
-    origin:'http://localhost:5174',
+    origin:'http://localhost:5173',
     methods: 'GET,PUT,HEAD,PATCH,POST,DELETE',
     credential:true,
 }))
