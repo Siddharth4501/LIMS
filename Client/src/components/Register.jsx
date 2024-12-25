@@ -426,9 +426,14 @@ const Register = () => {
           />
           </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div 
+        className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+        // className="grid grid-cols-2 gap-4"
+        >
           
-          <div className="">
+          <div 
+          // className="grid grid-rows-2"
+          >
             {/* Group Selection */}
             <div className="mb-4">
               <label className="block text-sm font-semibold mb-2">Group</label>
@@ -448,19 +453,19 @@ const Register = () => {
 
               </select>
             </div>
-            <div className="space-y-4">
-              <h3 className="font-semibold text-sm">Type of Testing</h3>
+            <div className="pt-2">
+              <h2 className="text-sm font-semibold mb-2">Type of Testing</h2>
 
-              <div className={`${choosenGroup!=''?'p-4':'p-0'}`}>
+              <div className={`${choosenGroup!=''?'p-4':'bg-slate-100 border rounded-md'}`}>
                 {
                   choosenGroup!=''?
                     <input type="text" placeholder="Search..." value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    className="p-1 border border-gray-300 bg-slate-100 rounded w-full mb-2"
+                    className="p-1 border border-gray-300 bg-slate-100 rounded w-full"
                     />
-                    :<div className="w-full">
-                      <select name="" id="" className="w-full bg-slate-100 border border-gray-300 text-sm rounded-md p-2">
-                        <option value="Select" className="w-full p-2">Select</option>
+                    :<div className="">
+                      <select name="" id="" className="w-full border border-gray-300 bg-slate-100 rounded-md p-2">
+                        <option value="Select" className="">Select</option>
                       </select>
                     </div>
                 }
@@ -474,7 +479,7 @@ const Register = () => {
                         className={`${Object.keys(selectedAnalysis).length > 3
                           ? "max-h-32 overflow-y-auto bg-slate-300"
                           : ""
-                          }  p-2`}
+                          }`}
                       >
                         {Object.keys(selectedAnalysis).map((key) => (
                           <div key={key} className="flex items-center space-x-2">
@@ -519,12 +524,12 @@ const Register = () => {
           </div>
           
           <div className="">
-            <h2 className="font-semibold text-sm mb-2">Tests</h2>
+            <h2 className="text-sm font-semibold mb-2">Tests</h2>
             {
               choosenGroup==''?(
                 <div className="w-full">
-                  <select name="" id="" className="w-full border border-gray-300 bg-slate-100 text-sm rounded-md p-2.5 ">
-                    <option value="Select" className="w-full p-2">Select</option>
+                  <select name="" id="" className="w-full border border-gray-300 bg-slate-100 rounded-md p-2">
+                    <option value="Select" className="">Select</option>
                   </select>
                 </div>
               )
