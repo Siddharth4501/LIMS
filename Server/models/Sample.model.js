@@ -32,6 +32,15 @@ const sampleSchema=new Schema(
             enum:['SEALED','UNSEALED'],
             default:'SEALED'
         },
+        Date:{
+            type:Date,
+        },
+        Treatment_Type:{
+            type:String,
+        },
+        Remarks:{
+            type:String,
+        },
         Group:
             {
                 type:String,  
