@@ -3,9 +3,9 @@ import AppError from "../utils/error.utils.js";
 
 const SampleRegister=async(req,res,next)=>{
     try{
-        const {Name,Quantity,Storage_Conditions,Registration_Number,Customer_Code,Packing_Type,Group,Type_Of_Analysis,Test_To_Be_Done}=req.body;
+        const {Name,Quantity,Storage_Conditions,Registration_Number,Customer_Code,Packing_Type,Date,Treatment_Type,Remarks,Group,Type_Of_Testing,Tests}=req.body;
         
-        if(!Name || !Quantity || !Storage_Conditions || !Registration_Number || !Customer_Code || !Packing_Type || !Group || !Type_Of_Analysis || !Test_To_Be_Done){
+        if(!Name || !Quantity || !Storage_Conditions || !Registration_Number || !Customer_Code || !Packing_Type || !Date || !Treatment_Type || !Remarks || !Group || !Type_Of_Testing || !Tests){
             return next(new AppError('All fields are required',400))
         }
         console.log(Name)
@@ -16,9 +16,12 @@ const SampleRegister=async(req,res,next)=>{
             Registration_Number,
             Customer_Code,
             Packing_Type,
+            Date,
+            Treatment_Type,
+            Remarks,
             Group,
-            Type_Of_Analysis,
-            Test_To_Be_Done
+            Type_Of_Testing,
+            Tests
         })
         if(!sample){
             return next(new AppError('Sample could not be created please try again',400))
@@ -31,6 +34,7 @@ const SampleRegister=async(req,res,next)=>{
         })
     }
     catch(e){
+        //Related to database condition error
         return next(new AppError(e.message,500))
     }
 }
