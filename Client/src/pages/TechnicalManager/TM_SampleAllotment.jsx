@@ -24,7 +24,7 @@ const TM_SampleAllotment = () => {
       <h1 className="text-center text-2xl font-semibold mt-8 mb-6">Sample Allotment</h1>
       <table className="table-auto w-full border-collapse border border-gray-300">
       <thead>
-            <tr className="bg-gray-200">
+            <tr className="bg-slate-200">
               <th className="border border-gray-300 px-4 py-2 text-center">S.No.</th>
               <th className="border border-gray-300 px-4 py-2 text-center">Reg. No.</th>
               <th className="border border-gray-300 px-4 py-2 text-center">Sample Name</th>
@@ -36,8 +36,8 @@ const TM_SampleAllotment = () => {
             </tr>
           </thead>
         {
-          samples?.map((element)=>{
-            return <Samples key={element._id} data={element}/>
+          samples?.map((element,index)=>{
+            return <Samples key={element._id} data={element} index={index}/>
           })
         }
         </table>
