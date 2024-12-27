@@ -1,15 +1,20 @@
 import { createBrowserRouter } from "react-router-dom"
 import Register from "../components/Register"
-import SearchFeature from "../components/SearchFeature"
 import TM_Home from "../pages/TechnicalManager/TM_Home"
 import TM_SampleAllotment from "../pages/TechnicalManager/TM_SampleAllotment"
 import SampleViewMore from "../components/SampleViewMore"
+import Login from "../pages/User/Login"
 
 const router = createBrowserRouter([
     {
         path: "/",
         element:<TM_Home /> ,
     },
+    {
+        path:"/Login",
+        element:<Login />,
+    },
+
     {
 
         
