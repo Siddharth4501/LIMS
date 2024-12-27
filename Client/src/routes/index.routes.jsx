@@ -4,6 +4,7 @@ import TM_Home from "../pages/TechnicalManager/TM_Home"
 import TM_SampleAllotment from "../pages/TechnicalManager/TM_SampleAllotment"
 import SampleViewMore from "../components/SampleViewMore"
 import Login from "../pages/User/Login"
+import UserInterface from "../pages/User/UserInterface"
 
 const router = createBrowserRouter([
     {
@@ -14,10 +15,11 @@ const router = createBrowserRouter([
         path:"/Login",
         element:<Login />,
     },
-
     {
-
-        
+        path: "/UserInterface",
+        element:<UserInterface /> ,
+    },
+    { 
         path: "/SampleRegister",
         element: <Register />,
     },
