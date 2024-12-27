@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-hot-toast";
 import axiosInstance from "../../Helpers/axiosinstance.js";
-
+import axios from "axios";
 
 const initialState={
     isLoggedIn:localStorage.getItem('isLoggedIn') || false,
@@ -12,8 +12,7 @@ const initialState={
 export const login = createAsyncThunk("auth/login", async (data) => {
     try {
         console.log(data,"LO")
-      let res =axiosInstance.post("/user/login", data);
-    
+      let res=axios.post("http://localhost:5001/api/v1/user/login",data)
       await toast.promise(res, {
         loading: "Loading...",
         success: (data) => {
