@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-hot-toast";
-import axiosInstance from "../../Helpers/axiosinstance.js";
 import axios from "axios";
 
 const initialState={
@@ -11,7 +10,6 @@ const initialState={
 // function to handle login
 export const login = createAsyncThunk("auth/login", async (data) => {
     try {
-        console.log(data,"LO")
       let res=axios.post("http://localhost:5001/api/v1/user/login",data)
       await toast.promise(res, {
         loading: "Loading...",
@@ -22,10 +20,10 @@ export const login = createAsyncThunk("auth/login", async (data) => {
       });
   
       // getting response resolved here
-      res = await res;
+      res = await res;//when promise is resolved it will give data
       return res.data;
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.response.data.message);
     }
   });
   
@@ -33,9 +31,7 @@ export const login = createAsyncThunk("auth/login", async (data) => {
   export const logout = createAsyncThunk("auth/logout", async () => {
     try {
       
-      let res = axiosInstance.get("/user/logout");
-      
-      
+      let res=axios.post("http://localhost:5001/api/v1/user/logout",data) 
       await toast.promise(res, {
         loading: "Loading...",
         success: (data) => {
@@ -49,7 +45,7 @@ export const login = createAsyncThunk("auth/login", async (data) => {
       
       return res.data;
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.response.data.message);
     }
   });
 
