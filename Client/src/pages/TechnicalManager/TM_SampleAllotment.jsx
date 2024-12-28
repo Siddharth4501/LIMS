@@ -28,7 +28,7 @@ const TM_SampleAllotment = () => {
               <th className="border border-gray-300 px-4 py-2 text-center">S.No.</th>
               <th className="border border-gray-300 px-4 py-2 text-center">Reg. No.</th>
               <th className="border border-gray-300 px-4 py-2 text-center">Sample Name</th>
-              <th className="border border-gray-300 px-4 py-2 text-center">Storage Condition</th>
+              <th className="border border-gray-300 px-4 py-2 text-center">Group</th>
               <th className="border border-gray-300 px-4 py-2 text-center">Registered Date</th>
               <th className="border border-gray-300 px-4 py-2 text-center">Expand
                   {/* <button className="text-blue-500 hover:text-blue-700 underline">Expand &gt;&gt; </button> */}
@@ -37,7 +37,7 @@ const TM_SampleAllotment = () => {
           </thead>
         {
           samples?.map((element,index)=>{
-            return <Samples key={element._id} data={element} index={index}/>
+            return <Samples key={element._id} difference='Sample Allotment Datails' data={element} index={index}/>
           })
         }
         </table>
