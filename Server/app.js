@@ -6,6 +6,7 @@ import sampleRoutes from './routes/Sample.routes.js'
 import userRoutes from './routes/user.routes.js'
 import substanceRoutes from './routes/Substance.routes.js'
 import groupRoutes from './routes/Group.routes.js'
+import errorMiddleware from './middlewares/error.middleware.js';
 
 const app=express();
 
@@ -27,6 +28,10 @@ app.use('/api/v1/user',userRoutes);
 app.use('/api/v1/Substance',substanceRoutes);
 app.use('/api/v1/Group',groupRoutes);
 
+app.all('*',(req,res)=>{
+    res.status(404).send('OOPS!! 404 Page Not Found');
+}); //to handle any unknown route
 
+app.use(errorMiddleware);
 
 export default app
