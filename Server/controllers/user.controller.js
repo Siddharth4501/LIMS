@@ -45,12 +45,13 @@ const Login=async(req,res,next)=>{
             return next(new AppError("All Fields are required",400))
         }
         const user=await User.findOne({email}).select('+password');
-        if(!user || !user.comparePassword(password)){
+        const isMatch=await user.comparePassword(password)
+        if(!user || !isMatch){
             return next(new AppError('Email or Password does not match',400))
         }
         const token=await user.generateJWTToken();
         user.password=undefined
-
+        
         res.cookie('token',token,cookieOptions);
         res.status(201).json({
             success:true,
