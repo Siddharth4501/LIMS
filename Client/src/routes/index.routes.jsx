@@ -5,6 +5,8 @@ import TM_SampleAllotment from "../pages/TechnicalManager/TM_SampleAllotment"
 import SampleViewMore from "../components/SampleViewMore"
 import Login from "../pages/User/Login"
 import UserInterface from "../pages/User/UserInterface"
+import AllSamplesHistory from "../pages/SampleRegistration/AllSamplesHistory"
+import FullHistory from "../pages/SampleRegistration/FullHistory"
 
 const router = createBrowserRouter([
     {
@@ -30,6 +32,14 @@ const router = createBrowserRouter([
     {
         path: "/SampleAllotment/View_More",
         element:<SampleViewMore /> ,
+    },
+    {
+        path: "/AllSampleHistory",
+        element:<AllSamplesHistory/> ,
+    },
+    {
+        path: "/AllSampleHistory/View_More",
+        element:<FullHistory/> ,
     },
 ])
 
