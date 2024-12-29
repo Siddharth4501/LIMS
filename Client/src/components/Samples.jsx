@@ -23,7 +23,7 @@ const Samples = ({difference,data,index}) => {
               <td className="border border-gray-300 px-4 py-2 text-center">{data.Group}</td>
               <td className="border border-gray-300 px-4 py-2 text-center">{data.Date.split('T')[0]}</td>
               <td className="border border-gray-300 px-4 py-2 text-center">                 
-                <button className="bg-indigo-500 hover:bg-indigo-700 rounded-md text-white pl-4 pr-4 pt-1 pb-1" onClick={handleRedirection}>View </button>
+                <button className="bg-indigo-700 hover:bg-indigo-900 rounded-md text-white pl-4 pr-4 pt-1 pb-1" onClick={handleRedirection}>View </button>
               </td>
             </tr>
           </tbody>
