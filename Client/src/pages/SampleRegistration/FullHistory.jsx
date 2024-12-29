@@ -1,6 +1,5 @@
 import React,{useState,useEffect} from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 const FullHistory = () => {
     const navigate=useNavigate();
     const {state}=useLocation();//gets value througn data passes from previous component as second parameter of navigate hook
@@ -27,7 +26,7 @@ const FullHistory = () => {
   
   return (
     <div  className="space-y-6 max-w-full mx-auto p-6 bg-white">
-        <div className='w-full'><button type="button" className='bg-indigo-700 text-white rounded-sm hover:bg-indigo-900 px-4 py-1 float-right' onClick={()=>{navigate('/AllSampleHistory')}}>Back</button></div>
+        <div className='w-full'><button type="button" className='bg-indigo-700 text-white rounded-md hover:bg-indigo-900 px-4 py-1 float-right' onClick={()=>{navigate('/AllSampleHistory')}}>Back</button></div>
         <div className="font-bold text-2xl text-center">Full Sample Information</div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
