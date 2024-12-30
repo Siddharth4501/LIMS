@@ -1,13 +1,29 @@
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import toast from "react-hot-toast";
+import { useDispatch,useSelector } from "react-redux";
+import { getGroupData } from "../Redux/Slices/GroupSilce";
 
 const Register = () => {
+  const dispatch=useDispatch();
+  const { groupData } = useSelector((state) => state.group);
+  console.log("mrsfnejgojrioejg",groupData)
+  useEffect(() => {
+    (async () => {
+      await dispatch(getGroupData());
+    })();
+  }, []);
+  
   const [groups, setGroup] = useState([])
   const [choosenGroup, setChoosenGroup] = useState('');
   const [analysisData, setAnalysisData] = useState([]);
   const [testData, setTestData] = useState([])
+
+  useEffect(()=>{
+    setGroup(groupData)
+  },[groupData])
+
   // For search
   const [query, setQuery] = useState('');
   const [filteredItems, setFilteredItems] = useState([]);
@@ -61,23 +77,7 @@ const Register = () => {
       }));
     }
   };
-
-  const getGroupData = async () => {
-
-    const URL = 'http://localhost:5001/api/v1/Group/data';
-    try {
-      const groups = await axios.get(URL);
-      if (groups) {
-        console.log('Data fetched', groups, groups.data.group);
-        setGroup(groups.data.group);
-
-      }
-    } catch (error) {
-      console.log("Error", error);
-    }
-  }
-
-  useEffect(() => { getGroupData() }, [])
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     e.stopPropagation();
