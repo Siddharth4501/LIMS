@@ -174,6 +174,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const SampleViewMore = () => {
   const { state } = useLocation();
@@ -263,6 +264,17 @@ const SampleViewMore = () => {
     setRowData(updatedRowData);
   };
 
+  const handleSubmit=()=>{
+    
+    if (checkedTests.length===state.Tests.length) {
+      toast.success("data submitted successfully")
+    }
+    else{
+      toast.error("something went wrong");
+    }
+  }
+  
+
   return (
     <div>
       <div className="mt-3 mb-2 ml-2 border border-md border-gray-300 bg-slate-300 p-2 w-1/2 rounded-md">
@@ -331,8 +343,9 @@ const SampleViewMore = () => {
                       onChange={(e) =>
                         updateRowData(index, 'Analyst', e.target.value)
                       }
+                      defaultValue="Analyst"
                     >
-                      <option value="Analyst">Analyst</option>
+                      <option value="Analyst" >Analyst</option>
                       <option value="Analyst1">Analyst1</option>
                       <option value="Analyst2">Analyst2</option>
                       <option value="Analyst3">Analyst3</option>
@@ -375,7 +388,7 @@ const SampleViewMore = () => {
             </div>
           </div>
           {
-            selectedTestTypes.length === state.Type_Of_Testing.length ? <span className='w-0'></span> : (
+            selectedTestTypes.length === state.Type_Of_Testing.length ? <span className=''></span> : (
               <div className="w-full">
                 <button
                   type="button"
@@ -390,6 +403,12 @@ const SampleViewMore = () => {
           
         </div>
       ))}
+      {
+        selectedTestTypes.length === state.Type_Of_Testing.length ? (
+          <div className='w-full'><button type="button" className='bg-indigo-700 px-10 py-1 text-lg font-semibold rounded-md text-white float-center flex justify-center mx-auto w-1/4 hover:bg-indigo-900' onClick={handleSubmit}>Submit</button></div>
+        ): <span className='w-0'></span>
+
+      }
     </div>
   );
 };
