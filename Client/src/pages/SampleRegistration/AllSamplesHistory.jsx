@@ -1,23 +1,19 @@
 import React, { useState,useEffect } from 'react'
 import Samples from '../../components/Samples';
-import axios from 'axios';
+import { getSampleData } from '../../Redux/Slices/SampleSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const AllSamplesHistory = () => {
-    const[samples,setSamples]=useState([]);
-  useEffect(()=>{
-    async function getSampleData(){
-      const URL='http://localhost:5001/api/v1/Sample/data'
-      const sampleData=await axios.get(URL)
-      if (sampleData) {
-        console.log("sampleData",sampleData)
-        setSamples(sampleData.data.samples);
-      }
-      else{
-        console.log("error",error);
-      }
-    }
-    getSampleData();
-  },[])
+  const dispatch=useDispatch();
+  const { sampleData }=useSelector((state)=>state.sample)
+  const[samples,setSamples]=useState([]);
+  useEffect(() => {
+      (async () => {
+        await dispatch(getSampleData());
+      })();
+    }, []);
+  useEffect(()=>{setSamples(sampleData)},[sampleData])
+  
   return (
     <div className="p-4">
       <h1 className="text-center text-2xl font-semibold mt-8 mb-6">Sample Registration Record</h1>
