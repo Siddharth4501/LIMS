@@ -7,6 +7,7 @@ import Login from "../pages/User/Login"
 import UserInterface from "../pages/User/UserInterface"
 import AllSamplesHistory from "../pages/SampleRegistration/AllSamplesHistory"
 import FullHistory from "../pages/SampleRegistration/FullHistory"
+import UserSampleRegister from "../pages/User/UserSampleRegister"
 
 const router = createBrowserRouter([
     {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
     {
         path: "/UserInterface",
         element:<UserInterface /> ,
+    },
+    {
+        path: "/UserInterface/SampleRegisterOptions",
+        element:<UserSampleRegister /> ,
     },
     { 
         path: "/SampleRegister",
