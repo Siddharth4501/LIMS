@@ -186,6 +186,14 @@ const SampleViewMore = () => {
       Unit: '',
     }))
   );
+
+  useEffect(()=>{
+    setRowData(state.Tests.map(() => ({
+      Analyst: 'Analyst',
+      Method: 'Method',
+      Unit: 'Unit',
+    })))
+  },[])
   const [saveData, setSaveData] = useState([]);
   const [sections, setSections] = useState([{ id: 0, testType: '' }]);
   const [selectedTestTypes, setSelectedTestTypes] = useState([]);
@@ -319,7 +327,10 @@ const SampleViewMore = () => {
             )}
 
             {/* Tests Section */}
-            <div className="p-4">
+            <div className={`p-4 ${state.Tests.filter((item) => item.Type_Of_Testing === section.testType).length>2
+             ? "max-h-64 overflow-y-auto"
+              : ""
+            }`}>
               {state.Tests.filter(
                 (item) => item.Type_Of_Testing === section.testType
               ).map((item, index) => (
@@ -343,7 +354,7 @@ const SampleViewMore = () => {
                       onChange={(e) =>
                         updateRowData(index, 'Analyst', e.target.value)
                       }
-                      defaultValue="Analyst"
+                      disabled={checkedTests.includes(item.Test)} 
                     >
                       <option value="Analyst" >Analyst</option>
                       <option value="Analyst1">Analyst1</option>
@@ -358,6 +369,7 @@ const SampleViewMore = () => {
                       onChange={(e) =>
                         updateRowData(index, 'Method', e.target.value)
                       }
+                      disabled={checkedTests.includes(item.Test)}
                     >
                       <option value="Method">Method</option>
                       <option value="Method1">Method1</option>
@@ -372,6 +384,7 @@ const SampleViewMore = () => {
                       onChange={(e) =>
                         updateRowData(index, 'Unit', e.target.value)
                       }
+                      disabled={checkedTests.includes(item.Test)}
                     >
                       <option value="Unit">Unit</option>
                       <option value="Unit1">Unit1</option>
@@ -405,7 +418,7 @@ const SampleViewMore = () => {
       ))}
       {
         selectedTestTypes.length === state.Type_Of_Testing.length ? (
-          <div className='w-full'><button type="button" className='bg-indigo-700 px-10 py-1 text-lg font-semibold rounded-md text-white float-center flex justify-center mx-auto w-1/4 hover:bg-indigo-900' onClick={handleSubmit}>Submit</button></div>
+          <div className='w-full mb-20'><button type="button" className='bg-indigo-700 px-10 py-1 text-lg font-semibold rounded-md text-white float-center flex justify-center mx-auto w-1/4 hover:bg-indigo-900' onClick={handleSubmit}>Submit</button></div>
         ): <span className='w-0'></span>
 
       }
