@@ -285,8 +285,10 @@ const SampleViewMore = () => {
   }
 
   const [applyToAllAnalyst, setApplyToAllAnalyst] = useState(''); // Track Analyst for "Apply to All"
+  const [applyToAllMethod,setApplyToAllMethod]=useState('')//Track Method for apply to All
+  const [applyToAllUnit,setApplyToAllUnit]=useState('')
 
-const handleApplyToAll = (analystValue) => {
+const handleApplyToAllAnalyst = (analystValue) => {
   // Update all rows with the selected Analyst value
   const updatedRowData = rowData.map((row) => ({
     ...row,
@@ -296,14 +298,42 @@ const handleApplyToAll = (analystValue) => {
   setApplyToAllAnalyst(analystValue);
 };
 
-const [ch,setCh]=useState(false);
-// Update the "Apply to All" checkbox handling
-const handleApplyToAllCheckbox = (isChecked,index) => {
-  if (isChecked || applyToAllAnalyst) {
-    setCh((prev)=>!prev);
-    handleApplyToAll(applyToAllAnalyst);
-  }
+const handleApplyToAllMethod = (methodValue) => {
+  // Update all rows with the selected Analyst value
+  const updatedRowData = rowData.map((row) => ({
+    ...row,
+    Method: methodValue,
+  }));
+  setRowData(updatedRowData);
+  setApplyToAllMethod(methodValue);
 };
+
+const handleApplyToAllUnit = (unitValue) => {
+  // Update all rows with the selected Analyst value
+  const updatedRowData = rowData.map((row) => ({
+    ...row,
+    Unit: unitValue,
+  }));
+  setRowData(updatedRowData);
+  setApplyToAllUnit(unitValue);
+};
+
+
+// Update the "Apply to All" checkbox handling
+const handleApplyToAllBtn = (isChecked) => {
+  if (isChecked && applyToAllAnalyst) {  
+    handleApplyToAllAnalyst(applyToAllAnalyst);
+  }
+  else if(isChecked && applyToAllMethod){
+    handleApplyToAllMethod(applyToAllMethod);
+  }
+  else if(isChecked && applyToAllUnit){
+    handleApplyToAllUnit(applyToAllUnit);
+  }
+
+};
+
+
 
   return (
     <div>
@@ -348,8 +378,10 @@ const handleApplyToAllCheckbox = (isChecked,index) => {
               </div>
             )}
 
-            {/* Tests Section */}
-            {/* <div className={`p-4 ${state.Tests.filter((item) => item.Type_Of_Testing === section.testType).length > 2
+
+
+
+            <div className={`p-4 ${state.Tests.filter((item) => item.Type_Of_Testing === section.testType).length > 2
               ? "max-h-64 overflow-y-auto"
               : ""
               }`}>
@@ -371,17 +403,14 @@ const handleApplyToAllCheckbox = (isChecked,index) => {
                     <span>{item.Test}</span>
                   </div>
                   <div>
-                  <input
-                    type="checkbox"
-                    onChange={(e) => handleApplyToAllCheckbox(e.target.checked)}
-                    name='hacker'
-                  />
+                    <button
+                      className="bg-sky-600 text-white py-2 px-4 rounded-md text-sm hover:bg-sky-800 focus:outline-none"
+                      onClick={() => handleApplyToAllBtn(true)}
+                    >
+                      Apply to All
+                    </button>
                     <select
-                      className="bg-white p-2 border border-gray-300 rounded-lg text-gray-700 w-full"
-                      // onChange={(e) =>
-                      //   updateRowData(index, 'Analyst', e.target.value)
-                      //   }
-                      // disabled={checkedTests.includes(item.Test)}
+                      className="bg-white p-2 border border-gray-300 rounded-lg text-gray-700 w-full mt-2"
                       onChange={(e) => {
                         updateRowData(index, 'Analyst', e.target.value);
                         setApplyToAllAnalyst(e.target.value); // Track the value for "Apply to All"
@@ -389,21 +418,29 @@ const handleApplyToAllCheckbox = (isChecked,index) => {
                       disabled={checkedTests.includes(item.Test)}
                       value={rowData[index]?.Analyst || ''}
                     >
-                      <option value="Analyst" >Analyst</option>/
+                      <option value="Analyst">Analyst</option>
                       <option value="Analyst1">Analyst1</option>
                       <option value="Analyst2">Analyst2</option>
                       <option value="Analyst3">Analyst3</option>
                       <option value="Analyst4">Analyst4</option>
                     </select>
                   </div>
-                  
+
                   <div>
+                    <button
+                      className="bg-sky-600 text-white py-2 px-4 mb-2 rounded-md text-sm hover:bg-sky-800 focus:outline-none"
+                      onClick={() => handleApplyToAllBtn(true)}
+                    >
+                      Apply to All
+                    </button>
                     <select
                       className="bg-white p-2 border border-gray-300 rounded-lg text-gray-700 w-full"
-                      onChange={(e) =>
-                        updateRowData(index, 'Method', e.target.value)
-                      }
+                      onChange={(e) => {
+                        updateRowData(index, 'Method', e.target.value);
+                        setApplyToAllMethod(e.target.value)
+                      }}
                       disabled={checkedTests.includes(item.Test)}
+                      value={rowData[index]?.Method || ''}
                     >
                       <option value="Method">Method</option>
                       <option value="Method1">Method1</option>
@@ -413,12 +450,20 @@ const handleApplyToAllCheckbox = (isChecked,index) => {
                     </select>
                   </div>
                   <div>
+                    <button
+                      className="bg-sky-600 text-white py-2 px-4 mb-2 rounded-md text-sm hover:bg-sky-800 focus:outline-none"
+                      onClick={() => handleApplyToAllBtn(true)}
+                    >
+                      Apply to All
+                    </button>
                     <select
                       className="bg-white p-2 border border-gray-300 rounded-lg text-gray-700 w-full"
-                      onChange={(e) =>
+                      onChange={(e) => {
                         updateRowData(index, 'Unit', e.target.value)
-                      }
+                        setApplyToAllUnit(e.target.value)
+                      }}
                       disabled={checkedTests.includes(item.Test)}
+                      value={rowData[index]?.Unit || ''}
                     >
                       <option value="Unit">Unit</option>
                       <option value="Unit1">Unit1</option>
@@ -427,96 +472,12 @@ const handleApplyToAllCheckbox = (isChecked,index) => {
                       <option value="Unit4">Unit4</option>
                     </select>
                   </div>
-                  <div className="text-center font-semibold text-gray-700">
-                    Result: 0
+                  <div className="text-center font-semibold text-gray-700 pt-8">
+                    Result:0
                   </div>
                 </div>
               ))}
-            </div> */}
-
-
-      {/* JUST ANOTHER CODE OF ABOVE SAME FUNCTIONALITY */}
-            <div className={`p-4 ${state.Tests.filter((item) => item.Type_Of_Testing === section.testType).length > 2
-    ? "max-h-64 overflow-y-auto"
-    : ""
-    }`}>
-  {state.Tests.filter(
-    (item) => item.Type_Of_Testing === section.testType
-  ).map((item, index) => (
-    <div
-      key={index}
-      className="grid grid-cols-6 gap-4 mb-4 p-3 border border-gray-200 rounded-lg shadow-sm bg-gray-100"
-    >
-      <div className="font-bold rounded-md p-2">{index + 1}</div>
-      <div className="flex items-center border-l-2 pl-2">
-        <input
-          type="checkbox"
-          className="mr-2 h-5 w-5 text-blue-600"
-          checked={checkedTests.includes(item.Test)}
-          onChange={() => handleTestToggle(item.Test, item, index)}
-        />
-        <span>{item.Test}</span>
-      </div>
-      <div>
-        <button
-          className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none"
-          onClick={() => handleApplyToAllCheckbox(true)} // Adjust functionality as needed
-        >
-          Apply to All
-        </button>
-        <select
-          className="bg-white p-2 border border-gray-300 rounded-lg text-gray-700 w-full mt-2"
-          onChange={(e) => {
-            updateRowData(index, 'Analyst', e.target.value);
-            setApplyToAllAnalyst(e.target.value); // Track the value for "Apply to All"
-          }}
-          disabled={checkedTests.includes(item.Test)}
-          value={rowData[index]?.Analyst || ''}
-        >
-          <option value="Analyst">Analyst</option>
-          <option value="Analyst1">Analyst1</option>
-          <option value="Analyst2">Analyst2</option>
-          <option value="Analyst3">Analyst3</option>
-          <option value="Analyst4">Analyst4</option>
-        </select>
-      </div>
-      
-      <div>
-        <select
-          className="bg-white p-2 border border-gray-300 rounded-lg text-gray-700 w-full"
-          onChange={(e) =>
-            updateRowData(index, 'Method', e.target.value)
-          }
-          disabled={checkedTests.includes(item.Test)}
-        >
-          <option value="Method">Method</option>
-          <option value="Method1">Method1</option>
-          <option value="Method2">Method2</option>
-          <option value="Method3">Method3</option>
-          <option value="Method4">Method4</option>
-        </select>
-      </div>
-      <div>
-        <select
-          className="bg-white p-2 border border-gray-300 rounded-lg text-gray-700 w-full"
-          onChange={(e) =>
-            updateRowData(index, 'Unit', e.target.value)
-          }
-          disabled={checkedTests.includes(item.Test)}
-        >
-          <option value="Unit">Unit</option>
-          <option value="Unit1">Unit1</option>
-          <option value="Unit2">Unit2</option>
-          <option value="Unit3">Unit3</option>
-          <option value="Unit4">Unit4</option>
-        </select>
-      </div>
-      <div className="text-center font-semibold text-gray-700">
-        Result: 0
-      </div>
-    </div>
-  ))}
-</div>
+            </div>
 
           </div>
           {
