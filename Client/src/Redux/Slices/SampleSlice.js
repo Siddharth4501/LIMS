@@ -19,6 +19,26 @@ export const getSampleData = createAsyncThunk("sample/data", async () => {
     }
   });
 
+export const sendTMData=createAsyncThunk("TMUser/send",async(data)=>{
+  try{
+    let res=axios.post("http://localhost:5001/api/v1/Sample/TM/data/save")
+    await toast.promise(res, {
+      loading: "Loading...",
+      success: (data) => {
+        return data?.data?.message;
+      },
+      error: "Failed to log in",
+    });
+
+    // getting response resolved here
+    res = await res;//when promise is resolved it will give data
+    return res.data;//catched by action
+  } catch (error) {
+    toast.error(error.response.data.message);
+  }
+
+  })
+
   const sampleSlice=createSlice({
       name:'sample',
       initialState,
