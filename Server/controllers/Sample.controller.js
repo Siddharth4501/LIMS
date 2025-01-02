@@ -64,8 +64,16 @@ const SampleEdit=async(req,res,next)=>{
     })
 }
 
+const TMDataSave=async(req,res,next)=>{
+    res.status(201).json({
+        success:true,
+        message:'TM Data Saved Successfully',
+    })
+}
+
 export {
     SampleRegister,
     SampleData,
     SampleEdit,
+    TMDataSave,
 }
