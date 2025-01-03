@@ -1,4 +1,5 @@
 import Sample from "../models/Sample.model.js";
+import TechManager_Analyst from "../models/TechManager_Analyst.model.js";
 import AppError from "../utils/error.utils.js";
 
 const SampleRegister=async(req,res,next)=>{
@@ -65,15 +66,54 @@ const SampleEdit=async(req,res,next)=>{
 }
 
 const TMDataSave=async(req,res,next)=>{
-    res.status(201).json({
-        success:true,
-        message:'TM Data Saved Successfully',
-    })
+    try{
+
+        const {TM_Data,Due_Date,Sample_Id,TM_Status}=req.body;
+    
+        if(!TM_Data || !Due_Date || !Sample_Id || !TM_Status){
+            return next(new AppError('All fields are required',400))
+        }
+        const TM_AN=await TechManager_Analyst.create({
+            "Sample_Alloted":Sample_Id,
+            "Substances_To_Be_Analysed":TM_Data,
+            "TM_Status":TM_Status,
+            Due_Date,
+        })
+        if(!TM_AN){
+            return next(new AppError('Technical Manger Data could not be saved, please try again',400))
+        }
+        TM_AN.save()
+        res.status(201).json({
+            success:true,
+            message:'TM Data Saved Successfully',
+            TM_AN,
+        })
+    }
+    catch(e){
+        return next(new AppError(e.message,500))
+    }
 }
 
+const TMANData=async(req,res,next)=>{
+    try{
+        const TM_AN=await TechManager_Analyst.find({})
+        if(!TM_AN){
+            return next(new AppError('Error fetching Technical Manager Data',400))
+        }
+        res.status(201).json({
+            success:true,
+            message:'TM Data Fetched Successfully',
+            TM_AN,
+        })
+    }
+    catch(e){
+        return next(new AppError(e.message,500))
+    }
+}
 export {
     SampleRegister,
     SampleData,
     SampleEdit,
     TMDataSave,
+    TMANData
 }
