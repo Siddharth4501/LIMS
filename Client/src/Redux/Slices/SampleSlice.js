@@ -4,6 +4,7 @@ import axios from "axios";
 
 const initialState={
     sampleData:[],
+    TmAnData:[],
 }
 
 // function to get Group Data
@@ -21,7 +22,7 @@ export const getSampleData = createAsyncThunk("sample/data", async () => {
 
 export const sendTMData=createAsyncThunk("TMUser/send",async(data)=>{
   try{
-    let res=axios.post("http://localhost:5001/api/v1/Sample/TM/data/save")
+    let res=axios.post("http://localhost:5001/api/v1/Sample/TM/data/save",data)
     await toast.promise(res, {
       loading: "Loading...",
       success: (data) => {
@@ -39,6 +40,18 @@ export const sendTMData=createAsyncThunk("TMUser/send",async(data)=>{
 
   })
 
+export const getTMANData=createAsyncThunk("TMANUser/Data",async()=>{
+  try {
+    let res=axios.get("http://localhost:5001/api/v1/Sample/TMAN/data")//here await is not used purposely because of the following toast syntax
+
+    // getting response resolved here
+    res = await res;//when promise is resolved it will give data
+    return res.data;
+  } catch (error) {
+    toast.error(error.response.data.message);
+  }
+})
+
   const sampleSlice=createSlice({
       name:'sample',
       initialState,
@@ -51,6 +64,11 @@ export const sendTMData=createAsyncThunk("TMUser/send",async(data)=>{
             //action.payload is json response from backend object coantaining success,message,data here (group)
             if (action.payload) {
                 state.sampleData = [...action.payload.samples];
+            }
+          })
+          .addCase(getTMANData.fulfilled,(state,action)=>{
+            if (action.payload) {
+              state.TmAnData = [...action.payload.TM_AN];
             }
           })
           
