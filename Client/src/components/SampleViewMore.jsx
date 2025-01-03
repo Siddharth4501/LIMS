@@ -248,7 +248,7 @@ const handleSubmit = async() => {
                   </div>
                   <div>
                     <button
-                      className="bg-sky-600 text-white py-2 px-4 rounded-md text-sm hover:bg-sky-800 focus:outline-none"
+                      className="bg-sky-600 text-white p-2 rounded-md text-xs hover:bg-sky-800 focus:outline-none"
                       onClick={() => handleApplyToAllAnalystBtn(true,section.testType)}
                     >
                       Apply to All
@@ -272,7 +272,7 @@ const handleSubmit = async() => {
 
                   <div>
                     <button
-                      className="bg-sky-600 text-white py-2 px-4 mb-2 rounded-md text-sm hover:bg-sky-800 focus:outline-none"
+                      className="bg-sky-600 text-white p-2 rounded-md text-xs hover:bg-sky-800 focus:outline-none"
                       onClick={() => handleApplyToAllMethodBtn(true,section.testType)}
                     >
                       Apply to All
@@ -295,7 +295,7 @@ const handleSubmit = async() => {
                   </div>
                   <div>
                     <button
-                      className="bg-sky-600 text-white py-2 px-4 mb-2 rounded-md text-sm hover:bg-sky-800 focus:outline-none"
+                      className="bg-sky-600 text-white p-2 rounded-md text-xs hover:bg-sky-800 focus:outline-none"
                       onClick={() => handleApplyToAllUnitBtn(true,section.testType)}
                     >
                       Apply to All
