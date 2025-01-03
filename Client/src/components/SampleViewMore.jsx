@@ -9,13 +9,16 @@ const SampleViewMore = () => {
   const dispatch=useDispatch();
   const [checkedTests, setCheckedTests] = useState([]);
   const [rowData, setRowData] = useState([]);
-
+  const [dueDate,setDueDate]=useState();
+  const handleDueDate=(e)=>{
+    setDueDate(e.target.value);
+  }
   useEffect(() => {
     const initialRowData = {};
     state.Type_Of_Testing.forEach((testType) => {
       initialRowData[testType] = state.Tests
         .filter((test) => test.Type_Of_Testing === testType)
-        .map(() => ({ Analyst: '', Method: '', Unit: '' }));
+        .map((test) => ({ Test:test.Test,Analyst: '', Method: '', Unit: '' }));
     });
     setRowData(initialRowData);
   }, [state.Tests, state.Type_Of_Testing]);
@@ -157,8 +160,13 @@ const handleApplyToAllUnitBtn = (isChecked,testType) => {
 }
 const handleSubmit = async() => {
 
-  if (checkedTests.length === state.Tests.length) {
-    const allotmentData=rowData;
+  if (checkedTests.length === state.Tests.length && dueDate  && state._id){
+    const allotmentData={
+      "TM_Data":rowData,
+      "Due_Date":dueDate,
+      "Sample_Id":state._id,
+      "TM_Status":"Pending At Analyst"
+    }
     console.log("allotmentData",allotmentData);
     const res=await dispatch(sendTMData(allotmentData));
     if(res?.payload?.success){
@@ -167,14 +175,14 @@ const handleSubmit = async() => {
     }
   }
   else {
-    toast.error("something went wrong");
+    toast.error("Please fill all the fields");
   }
 }
 
   return (
     <div>
       <div className="mt-3 mb-2 ml-2 border border-md border-gray-300 bg-slate-300 p-2 w-1/2 rounded-md">
-        <b>Due Date:</b> {state.Date.split('T')[0]}
+        <b>Due Date:</b> <input type="date" name="" id="" onChange={(e)=>handleDueDate(e)} />
       </div>
       {sections.map((section) => (
         <div key={section.id} className="w-full p-4 bg-gray-100 mb-12">
