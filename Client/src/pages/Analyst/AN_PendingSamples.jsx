@@ -14,8 +14,8 @@ const AN_PendingSamples = () => {
       })();
   }, []);
   console.log(TmAnData,sampleData);
-  const handleNavigation=(data,fliteredSample)=>{
-    navigate("/AN_PendingSample/ViewMore",{state:{...data,...fliteredSample}})
+  const handleNavigation=(data,fliteredSample,ID)=>{
+    navigate("/AN_PendingSample/ViewMore",{state:{...data,...fliteredSample,ID}})
   }
   return (
     <div>
@@ -42,7 +42,7 @@ const AN_PendingSamples = () => {
                 if(!fliteredSample){
                   return null;
                 }
-                {console.log(fliteredSample)}
+                {console.log(fliteredSample,"kiuku")}
                 return(
                   <tr className="hover:bg-gray-100" key={item._id}>
                     <td className="border border-gray-300 px-4 py-2 text-center">{index+1}</td>
@@ -52,7 +52,7 @@ const AN_PendingSamples = () => {
                     <td className="border border-gray-300 px-4 py-2 text-center">{fliteredSample[0]?.Storage_Conditions}</td>
                     <td className="border border-gray-300 px-4 py-2 text-center">{fliteredSample[0]?.Date.split('T')[0]}</td>
                     <td className="border border-gray-300 px-4 py-2 text-center">{item.TM_Status}</td>
-                    <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-900' onClick={()=>handleNavigation(item,fliteredSample[0])}>View</button></td>
+                    <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-900' onClick={()=>handleNavigation(item,fliteredSample[0],item._id)}>View</button></td>
                   </tr>
                 )
                 })
