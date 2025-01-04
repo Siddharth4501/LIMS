@@ -16,12 +16,14 @@ const SampleViewMore = () => {
   useEffect(() => {
     const initialRowData = {};
     state.Type_Of_Testing.forEach((testType) => {
-      initialRowData[testType] = state.Tests
+      initialRowData[testType] = {Start_Date:'',End_Date:'', Tests: [] };
+      initialRowData[testType].Tests = state.Tests
         .filter((test) => test.Type_Of_Testing === testType)
-        .map((test) => ({ Test:test.Test,Analyst: '', Method: '', Unit: '' }));
+        .map((test) => ({ Test:test.Test,Analyst: '', Method: '', Unit: '',Result:0 }));
     });
     setRowData(initialRowData);
   }, [state.Tests, state.Type_Of_Testing]);
+  console.log(rowData,"ddef")
 
   const [saveData, setSaveData] = useState([]);
   const [sections, setSections] = useState([{ id: 0, testType: '' }]);
@@ -98,7 +100,7 @@ const SampleViewMore = () => {
   const updateRowData = (testType,index, field, value) => {
     console.log(testType,index,field,value,"svg",rowData);
     const updatedRowData = {...rowData};
-    updatedRowData[testType][index][field] = value;
+    updatedRowData[testType].Tests[index][field] = value;
     setRowData(updatedRowData);
   };
   
@@ -110,7 +112,7 @@ const [applyToAllUnit,setApplyToAllUnit]=useState('')////Track Unit for apply to
 const handleApplyToAllAnalyst = (analystValue,testType) => {
   // Updates all rows with the selected Analyst value
   const updatedRowData={ ...rowData }
-  updatedRowData[testType] = rowData[testType].map((row) => ({
+  updatedRowData[testType].Tests = rowData[testType].Tests.map((row) => ({
     ...row,
     Analyst: analystValue,
   }));
@@ -121,7 +123,7 @@ const handleApplyToAllAnalyst = (analystValue,testType) => {
 const handleApplyToAllMethod = (methodValue,testType) => {
   // Updates all rows with the selected Analyst value
   const updatedRowData={ ...rowData }
-  updatedRowData[testType] = rowData[testType].map((row) => ({
+  updatedRowData[testType].Tests = rowData[testType].Tests.map((row) => ({
     ...row,
     Method: methodValue,
   }));
@@ -132,7 +134,7 @@ const handleApplyToAllMethod = (methodValue,testType) => {
 const handleApplyToAllUnit = (unitValue,testType) => {
   // Update all rows with the selected Analyst value
   const updatedRowData={ ...rowData }
-  updatedRowData[testType] = rowData[testType].map((row) => ({
+  updatedRowData[testType].Tests = rowData[testType].Tests.map((row) => ({
     ...row,
     Unit: unitValue,
   }));
@@ -182,7 +184,7 @@ const handleSubmit = async() => {
   return (
     <div>
       <div className="mt-3 mb-2 ml-2 border border-md border-gray-300 bg-slate-300 p-2 w-1/2 rounded-md">
-        <b>Due Date:</b> <input type="date" name="" id="" onChange={(e)=>handleDueDate(e)} />
+        <b>Due Date:</b> <input type="date" name="" id="" onChange={(e)=>handleDueDate(e)} className='bg-slate-100'/>
       </div>
       {sections.map((section) => (
         <div key={section.id} className="w-full p-4 bg-gray-100 mb-12">
@@ -260,7 +262,7 @@ const handleSubmit = async() => {
                         setApplyToAllAnalyst(e.target.value); // Track the value for "Apply to All"
                       }}
                       disabled={checkedTests.includes(item.Test)}
-                      value={rowData[section.testType][index]?.Analyst || ''}
+                      value={rowData[section.testType].Tests[index]?.Analyst || ''}
                     >
                       <option value="Analyst">Analyst</option>
                       <option value="Analyst1">Analyst1</option>
@@ -272,7 +274,7 @@ const handleSubmit = async() => {
 
                   <div>
                     <button
-                      className="bg-sky-600 text-white p-2 rounded-md text-xs hover:bg-sky-800 focus:outline-none"
+                      className="bg-sky-600 text-white p-2 mb-1 rounded-md text-xs hover:bg-sky-800 focus:outline-none"
                       onClick={() => handleApplyToAllMethodBtn(true,section.testType)}
                     >
                       Apply to All
@@ -284,7 +286,7 @@ const handleSubmit = async() => {
                         setApplyToAllMethod(e.target.value)
                       }}
                       disabled={checkedTests.includes(item.Test)}
-                      value={rowData[section.testType][index]?.Method || ''}
+                      value={rowData[section.testType].Tests[index]?.Method || ''}
                     >
                       <option value="Method">Method</option>
                       <option value="Method1">Method1</option>
@@ -295,7 +297,7 @@ const handleSubmit = async() => {
                   </div>
                   <div>
                     <button
-                      className="bg-sky-600 text-white p-2 rounded-md text-xs hover:bg-sky-800 focus:outline-none"
+                      className="bg-sky-600 text-white p-2 mb-1 rounded-md text-xs hover:bg-sky-800 focus:outline-none"
                       onClick={() => handleApplyToAllUnitBtn(true,section.testType)}
                     >
                       Apply to All
@@ -307,7 +309,7 @@ const handleSubmit = async() => {
                         setApplyToAllUnit(e.target.value)
                       }}
                       disabled={checkedTests.includes(item.Test)}
-                      value={rowData[section.testType][index]?.Unit || ''}
+                      value={rowData[section.testType].Tests[index]?.Unit || ''}
                     >
                       <option value="Unit">Unit</option>
                       <option value="Unit1">Unit1</option>
@@ -325,7 +327,7 @@ const handleSubmit = async() => {
 
           </div>
           {
-            selectedTestTypes.length === state.Type_Of_Testing.length ? <span className=''></span> : (
+            sections.length === state.Type_Of_Testing.length ? <span className=''></span> : (
               <div className="w-full">
                 <button
                   type="button"
