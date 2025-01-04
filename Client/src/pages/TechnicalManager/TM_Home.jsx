@@ -24,7 +24,7 @@ const TM_Home = () => {
                     <button className='bg-red-500 shadow-lg shadow-red-500/50 w-80 px-4 py-2 rounded-md text-2xl font-normal' onClick={handleSampleAllotment}>Sample Allotment</button>
                 </center>
                 <center>
-                    <button className='bg-cyan-500 shadow-lg shadow-cyan-500/50 w-80 px-4 py-2 rounded-md text-2xl font-normal' onClick={handleResultApproved}>Result Approved !!</button>
+                    <button className='bg-cyan-500 shadow-lg shadow-cyan-500/50 w-80 px-4 py-2 rounded-md text-2xl font-normal' onClick={handleResultApproved}>Result Approval !!</button>
                 </center>
                 <center>
                     <button className='bg-indigo-500 shadow-lg shadow-indigo-500/50 w-80 px-4 py-2 rounded-md text-2xl font-normal' onClick={handlePendingSample}>Pending Samples !!</button>
