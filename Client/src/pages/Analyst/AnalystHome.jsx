@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 const AnalystHome = () => {
   const navigate = useNavigate();
   const handlePendingSample = () => {
-    navigate('/')
+    navigate('/AN_PendingSamples')
   }
   const handleCompletedSample = () => {
     navigate('/')
