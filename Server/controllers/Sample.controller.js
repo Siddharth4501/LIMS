@@ -68,7 +68,7 @@ const SampleEdit=async(req,res,next)=>{
 const TMDataSave=async(req,res,next)=>{
     try{
 
-        const {TM_Data,Due_Date,Sample_Id,TM_Status}=req.body;
+        const {TM_Data,Due_Date,Sample_Id,TM_Status,AN_Status}=req.body;
     
         if(!TM_Data || !Due_Date || !Sample_Id || !TM_Status){
             return next(new AppError('All fields are required',400))
@@ -77,6 +77,7 @@ const TMDataSave=async(req,res,next)=>{
             "Sample_Alloted":Sample_Id,
             "Substances_To_Be_Analysed":TM_Data,
             "TM_Status":TM_Status,
+            "AN_Status":AN_Status,
             Due_Date,
         })
         if(!TM_AN){
@@ -110,10 +111,30 @@ const TMANData=async(req,res,next)=>{
         return next(new AppError(e.message,500))
     }
 }
+
+const TMANDataUpdate=async(req,res,next)=>{
+    try{
+        const {ID,Substances_To_Be_Analysed,AN_Status}=req.body;
+        console.log(ID,Substances_To_Be_Analysed,"bale");
+        const TMANData=await TechManager_Analyst.findById(ID)
+        console.log(TMANData,"shava")
+        TMANData.Substances_To_Be_Analysed = Substances_To_Be_Analysed;
+        TMANData.AN_Status=AN_Status;
+        TMANData.save();
+        res.status(201).json({
+            success:true,
+            message:'TMAN Data Added Successfully',
+        })
+    }
+    catch(e){
+        return next(new AppError(e.message,500))
+    }
+}
 export {
     SampleRegister,
     SampleData,
     SampleEdit,
     TMDataSave,
-    TMANData
+    TMANData,
+    TMANDataUpdate
 }
