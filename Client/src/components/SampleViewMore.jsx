@@ -167,7 +167,8 @@ const handleSubmit = async() => {
       "TM_Data":rowData,
       "Due_Date":dueDate,
       "Sample_Id":state._id,
-      "TM_Status":"Pending At Analyst"
+      "TM_Status":"Pending At Analyst",
+      "AN_Status":"Pending At Analyst"
     }
     console.log("allotmentData",allotmentData);
     const res=await dispatch(sendTMData(allotmentData));
