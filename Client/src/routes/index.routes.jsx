@@ -12,6 +12,8 @@ import AN_PendingSamplesViewMore from "../pages/Analyst/AN_PendingSamplesViewMor
 import AN_PendingSamples from "../pages/Analyst/AN_PendingSamples"
 import AN_CompletedSamples from "../pages/Analyst/AN_CompletedSamples"
 import AnalystHome from "../pages/Analyst/AnalystHome"
+import TM_ResultApproval from "../pages/TechnicalManager/TM_ResultApproval"
+import TM_PendingSample from "../pages/TechnicalManager/TM_PendingSample"
 
 const router = createBrowserRouter([
     {
@@ -41,6 +43,14 @@ const router = createBrowserRouter([
     {
         path: "/SampleAllotment/View_More",
         element:<SampleViewMore /> ,
+    },
+    {
+        path: "/ResultApproval",
+        element:<TM_ResultApproval /> ,
+    },
+    {
+        path: "/TM_PendingSamples",
+        element:<TM_PendingSample /> ,
     },
     {
         path: "/AllSampleHistory",
