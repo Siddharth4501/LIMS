@@ -31,7 +31,7 @@ const techManager_AnalystSchema=new Schema(
         
         
         TM_Status:String,
-        An_Status:String,
+        AN_Status:String,
         Due_Date:{
             type:Date,
             required:[true,'Due Date is required'],
