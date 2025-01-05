@@ -28,7 +28,7 @@ export const sendTMData=createAsyncThunk("TMUser/send",async(data)=>{
       success: (data) => {
         return data?.data?.message;
       },
-      error: "Failed to log in",
+      error: "Failed to send data",
     });
 
     // getting response resolved here
@@ -51,6 +51,26 @@ export const getTMANData=createAsyncThunk("TMANUser/Data",async()=>{
     toast.error(error.response.data.message);
   }
 })
+
+export const updateTMANData=createAsyncThunk("TMANuser/Update",async(data)=>{
+  try{
+    let res=axios.put("http://localhost:5001/api/v1/Sample/TMAN/data/update",data)
+    await toast.promise(res, {
+      loading: "Loading...",
+      success: (data) => {
+        return data?.data?.message;
+      },
+      error: "Failed to update data",
+    });
+
+    // getting response resolved here
+    res = await res;//when promise is resolved it will give data
+    return res.data;//catched by action
+  } catch (error) {
+    toast.error(error.response.data.message);
+  }
+
+  })
 
   const sampleSlice=createSlice({
       name:'sample',
