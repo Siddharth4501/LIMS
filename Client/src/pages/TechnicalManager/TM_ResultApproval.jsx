@@ -14,9 +14,12 @@ const TM_ResultApproval = () => {
       })();
   }, []);
   console.log(TmAnData,sampleData)
+  const handleNavigation=(data,fliteredSample,ID)=>{
+    navigate("/ResultApproval/View_More",{state:{...data,...fliteredSample,ID}})
+  }
   return (
     <div>
-      <div className='w-screen text-center pt-2 text-3xl font-bold'>Result Approval Page</div>
+      <div className='w-screen text-center pt-2 text-3xl font-bold'>Pending Approval Page</div>
       <br /><br />
       <div>
         <table className='table-auto w-full border-collapse border border-gray-300'>
