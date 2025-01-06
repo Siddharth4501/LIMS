@@ -13,7 +13,7 @@ const TM_Home = () => {
         navigate('/TM_PendingSamples')
     }
     const handleApprovedResult=()=>{
-        navigate('/SampleAllotment')
+        navigate('/ResultApproved')
     }
 
     return (
