@@ -1,4 +1,4 @@
-import React,{ useEffect }from 'react'
+import React,{ useEffect,useState }from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getTMANData,getSampleData } from '../../Redux/Slices/SampleSlice'
 import { useNavigate } from 'react-router-dom';
@@ -7,13 +7,31 @@ const TM_PendingSample = () => {
   const { TmAnData,sampleData }=useSelector((state)=>state.sample)
   const dispatch=useDispatch();
   const navigate=useNavigate();
+  const userData=JSON.parse(localStorage.getItem("userData"));
+  const [assignedGroups,setAssignedGroups]=useState([])
+  console.log(userData,"yyy")
   useEffect(() => {
       (async () => {
       await dispatch(getTMANData());
       await dispatch(getSampleData());
       })();
   }, []);
+
   console.log(TmAnData,sampleData);
+  useEffect(()=>{
+    const userGroup=[]
+    userData?.roles.map((item)=>{
+      if(item.designation==='Technical Manager'){
+        console.log(item.Assigned_Group,"uit")
+        item.Assigned_Group.map((data)=>{
+          userGroup.push(data)
+        })
+        
+      }
+    })
+    setAssignedGroups(userGroup);
+  },[])
+  console.log("lala",assignedGroups);
   return (
     <div>
       <div className='w-screen text-center pt-2 text-3xl font-bold'>Pending Samples At Analyst</div>
@@ -34,7 +52,7 @@ const TM_PendingSample = () => {
           <tbody>
             {
               TmAnData?.filter((data)=>data.AN_Status === 'Pending At Analyst').map((item,index)=>{
-                let fliteredSample=sampleData?.filter((data)=>data._id== item.Sample_Alloted)
+                let fliteredSample=sampleData?.filter((data)=>data._id== item.Sample_Alloted && assignedGroups.includes(data.Group))
                 if(!fliteredSample){
                   return null;
                 }

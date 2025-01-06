@@ -7,13 +7,31 @@ const TM_SampleAllotment = () => {
   
   const dispatch=useDispatch();
   const { sampleData }=useSelector((state)=>state.sample)
+  const userData=JSON.parse(localStorage.getItem("userData"));
+  const [assignedGroups,setAssignedGroups]=useState([])
+  console.log(userData,"yyy")
   const[samples,setSamples]=useState([]);
+  
   useEffect(() => {
       (async () => {
         await dispatch(getSampleData());
       })();
     }, []);
   useEffect(()=>{setSamples(sampleData)},[sampleData])
+  useEffect(()=>{
+    const userGroup=[]
+    userData?.roles.map((item)=>{
+      if(item.designation==='Technical Manager'){
+        console.log(item.Assigned_Group,"uit")
+        item.Assigned_Group.map((data)=>{
+          userGroup.push(data)
+        })
+        
+      }
+    })
+    setAssignedGroups(userGroup);
+  },[])
+  console.log("lala",assignedGroups);
   return (
     <div className="p-4">
       <h1 className="text-center text-2xl font-semibold mt-8 mb-6">Sample Allotment</h1>
@@ -31,7 +49,7 @@ const TM_SampleAllotment = () => {
             </tr>
           </thead>
         {
-          samples?.map((element,index)=>{
+          samples?.filter((data)=>assignedGroups.includes(data.Group)).map((element,index)=>{
             return <Samples key={element._id} difference='Sample Allotment Datails' data={element} index={index}/>
           })
         }
