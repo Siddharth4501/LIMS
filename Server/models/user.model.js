@@ -2,6 +2,7 @@ import {Schema,model} from "mongoose"
 import bcrypt  from 'bcrypt'
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto'
+import { type } from "os";
 const userSchema=new Schema({
     fullName:{
         type:String,
@@ -30,14 +31,14 @@ const userSchema=new Schema({
     },
 
     roles:[
-        {
-            role:{
-                type:String,
-                enum:['SYSTEM MANAGER (CHEMICAL)','SYSTEM MANAGER (BIOLOGY)','SYSTEM MANAGER (MECHANICAL)','ADMIN','ANALYST','SAMPLE REGISTRATION'],
-                default:'SAMPLE REGISTRATION'
-            },
+        { 
+            designation:String,
+            Assigned_Group:[]   
         },
     ],
+    RegS_Status:{
+        type:String,
+    },
     
 },{timeStamps:true})
 
@@ -52,7 +53,7 @@ userSchema.pre('save',async function(next){
 userSchema.methods={
     generateJWTToken: async function(){
         return await jwt.sign(
-            {id:this._id,email:this.email,role:this.role},//it is the the data stored in cookie
+            {id:this._id,email:this.email,roles:this.roles},//it is the the data stored in cookie
             process.env.JWT_SECRET,
             {
                 expiresIn:process.env.JWT_EXPIRY,
