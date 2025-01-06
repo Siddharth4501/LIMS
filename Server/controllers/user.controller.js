@@ -9,7 +9,7 @@ const cookieOptions={
 }
 
 const Register=async(req,res,next)=>{
-    const {fullName,email,password,roles}=req.body
+    const {fullName,email,password,roles,RegS_Status}=req.body
 
     if(!fullName || !email || !password || !roles){
         return next(new AppError("All fields are required",400));
@@ -23,6 +23,7 @@ const Register=async(req,res,next)=>{
         email,
         password,
         roles,
+        RegS_Status
     });
     if(!user){
         return next(new AppError('User registration failed,please try again',400));
