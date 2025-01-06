@@ -14,6 +14,8 @@ import AN_CompletedSamples from "../pages/Analyst/AN_CompletedSamples"
 import AnalystHome from "../pages/Analyst/AnalystHome"
 import TM_ResultApproval from "../pages/TechnicalManager/TM_ResultApproval"
 import TM_PendingSample from "../pages/TechnicalManager/TM_PendingSample"
+import TM_ResultApprovalViewMore from "../pages/TechnicalManager/TM_ResultApprovalViewMore"
+import TM_ApprovedRes from "../pages/TechnicalManager/TM_ApprovedRes"
 
 const router = createBrowserRouter([
     {
@@ -47,6 +49,14 @@ const router = createBrowserRouter([
     {
         path: "/ResultApproval",
         element:<TM_ResultApproval /> ,
+    },
+    {
+        path: "/ResultApproval/View_More",
+        element:<TM_ResultApprovalViewMore /> ,
+    },
+    {
+        path: "/ResultApproved",
+        element:<TM_ApprovedRes/> ,
     },
     {
         path: "/TM_PendingSamples",
