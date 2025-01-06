@@ -4,7 +4,7 @@ import axios from "axios";
 
 const initialState={
     isLoggedIn:localStorage.getItem('isLoggedIn') || false,
-    data:localStorage.getItem('data') || {}
+    userData:localStorage.getItem('userData') || {}
 }
 
 // function to handle login
@@ -57,7 +57,7 @@ export const login = createAsyncThunk("auth/login", async (data) => {
       builder
         // for user login
         .addCase(login.fulfilled, (state, action) => {
-          localStorage.setItem("data", JSON.stringify(action?.payload?.user));
+          localStorage.setItem("userData", JSON.stringify(action?.payload?.user));
           localStorage.setItem("isLoggedIn", true);
           state.isLoggedIn = true;
           state.data = action?.payload?.user;
