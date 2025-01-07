@@ -31,8 +31,8 @@ const AN_PendingSamples = () => {
     setAssignedGroups(userGroup);
   },[])
   console.log("lala",assignedGroups);
-  const handleNavigation=(data,fliteredSample,ID)=>{
-    navigate("/AN_PendingSample/ViewMore",{state:{...data,...fliteredSample,ID}})
+  const handleNavigation=(data,fliteredSample,TMANID)=>{
+    navigate("/AN_PendingSample/ViewMore",{state:{...data,...fliteredSample,TMANID}})
   }
   return (
     <div>
@@ -54,7 +54,7 @@ const AN_PendingSamples = () => {
           </thead>
           <tbody>
             {
-              TmAnData?.filter((data)=>data.AN_Status === 'Pending At Analyst').map((item,index)=>{
+              TmAnData?.filter((data)=>data.TM_Status === 'Pending At Analyst').map((item,index)=>{
                 let fliteredSample=sampleData?.filter((data)=>data._id== item.Sample_Alloted && assignedGroups.includes(data.Group))
                 if(!fliteredSample){
                   return null;
