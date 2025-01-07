@@ -7,6 +7,26 @@ const initialState={
     TmAnData:[],
 }
 
+export const registerSample=createAsyncThunk("Sample/register",async(data)=>{
+  try{
+    let res=axios.post("http://localhost:5001/api/v1/Sample/register",data)
+    await toast.promise(res, {
+      loading: "Loading...",
+      success: (data) => {
+        return data?.data?.message;
+      },
+      error: "Failed to send data",
+    });
+
+    // getting response resolved here
+    res = await res;//when promise is resolved it will give data
+    return res.data;//catched by action
+  } catch (error) {
+    toast.error(error.response.data.message);
+  }
+
+  })
+
 // function to get Group Data
 export const getSampleData = createAsyncThunk("sample/data", async () => {
     try {
@@ -19,6 +39,26 @@ export const getSampleData = createAsyncThunk("sample/data", async () => {
       toast.error(error.response.data.message);
     }
   });
+
+  export const updateSample=createAsyncThunk("Sample/Update",async(data)=>{
+    try{
+      let res=axios.put("http://localhost:5001/api/v1/Sample/edit",data)
+      await toast.promise(res, {
+        loading: "Loading...",
+        success: (data) => {
+          return data?.data?.message;
+        },
+        error: "Failed to update data",
+      });
+  
+      // getting response resolved here
+      res = await res;//when promise is resolved it will give data
+      return res.data;//catched by action
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  
+    })
 
 export const sendTMData=createAsyncThunk("TMUser/send",async(data)=>{
   try{
