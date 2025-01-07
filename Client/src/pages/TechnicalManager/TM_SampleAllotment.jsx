@@ -49,7 +49,7 @@ const TM_SampleAllotment = () => {
             </tr>
           </thead>
         {
-          samples?.filter((data)=>assignedGroups.includes(data.Group)).map((element,index)=>{
+          samples?.filter((data)=>data.Sample_Status === 'Forwarded To TM' && assignedGroups.includes(data.Group)).map((element,index)=>{
             return <Samples key={element._id} difference='Sample Allotment Datails' data={element} index={index}/>
           })
         }
