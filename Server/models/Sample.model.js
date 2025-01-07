@@ -1,4 +1,5 @@
-import {model,Schema} from 'mongoose'
+import {model,Schema,mongoose} from 'mongoose'
+import { type } from 'os';
 // subset
 const sampleSchema=new Schema(
     {
@@ -38,6 +39,9 @@ const sampleSchema=new Schema(
         Treatment_Type:{
             type:String,
         },
+        Nature_Of_Sample:{
+            type:String,
+        },
         Remarks:{
             type:String,
         },
@@ -56,8 +60,10 @@ const sampleSchema=new Schema(
                 Test:String,
             },
         ],
-            
-        
+        Registered_By:{type: mongoose.Schema.Types.ObjectId, ref: "User"},  
+        Sample_Status:{
+            type:String,
+        }          
     },
     {
         timestamps:true
