@@ -19,7 +19,10 @@ const techManager_AnalystSchema=new Schema(
                       Test: { type: "string" },
                       Method: { type: "string" },
                       Unit: { type: "string" },
-                      Analyst: { type: "string" },
+                      Analyst: {
+                        Name:String,
+                        ID:{ type: mongoose.Schema.Types.ObjectId, ref: "User" }
+                      },
                       Result: { type: "number", default: 0 }
                     },
                   }
@@ -31,7 +34,15 @@ const techManager_AnalystSchema=new Schema(
         
         
         TM_Status:String,
-        AN_Status:String,
+        AN_Status:[
+          {
+            Analyst: {
+              Name:String,
+              ID:{ type: mongoose.Schema.Types.ObjectId, ref: "User" }
+            },
+            Status: String,
+          },
+        ],
         Due_Date:{
             type:Date,
             required:[true,'Due Date is required'],
