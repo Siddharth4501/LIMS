@@ -4,11 +4,13 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useDispatch,useSelector } from "react-redux";
 import { getGroupData } from "../Redux/Slices/GroupSilce";
+import { registerSample } from "../Redux/Slices/SampleSlice";
 
 const Register = () => {
   const dispatch=useDispatch();
   const { groupData } = useSelector((state) => state.group);
   console.log("mrsfnejgojrioejg",groupData)
+  const userData =JSON.parse(localStorage.getItem("userData"));
   useEffect(() => {
     (async () => {
       await dispatch(getGroupData());
@@ -89,8 +91,9 @@ const Register = () => {
     const Packing_Type = e.target[5].value
     const Date = e.target[6].value;
     const Treatment_Type = e.target[7].value
-    const Remarks = e.target[8].value
-    const Group = e.target[9].value
+    const Nature_Of_Sample = e.target[8].value
+    const Remarks=e.target[9].value
+    const Group = e.target[10].value
     const Type_Of_Testing = [];
     Object.keys(selectedAnalysis).map((key) => {
       if (selectedAnalysis[key] === true) { Type_Of_Testing.push(key) }
@@ -112,7 +115,7 @@ const Register = () => {
     })
 
     console.log(Tests, "sor1")
-    console.log(Name, Quantity, Storage_Condititons, Registration_Number, Customer_Code, Packing_Type, Date, Treatment_Type, Remarks, Group, selectedAnalysis, selectedTests, "jjj")
+    console.log(Name, Quantity, Storage_Condititons, Registration_Number, Customer_Code, Packing_Type, Date, Treatment_Type,Nature_Of_Sample, Remarks, Group, selectedAnalysis, selectedTests, "jjj")
     const data={
       "Name":Name,
       "Quantity":Quantity,
@@ -122,19 +125,20 @@ const Register = () => {
       "Packing_Type":Packing_Type,
       "Date":Date,
       "Treatment_Type":Treatment_Type,
+      "Nature_Of_Sample":Nature_Of_Sample,
       "Remarks":Remarks,
       "Group":Group,
       "Type_Of_Testing":Type_Of_Testing,
-      "Tests":Tests
+      "Tests":Tests,
+      "ID":userData._id
     }
-    const URL = `http://localhost:5001/api/v1/Sample/register`;
     try {
-      const response = await axios.post(URL,data);
+      const response = await dispatch(registerSample(data));
       if (response) {
-        alert('Data sent to Backend');
+        toast.success('Sample Registered Successfully');
       }
     } catch (error) {
-      console.log("Error", error);
+        toast.error(error)
     }
   };
 
@@ -417,6 +421,16 @@ const Register = () => {
             />
           </div>
           <div>
+          <label className="block text-sm font-semibold mb-2">Nature Of Sample</label>
+          <input
+            type="text"
+            name="Nature_Of_Sample"
+            className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
+            required
+          />
+          </div>
+        </div>
+        <div>
           <label className="block text-sm font-semibold mb-2">Remarks</label>
           <input
             type="text"
@@ -424,7 +438,6 @@ const Register = () => {
             className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
             required
           />
-          </div>
         </div>
         <div 
         className="grid grid-cols-1 sm:grid-cols-2 gap-4"
