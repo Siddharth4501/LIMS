@@ -4,12 +4,11 @@ import AppError from "../utils/error.utils.js";
 
 const SampleRegister=async(req,res,next)=>{
     try{
-        const {Name,Quantity,Storage_Conditions,Registration_Number,Customer_Code,Packing_Type,Date,Treatment_Type,Remarks,Group,Type_Of_Testing,Tests}=req.body;
+        const {Name,Quantity,Storage_Conditions,Registration_Number,Customer_Code,Packing_Type,Date,Treatment_Type,Nature_Of_Sample,Remarks,Group,Type_Of_Testing,Tests,ID}=req.body;
         
-        if(!Name || !Quantity || !Storage_Conditions || !Registration_Number || !Customer_Code || !Packing_Type || !Date || !Treatment_Type || !Remarks || !Group || !Type_Of_Testing || !Tests){
+        if(!Name || !Quantity || !Storage_Conditions || !Registration_Number || !Customer_Code || !Packing_Type || !Date || !Treatment_Type || !Nature_Of_Sample || !Remarks || !Group || !Type_Of_Testing || !Tests ||  !ID){
             return next(new AppError('All fields are required',400))
         }
-        console.log(Name)
         const sample=await Sample.create({
             Name,
             Quantity,
@@ -19,10 +18,13 @@ const SampleRegister=async(req,res,next)=>{
             Packing_Type,
             Date,
             Treatment_Type,
+            Nature_Of_Sample,
             Remarks,
             Group,
             Type_Of_Testing,
-            Tests
+            Tests,
+            Registered_By:ID,
+            Sample_Status:"Forwarded To TM"
         })
         if(!sample){
             return next(new AppError('Sample could not be created please try again',400))
@@ -59,20 +61,42 @@ const SampleData=async(req,res,next)=>{
 }
 
 const SampleEdit=async(req,res,next)=>{
+    const {ID}=req.body;
+    console.log(ID)
+    const sample=await Sample.findById(ID)
+    if(!sample){
+        return next(new AppError('Error Upating Sample',400))
+    }
+    sample.Sample_Status="Pending At Analyst";
+    sample.save()
     res.status(201).json({
         success:true,
-        message:'Sample edit successfull',
+        message:'Sample edited successfully',
     })
 }
 
 const TMDataSave=async(req,res,next)=>{
-    try{
-
-        const {TM_Data,Due_Date,Sample_Id,TM_Status,AN_Status}=req.body;
-    
+    try{ 
+        const {TM_Data,Due_Date,Sample_Id,TM_Status}=req.body;
         if(!TM_Data || !Due_Date || !Sample_Id || !TM_Status){
             return next(new AppError('All fields are required',400))
         }
+        const AN_Status=[]
+        Object.keys(TM_Data).map((key)=>{
+            console.log("kop")
+            TM_Data[key].Tests.map((item)=>{
+                AN_Status.find((obj)=>obj.Analyst.ID=== item.Analyst.ID) || 
+                AN_Status.push({
+                    Analyst: {
+                        Name:item.Analyst.Name,
+                        ID:item.Analyst.ID
+                        } ,
+                    Status:"Pending At Analyst" ,
+                    });
+                
+            })
+        })
+        
         const TM_AN=await TechManager_Analyst.create({
             "Sample_Alloted":Sample_Id,
             "Substances_To_Be_Analysed":TM_Data,
@@ -113,22 +137,36 @@ const TMANData=async(req,res,next)=>{
 }
 
 const TMANDataUpdate=async(req,res,next)=>{
-    try{
-        const {ID,Substances_To_Be_Analysed,AN_Status}=req.body;
-        console.log(ID,Substances_To_Be_Analysed,"bale");
-        const TMANData=await TechManager_Analyst.findById(ID)
-        console.log(TMANData,"shava")
-        TMANData.Substances_To_Be_Analysed = Substances_To_Be_Analysed;
-        TMANData.AN_Status=AN_Status;
-        TMANData.save();
-        res.status(201).json({
-            success:true,
-            message:'TMAN Data Added Successfully',
-        })
+    // try{
+        
+    // }
+    // catch(e){
+    //     return next(new AppError(e.message,500))
+    // }
+    const {TMANID,Substances_To_Be_Analysed,currentUserID}=req.body;
+    console.log(TMANID,Substances_To_Be_Analysed,"bale");
+    const TMANData=await TechManager_Analyst.findById(TMANID)
+    console.log(TMANData,"shava")
+    TMANData.Substances_To_Be_Analysed = Substances_To_Be_Analysed;
+    TMANData.AN_Status.forEach((data) => {
+        if (data.Analyst.ID.toString() === currentUserID) {
+          data.Status = "Pending For Approval At TM";
+        }
+    });
+    // Check if all elements in AN_Status have Status = "Pending For Approval At TM"
+    const allPendingForApproval = TMANData.AN_Status.every(
+        (data) => data.Status === "Pending For Approval At TM"
+    );
+
+    // Here Update TM_Status if condition is met
+    if (allPendingForApproval) {
+        TMANData.TM_Status = "All Pending For Approval At TM";
     }
-    catch(e){
-        return next(new AppError(e.message,500))
-    }
+    TMANData.save();
+    res.status(201).json({
+        success:true,
+        message:'TMAN Data Added Successfully',
+    })
 }
 export {
     SampleRegister,
