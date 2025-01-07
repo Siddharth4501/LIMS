@@ -4,7 +4,8 @@ import axios from "axios";
 
 const initialState={
     isLoggedIn:localStorage.getItem('isLoggedIn') || false,
-    userData:localStorage.getItem('userData') || {}
+    userData:localStorage.getItem('userData') || {},
+    allUserData:[]
 }
 
 // function to handle login
@@ -49,6 +50,18 @@ export const login = createAsyncThunk("auth/login", async (data) => {
     }
   });
 
+  export const getAllUserData = createAsyncThunk("User/data", async () => {
+    try {
+      let res=axios.get("http://localhost:5001/api/v1/User/data")//here await is not used purposely because of the following toast syntax
+  
+      // getting response resolved here
+      res = await res;//when promise is resolved it will give data
+      return res.data;
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  });
+
   const authSlice=createSlice({
     name:'auth',
     initialState,
@@ -67,6 +80,11 @@ export const login = createAsyncThunk("auth/login", async (data) => {
           localStorage.clear();
           state.isLoggedIn = false;
           state.data = {};
+        })
+        .addCase(getAllUserData.fulfilled,(state,action)=>{
+          if (action.payload) {
+            state.allUserData = [...action.payload.users];
+          }
         })
 
       }});
