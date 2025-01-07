@@ -6,6 +6,6 @@ router.post('/register',SampleRegister)
 router.post('/TM/data/save',TMDataSave)
 router.get('/TMAN/data',TMANData)
 router.get('/data',SampleData)
-router.get('/edit',SampleEdit)
+router.put('/edit',SampleEdit)
 router.put('/TMAN/data/update',TMANDataUpdate)
 export default router;
