@@ -51,7 +51,7 @@ const TM_PendingSample = () => {
           </thead>
           <tbody>
             {
-              TmAnData?.filter((data)=>data.AN_Status === 'Pending At Analyst').map((item,index)=>{
+              TmAnData?.filter((data)=>data.TM_Status === 'Pending At Analyst').map((item,index)=>{
                 let fliteredSample=sampleData?.filter((data)=>data._id== item.Sample_Alloted && assignedGroups.includes(data.Group))
                 if(!fliteredSample){
                   return null;
