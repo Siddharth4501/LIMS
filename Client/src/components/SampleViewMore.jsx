@@ -1,25 +1,36 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { sendTMData } from '../Redux/Slices/SampleSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllUserData } from '../Redux/Slices/AuthSlice';
+import { updateSample } from '../Redux/Slices/SampleSlice';
 
 const SampleViewMore = () => {
   const { state } = useLocation();
   const dispatch=useDispatch();
+  const navigate=useNavigate();
   const [checkedTests, setCheckedTests] = useState([]);
   const [rowData, setRowData] = useState([]);
   const [dueDate,setDueDate]=useState();
+  const {allUserData}=useSelector((state)=>state.auth)
+  useEffect(() => {
+    (async () => {
+      await dispatch(getAllUserData());
+    })();
+  }, []);
+  console.log(allUserData,"jkl",state.Group)
   const handleDueDate=(e)=>{
     setDueDate(e.target.value);
   }
+  
   useEffect(() => {
     const initialRowData = {};
     state.Type_Of_Testing.forEach((testType) => {
-      initialRowData[testType] = {Start_Date:'',End_Date:'', Tests: [] };
+      initialRowData[testType] = {Tests: [] };
       initialRowData[testType].Tests = state.Tests
         .filter((test) => test.Type_Of_Testing === testType)
-        .map((test) => ({ Test:test.Test,Analyst: '', Method: '', Unit: '',Result:0 }));
+        .map((test) => ({ Test:test.Test,Analyst: {"Name":'',"ID":''}, Method: '', Unit: '',Result:0,Start_Date:'',End_Date:'' }));
     });
     setRowData(initialRowData);
   }, [state.Tests, state.Type_Of_Testing]);
@@ -97,15 +108,31 @@ const SampleViewMore = () => {
   };
 
   // Updates row data for tests
-  const updateRowData = (testType,index, field, value) => {
-    console.log(testType,index,field,value,"svg",rowData);
-    const updatedRowData = {...rowData};
-    updatedRowData[testType].Tests[index][field] = value;
-    setRowData(updatedRowData);
+  const updateRowData = (testType,index, field, value,ID) => {
+    if(ID){
+      console.log(testType,index,field,value,"svg",rowData,ID);
+      const updatedRowData = {...rowData};
+      const obj={
+        "Name":value,
+        "ID":ID
+      }
+      updatedRowData[testType].Tests[index][field] = obj;
+      setRowData(updatedRowData);
+    }
+    else{
+
+      console.log(testType,index,field,value,"svg1",rowData);
+      const updatedRowData = {...rowData};
+      updatedRowData[testType].Tests[index][field] = value;
+      setRowData(updatedRowData);
+    }
   };
   
 
-const [applyToAllAnalyst, setApplyToAllAnalyst] = useState(''); // Track Analyst for "Apply to All"
+const [applyToAllAnalyst, setApplyToAllAnalyst] = useState({
+  "Name":'',
+  "ID":''
+}); // Track Analyst for "Apply to All"
 const [applyToAllMethod,setApplyToAllMethod]=useState('')//Track Method for apply to All
 const [applyToAllUnit,setApplyToAllUnit]=useState('')////Track Unit for apply to All
 
@@ -168,13 +195,18 @@ const handleSubmit = async() => {
       "Due_Date":dueDate,
       "Sample_Id":state._id,
       "TM_Status":"Pending At Analyst",
-      "AN_Status":"Pending At Analyst"
     }
     console.log("allotmentData",allotmentData);
     const res=await dispatch(sendTMData(allotmentData));
     if(res?.payload?.success){
-      //here in res?.payload?.success ,the success parameter comes from res.json at backend
-      toast.success("data submitted successfully")
+      const ID=state._id
+      const obj={"ID":ID};
+      const response=await dispatch(updateSample(obj))
+      if(response?.payload?.success){
+        //here in res?.payload?.success ,the success parameter comes from res.json at backend
+        toast.success("data submitted successfully")
+        navigate('/SampleAllotment')
+      }
     }
   }
   else {
@@ -259,17 +291,31 @@ const handleSubmit = async() => {
                     <select
                       className="bg-white p-2 border border-gray-300 rounded-lg text-gray-700 w-full mt-2"
                       onChange={(e) => {
-                        updateRowData(section.testType,index, 'Analyst', e.target.value);
-                        setApplyToAllAnalyst(e.target.value); // Track the value for "Apply to All"
+                        const selectedOption = e.target.options[e.target.selectedIndex];
+                        const selectedId = selectedOption.id;
+                        {console.log(selectedId,"igh")}
+                        updateRowData(section.testType,index, 'Analyst', e.target.value,selectedId);
+                        setApplyToAllAnalyst(()=>({
+                          "Name":e.target.value,
+                          "ID":e.target.id
+                        })); // Track the value for "Apply to All"
                       }}
                       disabled={checkedTests.includes(item.Test)}
-                      value={rowData[section.testType].Tests[index]?.Analyst || ''}
+                      value={rowData[section.testType].Tests[index]?.Analyst?.Name || ''}
                     >
-                      <option value="Analyst">Analyst</option>
-                      <option value="Analyst1">Analyst1</option>
-                      <option value="Analyst2">Analyst2</option>
-                      <option value="Analyst3">Analyst3</option>
-                      <option value="Analyst4">Analyst4</option>
+                      <option value="Analyst" id='Analyst'>Analyst</option>
+                      {
+                        allUserData
+                        ?.filter((user) =>
+                          user.roles?.some(
+                            (item) => item?.designation === "Analyst" && item?.Assigned_Group.includes(state.Group)
+                          )
+                        )
+                        .map((data) => {
+                          return <option key={data._id} id={data._id} value={data.fullName}>{data.fullName}</option>;
+                        })
+                      
+                      }
                     </select>
                   </div>
 
