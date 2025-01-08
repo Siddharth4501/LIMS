@@ -16,6 +16,7 @@ import TM_ResultApproval from "../pages/TechnicalManager/TM_ResultApproval"
 import TM_PendingSample from "../pages/TechnicalManager/TM_PendingSample"
 import TM_ResultApprovalViewMore from "../pages/TechnicalManager/TM_ResultApprovalViewMore"
 import TM_ApprovedRes from "../pages/TechnicalManager/TM_ApprovedRes"
+import TM_RAResultStatus from "../pages/TechnicalManager/TM_RAResultStatus"
 
 const router = createBrowserRouter([
     {
@@ -51,7 +52,11 @@ const router = createBrowserRouter([
         element:<TM_ResultApproval /> ,
     },
     {
-        path: "/ResultApproval/View_More",
+        path: "/ResultApproval/Result_Status",
+        element:<TM_RAResultStatus /> ,
+    },
+    {
+        path: "/ResultApproval/Result_Status/View_More",
         element:<TM_ResultApprovalViewMore /> ,
     },
     {
