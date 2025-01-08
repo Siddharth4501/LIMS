@@ -5,6 +5,23 @@ import { useDispatch, useSelector } from 'react-redux';
 const AN_CompletedSamples = () => {
   const { TmAnData,sampleData }=useSelector((state)=>state.sample)
   const dispatch=useDispatch();
+  const userData=JSON.parse(localStorage.getItem("userData"));
+  const [assignedGroups,setAssignedGroups]=useState([])
+  console.log(userData,"yyy")
+  useEffect(()=>{
+    const userGroup=[]
+    userData?.roles.map((item)=>{
+      if(item.designation==='Analyst'){
+        console.log(item.Assigned_Group,"uit")
+        item.Assigned_Group.map((data)=>{
+          userGroup.push(data)
+        })
+        
+      }
+    })
+    setAssignedGroups(userGroup);
+  },[])
+  console.log("lala",assignedGroups);
   useEffect(() => {
       (async () => {
       await dispatch(getTMANData());
@@ -32,8 +49,8 @@ const AN_CompletedSamples = () => {
           </thead>
           <tbody>
             {
-              TmAnData?.filter((data)=>data.AN_Status === 'Approved By TM').map((item,index)=>{
-                let fliteredSample=sampleData?.filter((data)=>data._id== item.Sample_Alloted)
+              TmAnData?.filter((data)=>data.TM_Status === 'Approved By TM').map((item,index)=>{
+                let fliteredSample=sampleData?.filter((data)=>data._id== item.Sample_Alloted && assignedGroups.includes(state.Group))
                 if(!fliteredSample){
                   return null;
                 }
