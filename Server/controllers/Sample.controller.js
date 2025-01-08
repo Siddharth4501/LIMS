@@ -181,6 +181,31 @@ const TMANDataUpdate=async(req,res,next)=>{
                 message:'TMAN Data Updated Successfully',
             })
         }
+        else if(TM_Status==='Rejected By TM'){
+            console.log(TMANID,Substances_To_Be_Analysed,TM_Status,"bale");
+            const TMANData=await TechManager_Analyst.findById(TMANID)
+            console.log(TMANData,"shava")
+            TMANData.Substances_To_Be_Analysed = Substances_To_Be_Analysed;
+            TMANData.AN_Status.forEach((data) => {
+                if (data.Analyst.ID.toString() === clickedAnalystID) {
+                  data.Status = "Pending At Analyst";
+                }
+            });
+            // Check if all elements in AN_Status have Status = "Pending For Approval At TM"
+            const allPendingForApproval = TMANData.AN_Status.every(
+                (data) => data.Status === "Pending At Analyst"
+            );
+        
+            // Here Update TM_Status if condition is met
+            if (allPendingForApproval) {
+                TMANData.TM_Status = "Pending At Analyst";
+            }
+            TMANData.save();
+            res.status(201).json({
+                success:true,
+                message:'TMAN Data Updated Successfully',
+            })
+        }
     }
     catch(e){
         return next(new AppError(e.message,500))
