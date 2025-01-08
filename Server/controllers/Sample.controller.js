@@ -137,36 +137,54 @@ const TMANData=async(req,res,next)=>{
 }
 
 const TMANDataUpdate=async(req,res,next)=>{
-    // try{
-        
-    // }
-    // catch(e){
-    //     return next(new AppError(e.message,500))
-    // }
-    const {TMANID,Substances_To_Be_Analysed,currentUserID}=req.body;
-    console.log(TMANID,Substances_To_Be_Analysed,"bale");
-    const TMANData=await TechManager_Analyst.findById(TMANID)
-    console.log(TMANData,"shava")
-    TMANData.Substances_To_Be_Analysed = Substances_To_Be_Analysed;
-    TMANData.AN_Status.forEach((data) => {
-        if (data.Analyst.ID.toString() === currentUserID) {
-          data.Status = "Pending For Approval At TM";
+    try{
+        const {TMANID,Substances_To_Be_Analysed,currentUserID,TM_Status,clickedAnalystID}=req.body;
+        if(TM_Status==='Pending For Approval At TM'){
+            console.log(TMANID,Substances_To_Be_Analysed,TM_Status,"bale");
+            const TMANData=await TechManager_Analyst.findById(TMANID)
+            console.log(TMANData,"shava")
+            TMANData.Substances_To_Be_Analysed = Substances_To_Be_Analysed;
+            TMANData.AN_Status.forEach((data) => {
+                if (data.Analyst.ID.toString() === currentUserID) {
+                  data.Status = "Pending For Approval At TM";
+                }
+            });
+            TMANData.TM_Status = TM_Status;
+            TMANData.save();
+            res.status(201).json({
+                success:true,
+                message:'TMAN Data Updated Successfully',
+            })
         }
-    });
-    // Check if all elements in AN_Status have Status = "Pending For Approval At TM"
-    const allPendingForApproval = TMANData.AN_Status.every(
-        (data) => data.Status === "Pending For Approval At TM"
-    );
-
-    // Here Update TM_Status if condition is met
-    if (allPendingForApproval) {
-        TMANData.TM_Status = "All Pending For Approval At TM";
+        else if(TM_Status==='Approved By TM'){
+            console.log(TMANID,Substances_To_Be_Analysed,TM_Status,"bale");
+            const TMANData=await TechManager_Analyst.findById(TMANID)
+            console.log(TMANData,"shava")
+            TMANData.Substances_To_Be_Analysed = Substances_To_Be_Analysed;
+            TMANData.AN_Status.forEach((data) => {
+                if (data.Analyst.ID.toString() === clickedAnalystID) {
+                  data.Status = "Approved By TM";
+                }
+            });
+            // Check if all elements in AN_Status have Status = "Pending For Approval At TM"
+            const allPendingForApproval = TMANData.AN_Status.every(
+                (data) => data.Status === "Approved By TM"
+            );
+        
+            // Here Update TM_Status if condition is met
+            if (allPendingForApproval) {
+                TMANData.TM_Status = "Approved By TM";
+            }
+            TMANData.save();
+            res.status(201).json({
+                success:true,
+                message:'TMAN Data Updated Successfully',
+            })
+        }
     }
-    TMANData.save();
-    res.status(201).json({
-        success:true,
-        message:'TMAN Data Added Successfully',
-    })
+    catch(e){
+        return next(new AppError(e.message,500))
+    }
 }
 export {
     SampleRegister,
