@@ -1,11 +1,28 @@
-import React ,{useEffect} from 'react'
+import React ,{useEffect,useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { getSampleData, getTMANData } from '../../Redux/Slices/SampleSlice';
 
 const TM_ApprovedRes = () => {
   const { TmAnData,sampleData }=useSelector((state)=>state.sample)
   const dispatch=useDispatch();
+  const userData=JSON.parse(localStorage.getItem("userData"));
+  const [assignedGroups,setAssignedGroups]=useState([])
+  console.log(userData,"yyy")
+  useEffect(()=>{
+    const userGroup=[]
+    userData?.roles.map((item)=>{
+      if(item.designation==='Technical Manager'){
+        console.log(item.Assigned_Group,"uit")
+        item.Assigned_Group.map((data)=>{
+          userGroup.push(data)
+        })
+        
+      }
+    })
+    setAssignedGroups(userGroup);
+  },[])
+  console.log("lala",assignedGroups);
   useEffect(() => {
       (async () => {
       await dispatch(getTMANData());
@@ -34,8 +51,8 @@ const TM_ApprovedRes = () => {
           </thead>
           <tbody>
             {
-              TmAnData?.filter((data)=>data.AN_Status === 'Approved By TM').map((item,index)=>{
-                let fliteredSample=sampleData?.filter((data)=>data._id== item.Sample_Alloted)
+              TmAnData?.filter((data)=>data.TM_Status === 'Approved By TM').map((item,index)=>{
+                let fliteredSample=sampleData?.filter((data)=>data._id== item.Sample_Alloted && assignedGroups.includes(data.Group))
                 if(!fliteredSample){
                   return null;
                 }
@@ -48,7 +65,7 @@ const TM_ApprovedRes = () => {
                     <td className="border border-gray-300 px-4 py-2 text-center">{item.Due_Date.split('T')[0]}</td>
                     <td className="border border-gray-300 px-4 py-2 text-center">{fliteredSample[0]?.Storage_Conditions}</td>
                     <td className="border border-gray-300 px-4 py-2 text-center">{fliteredSample[0]?.Date.split('T')[0]}</td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">{item.AN_Status}</td>
+                    <td className="border border-gray-300 px-4 py-2 text-center">{item.TM_Status}</td>
                     <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-900' onClick={()=>handleNavigation(item,fliteredSample[0],item._id)}>View</button></td>
                   </tr>
                 )
