@@ -1,29 +1,31 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const AnalystHome = () => {
   const navigate = useNavigate();
+  const {state}=useLocation();
+  const userData=JSON.parse(localStorage.getItem('userData'));
   const handlePendingSample = () => {
     navigate('/AN_PendingSamples')
   }
   const handleCompletedSample = () => {
-    navigate('/')
+    navigate('/AN_CompletedSamples')
   }
   return (
     <>
-      <div className='text-center font-semibold text-3xl'>AnalystHome</div>
-      <div className="flex items-center justify-between p-4 shadow-md">
+      
+      <div className="flex items-center justify-between p-4 shadow-md bg-slate-300">
 
         <div className="flex items-center">
-          <img src=" https://via.placeholder.com/300" alt="Logo"
-            className="h-12 w-12 object-contain mr-8 ml-4 rounded-full"
+          <img src="/src/assets/images/DRDO-Logo1.jpg" alt="Logo"
+            className="h-20 w-22 object-contain mr-8 ml-4 rounded-full"
           />
-          <span className="text-lg font-bold">Name of Lab</span>
+          <span className="text-lg font-bold">Name of Lab:DFRL</span>
         </div>
-
+        <div className='text-center font-semibold text-3xl'>{`${state} Role`}</div>
         <div className='mx-6'>
           <select name="" id="" className="p-2 rounded-lg border border-blue-300">
-            <option value="name">Great Khali</option>
+            <option value="name">{userData.fullName}</option>
             <option value="change-password">Change Password</option>
             <option value="logout" className='text-red-500'>Log Out!</option>
           </select>
