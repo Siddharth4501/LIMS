@@ -9,8 +9,6 @@ const techManager_AnalystSchema=new Schema(
             "^[A-Za-z]+$": { //for dynamic key patternProperties is used here
               type: "object",
               properties: {
-                StartDate: { type: "string", format: "date-time" },
-                EndDate: { type: "string", format: "date-time" },
                 Tests: {
                   type: "array",
                   items: {
@@ -23,7 +21,9 @@ const techManager_AnalystSchema=new Schema(
                         Name:String,
                         ID:{ type: mongoose.Schema.Types.ObjectId, ref: "User" }
                       },
-                      Result: { type: "number", default: 0 }
+                      Result: { type: "number", default: 0 },
+                      StartDate: { type: "string", format: "date-time" },
+                      EndDate: { type: "string", format: "date-time" },
                     },
                   }
                 }
