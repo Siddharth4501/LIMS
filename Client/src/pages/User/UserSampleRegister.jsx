@@ -1,10 +1,13 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const UserSampleRegister = () => {
+  const {state}=useLocation();
+  console.log(state,"dam")
   const navigate=useNavigate();
+  const userData=JSON.parse(localStorage.getItem('userData'));
     const handleSampleHistoryPage=()=>{
-        navigate('/AllSampleHistory')
+        navigate('/SampleRegistrationUser/SampleHistory')
     }
     const handleSampleRegister=()=>{
       navigate('/SampleRegister')
@@ -12,24 +15,27 @@ const UserSampleRegister = () => {
   return (
     <>
     <div>
-    <h1 className='text-center font-medium text-3xl p-4 text-teal-800 bg-green-100'>Sample Registration User</h1>
     </div>
-      <div className="flex items-center justify-between p-4 shadow-md">
+      <div className="flex items-center justify-between p-4 shadow-md bg-slate-300">
         <div className="flex items-center">
-          <img src=" https://via.placeholder.com/300" alt="Logo"
-            className="h-12 w-12 object-contain mr-8 ml-4 rounded-full"
+          <img src="/src/assets/images/DRDO-Logo1.jpg" alt="Logo"
+            className="h-20 w-22 object-contain mr-8 ml-4 rounded-full"
           />
-          <span className="text-lg font-bold">Name of Lab</span>
+          <span className="text-lg font-bold">Name of Lab: DFRL</span>
+        </div>
+        <div>
+        <h1 className='text-center font-medium text-3xl p-4 text-teal-800'>{`${state} Role`}</h1>
         </div>
         <div className='mx-6'>
-          <select name="" id="" className="p-2 rounded-lg border border-blue-300">
-            <option value="name">Great Khali</option>
+          <select name="" id="" className="p-2 rounded-lg border border-blue-300 bg-slate-100">
+            <option value="name">{userData.fullName}</option>
             <option value="change-password">Change Password</option>
             <option value="logout" className='text-red-500'>Log Out!</option>
           </select>
         </div>
 
       </div>
+      
       <div className='grid grid-cols-2 gap-12 mt-16 px-4 py-2 m-auto w-3/4'>
         <center>
           <button className='bg-red-500 shadow-lg shadow-red-500/50 w-80 px-4 py-2 rounded-md text-2xl font-normal' onClick={handleSampleRegister}>Sample Register</button>
