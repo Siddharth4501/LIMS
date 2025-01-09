@@ -7,6 +7,7 @@ const AN_PendingSamples = () => {
   const { TmAnData,sampleData }=useSelector((state)=>state.sample)
   const dispatch=useDispatch();
   const navigate=useNavigate();
+  const [userFound,setUserFound]=useState(false);
   useEffect(() => {
       (async () => {
       await dispatch(getTMANData());
@@ -30,6 +31,18 @@ const AN_PendingSamples = () => {
     })
     setAssignedGroups(userGroup);
   },[])
+  // It Determines userFound
+  useEffect(() => {
+    const found = TmAnData?.some((item) => {
+      const userObj = item.AN_Status.find((analyst) => analyst.Analyst.ID === userData?._id);
+      const filteredSample = sampleData?.filter(
+        (data) => data._id === item.Sample_Alloted && assignedGroups.includes(data.Group) && userObj
+      );
+      return filteredSample?.length > 0;
+    });
+    setUserFound(found);
+  }, [TmAnData, sampleData, userData, assignedGroups]);
+
   console.log("lala",assignedGroups);
   const handleNavigation=(data,fliteredSample,TMANID)=>{
     navigate("/AN_PendingSample/ViewMore",{state:{...data,...fliteredSample,TMANID}})
@@ -38,6 +51,10 @@ const AN_PendingSamples = () => {
     <div>
       <div className='w-screen text-center pt-2 text-3xl font-bold'>Pending Samples For Analyst</div>
       <br /><br />
+    {
+      userFound==true?
+      (
+
       <div>
         <table className='table-auto w-full border-collapse border border-gray-300'>
           <thead>
@@ -55,29 +72,39 @@ const AN_PendingSamples = () => {
           <tbody>
             {
               TmAnData?.filter((data)=>data.TM_Status === 'Pending At Analyst').map((item,index)=>{
-                let fliteredSample=sampleData?.filter((data)=>data._id== item.Sample_Alloted && assignedGroups.includes(data.Group))
-                if(!fliteredSample){
+                let userObj=item.AN_Status.find((analyst)=>analyst.Analyst.ID=== userData?._id)
+                let fliteredSample=sampleData?.filter((data)=>data._id== item.Sample_Alloted && assignedGroups.includes(data.Group) && userObj)
+                if(fliteredSample.length===0){
                   return null;
                 }
-                {console.log(fliteredSample,"kiuku")}
-                return(
-                  <tr className="hover:bg-gray-100" key={item._id}>
-                    <td className="border border-gray-300 px-4 py-2 text-center">{index+1}</td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">{fliteredSample[0]?.Registration_Number}</td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">{fliteredSample[0]?.Name}</td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">{item.Due_Date.split('T')[0]}</td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">{fliteredSample[0]?.Storage_Conditions}</td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">{fliteredSample[0]?.Date.split('T')[0]}</td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">{item.TM_Status}</td>
-                    <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-900' onClick={()=>handleNavigation(item,fliteredSample[0],item._id)}>View</button></td>
-                  </tr>
-                )
+                else{
+                  {console.log(fliteredSample,"kiuku",userObj)}
+                  return(
+                    <tr className="hover:bg-gray-100" key={item._id}>
+                      <td className="border border-gray-300 px-4 py-2 text-center">{index+1}</td>
+                      <td className="border border-gray-300 px-4 py-2 text-center">{fliteredSample[0]?.Registration_Number}</td>
+                      <td className="border border-gray-300 px-4 py-2 text-center">{fliteredSample[0]?.Name}</td>
+                      <td className="border border-gray-300 px-4 py-2 text-center">{item.Due_Date.split('T')[0]}</td>
+                      <td className="border border-gray-300 px-4 py-2 text-center">{fliteredSample[0]?.Storage_Conditions}</td>
+                      <td className="border border-gray-300 px-4 py-2 text-center">{fliteredSample[0]?.Date.split('T')[0]}</td>
+                      <td className="border border-gray-300 px-4 py-2 text-center">{item.TM_Status}</td>
+                      <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-900' onClick={()=>handleNavigation(item,fliteredSample[0],item._id)}>View</button></td>
+                    </tr>
+                  )
+                }
                 })
               }
               
           </tbody>
         </table>
       </div>
+        ):
+        (
+          <div className='text-xl font-semibold text-center w-full text-gray-600'>
+            No Pending Samples Yet!!
+          </div>
+        )
+      }
     </div>
   )
 }
