@@ -6,7 +6,10 @@ const Samples = ({difference,data,index}) => {
     const navigate=useNavigate();
     const handleRedirection=()=>{
         if(difference==='All Sample History'){
-          navigate('/AllSampleHistory/View_More',{state:{...data}})
+          navigate('/AllSampleHistory/View_More',{state:{...data,difference}})
+        }
+        else if(difference==='ParticularUser Sample History'){
+          navigate('/SampleRegistrationUser/SampleHistory/View_More',{state:{...data,difference}})
         }
         else{
           navigate('/SampleAllotment/View_More',{state:{...data}})
