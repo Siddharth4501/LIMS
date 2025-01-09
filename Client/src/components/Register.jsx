@@ -5,9 +5,11 @@ import toast from "react-hot-toast";
 import { useDispatch,useSelector } from "react-redux";
 import { getGroupData } from "../Redux/Slices/GroupSilce";
 import { registerSample } from "../Redux/Slices/SampleSlice";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const dispatch=useDispatch();
+  const navigate=useNavigate();
   const { groupData } = useSelector((state) => state.group);
   console.log("mrsfnejgojrioejg",groupData)
   const userData =JSON.parse(localStorage.getItem("userData"));
@@ -136,6 +138,7 @@ const Register = () => {
       const response = await dispatch(registerSample(data));
       if (response) {
         toast.success('Sample Registered Successfully');
+        navigate('/UserInterface/SampleRegisterOptions')
       }
     } catch (error) {
         toast.error(error)
@@ -365,7 +368,7 @@ const Register = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold mb-2">Storage Conditions</label>
+            <label className="block text-sm font-semibold mb-2">Storage Conditions(in ℃)</label>
             <input
               type="number"
               name="Storage_Conditions"
@@ -417,7 +420,6 @@ const Register = () => {
               type="text"
               name="Treatment_Type"
               className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
-              required
             />
           </div>
           <div>
