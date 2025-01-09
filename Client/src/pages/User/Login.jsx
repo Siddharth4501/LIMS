@@ -36,7 +36,7 @@ const Login = () => {
         const res = await dispatch(login(loginData));
 
         // redirect to home page if true
-        if (res?.payload?.success) navigate("/");
+        if (res?.payload?.success) navigate("/UserInterface");
 
 
     };
