@@ -17,10 +17,11 @@ import TM_PendingSample from "../pages/TechnicalManager/TM_PendingSample"
 import TM_ResultApprovalViewMore from "../pages/TechnicalManager/TM_ResultApprovalViewMore"
 import TM_ApprovedRes from "../pages/TechnicalManager/TM_ApprovedRes"
 import TM_RAResultStatus from "../pages/TechnicalManager/TM_RAResultStatus"
+import ParticularUserSRH from "../pages/SampleRegistration/ParticularUserSRH"
 
 const router = createBrowserRouter([
     {
-        path: "/",
+        path: "/Technical Manager/Home",
         element:<TM_Home /> ,
     },
     {
@@ -32,7 +33,7 @@ const router = createBrowserRouter([
         element:<UserInterface /> ,
     },
     {
-        path: "/UserInterface/SampleRegisterOptions",
+        path: "/Sample Registration/Home",
         element:<UserSampleRegister /> ,
     },
     { 
@@ -66,6 +67,14 @@ const router = createBrowserRouter([
     {
         path: "/TM_PendingSamples",
         element:<TM_PendingSample /> ,
+    },
+    {
+        path: "/SampleRegistrationUser/SampleHistory",
+        element:<ParticularUserSRH/> ,
+    },
+    {
+        path: "/SampleRegistrationUser/SampleHistory/View_More",
+        element:<FullHistory/> ,
     },
     {
         path: "/AllSampleHistory",
