@@ -23,10 +23,18 @@ const FullHistory = () => {
       )
       setTestData(Tests)
     },[])
-  
+    const handleBackNavigation=()=>{
+      console.log("first")
+      if(state.difference==='All Sample History'){
+        navigate('/AllSampleHistory')
+      }
+      else if(state.difference==='ParticularUser Sample History'){
+        navigate('/SampleRegistrationUser/SampleHistory')
+      }
+    }
   return (
     <div  className="space-y-6 max-w-full mx-auto p-6 bg-white">
-        <div className='w-full'><button type="button" className='bg-indigo-700 text-white rounded-md hover:bg-indigo-900 px-4 py-1 float-right' onClick={()=>{navigate('/AllSampleHistory')}}>Back</button></div>
+        <div className='w-full'><button type="button" className='bg-indigo-700 text-white rounded-md hover:bg-indigo-900 px-4 py-1 float-right' onClick={handleBackNavigation}>Back</button></div>
         <div className="font-bold text-2xl text-center">Full Sample Information</div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
@@ -35,7 +43,8 @@ const FullHistory = () => {
               type="text"
               name="Name"
               className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
-              value={state.Name}
+              defaultValue={state.Name}
+              disabled={true}
             />
           </div>
           <div>
@@ -44,7 +53,8 @@ const FullHistory = () => {
               type="text"
               name="Quantity"
               className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
-              value={state.Quantity}
+              defaultValue={state.Quantity}
+              disabled={true}
             />
           </div>
           <div>
@@ -53,7 +63,8 @@ const FullHistory = () => {
               type="number"
               name="Storage_Conditions"
               className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
-              value={state.Storage_Conditions}
+              defaultValue={state.Storage_Conditions}
+              disabled={true}
             />
           </div>
           <div>
@@ -62,7 +73,8 @@ const FullHistory = () => {
               type="number"
               name="Registration_Number"
               className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
-              value={state.Registration_Number}
+              defaultValue={state.Registration_Number}
+              disabled={true}
             />
           </div>
           <div>
@@ -71,7 +83,8 @@ const FullHistory = () => {
               type="number"
               name="Customer_Code"
               className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
-              value={state.Customer_Code}
+              defaultValue={state.Customer_Code}
+              disabled={true}
             />
           </div>
           <div>
@@ -80,7 +93,7 @@ const FullHistory = () => {
               name="Packing_Type"
               className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
             >
-              <option value={state.Packing_Type}>{state.Packing_Type}</option>
+              <option defaultValue={state.Packing_Type}>{state.Packing_Type}</option>
               
             </select>
           </div>
@@ -90,7 +103,8 @@ const FullHistory = () => {
               type="text"
               name="Date"
               className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
-              value={state.Date.split('T')[0]}
+              defaultValue={state.Date.split('T')[0]}
+              disabled={true}
             />
           </div>
           <div>
@@ -99,18 +113,31 @@ const FullHistory = () => {
               type="text"
               name="Treatment_Type"
               className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
-              value={state.Treatment_Type}
+              defaultValue={state.Treatment_Type}
+              disabled={true}
             />
           </div>
           <div>
+          <label className="block text-sm font-semibold mb-2">Nature Of Sample</label>
+          <input
+            type="text"
+            name="Nature_Of_Sample"
+            className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
+            defaultValue={state.Nature_Of_Sample}
+            disabled={true}
+          />
+          </div>
+          
+        </div>
+        <div>
           <label className="block text-sm font-semibold mb-2">Remarks</label>
           <input
             type="text"
             name="Remarks"
             className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
-            value={state.Remarks}
+            defaultValue={state.Remarks}
+            disabled={true}
           />
-          </div>
         </div>
         <div 
         className="grid grid-cols-1 sm:grid-cols-2 gap-4"
