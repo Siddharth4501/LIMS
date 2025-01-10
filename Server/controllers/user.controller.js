@@ -54,6 +54,7 @@ const Login=async(req,res,next)=>{
         user.password=undefined
         
         res.cookie('token',token,cookieOptions);
+        console.log(token,"tww")
         res.status(201).json({
             success:true,
             message:'User Successfully Logged In',
@@ -97,9 +98,41 @@ const Logout=async(req,res)=>{
     })
 };
 
+const changePassword=async(req,res,next)=>{
+    const {oldPassword,newPassword} =req.body;
+    const {id}=req.user;//all information of user is kept in req.user as created in auth.middleware.js
+
+    if(!oldPassword || ! newPassword){
+        return next(new AppError('All fields are mandatory',400))
+    }
+
+    const user= await User.findById(id).select('+password')
+    if(!user){
+        return next(new AppError('User doesn not exist'),400)
+    }
+
+    const isPasswordValid=await user.comparePassword(oldPassword);
+
+    if(!isPasswordValid){
+        return next(new AppError('invalid old password',400))
+    }
+    user.password=newPassword
+    
+    await user.save();
+    user.password=undefined;//remove password from user object
+
+    res.status(200).json({
+        success:true,
+        message:'Password changed successfully!'
+    })
+
+
+}
+
 export {
     Login,
     Register,
     Logout,
     UserData,
+    changePassword,
 }
