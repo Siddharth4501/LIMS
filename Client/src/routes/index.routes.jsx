@@ -18,6 +18,7 @@ import TM_ResultApprovalViewMore from "../pages/TechnicalManager/TM_ResultApprov
 import TM_ApprovedRes from "../pages/TechnicalManager/TM_ApprovedRes"
 import TM_RAResultStatus from "../pages/TechnicalManager/TM_RAResultStatus"
 import ParticularUserSRH from "../pages/SampleRegistration/ParticularUserSRH"
+import ChangePassword from "../pages/User/ChangePassword"
 
 const router = createBrowserRouter([
     {
@@ -29,8 +30,12 @@ const router = createBrowserRouter([
         element:<Login />,
     },
     {
-        path: "/UserInterface",
+        path: "/",
         element:<UserInterface /> ,
+    },
+    {
+        path: "/User/Change-Password",
+        element:<ChangePassword /> ,
     },
     {
         path: "/Sample Registration/Home",
