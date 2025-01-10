@@ -32,10 +32,25 @@ const TM_PendingSample = () => {
     setAssignedGroups(userGroup);
   },[])
   console.log("lala",assignedGroups);
+  const [found,setFound]=useState(false);
+  useEffect(()=>{
+    TmAnData?.filter((data)=>data.TM_Status === 'Pending At Analyst').map((item)=>{
+      let filteredSample=sampleData?.filter((data)=>data._id== item.Sample_Alloted && assignedGroups.includes(data.Group))
+      if(filteredSample.length>0){
+        setFound(true);
+      }
+    })
+  },[TmAnData,sampleData,userData])
   return (
     <div>
-      <div className='w-screen text-center pt-2 text-3xl font-bold'>Pending Samples At Analyst</div>
+      <div className='w-full flex border bg-gray-300 p-5'>
+        <div className='w-3/5 text-3xl font-bold'><span className='float-right'>Pending Samples At Analyst</span></div>
+        <div className='w-2/5'><button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Technical Manager/Home')}>Back</button></div>
+      </div>
       <br /><br />
+      {
+        found?(
+
       <div>
         <table className='table-auto w-full border-collapse border border-gray-300'>
           <thead>
@@ -44,7 +59,7 @@ const TM_PendingSample = () => {
                 <th className="border border-gray-300 px-4 py-2 text-center">Registration No.</th>
                 <th className="border border-gray-300 px-4 py-2 text-center">Sample Name</th>
                 <th className="border border-gray-300 px-4 py-2 text-center">Due Date</th>
-                <th className="border border-gray-300 px-4 py-2 text-center">Storage Condition</th>
+                <th className="border border-gray-300 px-4 py-2 text-center">Storage Condition(in ℃)</th>
                 <th className="border border-gray-300 px-4 py-2 text-center">Registration Date</th>
                 <th className="border border-gray-300 px-4 py-2 text-center">Status</th>
             </tr>
@@ -52,19 +67,19 @@ const TM_PendingSample = () => {
           <tbody>
             {
               TmAnData?.filter((data)=>data.TM_Status === 'Pending At Analyst').map((item,index)=>{
-                let fliteredSample=sampleData?.filter((data)=>data._id== item.Sample_Alloted && assignedGroups.includes(data.Group))
-                if(!fliteredSample){
+                let filteredSample=sampleData?.filter((data)=>data._id== item.Sample_Alloted && assignedGroups.includes(data.Group))
+                if(!filteredSample){
                   return null;
                 }
                 {console.log(fliteredSample,"kiuku")}
                 return(
                   <tr className="hover:bg-gray-100" key={item._id}>
                     <td className="border border-gray-300 px-4 py-2 text-center">{index+1}</td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">{fliteredSample[0]?.Registration_Number}</td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">{fliteredSample[0]?.Name}</td>
+                    <td className="border border-gray-300 px-4 py-2 text-center">{filteredSample[0]?.Registration_Number}</td>
+                    <td className="border border-gray-300 px-4 py-2 text-center">{filteredSample[0]?.Name}</td>
                     <td className="border border-gray-300 px-4 py-2 text-center">{item.Due_Date.split('T')[0]}</td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">{fliteredSample[0]?.Storage_Conditions}</td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">{fliteredSample[0]?.Date.split('T')[0]}</td>
+                    <td className="border border-gray-300 px-4 py-2 text-center">{filteredSample[0]?.Storage_Conditions}</td>
+                    <td className="border border-gray-300 px-4 py-2 text-center">{filteredSample[0]?.Date.split('T')[0]}</td>
                     <td className="border border-gray-300 px-4 py-2 text-center">{item.TM_Status}</td>
                     
                   </tr>
@@ -75,6 +90,10 @@ const TM_PendingSample = () => {
           </tbody>
         </table>
       </div>
+        ):(
+          <div className='text-xl font-semibold text-center w-full h-[48vh] translate-y-3/4 text-gray-600'>No Pending Samples At Analyst!!!</div>
+        )
+      }
     </div>
   )
 }

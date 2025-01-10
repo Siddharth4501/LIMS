@@ -33,7 +33,7 @@ const AN_PendingSamples = () => {
   },[])
   // It Determines userFound
   useEffect(() => {
-    const found = TmAnData?.some((item) => {
+    const found = TmAnData?.filter((data)=>data.TM_Status==='Pending At Analyst').some((item) => {
       const userObj = item.AN_Status.find((analyst) => analyst.Analyst.ID === userData?._id);
       const filteredSample = sampleData?.filter(
         (data) => data._id === item.Sample_Alloted && assignedGroups.includes(data.Group) && userObj
@@ -44,12 +44,15 @@ const AN_PendingSamples = () => {
   }, [TmAnData, sampleData, userData, assignedGroups]);
 
   console.log("lala",assignedGroups);
-  const handleNavigation=(data,fliteredSample,TMANID)=>{
-    navigate("/AN_PendingSample/ViewMore",{state:{...data,...fliteredSample,TMANID}})
+  const handleNavigation=(data,filteredSample,TMANID)=>{
+    navigate("/AN_PendingSample/ViewMore",{state:{...data,...filteredSample,TMANID}})
   }
   return (
     <div>
-      <div className='w-screen text-center pt-2 text-3xl font-bold'>Pending Samples For Analyst</div>
+      <div className='w-full flex border bg-gray-300 p-5'>
+        <div className='w-2/3 text-3xl font-bold'><span className='float-right'>Pending Sample Page For Analyst</span></div>
+        <div className='w-1/3'><button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Analyst/Home')}>Back</button></div>
+      </div>
       <br /><br />
     {
       userFound==true?
@@ -73,22 +76,22 @@ const AN_PendingSamples = () => {
             {
               TmAnData?.filter((data)=>data.TM_Status === 'Pending At Analyst').map((item,index)=>{
                 let userObj=item.AN_Status.find((analyst)=>analyst.Analyst.ID=== userData?._id)
-                let fliteredSample=sampleData?.filter((data)=>data._id== item.Sample_Alloted && assignedGroups.includes(data.Group) && userObj)
-                if(fliteredSample.length===0){
+                let filteredSample=sampleData?.filter((data)=>data._id== item.Sample_Alloted && assignedGroups.includes(data.Group) && userObj)
+                if(filteredSample.length===0){
                   return null;
                 }
                 else{
-                  {console.log(fliteredSample,"kiuku",userObj)}
+                  {console.log(filteredSample,"kiuku",userObj)}
                   return(
                     <tr className="hover:bg-gray-100" key={item._id}>
                       <td className="border border-gray-300 px-4 py-2 text-center">{index+1}</td>
-                      <td className="border border-gray-300 px-4 py-2 text-center">{fliteredSample[0]?.Registration_Number}</td>
-                      <td className="border border-gray-300 px-4 py-2 text-center">{fliteredSample[0]?.Name}</td>
+                      <td className="border border-gray-300 px-4 py-2 text-center">{filteredSample[0]?.Registration_Number}</td>
+                      <td className="border border-gray-300 px-4 py-2 text-center">{filteredSample[0]?.Name}</td>
                       <td className="border border-gray-300 px-4 py-2 text-center">{item.Due_Date.split('T')[0]}</td>
-                      <td className="border border-gray-300 px-4 py-2 text-center">{fliteredSample[0]?.Storage_Conditions}</td>
-                      <td className="border border-gray-300 px-4 py-2 text-center">{fliteredSample[0]?.Date.split('T')[0]}</td>
+                      <td className="border border-gray-300 px-4 py-2 text-center">{filteredSample[0]?.Storage_Conditions}</td>
+                      <td className="border border-gray-300 px-4 py-2 text-center">{filteredSample[0]?.Date.split('T')[0]}</td>
                       <td className="border border-gray-300 px-4 py-2 text-center">{item.TM_Status}</td>
-                      <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-900' onClick={()=>handleNavigation(item,fliteredSample[0],item._id)}>View</button></td>
+                      <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-900' onClick={()=>handleNavigation(item,filteredSample[0],item._id)}>View</button></td>
                     </tr>
                   )
                 }
@@ -100,7 +103,7 @@ const AN_PendingSamples = () => {
       </div>
         ):
         (
-          <div className='text-xl font-semibold text-center w-full text-gray-600'>
+          <div className='text-xl font-semibold text-center w-full h-[48vh] translate-y-3/4 text-gray-600'>
             No Pending Samples Yet!!
           </div>
         )
