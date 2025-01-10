@@ -42,18 +42,18 @@ const Login = () => {
     };
   return (
     <div className="flex flex-col font-bold h-screen w-screen justify-center">
-        <form onSubmit={handleLogin} className='grid gap-2 border border-gray-700 rounded-lg h-96 w-2/5 m-auto p-4 bg-slate-400'>
-        <center><h1 className='text-4xl'>Login Page</h1></center>
+        <form onSubmit={handleLogin} className='grid gap-2 border border-indigo-800 shadow-blue-500/50 border-[3px] rounded-lg h-96 w-2/5 m-auto p-4 bg-slate-400'>
+        <center><h1 className='text-4xl italic'>Login</h1></center>
             <div className='w-full p-2 pt-5 flex'>
                 <span className='pt-2 p-1'><MdEmail /></span>
-                <label htmlFor="Email" className='w-1/4 text-xl'>Email:</label>
-                <input type="email" name="Email" className='w-3/4 h-8 rounded-3xl pl-4' />
+                <label htmlFor="Email" className='w-1/4 text-xl italic'>Email:</label>
+                <input type="email" name="Email" className='w-3/4 h-8 rounded-3xl pl-4' placeholder="Enter your email..." />
             </div>
             <div className='relative w-full p-2 pt-5 flex'>
                 <span className='pt-2 p-1'><RiLockPasswordFill /></span>
-                <label htmlFor="Password" className='w-1/4 text-xl'>Password:</label>
-                <input type={showPassword==true?'text':'password'} name="Password" id="" className='w-3/4 h-8 rounded-3xl pl-4' />
-                <span className='absolute right-3 top-1/4 transform-translate-y-1/2'><button type="button" onClick={handlePasswordToggle}>{showPassword==true ? <FaEye />:<FaEyeSlash />}</button></span>
+                <label htmlFor="Password" className='w-1/4 text-xl italic'>Password:</label>
+                <input type={showPassword==true?'text':'password'} name="Password" id="" className='w-3/4 h-8 rounded-3xl pl-4' placeholder="Enter your password..." />
+                <span className='absolute right-4 top-1/4 transform-translate-y-1/2 pt-1'><button type="button" onClick={handlePasswordToggle}>{showPassword==true ? <FaEye/>:<FaEyeSlash />}</button></span>
             </div>
             <div className='w-full'>
                 <button type="submit" className='bg-indigo-700 rounded-md text-white w-1/4 py-1 flex justify-center mx-auto hover:bg-indigo-800'>Submit</button>
