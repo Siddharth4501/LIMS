@@ -136,7 +136,7 @@ const Register = () => {
     }
     try {
       const response = await dispatch(registerSample(data));
-      if (response) {
+      if (response?.payload?.success) {
         toast.success('Sample Registered Successfully');
         navigate('/UserInterface/SampleRegisterOptions')
       }
@@ -346,9 +346,13 @@ const Register = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="space-y-6 max-w-full mx-auto p-6 bg-white">
-        <div className="font-bold text-2xl text-center">Sample Registration Form</div>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <form onSubmit={handleSubmit} className="space-y-6 max-w-full mx-auto bg-white">
+        <div className='w-full flex border bg-gray-300 p-5'>
+          <div className='w-3/5 text-3xl font-bold'><span className='float-right'>Sample Registration Form</span></div>
+          <div className='w-2/5'><button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Sample Registration/Home')}>Back</button></div>
+        </div>
+        <br />
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-2">
           <div>
             <label className="block text-sm font-semibold mb-2">Name</label>
             <input
@@ -432,7 +436,7 @@ const Register = () => {
           />
           </div>
         </div>
-        <div>
+        <div className="p-2">
           <label className="block text-sm font-semibold mb-2">Remarks</label>
           <input
             type="text"
@@ -442,7 +446,7 @@ const Register = () => {
           />
         </div>
         <div 
-        className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+        className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-2"
         // className="grid grid-cols-2 gap-4"
         >
           
@@ -734,9 +738,9 @@ const Register = () => {
         
 
         {/* Submit Button */}
-        <div className="">
+        <div className="pb-20">
           <center>
-            <button type="submit" className="w-1/2 bg-indigo-500 text-white py-2 rounded-md hover:bg-blue-600">
+            <button type="submit" className="w-1/2 bg-indigo-700 text-lg text-white py-2 rounded-md hover:bg-indigo-800">
               Submit
             </button>
           </center>
