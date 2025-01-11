@@ -19,6 +19,10 @@ import TM_ApprovedRes from "../pages/TechnicalManager/TM_ApprovedRes"
 import TM_RAResultStatus from "../pages/TechnicalManager/TM_RAResultStatus"
 import ParticularUserSRH from "../pages/SampleRegistration/ParticularUserSRH"
 import ChangePassword from "../pages/User/ChangePassword"
+import MainUI from "../pages/Admin/MainUI/MainUI"
+import AddGroup from "../pages/Admin/GroupRelated/AddGroup"
+import AddTypeOfTesting from "../pages/Admin/GroupRelated/AddTypeOfTesting"
+import AddTests from "../pages/Admin/GroupRelated/AddTests"
 
 const router = createBrowserRouter([
     {
@@ -109,7 +113,22 @@ const router = createBrowserRouter([
         path:"/Analyst/Home",
         element:<AnalystHome/>
     },
-
+    {
+        path: "/Admin/Home",
+        element:<MainUI /> ,
+    },
+    {
+        path: "/Admin/Group/AddGroup",
+        element:<AddGroup /> ,
+    },
+    {
+        path: "/Admin/Group/AddTypeOfTesting",
+        element:<AddTypeOfTesting /> ,
+    },
+    {
+        path: "/Admin/Group/AddTests",
+        element:<AddTests/> ,
+    },
 ])
 
 export default router
