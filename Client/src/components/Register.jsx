@@ -1,6 +1,5 @@
 
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import toast from "react-hot-toast";
 import { useDispatch,useSelector } from "react-redux";
 import { getGroupData } from "../Redux/Slices/GroupSilce";
@@ -85,17 +84,18 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     e.stopPropagation();
-    const Name = e.target[0].value
-    const Quantity = e.target[1].value
-    const Storage_Condititons = e.target[2].value
-    const Registration_Number = e.target[3].value
-    const Customer_Code = e.target[4].value
-    const Packing_Type = e.target[5].value
-    const Date = e.target[6].value;
-    const Treatment_Type = e.target[7].value
-    const Nature_Of_Sample = e.target[8].value
-    const Remarks=e.target[9].value
-    const Group = e.target[10].value
+    const formData = new FormData(e.target);//To extract the data from the form
+    const Name = formData.get("Name");
+    const Quantity = formData.get("Quantity");
+    const Storage_Condititons = formData.get("Storage_Conditions");
+    const Registration_Number = formData.get("Registration_Number");
+    const Customer_Code = formData.get("Customer_Code");
+    const Packing_Type = formData.get("Packing_Type");
+    const Date = formData.get("Date");
+    const Treatment_Type = formData.get("Treatment_Type");
+    const Nature_Of_Sample = formData.get("Nature_Of_Sample");
+    const Remarks=formData.get("Remarks");
+    const Group = formData.get("Group");
     const Type_Of_Testing = [];
     Object.keys(selectedAnalysis).map((key) => {
       if (selectedAnalysis[key] === true) { Type_Of_Testing.push(key) }
@@ -134,11 +134,12 @@ const Register = () => {
       "Tests":Tests,
       "ID":userData._id
     }
+    console.log(data)
     try {
       const response = await dispatch(registerSample(data));
       if (response?.payload?.success) {
         toast.success('Sample Registered Successfully');
-        navigate('/UserInterface/SampleRegisterOptions')
+        navigate('/Sample Registration/Home')
       }
     } catch (error) {
         toast.error(error)
