@@ -5,5 +5,5 @@ const router=Router()
 
 router.post('/add',GroupAdd)
 router.get('/data',GroupData)
-router.get('/update',GroupUpdate)
+router.put('/update',GroupUpdate)
 export default router;
