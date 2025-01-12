@@ -5,7 +5,6 @@ import TM_SampleAllotment from "../pages/TechnicalManager/TM_SampleAllotment"
 import SampleViewMore from "../components/SampleViewMore"
 import Login from "../pages/User/Login"
 import UserInterface from "../pages/User/UserInterface"
-import AllSamplesHistory from "../pages/SampleRegistration/AllSamplesHistory"
 import FullHistory from "../pages/SampleRegistration/FullHistory"
 import UserSampleRegister from "../pages/User/UserSampleRegister"
 import AN_PendingSamplesViewMore from "../pages/Analyst/AN_PendingSamplesViewMore"
@@ -25,6 +24,7 @@ import AddTypeOfTesting from "../pages/Admin/GroupRelated/AddTypeOfTesting"
 import AddTests from "../pages/Admin/GroupRelated/AddTests"
 import UserList from "../pages/Admin/UserRelated/UserList"
 import UserListViewMore from "../pages/Admin/UserRelated/UserListViewMore"
+import AllSamplesHistory from "../pages/Admin/Sample Related/AllSamplesHistory"
 
 const router = createBrowserRouter([
     {
@@ -88,14 +88,6 @@ const router = createBrowserRouter([
         element:<FullHistory/> ,
     },
     {
-        path: "/AllSampleHistory",
-        element:<AllSamplesHistory/> ,
-    },
-    {
-        path: "/AllSampleHistory/View_More",
-        element:<FullHistory/> ,
-    },
-    {
         path:"/AN_PendingSample/ViewMore",
         element:<AN_PendingSamplesViewMore/>
     },
@@ -138,6 +130,14 @@ const router = createBrowserRouter([
     {
         path: "/Admin/User/UserList/View_More",
         element:<UserListViewMore/> ,
+    },
+    {
+        path: "/Admin/Sample/AllSampleHistory",
+        element:<AllSamplesHistory/> ,
+    },
+    {
+        path: "/Admin/Sample/AllSampleHistory/View_More",
+        element:<FullHistory/> ,
     },
 
 ])
