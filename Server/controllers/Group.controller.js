@@ -5,7 +5,7 @@ const GroupAdd=async(req,res,next)=>{
     const {Group_Name,Type_Of_Testing,Tests}=req.body;
     if(Group_Name && !Type_Of_Testing && !Tests){
         const foundGroup=await Group.find({Group_Name});
-        if(foundGroup){
+        if(foundGroup.length>0){
             return next(new AppError('Group already exists',400))
         }
         const group=await Group.create({
