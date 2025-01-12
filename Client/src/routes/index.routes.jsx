@@ -23,6 +23,8 @@ import MainUI from "../pages/Admin/MainUI/MainUI"
 import AddGroup from "../pages/Admin/GroupRelated/AddGroup"
 import AddTypeOfTesting from "../pages/Admin/GroupRelated/AddTypeOfTesting"
 import AddTests from "../pages/Admin/GroupRelated/AddTests"
+import UserList from "../pages/Admin/UserRelated/UserList"
+import UserListViewMore from "../pages/Admin/UserRelated/UserListViewMore"
 
 const router = createBrowserRouter([
     {
@@ -129,6 +131,15 @@ const router = createBrowserRouter([
         path: "/Admin/Group/AddTests",
         element:<AddTests/> ,
     },
+    {
+        path: "/Admin/User/UserList",
+        element:<UserList/> ,
+    },
+    {
+        path: "/Admin/User/UserList/View_More",
+        element:<UserListViewMore/> ,
+    },
+
 ])
 
 export default router
