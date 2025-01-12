@@ -13,14 +13,13 @@ const app=express();
 app.use(cors({
     origin:'http://localhost:5173',
     methods: 'GET,PUT,HEAD,PATCH,POST,DELETE',
-    credential:true,
+    credentials:true,
 }))
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}));
 app.use(morgan('dev'));
 app.use(cookieParser());
-app.use(cors());
 
 //lims main routes
 app.use('/api/v1/Sample',sampleRoutes);
