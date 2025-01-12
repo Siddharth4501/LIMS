@@ -52,7 +52,7 @@ const Login=async(req,res,next)=>{
         }
         const token=await user.generateJWTToken();
         user.password=undefined
-        
+
         res.cookie('token',token,cookieOptions);
         console.log(token,"tww")
         res.status(201).json({
