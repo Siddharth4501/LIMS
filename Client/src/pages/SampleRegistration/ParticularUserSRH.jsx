@@ -31,7 +31,7 @@ const ParticularUserSRH = () => {
         <div className='w-2/5'><button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Sample Registration/Home')}>Back</button></div>
       </div>
       <br /><br />
-      <div className='w-full'>
+      <div className='w-full bg-slate-200 p-4'>
           <input type="text" className='w-1/2 border border-blue-800 border-2 rounded h-8 pl-2 flex mx-auto' value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Search For A Particular User...' />
       </div>
       <br /><br />
