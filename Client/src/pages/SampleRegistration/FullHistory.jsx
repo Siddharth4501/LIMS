@@ -26,7 +26,7 @@ const FullHistory = () => {
     const handleBackNavigation=()=>{
       console.log("first")
       if(state.difference==='All Sample History'){
-        navigate('/AllSampleHistory')
+        navigate('/Admin/Sample/AllSampleHistory')
       }
       else if(state.difference==='ParticularUser Sample History'){
         navigate('/SampleRegistrationUser/SampleHistory')

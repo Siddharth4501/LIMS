@@ -61,7 +61,7 @@ const ChangePassword = () => {
     {/* forget password card */}
     <form
         onSubmit={handleFormSubmit}
-        className="flex flex-col justify-center gap-6 rounded-lg p-4 text-white w-80 h-[26rem] shadow-[0_0_10px_black] bg-slate-600"
+        className="flex flex-col justify-center gap-6 rounded-lg p-4 w-80 h-[26rem] shadow-[0_0_5px_black] border border-slate-700 border-2 bg-slate-400"
     >
         <h1 className="text-center text-2xl font-bold">Change Password</h1>
 
@@ -75,7 +75,7 @@ const ChangePassword = () => {
             name="oldPassword"
             id="oldPassword"
             placeholder="Enter your old password"
-            className="bg-transparent px-2 py-1 border"
+            className="bg-slate-200 px-2 py-1 border border-black border-2"
             value={userPassword.oldPassword}
             onChange={handlePasswordChange}
         />
@@ -91,7 +91,7 @@ const ChangePassword = () => {
             name="newPassword"
             id="newPassword"
             placeholder="Enter your new password"
-            className="bg-transparent px-2 py-1 border"
+            className="bg-slate-200 px-2 py-1 border border-black border-2"
             value={userPassword.newPassword}
             onChange={handlePasswordChange}
         />
@@ -99,12 +99,12 @@ const ChangePassword = () => {
 
         <Link to={"/"}>
         <p className="link text-accent cursor-pointer flex items-center justify-center w-full gap-2">
-            <AiOutlineArrowLeft /> Back to Profile
+            <AiOutlineArrowLeft /> <span className="font-semibold underline">Back to Profile</span>
         </p>
         </Link>
 
         <button
-        className="w-full bg-yellow-600 hover:bg-yellow-700 transition-all ease-in-out duration-300 rounded-sm py-2 font-semibold text-lg cursor-pointer"
+        className="w-full bg-yellow-600 hover:bg-yellow-700 transition-all ease-in-out duration-300 rounded-sm py-1 font-semibold text-lg cursor-pointer"
         type="submit"
         >
         Change Password
