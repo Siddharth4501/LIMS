@@ -33,7 +33,7 @@ const UserInterface = () => {
     return (
         <div className="w-screen bg-no-repeat h-screen">
 
-            <div className="flex items-center justify-between p-4 shadow-md bg-slate-300">
+            <div className="flex items-center justify-between p-4 shadow-md bg-slate-400 border border-2 border-slate-700">
 
                 <div className="flex items-center">
                     <img src=" /src/assets/images/DRDO-Logo1.jpg" alt="Logo"
@@ -54,7 +54,6 @@ const UserInterface = () => {
                             }
                         </select>
                     </div>
-
                     <div className='mx-6'>
                         <select name="" id="" className="p-2 rounded-lg border border-blue-800 bg-slate-100" onChange={handleLogout}>
                             <option value={userData.fullName}>{userData.fullName.toUpperCase()}</option>
