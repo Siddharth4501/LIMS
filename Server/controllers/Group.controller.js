@@ -51,18 +51,6 @@ const GroupUpdate = async (req, res, next) => {
                message: 'Type Of Testing Updated Successfully',
            })
         }
-        // else {
-        //     for (const element of TypeOfTesting) {
-        //         const find = group.Type_Of_Testing.some((item) => item === element)
-        //         console.log("find", find, element)
-        //         if (find) {
-        //             return next(new AppError(`Type Of Testing "${element}" already exists`, 400));
-        //         }
-        //         else {
-        //             group.Type_Of_Testing.push(element);
-        //         }
-        //     };
-        // }
         else {
             for (const element of TypeOfTesting) {
                 const exists = group.Type_Of_Testing.includes(element);
@@ -72,7 +60,7 @@ const GroupUpdate = async (req, res, next) => {
             }
             // If no duplicates were found, add all elements to the array
             group.Type_Of_Testing.push(...TypeOfTesting);
-            group.save();
+            group.save();
             res.status(200).json({
                success: true,
                message: 'Type Of Testing Updated Successfully',
@@ -94,6 +82,7 @@ const GroupUpdate = async (req, res, next) => {
             })
         }
         else{
+            //The variable find returns the object which matches the specific condition and the function some returns true or false 
             const find = group.Tests.find((item) => {
                 return Tests.some((data) => {
                     return data.Type_Of_Testing === item.Type_Of_Testing && data.Test === item.Test;
@@ -101,20 +90,12 @@ const GroupUpdate = async (req, res, next) => {
             });
             
             if (find) {
-                console.log("ert")
+                console.log("ert",find)
                 return next(new AppError(`Test "${find.Test}" Already Exist`, 400));
             } 
             else {
-                console.log("ert2")
-                // Add only the non-duplicate elements from Tests to group.Tests
-                const filteredTests = Tests.filter((data) => {
-                    return !group.Tests.some((item) => {
-                        return data.Type_Of_Testing === item.Type_Of_Testing && data.Test === item.Test;
-                    });
-                });
-            
-                // Push only the unique entries into group.Tests
-                group.Tests.push(...filteredTests);
+                console.log("ert2",find)
+                group.Tests.push(...Tests);
             }
             
             await group.save();
