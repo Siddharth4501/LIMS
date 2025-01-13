@@ -67,12 +67,12 @@ const AddTests = () => {
             <div className='w-3/5 text-3xl font-bold pr-24'><span className='float-right'>Add Tests</span></div>
             <div className='w-2/5'><button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Admin/Home')}>Back</button></div>
         </div>
-        <br /><br /><br />
+        <br /><br /><br /><br /><br />
         <div className='w-full'>
             <form className='flex flex-col w-1/2 min-h-96 mx-auto bg-slate-400 shadow-[0_0_6px_black] gap-5 justify-center px-10 rounded-md border-slate-700 border-[3px]' onSubmit={handleSumbit}>
                 <div className='flex '>
                     <label htmlFor="GroupName" className='w-1/3 text-lg font-semibold'>Group:</label>
-                    <select name="GroupName" id="" className='w-2/3 p-1 rounded-3xl' onChange={handleOnChange}>
+                    <select name="GroupName" id="" className='w-2/3 p-1 rounded-3xl border border-blue-700 border-2' onChange={handleOnChange}>
                         <option value="">Choose Group</option>
                         {
                             groupData.map((item)=>{
@@ -83,11 +83,11 @@ const AddTests = () => {
                 </div>
                 <div className='flex'>
                     <label htmlFor="" className='w-1/3 text-lg font-semibold'>Group ID:</label>
-                    <input type="text" disabled className='w-2/3 p-1 rounded-3xl' value={selectedGroupID} />
+                    <input type="text" disabled className='w-2/3 p-1 rounded-3xl border border-blue-700 border-2' value={selectedGroupID} />
                 </div>
                 <div className='flex'>
                     <label htmlFor="TypeOfTesting" className='w-1/3 text-lg font-semibold'>Enter Type Of Testing:</label>
-                    <select name="TypeOfTesting" id="" className='w-2/3 p-1 rounded-3xl' onChange={(e)=>setTypeOfTesting(e.target.value)}>
+                    <select name="TypeOfTesting" id="" className='w-2/3 p-1 rounded-3xl border border-blue-700 border-2' onChange={(e)=>setTypeOfTesting(e.target.value)}>
                         <option value="">Choose Type Of Testing</option>
                         {
                             groupData?.filter((item)=>item._id===selectedGroupID).map((data)=>{
@@ -106,13 +106,14 @@ const AddTests = () => {
                     {/* <input type="text" name='Tests' className='w-2/3 p-1 rounded-3xl' /> */}
                     <div className='w-2/3'>
                         {typeOfTests.map((field, index) => (
-                            <div key={`${field}-${index}`} className="mb-2  full">
+                            <div key={`${index}`} className="mb-2  full">
                                 <input
                                     type="text"
                                     name="TypeOfTesting"
+                                    placeholder='Enter Test Name'
                                     value={field.Test}
                                     onChange={(e) => handleInputChange(index, e)}
-                                    className="w-full p-1 rounded-3xl"
+                                    className="w-full p-1 rounded-3xl pl-4 font-semibold border-blue-700 border-2"
                                 /> 
                             </div>    
                             ))}
