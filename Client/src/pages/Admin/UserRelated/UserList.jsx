@@ -30,12 +30,12 @@ const UserList = () => {
     <div>
       <div className='w-full flex border bg-gray-300 p-5'>
         <div className='w-3/5 text-3xl font-bold pr-10'><span className='float-right'>Users List</span></div>
-        <div className='w-2/5'><button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Analyst/Home')}>Back</button></div>
+        <div className='w-2/5'><button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Admin/Home')}>Back</button></div>
       </div>
       <br /><br />
       <div className='flex w-full bg-slate-200 p-3'>
         <div className='w-1/2'>
-            <input type="text" className='w-1/2 border border-blue-800 border-2 rounded h-8 pl-2 ml-5' value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Search For A Particular User...' />
+            <input type="text" className='w-3/4 border border-blue-800 border-2 rounded h-8 pl-2 ml-5' value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Search For A Particular User...' />
         </div>
         <div className='w-1/2'>
             <button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right mr-4'>Add User</button>
