@@ -12,8 +12,8 @@ const UserListViewMore = () => {
             <div className='w-3/5 text-3xl font-bold pr-10'><span className='float-right'>Full Details Of User</span></div>
             <div className='w-2/5'><button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Admin/User/UserList')}>Back</button></div>
         </div>
-        <br /><br />
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <br />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-2">
           <div>
             <label className="block text-sm font-semibold mb-2">Full Name</label>
             <input
@@ -33,9 +33,10 @@ const UserListViewMore = () => {
               defaultValue={state.email}
               disabled={true}
             />
-          </div>
-          <div>
-            <label className="block text-sm font-semibold mb-2">ID</label>
+          </div>  
+        </div>
+        <div className='p-2'>
+            <label className="block text-sm font-semibold mb-2 mt-2">ID</label>
             <input
               type="text"
               name="UserID"
@@ -44,80 +45,8 @@ const UserListViewMore = () => {
               disabled={true}
             />
           </div>
-          <div>
-            <label className="block text-sm font-semibold mb-2">Password</label>
-            <input
-              type="string"
-              name="Registration_Number"
-              className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
-              defaultValue={state.password}
-              disabled={true}
-            />
-          </div>
-          {/* <div>
-            <label className="block text-sm font-semibold mb-2">Registration Number</label>
-            <input
-              type="number"
-              name="Registration_Number"
-              className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
-              defaultValue={state.Registration_Number}
-              disabled={true}
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-semibold mb-2">Customer Code</label>
-            <input
-              type="number"
-              name="Customer_Code"
-              className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
-              defaultValue={state.Customer_Code}
-              disabled={true}
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-semibold mb-2">Packing Type</label>
-            <select
-              name="Packing_Type"
-              className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
-            >
-              <option defaultValue={state.Packing_Type}>{state.Packing_Type}</option>
-              
-            </select>
-          </div>
-          <div>
-            <label className="block text-sm font-semibold mb-2">Date</label>
-            <input
-              type="text"
-              name="Date"
-              className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
-              defaultValue={state.Date.split('T')[0]}
-              disabled={true}
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-semibold mb-2">Treatment Type</label>
-            <input
-              type="text"
-              name="Treatment_Type"
-              className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
-              defaultValue={state.Treatment_Type}
-              disabled={true}
-            />
-          </div>
-          <div>
-          <label className="block text-sm font-semibold mb-2">Nature Of Sample</label>
-          <input
-            type="text"
-            name="Nature_Of_Sample"
-            className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
-            defaultValue={state.Nature_Of_Sample}
-            disabled={true}
-          />
-          </div> */}
-          
-        </div>
         <br />
-        <div>
+        <div className='p-2'>
           <table className='table-auto w-full border-collapse border border-gray-300'>
               <thead>
                 <tr className="bg-slate-200">
