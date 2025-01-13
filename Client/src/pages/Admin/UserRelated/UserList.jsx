@@ -29,7 +29,7 @@ const UserList = () => {
   return (
     <div>
       <div className='w-full flex border bg-gray-300 p-5'>
-        <div className='w-3/5 text-3xl font-bold pr-10'><span className='float-right'>Users List</span></div>
+        <div className='w-3/5 text-3xl font-bold pr-24'><span className='float-right'>Users List</span></div>
         <div className='w-2/5'><button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Admin/Home')}>Back</button></div>
       </div>
       <br /><br />
