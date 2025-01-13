@@ -10,9 +10,16 @@ const AddGroup = () => {
     const dispatch=useDispatch();
     const [groupFields, setGroupFields] = useState(['']);
     const handleAddMore = () => {
-        setGroupFields([...groupFields,'']);
+        if(groupFields.length>14){
+            toast.error("At Most 15 Groups Can Be Added At A Time")
+        }
+        else if(groupFields.length<=14 && groupFields.length>=0){
+            setGroupFields([...groupFields,'']);
+        }
     };
     const handleInputChange = (index, e) => {
+        e.preventDefault();
+        e.stopPropagation();
         const newFields = [...groupFields];
         newFields[index] = e.target.value;
         setGroupFields(newFields);
@@ -48,16 +55,16 @@ const AddGroup = () => {
                 <label htmlFor="GroupName" className='text-lg w-1/5'>Name:<span className='text-red-600'>*</span></label>
                 <div className='flex flex-col w-4/5'>
                     {groupFields.map((field, index) => (
-                        <div key={`${field}-${index}`} className="mb-2 w-full">
                             <input
                                 type="text"
+                                key={`${index}`}
                                 name="GroupName"
                                 placeholder='Enter Group Name'
                                 value={field}
                                 onChange={(e) => handleInputChange(index, e)}
-                                className="w-full pl-4 rounded-3xl h-8 border-blue-700 border-2"
+                                className="w-full mb-2 pl-4 font-semibold rounded-3xl h-8 border-blue-700 border-2"
                             />
-                        </div> 
+ 
                         ))}
                     </div>
                 {/* <input type="text" placeholder='Enter Group Name' name="GroupName" className='w-4/5 h-8 rounded-3xl pl-4 border-blue-700 border-2' /> */}
