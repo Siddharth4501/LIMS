@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom'
-import { getAllUserData } from '../../../Redux/Slices/AuthSlice';
+import { DeleteUserData, getAllUserData } from '../../../Redux/Slices/AuthSlice';
 import { all } from 'axios';
 import {  BsTrash } from "react-icons/bs";
+import toast from 'react-hot-toast';
 
 const UserList = () => {
     const {allUserData}=useSelector((state)=>state.auth);
@@ -26,14 +27,30 @@ const UserList = () => {
     useEffect(()=>{
         setAllUserDataState(allUserData);
     },[allUserData])
+
+    const handleDelete=async(userID)=>{
+      try {
+        console.log(userID,"judju")
+        const data={
+          "userID":userID
+        }
+        const response = await dispatch(DeleteUserData(data));
+        if (response?.payload?.success) {
+          toast.success('User Deleted Successfully');
+          navigate('/Admin/Home')
+        }
+      } catch (error) {
+          toast.error(error)
+      }
+    }
   return (
     <div>
-      <div className='w-full flex border bg-gray-300 p-5'>
+      <div className='w-full flex border bg-gray-300 border border-gray-700 shadow-[0_0_6px_black] border-[3px] p-5'>
         <div className='w-3/5 text-3xl font-bold pr-24'><span className='float-right'>Users List</span></div>
         <div className='w-2/5'><button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Admin/Home')}>Back</button></div>
       </div>
       <br /><br />
-      <div className='flex w-full bg-slate-200 p-3'>
+      <div className='flex w-full bg-slate-200 border border-indigo-700 border-[2px] p-3'>
         <div className='w-1/2'>
             <input type="text" className='w-3/4 border border-blue-800 border-2 rounded h-8 pl-2 ml-5' value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Search For A Particular User...' />
         </div>
@@ -53,12 +70,13 @@ const UserList = () => {
                     <th className="border border-gray-300 px-4 py-2 text-center">User ID</th>
                     <th className="border border-gray-300 px-4 py-2 text-center">Roles</th>
                     <th className="border border-gray-300 px-4 py-2 text-center">Expand</th>
+                    <th className="border border-gray-300 px-4 py-2 text-center">Status</th>
                     <th className="border border-gray-300 px-4 py-2 text-center">Delete</th>
                 </tr>
               </thead>
               <tbody>
               {
-                  allUserDataState?.map((item,index)=>{
+                  allUserDataState?.filter((data)=>data.Active_Status===true).map((item,index)=>{
                     const designation=[];
                     item.roles.map((role)=>{
                         designation.push(role.designation)
@@ -70,7 +88,8 @@ const UserList = () => {
                         <td className="border border-gray-300 px-4 py-2 text-center">{item._id}</td>
                         <td className="border border-gray-300 px-4 py-2 text-center">{designation.toString()}</td>
                         <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={()=>navigate('/Admin/User/UserList/View_More',{state:{...item}})}>View</button></td>
-                        <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800'><BsTrash /></button></td>
+                        {item.Active_Status==true?<td className="border border-gray-300 px-4 py-2 text-center"><span className='bg-green-600 px-6 py-1 text-white rounded-md'>Active</span></td>:<td className="border border-gray-300 px-4 py-2 text-center"><span className='bg-red-600 px-4 py-1 text-white rounded-md'>Deleted</span></td>}
+                        <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={()=>handleDelete(item._id)}><BsTrash /></button></td>
                       </tr>
                     )
                     })
@@ -91,12 +110,13 @@ const UserList = () => {
                     <th className="border border-gray-300 px-4 py-2 text-center">User ID</th>
                     <th className="border border-gray-300 px-4 py-2 text-center">Roles</th>
                     <th className="border border-gray-300 px-4 py-2 text-center">Expand</th>
+                    <th className="border border-gray-300 px-4 py-2 text-center">Status</th>
                     <th className="border border-gray-300 px-4 py-2 text-center">Delete</th>
                 </tr>
               </thead>
               <tbody>
               {
-                  filteredItems?.map((item,index)=>{
+                  filteredItems?.filter((data)=>data.Active_Status===true).map((item,index)=>{
                     const designation=[];
                     item.roles.map((role)=>{
                         designation.push(role.designation)
@@ -108,7 +128,8 @@ const UserList = () => {
                         <td className="border border-gray-300 px-4 py-2 text-center">{item._id}</td>
                         <td className="border border-gray-300 px-4 py-2 text-center">{designation.toString()}</td>
                         <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={()=>navigate('/Admin/User/UserList/View_More',{state:{...item}})}>View</button></td>
-                        <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800'><BsTrash /></button></td>
+                        {item.Active_Status==true?<td className="border border-gray-300 px-4 py-2 text-center"><span className='bg-green-600 px-6 py-1 text-white rounded-md'>Active</span></td>:<td className="border border-gray-300 px-4 py-2 text-center"><span className='bg-red-600 px-6 py-1 text-white rounded-md'>InActive</span></td>}
+                        <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={()=>handleDelete(item._id)}><BsTrash /></button></td>
                       </tr>
                     )
                     })
