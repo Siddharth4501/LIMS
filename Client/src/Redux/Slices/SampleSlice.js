@@ -60,6 +60,19 @@ export const getSampleData = createAsyncThunk("sample/data", async () => {
   
     })
 
+    export const DeleteSampleData=createAsyncThunk("Sample/Delete",async(data)=>{
+      try {
+        console.log(data,'fgh')
+        let res=axios.post("http://localhost:5001/api/v1/Sample/delete",data)//here await is not used purposely because of the following toast syntax
+    
+        // getting response resolved here
+        res = await res;//when promise is resolved it will give data
+        return res.data;
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
+    })
+
 export const sendTMData=createAsyncThunk("TMUser/send",async(data)=>{
   try{
     let res=axios.post("http://localhost:5001/api/v1/Sample/TM/data/save",data)
