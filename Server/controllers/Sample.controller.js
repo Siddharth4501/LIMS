@@ -29,7 +29,8 @@ const SampleRegister=async(req,res,next)=>{
             Type_Of_Testing,
             Tests,
             Registered_By:ID,
-            Sample_Status:"Forwarded To TM"
+            Sample_Status:"Forwarded To TM",
+            Active:true
         })
         if(!sample){
             return next(new AppError('Sample could not be created please try again',400))
@@ -58,6 +59,27 @@ const SampleData=async(req,res,next)=>{
             success:true,
             message:'All sample Registration Data Fetch Successfully',
             samples,
+        })
+    }
+    catch(e){
+        return next(new AppError(e.message,500))
+    }
+}
+
+const DeleteSampleData=async(req,res,next)=>{
+    try{
+        const { sampleID }=req.body;
+        console.log(sampleID)
+        const sample=await Sample.findById(sampleID)
+        if(!sample){
+            return next(new AppError('Error in deleting Sample data',400))
+        }
+        sample.Active=false;
+        sample.save();
+        res.status(201).json({
+            success:true,
+            message:`Sample ${sample.Name} Deleted Successfully`,
+            sample,
         })
     }
     catch(e){
@@ -222,5 +244,6 @@ export {
     SampleEdit,
     TMDataSave,
     TMANData,
-    TMANDataUpdate
+    TMANDataUpdate,
+    DeleteSampleData
 }

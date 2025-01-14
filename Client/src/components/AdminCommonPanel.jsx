@@ -1,4 +1,5 @@
 import React,{useState} from 'react'
+import { NavLink } from 'react-router-dom';
 
 const AdminCommonPanel = () => {
     const [openMenu, setOpenMenu] = useState('');
@@ -24,13 +25,13 @@ const AdminCommonPanel = () => {
                         </button>
                         {openMenu === 'masterList' && (
                             <div className="pl-6">
-                                <p className="p-2 hover:bg-gray-300">Group List</p>
-                                <p className="p-2 hover:bg-gray-300">Type of Testing List</p>
-                                <p className="p-2 hover:bg-gray-300">Tests List</p>
-                                <p className="p-2 hover:bg-gray-300">Method List</p>
-                                <p className="p-2 hover:bg-gray-300">Unit List</p>
-                                <p className="p-2 hover:bg-gray-300">Error List</p>
-                                <p className="p-2 hover:bg-gray-300">User List</p>
+                                <p className="p-2 hover:bg-gray-300"><NavLink to={'/Admin/Group/AddGroup'}>Group List</NavLink></p>
+                                <p className="p-2 hover:bg-gray-300"><NavLink to={'/Admin/Group/AddTypeOfTesting'}>Type Of Testing List</NavLink></p>
+                                <p className="p-2 hover:bg-gray-300"><NavLink to={'/Admin/Group/AddTests'}>Tests List</NavLink></p>
+                                <p className="p-2 hover:bg-gray-300"><NavLink to={'/Admin/Group/AddMethod'}>Method List</NavLink></p>
+                                <p className="p-2 hover:bg-gray-300"><NavLink to={'/Admin/Group/AddUnit'}>Unit List</NavLink></p>
+                                <p className="p-2 hover:bg-gray-300"><NavLink to={'/Admin/Error/AddError'}>Error List</NavLink></p>
+                                <p className="p-2 hover:bg-gray-300"><NavLink to={'/Admin/User/UserList'}>User List</NavLink></p>
                             </div>
                         )}
                     </div>
@@ -44,7 +45,7 @@ const AdminCommonPanel = () => {
                         </button>
                         {openMenu === 'sampleRegistration' && (
                             <div className="pl-6">
-                                <p className="p-2 hover:bg-gray-300">Registered Samples</p>
+                                <p className="p-2 hover:bg-gray-300"><NavLink to={'/Admin/Sample/AllSampleHistory'}>Registered Samples</NavLink></p>
                                 <p className="p-2 hover:bg-gray-300">Deleted Samples</p>
                             </div>
                         )}

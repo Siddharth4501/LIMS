@@ -25,7 +25,7 @@ const AllSamplesHistory = () => {
     <div className="">
       <div className='w-full flex border bg-gray-300 p-5'>
         <div className='w-3/5 text-3xl font-bold'><span className='float-right'>All Sample Registration Record</span></div>
-        <div className='w-2/5'><button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Admin/Sample/AllSampleHistory')}>Back</button></div>
+        <div className='w-2/5'><button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Admin/Home')}>Back</button></div>
       </div>
       <br /><br />
       <div className='w-full bg-slate-200 p-4'>
