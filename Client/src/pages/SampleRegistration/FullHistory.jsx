@@ -28,6 +28,9 @@ const FullHistory = () => {
       if(state.difference==='All Sample History'){
         navigate('/Admin/Sample/AllSampleHistory')
       }
+      if(state.difference==='All Deleted Sample History'){
+        navigate('/Admin/Sample/DeletedSampleHistory')
+      }
       else if(state.difference==='ParticularUser Sample History'){
         navigate('/SampleRegistrationUser/SampleHistory')
       }
