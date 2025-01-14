@@ -25,6 +25,9 @@ import AddTests from "../pages/Admin/GroupRelated/AddTests"
 import UserList from "../pages/Admin/UserRelated/UserList"
 import UserListViewMore from "../pages/Admin/UserRelated/UserListViewMore"
 import AllSamplesHistory from "../pages/Admin/Sample Related/AllSamplesHistory"
+import AllDeletedSamples from "../pages/Admin/Sample Related/AllDeletedSamples"
+import DeletedUserList from "../pages/Admin/UserRelated/DeletedUserList"
+import AddUser from "../pages/Admin/UserRelated/AddUser"
 
 const router = createBrowserRouter([
     {
@@ -128,8 +131,16 @@ const router = createBrowserRouter([
         element:<UserList/> ,
     },
     {
+        path: "/Admin/User/AddUser",
+        element:<AddUser/> ,
+    },
+    {
         path: "/Admin/User/UserList/View_More",
         element:<UserListViewMore/> ,
+    },
+    {
+        path: "/Admin/User/DeletedUserList",
+        element:<DeletedUserList/> ,
     },
     {
         path: "/Admin/Sample/AllSampleHistory",
@@ -137,6 +148,14 @@ const router = createBrowserRouter([
     },
     {
         path: "/Admin/Sample/AllSampleHistory/View_More",
+        element:<FullHistory/> ,
+    },
+    {
+        path: "/Admin/Sample/DeletedSampleHistory",
+        element:<AllDeletedSamples/> ,
+    },
+    {
+        path: "/Admin/Sample/DeletedSampleHistory/View_More",
         element:<FullHistory/> ,
     },
 
