@@ -36,8 +36,9 @@ const userSchema=new Schema({
             Assigned_Group:[]   
         },
     ],
-    RegS_Status:{
-        type:String,
+    Active_Status:{
+        type:Boolean,
+        default:true,
     },
     
 },{timeStamps:true})
