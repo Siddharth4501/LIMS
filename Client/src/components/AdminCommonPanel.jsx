@@ -32,6 +32,7 @@ const AdminCommonPanel = () => {
                                 <p className="p-2 hover:bg-gray-300"><NavLink to={'/Admin/Group/AddUnit'}>Unit List</NavLink></p>
                                 <p className="p-2 hover:bg-gray-300"><NavLink to={'/Admin/Error/AddError'}>Error List</NavLink></p>
                                 <p className="p-2 hover:bg-gray-300"><NavLink to={'/Admin/User/UserList'}>User List</NavLink></p>
+                                <p className="p-2 hover:bg-gray-300"><NavLink to={'/Admin/User/DeletedUserList'}>Deleted User List</NavLink></p>
                             </div>
                         )}
                     </div>
@@ -46,7 +47,7 @@ const AdminCommonPanel = () => {
                         {openMenu === 'sampleRegistration' && (
                             <div className="pl-6">
                                 <p className="p-2 hover:bg-gray-300"><NavLink to={'/Admin/Sample/AllSampleHistory'}>Registered Samples</NavLink></p>
-                                <p className="p-2 hover:bg-gray-300">Deleted Samples</p>
+                                <p className="p-2 hover:bg-gray-300"><NavLink to={'/Admin/Sample/DeletedSampleHistory'}>Deleted Samples</NavLink></p>
                             </div>
                         )}
                     </div>
