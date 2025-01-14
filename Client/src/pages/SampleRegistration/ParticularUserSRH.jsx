@@ -26,13 +26,13 @@ const ParticularUserSRH = () => {
     }, [query]);
   return (
     <div className="">
-      <div className='w-full flex border bg-gray-300 p-5'>
+      <div className='w-full flex border bg-gray-300 border border-slate-700 border-[3px] shadow-[0_0_6px_black] p-5'>
         <div className='w-3/5 text-3xl font-bold'><span className='float-right'>Sample Registration Record</span></div>
         <div className='w-2/5'><button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Sample Registration/Home')}>Back</button></div>
       </div>
       <br /><br />
-      <div className='w-full bg-slate-200 p-4'>
-          <input type="text" className='w-1/2 border border-blue-800 border-2 rounded h-8 pl-2 flex mx-auto' value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Search For A Particular User...' />
+      <div className='w-full bg-slate-200 border border-indigo-700 border-[2px] p-4'>
+          <input type="text" className='w-1/2 border border-blue-800 border-2 rounded-md h-8 p-5 flex mx-auto' value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Search For A Particular User...' />
       </div>
       <br /><br />
       {
@@ -48,11 +48,12 @@ const ParticularUserSRH = () => {
                   <th className="border border-gray-300 px-4 py-2 text-center">Expand
                       {/* <button className="text-blue-500 hover:text-blue-700 underline">Expand &gt;&gt; </button> */}
                   </th>
+                  <th className="border border-gray-300 px-4 py-2 text-center">Status</th>
                 </tr>
               </thead>
             {
               samples?.filter((item)=>item.Registered_By===userData._id).map((element,index)=>{
-                return <Samples key={element._id} difference='ParticularUser Sample History' data={element} index={index}/>
+                return <Samples key={`${'ParticularUser Sample History'}-${element._id}`} difference='ParticularUser Sample History' data={element} index={index}/>
               })
             }
             </table>
@@ -70,11 +71,12 @@ const ParticularUserSRH = () => {
                   <th className="border border-gray-300 px-4 py-2 text-center">Expand
                       {/* <button className="text-blue-500 hover:text-blue-700 underline">Expand &gt;&gt; </button> */}
                   </th>
+                  <th className="border border-gray-300 px-4 py-2 text-center">Status</th>
                 </tr>
               </thead>
             {
               filteredItems?.filter((item)=>item.Registered_By===userData._id).map((element,index)=>{
-                return <Samples key={element._id} difference='ParticularUser Sample History' data={element} index={index}/>
+                return <Samples key={`${'ParticularUser Sample History'}-${element._id}`} difference='ParticularUser Sample History' data={element} index={index}/>
               })
             }
             </table>
