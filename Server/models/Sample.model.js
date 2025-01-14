@@ -63,6 +63,10 @@ const sampleSchema=new Schema(
         Registered_By:{type: mongoose.Schema.Types.ObjectId, ref: "User"},  
         Sample_Status:{
             type:String,
+        },
+        Active:{
+            type:Boolean,
+            default:true,
         }          
     },
     {
