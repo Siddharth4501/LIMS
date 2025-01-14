@@ -128,6 +128,26 @@ const changePassword=async(req,res,next)=>{
 
 
 }
+const DeleteUserData=async(req,res,next)=>{
+    try{
+        const { userID }=req.body;
+        console.log(userID)
+        const user=await User.findById(userID)
+        if(!user){
+            return next(new AppError('Error in deleting user data',400))
+        }
+        user.Active_Status=false;
+        user.save();
+        res.status(201).json({
+            success:true,
+            message:`user ${user.fullName} Deleted Successfully`,
+            user
+        })
+    }
+    catch(e){
+        return next(new AppError(e.message,500))
+    }
+}
 
 export {
     Login,
@@ -135,4 +155,5 @@ export {
     Logout,
     UserData,
     changePassword,
+    DeleteUserData
 }
