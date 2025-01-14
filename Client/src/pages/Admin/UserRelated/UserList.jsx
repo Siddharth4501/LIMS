@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { DeleteUserData, getAllUserData } from '../../../Redux/Slices/AuthSlice';
 import { all } from 'axios';
 import { BsTrash } from "react-icons/bs";
+import toast from 'react-hot-toast';
 
 const UserList = () => {
   const { allUserData } = useSelector((state) => state.auth);
@@ -32,6 +33,21 @@ const UserList = () => {
   const handleCheckboxChange = (role) => {
     setSelectedRole(role);
   };
+  const handleDelete=async(userID)=>{
+    try {
+      console.log(userID,"judju")
+      const data={
+        "userID":userID
+      }
+      const response = await dispatch(DeleteUserData(data));
+      if (response?.payload?.success) {
+        toast.success('User Deleted Successfully');
+        navigate('/Admin/Home')
+      }
+    } catch (error) {
+        toast.error(error)
+    }
+  }
   return (
     <div>
       <div className='w-full flex border bg-gray-300 border border-gray-700 shadow-[0_0_6px_black] border-[3px] p-5'>
@@ -64,7 +80,7 @@ const UserList = () => {
               </thead>
               <tbody>
                 {
-                  allUserDataState?.map((item, index) => {
+                  allUserDataState?.filter((data)=>data.Active_Status===true).map((item, index) => {
                     const designation = [];
                     item.roles.map((role) => {
                       designation.push(role.designation)
@@ -76,7 +92,7 @@ const UserList = () => {
                         <td className="border border-gray-300 px-4 py-2 text-center">{item._id}</td>
                         <td className="border border-gray-300 px-4 py-2 text-center">{designation.toString()}</td>
                         <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td>
-                        <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800'><BsTrash /></button></td>
+                        <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={()=>handleDelete(item._id)}><BsTrash /></button></td>
                       </tr>
                     )
                   })
@@ -102,7 +118,7 @@ const UserList = () => {
               </thead>
               <tbody>
                 {
-                  filteredItems?.map((item, index) => {
+                  filteredItems?.filter((data)=>data.Active_Status===true).map((item, index) => {
                     const designation = [];
                     item.roles.map((role) => {
                       designation.push(role.designation)
@@ -114,7 +130,7 @@ const UserList = () => {
                         <td className="border border-gray-300 px-4 py-2 text-center">{item._id}</td>
                         <td className="border border-gray-300 px-4 py-2 text-center">{designation.toString()}</td>
                         <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td>
-                        <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800'><BsTrash /></button></td>
+                        <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={()=>handleDelete(item._id)}><BsTrash /></button></td>
                       </tr>
                     )
                   })
