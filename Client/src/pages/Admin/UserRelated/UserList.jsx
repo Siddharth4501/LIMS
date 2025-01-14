@@ -28,11 +28,6 @@ const UserList = () => {
     setAllUserDataState(allUserData);
   }, [allUserData])
 
-  const [selectedRole, setSelectedRole] = useState("");
-
-  const handleCheckboxChange = (role) => {
-    setSelectedRole(role);
-  };
   const handleDelete=async(userID)=>{
     try {
       console.log(userID,"judju")
@@ -57,10 +52,10 @@ const UserList = () => {
       <br /><br />
       <div className='flex w-full bg-slate-200 border border-indigo-700 border-[2px] p-3'>
         <div className='w-1/2'>
-            <input type="text" className='w-3/4 border border-blue-800 border-2 rounded h-8 pl-2 ml-5' value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Search For A Particular User...' />
+            <input type="text" className='w-3/4 border border-blue-800 border-2 rounded-md h-8 p-4 ml-5' value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Search For A Particular User...' />
         </div>
         <div className='w-1/2'>
-          <button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right mr-4'>Add User</button>
+          <button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right mr-4' onClick={()=>navigate('/Admin/User/AddUser')}>Add User</button>
         </div>
       </div>
       <br /><br />
@@ -141,108 +136,6 @@ const UserList = () => {
           </div>
         )
       }
-
-      <div className="p-6 bg-gray-100 flex items-center justify-center">
-        <div className="w-full bg-white shadow-lg rounded-lg p-8">
-          <div className="grid grid-cols-3 gap-6 mb-6">
-            <div>
-              <label htmlFor="userId" className="block text-sm font-medium text-gray-700">User ID</label>
-              <input
-                type="text"
-                id="userId"
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none"
-              />
-            </div>
-            <div>
-              <label htmlFor="userName" className="block text-sm font-medium text-gray-700">User Name</label>
-              <input
-                type="text"
-                id="userName"
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none"
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
-              <input
-                type="password"
-                id="password"
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none"
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-3 gap-6">
-            <div className="border border-gray-300 rounded-md p-4 bg-gray-50">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Role</label>
-              <div className="">
-                <div>
-                  <input type="checkbox" id="" className="mr-2" name="role" checked={selectedRole === "Technical Manager"}
-                    onChange={() => handleCheckboxChange("Technical Manager")} />
-                  <label htmlFor="" className="text-gray-700">Technical Manager</label>
-                </div>
-                <div>
-                  <input type="checkbox" id="" className="mr-2" name="role" checked={selectedRole === "Analyst"}
-                    onChange={() => handleCheckboxChange("Analyst")} />
-                  <label htmlFor="" className="text-gray-700">Analyst</label>
-                </div>
-                <div>
-                  <input type="checkbox" id="" className="mr-2" name="role" checked={selectedRole === "Sample Registration"}
-                    onChange={() => handleCheckboxChange("Sample Registration")} />
-                  <label htmlFor="" className="text-gray-700">Sample Registration</label>
-                </div>
-                <div>
-                  <input type="checkbox" id="" className="mr-2" name="role" checked={selectedRole === "Sample Review"}
-                    onChange={() => handleCheckboxChange("Sample Review")} />
-                  <label htmlFor="" className="text-gray-700">Sample Review</label>
-                </div>
-              </div>
-            </div>
-
-            <div className="border border-gray-300 rounded-md p-4 bg-gray-50">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Group</label>
-              <div className="">
-                <div>
-                  <input type="checkbox" id="" className="mr-2" />
-                  <label htmlFor="" className="text-gray-700">1</label>
-                </div>
-                <div>
-                  <input type="checkbox" id="" className="mr-2" />
-                  <label htmlFor="" className="text-gray-700">2</label>
-                </div>
-                <div>
-                  <input type="checkbox" id="" className="mr-2" />
-                  <label htmlFor="" className="text-gray-700">3</label>
-                </div>
-                <div>
-                  <input type="checkbox" id="" className="mr-2" />
-                  <label htmlFor="" className="text-gray-700">4</label>
-                </div>
-              </div>
-            </div>
-
-            <div className="border border-gray-300 rounded-md p-4 bg-gray-50">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Reporting To:</label>
-              <div className="">
-                <div>
-                  <input type="checkbox" id="" className="mr-2" />
-                  <label htmlFor="" className="text-gray-700">1</label>
-                </div>
-                <div>
-                  <input type="checkbox" id="" className="mr-2" />
-                  <label htmlFor="" className="text-gray-700">2</label>
-                </div>
-              </div>
-            </div>
-
-          </div>
-          
-          <div className="flex justify-center mt-6">
-            <button type="button" className="bg-indigo-700 text-white px-4 py-2 rounded-md hover:bg-indigo-800">
-              Submit
-            </button>
-          </div>
-        </div>
-      </div>
 
     </div>
   )
