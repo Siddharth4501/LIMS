@@ -41,12 +41,13 @@ const MainUI = () => {
                 </div>
             </div>
 
-            <div className='flex'>
+            <div className="flex">
                 {/* Left Panel  */}
                 <AdminCommonPanel />
 
                 {/* Right Section */}
-                <div className="bg-red-100 w-full">
+                {/* <div className="w-full bg-[url('/src/assets/images/AdminBG.jpg')] bg-center bg-no-repeat bg-contain"> */}
+                <div className='w-full bg-red-100'>
                 <h1 className='text-center text-3xl font-semibold pt-52'>Welcome Admin</h1>
                 </div>
             </div>
