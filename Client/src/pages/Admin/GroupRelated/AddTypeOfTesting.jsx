@@ -63,7 +63,7 @@ const AddTypeOfTesting = () => {
     <div>
         <div className='w-full flex border bg-gray-300 shadow-[0_0_6px_gray] border-gray-800 border-[3px] p-5'>
             <div className='w-3/5 text-3xl font-bold'><span className='float-right'>Add Type Of Testing</span></div>
-            <div className='w-2/5'><button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Admin/Home')}>Back</button></div>
+            <div className='w-2/5'><button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Admin/Group/TypeOfTestingList')}>Back</button></div>
         </div>
         <br /><br /><br /><br /><br />
         <div className='w-full'>
