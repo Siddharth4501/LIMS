@@ -28,6 +28,9 @@ import AllSamplesHistory from "../pages/Admin/Sample Related/AllSamplesHistory"
 import AllDeletedSamples from "../pages/Admin/Sample Related/AllDeletedSamples"
 import DeletedUserList from "../pages/Admin/UserRelated/DeletedUserList"
 import AddUser from "../pages/Admin/UserRelated/AddUser"
+import GroupList from "../pages/Admin/GroupRelated/GroupList"
+import TypeOfTestingList from "../pages/Admin/GroupRelated/TypeOfTestingList"
+import TestsList from "../pages/Admin/GroupRelated/TestsList"
 
 const router = createBrowserRouter([
     {
@@ -113,6 +116,18 @@ const router = createBrowserRouter([
     {
         path: "/Admin/Home",
         element:<MainUI /> ,
+    },
+    {
+        path: "/Admin/Group/GroupList",
+        element:<GroupList/> ,
+    },
+    {
+        path: "/Admin/Group/TypeOfTestingList",
+        element:<TypeOfTestingList/> ,
+    },
+    {
+        path: "/Admin/Group/TestsList",
+        element:<TestsList/> ,
     },
     {
         path: "/Admin/Group/AddGroup",
