@@ -25,9 +25,9 @@ const AdminCommonPanel = () => {
                         </button>
                         {openMenu === 'masterList' && (
                             <div className="pl-6">
-                                <p className="p-2 hover:bg-gray-300"><NavLink to={'/Admin/Group/AddGroup'}>Group List</NavLink></p>
-                                <p className="p-2 hover:bg-gray-300"><NavLink to={'/Admin/Group/AddTypeOfTesting'}>Type Of Testing List</NavLink></p>
-                                <p className="p-2 hover:bg-gray-300"><NavLink to={'/Admin/Group/AddTests'}>Tests List</NavLink></p>
+                                <p className="p-2 hover:bg-gray-300"><NavLink to={'/Admin/Group/GroupList'}>Group List</NavLink></p>
+                                <p className="p-2 hover:bg-gray-300"><NavLink to={'/Admin/Group/TypeOfTestingList'}>Type Of Testing List</NavLink></p>
+                                <p className="p-2 hover:bg-gray-300"><NavLink to={'/Admin/Group/TestsList'}>Tests List</NavLink></p>
                                 <p className="p-2 hover:bg-gray-300"><NavLink to={'/Admin/Group/AddMethod'}>Method List</NavLink></p>
                                 <p className="p-2 hover:bg-gray-300"><NavLink to={'/Admin/Group/AddUnit'}>Unit List</NavLink></p>
                                 <p className="p-2 hover:bg-gray-300"><NavLink to={'/Admin/Error/AddError'}>Error List</NavLink></p>
