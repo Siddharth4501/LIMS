@@ -30,7 +30,7 @@ const AN_CompletedSamples = () => {
     const found = TmAnData?.some((item) => {
       const userObj = item.AN_Status.find((analyst) => analyst.Analyst.ID === userData?._id);
       const filteredSample = sampleData?.filter(
-        (data) => data._id === item.Sample_Alloted && assignedGroups.includes(data.Group) && userObj
+        (data) => data._id === item.Sample_Alloted && data.Active===true && assignedGroups.includes(data.Group) && userObj
       );
       return filteredSample?.length > 0;
     });
@@ -73,7 +73,7 @@ const AN_CompletedSamples = () => {
           {
               TmAnData?.filter((data)=>data.TM_Status === 'Approved By TM').map((item,index)=>{
                 let userObj=item.AN_Status.find((analyst)=>analyst.Analyst.ID=== userData?._id)
-                let filteredSample=sampleData?.filter((data)=>data._id=== item.Sample_Alloted && assignedGroups.includes(data.Group) && userObj)
+                let filteredSample=sampleData?.filter((data)=>data._id=== item.Sample_Alloted && data.Active===true && assignedGroups.includes(data.Group) && userObj)
                 if(!filteredSample){
                   return null;
                 }

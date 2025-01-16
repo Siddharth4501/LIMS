@@ -34,7 +34,7 @@ const TM_ApprovedRes = () => {
   const [found,setFound]=useState(false)
   useEffect(()=>{
     TmAnData?.filter((data)=>data.TM_Status === 'Approved By TM').map((item)=>{
-      let filteredSample=sampleData?.filter((data)=>data._id== item.Sample_Alloted && assignedGroups.includes(data.Group))
+      let filteredSample=sampleData?.filter((data)=>data._id== item.Sample_Alloted && data.Active===true && assignedGroups.includes(data.Group))
       if(filteredSample.length>0){
         setFound(true);
       }
@@ -67,7 +67,7 @@ const TM_ApprovedRes = () => {
           <tbody>
             {
               TmAnData?.filter((data)=>data.TM_Status === 'Approved By TM').map((item,index)=>{
-                let filteredSample=sampleData?.filter((data)=>data._id== item.Sample_Alloted && assignedGroups.includes(data.Group))
+                let filteredSample=sampleData?.filter((data)=>data._id== item.Sample_Alloted && data.Active===true && assignedGroups.includes(data.Group))
                 if(filteredSample.length==0){
                   return null;
                 }

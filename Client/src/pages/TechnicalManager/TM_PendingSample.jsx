@@ -35,7 +35,7 @@ const TM_PendingSample = () => {
   const [found,setFound]=useState(false);
   useEffect(()=>{
     TmAnData?.filter((data)=>data.TM_Status === 'Pending At Analyst').map((item)=>{
-      let filteredSample=sampleData?.filter((data)=>data._id== item.Sample_Alloted && assignedGroups.includes(data.Group))
+      let filteredSample=sampleData?.filter((data)=>data._id== item.Sample_Alloted && data.Active===true && assignedGroups.includes(data.Group))
       if(filteredSample.length>0){
         setFound(true);
       }
@@ -67,11 +67,11 @@ const TM_PendingSample = () => {
           <tbody>
             {
               TmAnData?.filter((data)=>data.TM_Status === 'Pending At Analyst').map((item,index)=>{
-                let filteredSample=sampleData?.filter((data)=>data._id== item.Sample_Alloted && assignedGroups.includes(data.Group))
+                let filteredSample=sampleData?.filter((data)=>data._id== item.Sample_Alloted && data.Avtive===true && assignedGroups.includes(data.Group))
                 if(!filteredSample){
                   return null;
                 }
-                {console.log(fliteredSample,"kiuku")}
+                {console.log(filteredSample,"kiuku")}
                 return(
                   <tr className="hover:bg-gray-100" key={item._id}>
                     <td className="border border-gray-300 px-4 py-2 text-center">{index+1}</td>

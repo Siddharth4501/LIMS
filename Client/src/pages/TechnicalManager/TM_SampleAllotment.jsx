@@ -35,7 +35,7 @@ const TM_SampleAllotment = () => {
   console.log("lala",assignedGroups);
   const [found,setFound]=useState(false);
   useEffect(()=>{
-    const filteredSample=samples?.filter((data)=>data.Sample_Status === 'Forwarded To TM' && assignedGroups.includes(data.Group))
+    const filteredSample=samples?.filter((data)=>data.Sample_Status === 'Forwarded To TM' && data.Active===true && assignedGroups.includes(data.Group))
       if(filteredSample.length>0){
         setFound(true);
       }
@@ -43,7 +43,7 @@ const TM_SampleAllotment = () => {
   return (
     <div className="">
       <div className='w-full flex border bg-gray-300 p-5'>
-          <div className='w-3/5 text-3xl font-bold'><span className='float-right'>Pending Approval Page</span></div>
+          <div className='w-3/5 text-3xl font-bold'><span className='float-right'>Sample Allotment Page</span></div>
           <div className='w-2/5'><button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Technical Manager/Home')}>Back</button></div>
       </div>
       <br /><br />
@@ -62,7 +62,7 @@ const TM_SampleAllotment = () => {
                   </tr>
                 </thead>
               {
-                samples?.filter((data)=>data.Sample_Status === 'Forwarded To TM' && assignedGroups.includes(data.Group)).map((element,index)=>{
+                samples?.filter((data)=>data.Sample_Status === 'Forwarded To TM' && data.Active===true && assignedGroups.includes(data.Group)).map((element,index)=>{
                   return <Samples key={element._id} difference='Sample Allotment Datails' data={element} index={index}/>
                 })
               }
