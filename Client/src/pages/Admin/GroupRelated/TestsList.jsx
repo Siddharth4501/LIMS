@@ -42,6 +42,7 @@ const TestsList = () => {
     } catch (error) {
         toast.error(error)
     }}
+    let indexsCounter=1;
   return (
       <div>
           <div className='w-full flex border bg-gray-300 border border-gray-700 shadow-[0_0_6px_black] border-[3px] p-5'>
@@ -79,9 +80,10 @@ const TestsList = () => {
                                   allGroupDataState?.map((item, index) => {
                                       return (
                                           item.Tests?.map((data, i) => {
+                                            const currentIndex = indexsCounter++;
                                               return (
                                                   <tr className="hover:bg-gray-100" key={`${data.Test}-${i}`} >
-                                                      <td className="border border-gray-300 px-4 py-2 text-center">{i + 1}</td>
+                                                      <td className="border border-gray-300 px-4 py-2 text-center">{currentIndex}</td>
                                                       <td className="border border-gray-300 px-4 py-2 text-center">{data.Test}</td>
                                                       <td className="border border-gray-300 px-4 py-2 text-center">{data.Type_Of_Testing}</td>
                                                       <td className="border border-gray-300 px-4 py-2 text-center">{item._id}</td>

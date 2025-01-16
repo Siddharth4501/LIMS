@@ -12,6 +12,7 @@ const TypeOfTestingList = () => {
   const [allGroupDataState, setAllGroupDataState] = useState([]);
   const [query, setQuery] = useState('');
   const [filteredItems, setFilteredItems] = useState([]);
+  // const [indexs,setIndexs]=useState(0)
   useEffect(() => {
     const filtered = allGroupDataState.filter(item =>
       item.Type_Of_Testing.some(data => data.toLowerCase().includes(query.toLowerCase()))
@@ -41,6 +42,7 @@ const TypeOfTestingList = () => {
     } catch (error) {
         toast.error(error)
     }}
+  let indexsCounter = 1;
   return (
     <div>
               <div className='w-full flex border bg-gray-300 border border-gray-700 shadow-[0_0_6px_black] border-[3px] p-5'>
@@ -74,12 +76,14 @@ const TypeOfTestingList = () => {
                       </thead>
                       <tbody>
                         {
+                          
                           allGroupDataState.map((item, index) => {
                             return(
                                     item.Type_Of_Testing.map((data,i)=>{
+                                      const currentIndex = indexsCounter++;
                                         return(
                                             <tr className="hover:bg-gray-100" key={`${data}-${i}`} >
-                                                <td className="border border-gray-300 px-4 py-2 text-center">{index + 1}</td>
+                                                <td className="border border-gray-300 px-4 py-2 text-center">{currentIndex}</td>
                                                 <td className="border border-gray-300 px-4 py-2 text-center">{data}</td>
                                                 <td className="border border-gray-300 px-4 py-2 text-center">{item._id}</td>
                                                 <td className="border border-gray-300 px-4 py-2 text-center">{item.Group_Name}</td>
@@ -118,9 +122,10 @@ const TypeOfTestingList = () => {
                                 item.Type_Of_Testing.filter((data) =>
                                     data.toLowerCase().includes(query.toLowerCase())
                                   ).map((TOT,i)=>{
+                                    const currentIndex = indexsCounter++;
                                         return(
                                             <tr className="hover:bg-gray-100" key={`${TOT}-${i}`} >
-                                                <td className="border border-gray-300 px-4 py-2 text-center">{index + 1}</td>
+                                                <td className="border border-gray-300 px-4 py-2 text-center">{currentIndex}</td>
                                                 <td className="border border-gray-300 px-4 py-2 text-center">{TOT}</td>
                                                 <td className="border border-gray-300 px-4 py-2 text-center">{item._id}</td>
                                                 <td className="border border-gray-300 px-4 py-2 text-center">{item.Group_Name}</td>
