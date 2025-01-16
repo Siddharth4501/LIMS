@@ -124,9 +124,10 @@ const TestsList = () => {
                                           item.Tests.filter((data) =>
                                               data.Test.toLowerCase().includes(query.toLowerCase())
                                           ).map((testObj, i) => {
+                                            const currentIndex = indexsCounter++;
                                               return (
                                                   <tr className="hover:bg-gray-100" key={`${testObj.Test}-${i}`} >
-                                                      <td className="border border-gray-300 px-4 py-2 text-center">{index + 1}</td>
+                                                      <td className="border border-gray-300 px-4 py-2 text-center">{currentIndex}</td>
                                                       <td className="border border-gray-300 px-4 py-2 text-center">{testObj.Test}</td>
                                                       <td className="border border-gray-300 px-4 py-2 text-center">{item._id}</td>
                                                       <td className="border border-gray-300 px-4 py-2 text-center">{item.Group_Name}</td>
