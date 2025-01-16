@@ -8,6 +8,26 @@ const initialState={
     allUserData:[]
 }
 
+// there is no need to make a reducer for the signup action because we dont neet to store anything in store ,we simply pefomt async operation so thunk is enough for it
+export const createAccount = createAsyncThunk("/auth/signup", async (data) => {
+  try {
+    let res = axios.post("http://localhost:5001/api/v1/user/register",data)
+    toast.promise(res, {
+      loading: "Wait! Creating your account",
+      success: (data) => {
+        return data?.data?.message;
+      },
+      error: "Failed to create account",
+    });
+
+    // getting response resolved here
+    res = await res;
+    return res.data;
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+  }
+});
+
 // function to handle login
 export const login = createAsyncThunk("auth/login", async (data) => {
     try {
