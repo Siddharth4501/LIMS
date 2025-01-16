@@ -33,7 +33,8 @@ const userSchema=new Schema({
     roles:[
         { 
             designation:String,
-            Assigned_Group:[]   
+            Assigned_Group:[],
+            Reporting_To:String   
         },
     ],
     Active_Status:{
