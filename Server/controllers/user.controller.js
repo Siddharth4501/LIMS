@@ -9,8 +9,7 @@ const cookieOptions={
 }
 
 const Register=async(req,res,next)=>{
-    const {fullName,email,password,roles,RegS_Status}=req.body
-
+    const {fullName,email,password,roles}=req.body
     if(!fullName || !email || !password || !roles){
         return next(new AppError("All fields are required",400));
     }
@@ -18,12 +17,13 @@ const Register=async(req,res,next)=>{
     if(userExist){
         return next(new AppError("User Already Exist",400))
     }
+    const Active_Status=true;
     const user=await User.create({
         fullName,
         email,
         password,
         roles,
-        RegS_Status
+        Active_Status
     });
     if(!user){
         return next(new AppError('User registration failed,please try again',400));
