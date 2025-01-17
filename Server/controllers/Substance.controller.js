@@ -30,8 +30,7 @@ const SubstanceAdd=async(req,res,next)=>{
                 Test_Name:'',
                 TestID:''
             }
-            const [Test_Name]=substance.Test_Name.split(",");
-            obj.Test_Name=Test_Name;
+            obj.Test_Name=substance.Test_Name;
             obj.TestID=substance.Test_ID
             const substanceInstance=await Substance.create({
                 Test:obj,
