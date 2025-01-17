@@ -21,24 +21,34 @@ const SubstanceData=async(req,res,next)=>{
 
 const SubstanceAdd=async(req,res,next)=>{
     try{
-        const {Substance_Name,Method_Of_Analysis,Unit_Of_Measurement}=req.body
-        if(!Substance_Name || !Method_Of_Analysis || !Unit_Of_Measurement){
+        const {Substance_Data,GroupID}=req.body
+        if(!Substance_Data.length || !GroupID){
             return next(new AppError('All fiels are required',400))
         }
-        const substance=await Substance.create({
-            Substance_Name,
-            Method_Of_Analysis,
-            Unit_Of_Measurement
+        Substance_Data.map(async(substance)=>{
+            let obj={
+                Test_Name:'',
+                TestID:''
+            }
+            const [Test_Name]=substance.Test_Name.split(",");
+            obj.Test_Name=Test_Name;
+            obj.TestID=substance.Test_ID
+            const substanceInstance=await Substance.create({
+                Test:obj,
+                GroupID,
+                MethodUnitList:substance.methodSection
+            })
+    
+            if(!substanceInstance){
+                return(new AppError('Substance could not be created ,please try again',400))
+            }
+            await substanceInstance.save()
+            
+            
         })
-
-        if(!substance){
-            return(new AppError('Substance could not be created ,please try again',400))
-        }
-        await substance.save()
         res.status(200).json({
             success:true,
             message:'Substance Data Added Successfully',   
-            substance,
         })
     }
     catch(e){
