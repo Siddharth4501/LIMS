@@ -2,20 +2,18 @@ import {model,Schema} from 'mongoose'
 
 const substanceSchema=new Schema(
     {
-        Substance_Name:{
-            type:String,
-            required:[true,'Substance Name is required'],
-            trim:true,
-        },
-
-        Method_Of_Testing:{
-            type:[String],
-            required:[true,'Method is required'],
-            trim:true,
-        },
-        Unit_Of_Measurement:[
+        Test:
             {
-                Method_Of_Analysis:String,
+                Test_Name:String,
+                TestID:String
+            },
+        GroupID:{
+            type:String,
+            trim:true,
+        },
+        MethodUnitList:[
+            {
+                Method:String,
                 Unit:String
             },
         ],  
