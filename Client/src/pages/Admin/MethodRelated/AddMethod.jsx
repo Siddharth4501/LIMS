@@ -45,14 +45,25 @@ const AddMethod = () => {
 
   // Function to update testSection values
   const updateTestSection = (index, key, value) => {
-    const [testName, testId] = value.split(",");
     setTestSection((prev) =>
       prev.map((test, i) =>
         i === index
           ? {
               ...test,
               [key]: value,
-              Test_ID:testId
+            }
+          : test
+      )
+    );
+  };
+  const updateTestIDSection = (index, key, value) => {
+    console.log("first",value)
+    setTestSection((prev) =>
+      prev.map((test, i) =>
+        i === index
+          ? {
+              ...test,
+              [key]: value,
             }
           : test
       )
@@ -149,26 +160,38 @@ const handleSubmit=async()=>{
         toast.error("Choose A Group");
         return
     }
-    testSection?.forEach((item)=>{
-        if(!item.Test_Name){
-            toast.error("Test Name Is Necessary");
-            return
+    let hasError = false;
+
+    testSection?.forEach((item,index) => {
+        if (!item.Test_Name) {
+            toast.error(`Section-${index+1} Test Name Is Necessary`);
+            hasError = true;
+            return; // Exit the current iteration of the outer loop
         }
-        if(!item.Test_ID){
-            toast.error("Test ID Is Necessary");
-            return
+        if (!item.Test_ID) {
+            toast.error(`Section-${index+1} Test ID Is Necessary`);
+            hasError = true;
+            return;
         }
-        item.methodSection?.forEach((data)=>{
-            if(!data.Method){
-                toast.error("Method Is Necessary");
-                return
+
+        item.methodSection?.forEach((data,i) => {
+            if (!data.Method) {
+                toast.error(`Section-${index+1} Line-${i+1} Method  Is Necessary`);
+                hasError = true;
+                return; // Exit the current iteration of the inner loop
             }
-            if(!data.Unit){
-                toast.error("Unit Is Necessary");
-                return
+            if (!data.Unit) {
+                toast.error(`Section-${index+1} Line-${i+1} Unit Is Necessary`);
+                hasError = true;
+                return;
             }
-        })
-    })
+        });
+
+        if (hasError) return; // Exit the outer loop if an error is found
+    });
+
+    if (hasError) return; // Exit the entire function if an error is found
+  
     const data={
         "Substance_Data":testSection,
         "GroupID":selectedGroupID
@@ -240,17 +263,30 @@ const handleDelete=async(userID)=>{
                     >
                     <div className="flex gap-4 mb-2">
                         {/* Test Name */}
-                        <div className="w-1/2">
+                        <div className="w-full">
                         <select
                             className="w-full border-2 border-blue-700 p-2"
                             value={test.Test_Name}
-                            onChange={(e) =>
-                            updateTestSection(
-                                testIndex,
-                                "Test_Name",
-                                e.target.value
-                            )
-                            }
+                            // onChange={(e) =>
+                            // updateTestSection(
+                            //     testIndex,
+                            //     "Test_Name",
+                            //     e.target.value,
+                            // )
+                            // }
+                            onChange={(e) => {
+                              const selectedTestName = e.target.value;
+                              const selectedTestOption = allGroupDataState
+                                  .filter((grp) => grp.Group_Name === selectedGroup)
+                                  .flatMap((group) => group.Tests)
+                                  .find((testOption) => testOption.Test === selectedTestName);
+                      
+                              // Update both Test_Name and Test_ID
+                              updateTestSection(testIndex, "Test_Name", selectedTestName);
+                              if (selectedTestOption) {
+                                  updateTestIDSection(testIndex, "Test_ID", selectedTestOption._id);
+                              }
+                          }}
                         >
                             <option value="">Select Test</option>
                             {allGroupDataState
@@ -262,21 +298,11 @@ const handleDelete=async(userID)=>{
                                 testOption.Test === test.Test_Name
                             )
                             .map((testOption) => (
-                                <option value={`${testOption.Test},${testOption._id}`} key={testOption._id}>
-                                {testOption.Test},{testOption._id}
+                                <option value={testOption.Test} key={testOption._id}>
+                                {testOption.Test}
                                 </option>
                             ))}
                         </select>
-                        </div>
-                        {/* Test ID */}
-                        <div className="w-1/2">
-                        <input
-                            type="text"
-                            placeholder="Test ID"
-                            value={test.Test_ID}
-                            disabled
-                            className="w-full border-2 border-blue-700 p-2"
-                        />
                         </div>
                     </div>
 
