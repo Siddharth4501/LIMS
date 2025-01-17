@@ -31,6 +31,8 @@ import AddUser from "../pages/Admin/UserRelated/AddUser"
 import GroupList from "../pages/Admin/GroupRelated/GroupList"
 import TypeOfTestingList from "../pages/Admin/GroupRelated/TypeOfTestingList"
 import TestsList from "../pages/Admin/GroupRelated/TestsList"
+import MethodList from "../pages/Admin/MethodRelated/MethodList"
+import AddMethod from "../pages/Admin/MethodRelated/AddMethod"
 
 const router = createBrowserRouter([
     {
@@ -172,6 +174,14 @@ const router = createBrowserRouter([
     {
         path: "/Admin/Sample/DeletedSampleHistory/View_More",
         element:<FullHistory/> ,
+    },
+    {
+        path: "/Admin/Substance/MethodList",
+        element:<MethodList/> ,
+    },
+    {
+        path: "/Admin/Substance/AddMethod",
+        element:<AddMethod/> ,
     },
 
 ])
