@@ -243,7 +243,7 @@ const AddUser = () => {
                                 id="userName"
                                 value={userName}
                                 onChange={handleNameChange}
-                                className="mt-1 block w-full p-2 border border-blue-500 border-2 rounded-md"
+                                className="mt-1 block w-full p-2 border-blue-500 border-2 rounded-md"
                             />
                             {errors.userName && <p className="text-red-500 text-sm">{errors.userName}</p>}
                         </div>
@@ -254,7 +254,7 @@ const AddUser = () => {
                                 id="userEmail"
                                 value={userEmail}
                                 onChange={handleEmailChange}
-                                className="mt-1 block w-full p-2 border border-blue-500 border-2 rounded-md"
+                                className="mt-1 block w-full p-2 border-blue-500 border-2 rounded-md"
                             />
                             {errors.userEmail && <p className="text-red-500 text-sm">{errors.userEmail}</p>}
                         </div>
@@ -265,13 +265,13 @@ const AddUser = () => {
                                 id="password"
                                 value={userPassword}
                                 onChange={handlePasswordChange}
-                                className="mt-1 block w-full p-2 border border-blue-500 border-2 rounded-md"
+                                className="mt-1 block w-full p-2 border-blue-500 border-2 rounded-md"
                             />
                             {errors.userPassword && <p className="text-red-500 text-sm">{errors.userPassword}</p>}
                         </div>
                     </div>
                     <div className="grid grid-cols-3 gap-6 mb-2">
-                        <div className="border border-blue-500 border-2 rounded-md p-4 bg-gray-50">
+                        <div className="border-blue-500 border-2 rounded-md p-4 bg-gray-50">
                             <label className="block text-sm font-medium text-gray-700 mb-2">Role</label>
                             <div>
                                 <input type="radio" id="" onChange={() => handleSRRSection('designation','Sample Registration')} className="mr-2" name="role" checked={SRRsection[0].designation === 'Sample Registration'}
@@ -279,14 +279,14 @@ const AddUser = () => {
                                 <label htmlFor="" className="text-gray-700">Sample Registration</label>
                             </div>
                         </div>
-                        <div className="border border-blue-500 border-2 rounded-md p-4 bg-gray-50">
+                        <div className="border-blue-500 border-2 rounded-md p-4 bg-gray-50">
                             <label className="block text-sm font-medium text-gray-700 mb-2">Group</label>
                             <div>
                                 <input type="radio" id="" onChange={() => handleSRRSection('Assigned_Group','All')} checked={SRRsection[0].Assigned_Group[0] === 'All'}  className="mr-2" />
                                 <label htmlFor="" className="text-gray-700">All</label>
                             </div>
                         </div>
-                        <div className="border border-blue-500 border-2 rounded-md p-4 bg-gray-50">
+                        <div className="border-blue-500 border-2 rounded-md p-4 bg-gray-50">
                             <label className="block text-sm font-medium text-gray-700 mb-2">Reporting To:</label>
                             <div className="">
                                 <div>
@@ -299,7 +299,7 @@ const AddUser = () => {
                     {sections.map((section, i) => (
                         <div className="grid grid-cols-3 gap-6 mb-4" key={i}>
                             {/* Role Section */}
-                            <div className="border border-blue-500 border-2 rounded-md p-4 bg-gray-50">
+                            <div className="border-blue-500 border-2 rounded-md p-4 bg-gray-50">
                                 <label className="block text-sm font-medium text-gray-700 mb-2">
                                     Role
                                 </label>
@@ -327,7 +327,7 @@ const AddUser = () => {
                             </div>
 
                             {/* Group Section */}
-                            <div className="border border-blue-500 border-2 rounded-md p-4 bg-gray-50">
+                            <div className="border-blue-500 border-2 rounded-md p-4 bg-gray-50">
                                 <label className="block text-sm font-medium text-gray-700 mb-2">
                                     Group
                                 </label>
@@ -356,7 +356,7 @@ const AddUser = () => {
                             </div>
 
                             {/* Reporting To Section */}
-                            <div className="border border-blue-500 border-2 rounded-md p-4 bg-gray-50">
+                            <div className="border-blue-500 border-2 rounded-md p-4 bg-gray-50">
                                 <label className="block text-sm font-medium text-gray-700 mb-2">
                                     Reporting To:
                                 </label>
