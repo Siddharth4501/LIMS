@@ -45,14 +45,14 @@ const UserList = () => {
   }
   return (
     <div>
-      <div className='w-full flex border bg-gray-300 border border-gray-700 shadow-[0_0_6px_black] border-[3px] p-5'>
+      <div className='w-full flex bg-gray-300 border-gray-700 shadow-[0_0_6px_black] border-[3px] p-5'>
         <div className='w-3/5 text-3xl font-bold pr-24'><span className='float-right'>Users List</span></div>
         <div className='w-2/5'><button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Admin/Home')}>Back</button></div>
       </div>
       <br /><br />
-      <div className='flex w-full bg-slate-200 border border-indigo-700 border-[2px] p-3'>
+      <div className='flex w-full bg-slate-200 border-indigo-700 border-[2px] p-3'>
         <div className='w-1/2'>
-            <input type="text" className='w-3/4 border border-blue-800 border-2 rounded-md h-8 p-4 ml-5' value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Search For A Particular User...' />
+            <input type="text" className='w-3/4 border-blue-800 border-2 rounded-md h-8 p-4 ml-5' value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Search For A Particular User...' />
         </div>
         <div className='w-1/2'>
           <button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right mr-4' onClick={()=>navigate('/Admin/User/AddUser')}>Add User</button>
