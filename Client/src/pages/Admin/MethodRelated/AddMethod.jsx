@@ -130,23 +130,27 @@ const AddMethod = () => {
 
   // Remove a test section
   const removeTestSection = (index) => {
-    setTestSection((prev) => prev.filter((_, i) => i !== index));
+    if(index>0){
+      setTestSection((prev) => prev.filter((_, i) => i !== index));
+    }
   };
 
   // Remove a method from a specific test section
   const removeMethod = (testIndex, methodIndex) => {
-    setTestSection((prev) =>
-      prev.map((test, i) =>
-        i === testIndex
-          ? {
-              ...test,
-              methodSection: test.methodSection.filter(
-                (_, j) => j !== methodIndex
-              ),
-            }
-          : test
-      )
-    );
+    if(methodIndex>0){
+      setTestSection((prev) =>
+        prev.map((test, i) =>
+          i === testIndex
+            ? {
+                ...test,
+                methodSection: test.methodSection.filter(
+                  (_, j) => j !== methodIndex
+                ),
+              }
+            : test
+        )
+      );
+    }
   };
 
   // Get all selected test names to exclude them from dropdowns
