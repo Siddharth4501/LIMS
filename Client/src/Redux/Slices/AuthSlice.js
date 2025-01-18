@@ -31,7 +31,9 @@ export const createAccount = createAsyncThunk("/auth/signup", async (data) => {
 // function to handle login
 export const login = createAsyncThunk("auth/login", async (data) => {
     try {
-      let res=axios.post("http://localhost:5001/api/v1/user/login",data)
+      let res=axios.post("http://localhost:5001/api/v1/user/login",data,{
+        withCredentials: true, // Include cookies
+      })
       await toast.promise(res, {
         loading: "Loading...",
         success: (data) => {
