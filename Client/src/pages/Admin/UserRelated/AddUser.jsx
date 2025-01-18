@@ -22,14 +22,11 @@ const AddUser = () => {
     });
 
     // Initial roles
-    const [allRoles] = useState(["Technical Manager", "Analyst", "Sample Review"]);
+    const [allRoles] = useState(["Technical Manager", "Analyst", "Sample Review","Sample Registration"]);
 
     // State for sections
     const [sections, setSections] = useState([
-        { designation: "", Assigned_Group: [], Reporting_To: "" },
-    ]);
-    const [SRRsection, setSSRSection] = useState([
-        { designation: "", Assigned_Group: [], Reporting_To: "" },
+        { designation: "", Assigned_Group: [], Reporting_To: "None" },
     ]);
 
     // Fetch group data on component mount
@@ -82,11 +79,9 @@ const AddUser = () => {
         return "";
     };
 
-    const validateSections = (sections,SRR_section) => {
+    const validateSections = (sections) => {
         const errors = [];
         sections.forEach((section, index) => {
-            if(SRR_section[0].designation ==='' && SRR_section[0].Assigned_Group.length===0){
-
                 if (!section.designation && !section.Assigned_Group.length) {
                     errors.push(`Section ${index + 1}: Both Designation and Group are required.`);
                 } else if (!section.designation) {
@@ -94,25 +89,6 @@ const AddUser = () => {
                 } else if (!section.Assigned_Group.length) {
                     errors.push(`Section ${index + 1}: Group is required.`);
                 }
-            }
-            else if(SRR_section[0].designation !=='' && SRR_section[0].Assigned_Group.length>0){
-                if (!section.designation ) {
-                    errors.push(`Section ${index + 1}: Designation is required.`);
-                } else if (!section.Assigned_Group.length) {
-                    errors.push(`Section ${index + 1}: Group is required.`);
-                }
-            }
-        });
-        return errors;
-    };
-    const validateSRRSection = (sections) => {
-        const errors = [];
-        sections.forEach((section, index) => {
-            if (section.designation !=='' && section.Assigned_Group.length===0) {
-                errors.push(`Section ${index}: Group is required.`);
-            } else if (section.designation ==='' && section.Assigned_Group.length>0) {
-                errors.push(`Section ${index}: Designation is required.`);
-            }
         });
         return errors;
     };
@@ -136,20 +112,12 @@ const AddUser = () => {
         setErrors((prev) => ({ ...prev, userPassword: validateUserPassword(value) }));
     };
 
-    // Handle SRR Section
-    const handleSRRSection = (field, value) => {
-        const updatedSRRSection = [...SRRsection];
-        if (field === "Assigned_Group") {
-            updatedSRRSection[0][field] = [value];
-        } else {
-            updatedSRRSection[0][field] = value;
-        }
-        setSSRSection(updatedSRRSection);
-    };
-
     // Handle roles and groups
     const handleRoleChange = (role, sectionIndex) => {
         const updatedSections = [...sections];
+        if (role==='Sample Registration'){
+            handleGroupChange("All",sectionIndex)
+        }
         updatedSections[sectionIndex].designation = role;
         setSections(updatedSections);
     };
@@ -167,7 +135,7 @@ const AddUser = () => {
     };
 
     const handleAddMore = () => {
-        setSections([...sections, { designation: "", Assigned_Group: [], Reporting_To: "" }]);
+        setSections([...sections, { designation: "", Assigned_Group: [], Reporting_To: "None" }]);
     };
 
     // Handle form submission
@@ -175,34 +143,21 @@ const AddUser = () => {
         const userNameError = validateUserName(userName);
         const userEmailError = validateUserEmail(userEmail);
         const userPasswordError = validateUserPassword(userPassword);
-        const sectionErrors = validateSections(sections,SRRsection);
-        const SRRsectionErrors = validateSRRSection(SRRsection);
+        const sectionErrors = validateSections(sections);
 
-        if (userNameError || userEmailError || userPasswordError || sectionErrors.length > 0 || SRRsectionErrors.length>0) {
+        if (userNameError || userEmailError || userPasswordError || sectionErrors.length > 0) {
             if (userNameError) toast.error(userNameError);
             if (userEmailError) toast.error(userEmailError);
             if (userPasswordError) toast.error(userPasswordError);
             sectionErrors.forEach((error) => toast.error(error));
-            SRRsectionErrors.forEach((error) => toast.error(error));
             return;
         }
-
-        let data = {};
-        if (SRRsection[0].designation !== "" && SRRsection[0].Assigned_Group.length > 0) {
-            data = {
-                fullName: userName,
-                email: userEmail,
-                password: userPassword,
-                roles: SRRsection.concat(sections),
-            };
-        } else {
-            data = {
+        const data = {
                 fullName: userName,
                 email: userEmail,
                 password: userPassword,
                 roles: sections,
             };
-        }
 
         try {
             const res = await dispatch(createAccount(data));
@@ -214,7 +169,7 @@ const AddUser = () => {
             toast.error(error?.message || "An error occurred.");
         }
     };
-
+    console.log(sections,"hell1");
     return (
         <div>
             {/* Header */}
@@ -270,36 +225,10 @@ const AddUser = () => {
                             {errors.userPassword && <p className="text-red-500 text-sm">{errors.userPassword}</p>}
                         </div>
                     </div>
-                    <div className="grid grid-cols-3 gap-6 mb-2">
-                        <div className="border border-blue-500 border-2 rounded-md p-4 bg-gray-50">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Role</label>
-                            <div>
-                                <input type="radio" id="" onChange={() => handleSRRSection('designation','Sample Registration')} className="mr-2" name="role" checked={SRRsection[0].designation === 'Sample Registration'}
-                                     />
-                                <label htmlFor="" className="text-gray-700">Sample Registration</label>
-                            </div>
-                        </div>
-                        <div className="border border-blue-500 border-2 rounded-md p-4 bg-gray-50">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Group</label>
-                            <div>
-                                <input type="radio" id="" onChange={() => handleSRRSection('Assigned_Group','All')} checked={SRRsection[0].Assigned_Group[0] === 'All'}  className="mr-2" />
-                                <label htmlFor="" className="text-gray-700">All</label>
-                            </div>
-                        </div>
-                        <div className="border border-blue-500 border-2 rounded-md p-4 bg-gray-50">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Reporting To:</label>
-                            <div className="">
-                                <div>
-                                    <input type="checkbox" id="" onChange={() => handleSRRSection('Reporting_To','Technical Manager')} checked={SRRsection[0].Reporting_To === 'Technical Manager'} className="mr-2" />
-                                    <label htmlFor="" className="text-gray-700">Technical Manager</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     {sections.map((section, i) => (
-                        <div className="grid grid-cols-3 gap-6 mb-4" key={i}>
+                        <div className="grid grid-cols-3 gap-6 mb-4 border-blue-500 border-2 rounded-md bg-gray-50" key={i}>
                             {/* Role Section */}
-                            <div className="border border-blue-500 border-2 rounded-md p-4 bg-gray-50">
+                            <div className="p-4 ">
                                 <label className="block text-sm font-medium text-gray-700 mb-2">
                                     Role
                                 </label>
@@ -327,46 +256,59 @@ const AddUser = () => {
                             </div>
 
                             {/* Group Section */}
-                            <div className="border border-blue-500 border-2 rounded-md p-4 bg-gray-50">
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Group
-                                </label>
-                                <div className={groupData.length > 4 ? "max-h-32 overflow-y-auto" : ""}>
-                                    {groupData.map((item) => (
-                                        <div key={item._id}>
-                                            <input
-                                                type="radio"
-                                                id={item.Group_Name}
-                                                name={`group-${i}`}
-                                                className="mr-2"
-                                                checked={
-                                                    sections[i].Assigned_Group[0] === item.Group_Name
-                                                }
-                                                onChange={() => handleGroupChange(item.Group_Name, i)}
-                                            />
-                                            <label
-                                                htmlFor={item.Group_Name}
-                                                className="text-gray-700"
-                                            >
-                                                {item.Group_Name}
-                                            </label>
+                            {
+                                section.designation==='Sample Registration'?(
+                                   <span className=""></span>        
+                                ):(
+                                    <div className="p-4">
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            Group
+                                        </label>
+                                        <div className={groupData.length > 4 ? "max-h-32 overflow-y-auto" : ""}>
+                                            {groupData.map((item) => (
+                                                <div key={item._id}>
+                                                    <input
+                                                        type="radio"
+                                                        id={item.Group_Name}
+                                                        name={`group-${i}`}
+                                                        className="mr-2"
+                                                        checked={
+                                                            sections[i].Assigned_Group[0] === item.Group_Name
+                                                        }
+                                                        onChange={() => handleGroupChange(item.Group_Name, i)}
+                                                    />
+                                                    <label
+                                                        htmlFor={item.Group_Name}
+                                                        className="text-gray-700"
+                                                    >
+                                                        {item.Group_Name}
+                                                    </label>
+                                                </div>
+                                            ))}
                                         </div>
-                                    ))}
-                                </div>
-                            </div>
+                                    </div>
+                                )
+                            }
 
                             {/* Reporting To Section */}
-                            <div className="border border-blue-500 border-2 rounded-md p-4 bg-gray-50">
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Reporting To:
-                                </label>
-                                <div>
-                                    <input type="checkbox" checked={
-                                            sections[i].Reporting_To === 'Technical Manager'
-                                        } onChange={() => handleRepToChange('Technical Manager', i)} className="mr-2" />
-                                    <label className="text-gray-700">Technical Manager</label>
-                                </div>
-                            </div>
+                            {
+                                section.designation==='Sample Review'?(
+                                    <div className="p-4">
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            Reporting To:
+                                        </label>
+                                        <div>
+                                            <input type="checkbox" checked={
+                                                    sections[i].Reporting_To === 'Technical Manager'
+                                                } onChange={() => handleRepToChange('Technical Manager', i)} className="mr-2" />
+                                            <label className="text-gray-700">Technical Manager</label>
+                                        </div>
+                                    </div>
+                                ):(
+                                    <span className="w-0"></span>
+                                )
+                            }
+                           
                         </div>
                     ))}
                     {
