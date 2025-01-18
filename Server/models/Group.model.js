@@ -8,7 +8,9 @@ const groupSchema=new Schema(
             required:[true,'Group Name is required'],
             trim:true,
         },
-
+        Group_Location_Number:{
+            type:Number,
+        },
         Type_Of_Testing:{
             type:[String],
             required:[true,'Type is required'],

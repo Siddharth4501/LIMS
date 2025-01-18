@@ -8,20 +8,24 @@ import AdminCommonPanel from '../../../components/AdminCommonPanel';
 const AddGroup = () => {
     const navigate=useNavigate();
     const dispatch=useDispatch();
-    const [groupFields, setGroupFields] = useState(['']);
+    const [groupFields, setGroupFields] = useState([{
+        "Group_Name":'',
+        "Group_Location_Number":0
+    }]);
     const handleAddMore = () => {
         if(groupFields.length>14){
             toast.error("At Most 15 Groups Can Be Added At A Time")
         }
         else if(groupFields.length<=14 && groupFields.length>=0){
-            setGroupFields([...groupFields,'']);
+            setGroupFields([...groupFields,{
+                "Group_Name":'',
+                "Group_Location_Number":0
+            }]);
         }
     };
-    const handleInputChange = (index, e) => {
-        e.preventDefault();
-        e.stopPropagation();
+    const handleInputChange = (index,field, value) => {
         const newFields = [...groupFields];
-        newFields[index] = e.target.value;
+        newFields[index][field] = value;
         setGroupFields(newFields);
     };
     const handleSumbit=async(e)=>{
@@ -55,15 +59,19 @@ const AddGroup = () => {
                 <label htmlFor="GroupName" className='text-lg w-1/5'>Name:<span className='text-red-600'>*</span></label>
                 <div className='flex flex-col w-4/5'>
                     {groupFields.map((field, index) => (
-                            <input
-                                type="text"
-                                key={`${index}`}
-                                name="GroupName"
+                            <div className='w-full' key={`${index}`}>
+                                <input
+                                type="text" 
+                                id={`GroupName-${index}`}
+                                name={`GroupName-${index}`}
                                 placeholder='Enter Group Name'
-                                value={field}
-                                onChange={(e) => handleInputChange(index, e)}
+                                value={field.Group_Name}
+                                onChange={(e) => handleInputChange(index,"Group_Name", e.target.value)}
                                 className="w-full mb-2 pl-4 font-semibold rounded-3xl h-8 border-blue-700 border-2"
-                            />
+                                />
+                                <input type="number" name={`Group_Location_Numbe-${index}`} id={`Group_Location_Numbe-${index}`} placeholder='Enter Group Location Number' className="w-full mb-2 pl-4 font-semibold rounded-3xl h-8 border-blue-700 border-2" onChange={(e) => handleInputChange(index,"Group_Location_Number", e.target.value)}/>
+                            </div>
+                            
  
                         ))}
                     </div>

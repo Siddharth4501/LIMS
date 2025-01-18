@@ -66,8 +66,8 @@ const GroupList = () => {
                       <th className="border border-gray-300 px-4 py-2 text-center">S.No.</th>
                       <th className="border border-gray-300 px-4 py-2 text-center">Group Name.</th>
                       <th className="border border-gray-300 px-4 py-2 text-center">Group ID</th>
-                      {/* <th className="border border-gray-300 px-4 py-2 text-center">Roles</th>
-                      <th className="border border-gray-300 px-4 py-2 text-center">Expand</th> */}
+                      <th className="border border-gray-300 px-4 py-2 text-center">Group Location No.</th>
+                      {/* <th className="border border-gray-300 px-4 py-2 text-center">Expand</th> */}
                       <th className="border border-gray-300 px-4 py-2 text-center">Delete</th>
                     </tr>
                   </thead>
@@ -79,6 +79,7 @@ const GroupList = () => {
                             <td className="border border-gray-300 px-4 py-2 text-center">{index + 1}</td>
                             <td className="border border-gray-300 px-4 py-2 text-center">{item.Group_Name}</td>
                             <td className="border border-gray-300 px-4 py-2 text-center">{item._id}</td>
+                            <td className="border border-gray-300 px-4 py-2 text-center">{item.Group_Location_Number}</td>
                             {/* <td className="border border-gray-300 px-4 py-2 text-center">{designation.toString()}</td>
                             <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td> */}
                             <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={()=>handleDelete(item._id)}><BsTrash /></button></td>
@@ -100,6 +101,7 @@ const GroupList = () => {
                       <th className="border border-gray-300 px-4 py-2 text-center">S.No.</th>
                       <th className="border border-gray-300 px-4 py-2 text-center">Group Name.</th>
                       <th className="border border-gray-300 px-4 py-2 text-center">Group ID</th>
+                      <th className="border border-gray-300 px-4 py-2 text-center">Group Location No.</th>
                       {/* <th className="border border-gray-300 px-4 py-2 text-center">Roles</th>
                       <th className="border border-gray-300 px-4 py-2 text-center">Expand</th> */}
                       <th className="border border-gray-300 px-4 py-2 text-center">Delete</th>
@@ -113,6 +115,7 @@ const GroupList = () => {
                             <td className="border border-gray-300 px-4 py-2 text-center">{index + 1}</td>
                             <td className="border border-gray-300 px-4 py-2 text-center">{item.Group_Name}</td>
                             <td className="border border-gray-300 px-4 py-2 text-center">{item._id}</td>
+                            <td className="border border-gray-300 px-4 py-2 text-center">{item.Group_Location_Number}</td>
                             {/* <td className="border border-gray-300 px-4 py-2 text-center">{designation.toString()}</td> */}
                             {/* <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td> */}
                             <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={()=>handleDelete(item._id)}><BsTrash /></button></td>

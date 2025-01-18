@@ -4,16 +4,18 @@ import AppError from "../utils/error.utils.js";
 const GroupAdd=async(req,res,next)=>{
     const {Group_Names,Type_Of_Testing,Tests}=req.body;
     if(Group_Names.length>0 && Type_Of_Testing.length==0 && Tests.length===0){
-        for (const Group_Name of Group_Names) {
-            const foundGroup=await Group.find({Group_Name});
-            console.log("find", foundGroup, Group_Name)
-            if (foundGroup.length>0) {
-                return next(new AppError(`Group "${Group_Name}" already exists`, 400));
+        for (const element of Group_Names) {
+            let Grp_Name=element.Group_Name;
+            const foundGroup=await Group.findOne({ Group_Name: Grp_Name });//returns an object
+            console.log("find", foundGroup, element.Group_Name)
+            if (foundGroup) {
+                return next(new AppError(`Group "${element.Group_Name}" already exists`, 400));
             }
         }
-        for(const Group_Name of Group_Names){
+        for(const element of Group_Names){
             const group = await Group.create({
-                Group_Name,
+                Group_Name:element.Group_Name,
+                Group_Location_Number:element.Group_Location_Number,
                 Type_Of_Testing,
                 Tests
             })

@@ -82,10 +82,6 @@ const AddTests = () => {
                     </select>
                 </div>
                 <div className='flex'>
-                    <label htmlFor="" className='w-1/3 text-lg font-semibold'>Group ID:</label>
-                    <input type="text" disabled className='w-2/3 p-1 rounded-3xl border border-blue-700 border-2' value={selectedGroupID} />
-                </div>
-                <div className='flex'>
                     <label htmlFor="TypeOfTesting" className='w-1/3 text-lg font-semibold'>Enter Type Of Testing:</label>
                     <select name="TypeOfTesting" id="" className='w-2/3 p-1 rounded-3xl border border-blue-700 border-2' onChange={(e)=>setTypeOfTesting(e.target.value)}>
                         <option value="">Choose Type Of Testing</option>

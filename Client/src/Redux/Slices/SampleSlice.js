@@ -27,7 +27,7 @@ export const registerSample=createAsyncThunk("Sample/register",async(data)=>{
 
   })
 
-// function to get Group Data
+// function to get Sample Data
 export const getSampleData = createAsyncThunk("sample/data", async () => {
     try {
       let res=axios.get("http://localhost:5001/api/v1/Sample/data")//here await is not used purposely because of the following toast syntax
