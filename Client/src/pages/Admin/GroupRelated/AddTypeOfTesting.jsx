@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import { getGroupData, updateGroupData } from '../../../Redux/Slices/GroupSilce';
 import toast from 'react-hot-toast';
+import AdminCommomNav from '../../../components/AdminCommomNav';
+import AdminCommonPanel from '../../../components/AdminCommonPanel';
 
 const AddTypeOfTesting = () => {
     const dispatch=useDispatch();
