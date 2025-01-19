@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { addGroupData } from '../../../Redux/Slices/GroupSilce';
 import toast from 'react-hot-toast';
-import AdminCommonPanel from '../../../components/AdminCommonPanel';
 
 const AddGroup = () => {
     const navigate=useNavigate();
@@ -55,7 +54,7 @@ const AddGroup = () => {
         <br /><br /><br /><br /><br /><br /><br /><br />
         <div>
         <form className='flex flex-col w-1/3 min-h-56 mx-auto bg-slate-400 gap-5 shadow-[0_0_6px_black] justify-center px-10 rounded-md border-slate-700 border-[3px]' onSubmit={handleSumbit}>
-            <div className='flex w-full'>
+            <div className='flex w-full pt-8'>
                 <label htmlFor="GroupName" className='text-lg w-1/5'>Name:<span className='text-red-600'>*</span></label>
                 <div className='flex flex-col w-4/5'>
                     {groupFields.map((field, index) => (
@@ -86,7 +85,7 @@ const AddGroup = () => {
                     Add More
                 </button>
             </div>
-            <div className='w-full flex justify-center'>
+            <div className='w-full flex justify-center pb-8'>
                 <button type="submit" className='px-6 py-1 text-white bg-indigo-700 rounded-md hover:bg-indigo-900'>Submit</button>
             </div>
         </form>
