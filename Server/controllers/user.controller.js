@@ -125,8 +125,6 @@ const changePassword=async(req,res,next)=>{
         success:true,
         message:'Password changed successfully!'
     })
-
-
 }
 const DeleteUserData=async(req,res,next)=>{
     try{
