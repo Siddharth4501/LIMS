@@ -4,9 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { getGroupData } from '../../../Redux/Slices/GroupSilce';
 import { BsTrash } from "react-icons/bs";
 import toast from 'react-hot-toast';
+import AdminCommomNav from '../../../components/AdminCommomNav';
+import AdminCommonPanel from '../../../components/AdminCommonPanel';
+
 
 const GroupList = () => {
-    const { groupData } = useSelector((state) => state.group);
+  const { groupData } = useSelector((state) => state.group);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [allGroupDataState, setAllGroupDataState] = useState([]);
@@ -27,11 +30,11 @@ const GroupList = () => {
     setAllGroupDataState(groupData);
   }, [groupData])
 
-  const handleDelete=async(userID)=>{
+  const handleDelete = async (userID) => {
     try {
-      console.log(userID,"judju")
-      const data={
-        "groupID":groupID
+      console.log(userID, "judju")
+      const data = {
+        "groupID": groupID
       }
       const response = await dispatch(DeleteUserData(data));
       if (response?.payload?.success) {
@@ -39,21 +42,26 @@ const GroupList = () => {
         navigate('/Admin/Home')
       }
     } catch (error) {
-        toast.error(error)
-    }}
+      toast.error(error)
+    }
+  }
   return (
-    <div>
-          <div className='w-full flex border bg-gray-300 border border-gray-700 shadow-[0_0_6px_black] border-[3px] p-5'>
+    <>
+    <AdminCommomNav/>
+      <div className='flex'>
+        <AdminCommonPanel />
+        <div className='w-full'>
+          <div className='w-full flex bg-gray-300 border-gray-700 shadow-[0_0_6px_black] border-[3px] p-5'>
             <div className='w-3/5 text-3xl font-bold pr-24'><span className='float-right'>Group List</span></div>
-            <div className='w-2/5'><button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Admin/Home')}>Back</button></div>
+            <div className='w-2/5'><button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right' onClick={() => navigate('/Admin/Home')}>Back</button></div>
           </div>
           <br /><br />
-          <div className='flex w-full bg-slate-200 border border-indigo-700 border-[2px] p-3'>
+          <div className='flex w-full bg-slate-200 border-indigo-700 border-[2px] p-3'>
             <div className='w-1/2'>
-                <input type="text" className='w-3/4 border border-blue-800 border-2 rounded-md h-8 p-4 ml-5' value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Search For A Particular User...' />
+              <input type="text" className='w-3/4  border-blue-800 border-2 rounded-md h-8 p-4 ml-5' value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Search For A Particular User...' />
             </div>
             <div className='w-1/2'>
-              <button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right mr-4' onClick={()=>navigate('/Admin/Group/AddGroup')}>Add Group</button>
+              <button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right mr-4' onClick={() => navigate('/Admin/Group/AddGroup')}>Add Group</button>
             </div>
           </div>
           <br /><br />
@@ -82,12 +90,12 @@ const GroupList = () => {
                             <td className="border border-gray-300 px-4 py-2 text-center">{item.Group_Location_Number}</td>
                             {/* <td className="border border-gray-300 px-4 py-2 text-center">{designation.toString()}</td>
                             <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td> */}
-                            <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={()=>handleDelete(item._id)}><BsTrash /></button></td>
+                            <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id)}><BsTrash /></button></td>
                           </tr>
                         )
                       })
                     }
-    
+
                   </tbody>
                 </table>
               </div>
@@ -118,19 +126,21 @@ const GroupList = () => {
                             <td className="border border-gray-300 px-4 py-2 text-center">{item.Group_Location_Number}</td>
                             {/* <td className="border border-gray-300 px-4 py-2 text-center">{designation.toString()}</td> */}
                             {/* <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td> */}
-                            <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={()=>handleDelete(item._id)}><BsTrash /></button></td>
+                            <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id)}><BsTrash /></button></td>
                           </tr>
                         )
                       })
                     }
-    
+
                   </tbody>
                 </table>
               </div>
             )
           }
-    
+
         </div>
+      </div>
+    </>
   )
 }
 
