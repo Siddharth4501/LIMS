@@ -4,7 +4,6 @@ import User from '../models/user.model.js';
 
 const isLoggedIn=async(req,res,next)=>{
     const {token}=req.cookies;
-    console.log(req.cookies,"yuiop")
     if(!token){
         return next(new AppError('Unautheticated,please login again',400))
     }
