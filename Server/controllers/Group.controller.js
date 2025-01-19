@@ -12,6 +12,14 @@ const GroupAdd=async(req,res,next)=>{
                 return next(new AppError(`Group "${element.Group_Name}" already exists`, 400));
             }
         }
+        for (const element of Group_Names) {
+            let Grp_GLN=element.Group_Location_Number;
+            const foundGroup=await Group.findOne({ Group_Location_Number:Grp_GLN });//returns an object
+            console.log("find", foundGroup, element.Group_Location_Number)
+            if (foundGroup) {
+                return next(new AppError(`Group with Group Location Number "${element.Group_Location_Number}" already exists`, 400));
+            }
+        }
         for(const element of Group_Names){
             const group = await Group.create({
                 Group_Name:element.Group_Name,
