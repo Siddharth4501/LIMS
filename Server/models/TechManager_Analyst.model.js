@@ -14,14 +14,17 @@ const techManager_AnalystSchema=new Schema(
                   items: {
                     type: "object",
                     properties: {
-                      Test: { type: "string" },
+                      Test: {
+                        Test_Name:String,
+                        TestID:String,
+                      },
                       Method: { type: "string" },
                       Unit: { type: "string" },
                       Analyst: {
                         Name:String,
                         ID:{ type: mongoose.Schema.Types.ObjectId, ref: "User" }
                       },
-                      Result: { type: "number", default: 0 },
+                      Result: { type: "string", default: "0" },
                       StartDate: { type: "string", format: "date-time" },
                       EndDate: { type: "string", format: "date-time" },
                     },
