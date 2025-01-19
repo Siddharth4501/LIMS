@@ -11,7 +11,9 @@ const initialState={
 // there is no need to make a reducer for the signup action because we dont neet to store anything in store ,we simply pefomt async operation so thunk is enough for it
 export const createAccount = createAsyncThunk("/auth/signup", async (data) => {
   try {
-    let res = axios.post("http://localhost:5001/api/v1/user/register",data)
+    let res = axios.post("http://localhost:5001/api/v1/user/register",data,{
+      withCredentials: true, // Include cookies
+    })
     toast.promise(res, {
       loading: "Wait! Creating your account",
       success: (data) => {
@@ -54,7 +56,9 @@ export const login = createAsyncThunk("auth/login", async (data) => {
   export const logout = createAsyncThunk("auth/logout", async () => {
     try {
       
-      let res=axios.get("http://localhost:5001/api/v1/user/logout")
+      let res=axios.get("http://localhost:5001/api/v1/user/logout",{
+        withCredentials: true, // Include cookies
+      })
       await toast.promise(res, {
         loading: "Loading...",
         success: (data) => {
@@ -74,7 +78,9 @@ export const login = createAsyncThunk("auth/login", async (data) => {
 
   export const getAllUserData = createAsyncThunk("User/data", async () => {
     try {
-      let res=axios.get("http://localhost:5001/api/v1/user/data")//here await is not used purposely because of the following toast syntax
+      let res=axios.get("http://localhost:5001/api/v1/user/data",{
+        withCredentials: true, // Include cookies
+      })//here await is not used purposely because of the following toast syntax
   
       // getting response resolved here
       res = await res;//when promise is resolved it will give data
@@ -87,7 +93,9 @@ export const login = createAsyncThunk("auth/login", async (data) => {
   export const DeleteUserData=createAsyncThunk("User/Delete",async(data)=>{
     try {
       console.log(data,'fgh')
-      let res=axios.post("http://localhost:5001/api/v1/user/delete",data)//here await is not used purposely because of the following toast syntax
+      let res=axios.post("http://localhost:5001/api/v1/user/delete",data,{
+        withCredentials: true, // Include cookies
+      })//here await is not used purposely because of the following toast syntax
   
       // getting response resolved here
       res = await res;//when promise is resolved it will give data
@@ -102,7 +110,9 @@ export const changePassword = createAsyncThunk(
   "/auth/changePassword",
   async (userPassword) => {
     try {
-      let res = axios.post("http://localhost:5001/api/v1/user/Change-Password", userPassword);
+      let res = axios.post("http://localhost:5001/api/v1/user/Change-Password", userPassword,{
+        withCredentials: true, // Include cookies
+      });
 
       await toast.promise(res, {
         loading: "Loading...",
