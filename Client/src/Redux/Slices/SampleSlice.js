@@ -9,7 +9,9 @@ const initialState={
 
 export const registerSample=createAsyncThunk("Sample/register",async(data)=>{
   try{
-    let res=axios.post("http://localhost:5001/api/v1/Sample/register",data)
+    let res=axios.post("http://localhost:5001/api/v1/Sample/register",data,{
+      withCredentials: true, // Include cookies
+    })
     await toast.promise(res, {
       loading: "Loading...",
       success: (data) => {
@@ -30,7 +32,9 @@ export const registerSample=createAsyncThunk("Sample/register",async(data)=>{
 // function to get Sample Data
 export const getSampleData = createAsyncThunk("sample/data", async () => {
     try {
-      let res=axios.get("http://localhost:5001/api/v1/Sample/data")//here await is not used purposely because of the following toast syntax
+      let res=axios.get("http://localhost:5001/api/v1/Sample/data",{
+        withCredentials: true, // Include cookies
+      })//here await is not used purposely because of the following toast syntax
   
       // getting response resolved here
       res = await res;//when promise is resolved it will give data
@@ -42,7 +46,9 @@ export const getSampleData = createAsyncThunk("sample/data", async () => {
 
   export const updateSample=createAsyncThunk("Sample/Update",async(data)=>{
     try{
-      let res=axios.put("http://localhost:5001/api/v1/Sample/edit",data)
+      let res=axios.put("http://localhost:5001/api/v1/Sample/edit",data,{
+        withCredentials: true, // Include cookies
+      })
       await toast.promise(res, {
         loading: "Loading...",
         success: (data) => {
@@ -63,7 +69,9 @@ export const getSampleData = createAsyncThunk("sample/data", async () => {
     export const DeleteSampleData=createAsyncThunk("Sample/Delete",async(data)=>{
       try {
         console.log(data,'fgh')
-        let res=axios.post("http://localhost:5001/api/v1/Sample/delete",data)//here await is not used purposely because of the following toast syntax
+        let res=axios.post("http://localhost:5001/api/v1/Sample/delete",data,{
+          withCredentials: true, // Include cookies
+        })//here await is not used purposely because of the following toast syntax
     
         // getting response resolved here
         res = await res;//when promise is resolved it will give data
@@ -75,7 +83,9 @@ export const getSampleData = createAsyncThunk("sample/data", async () => {
 
 export const sendTMData=createAsyncThunk("TMUser/send",async(data)=>{
   try{
-    let res=axios.post("http://localhost:5001/api/v1/Sample/TM/data/save",data)
+    let res=axios.post("http://localhost:5001/api/v1/Sample/TM/data/save",data,{
+      withCredentials: true, // Include cookies
+    })
     await toast.promise(res, {
       loading: "Loading...",
       success: (data) => {
@@ -95,7 +105,9 @@ export const sendTMData=createAsyncThunk("TMUser/send",async(data)=>{
 
 export const getTMANData=createAsyncThunk("TMANUser/Data",async()=>{
   try {
-    let res=axios.get("http://localhost:5001/api/v1/Sample/TMAN/data")//here await is not used purposely because of the following toast syntax
+    let res=axios.get("http://localhost:5001/api/v1/Sample/TMAN/data",{
+      withCredentials: true, // Include cookies
+    })//here await is not used purposely because of the following toast syntax
 
     // getting response resolved here
     res = await res;//when promise is resolved it will give data
@@ -107,7 +119,9 @@ export const getTMANData=createAsyncThunk("TMANUser/Data",async()=>{
 
 export const updateTMANData=createAsyncThunk("TMANuser/Update",async(data)=>{
   try{
-    let res=axios.put("http://localhost:5001/api/v1/Sample/TMAN/data/update",data)
+    let res=axios.put("http://localhost:5001/api/v1/Sample/TMAN/data/update",data,{
+      withCredentials: true, // Include cookies
+    })
     await toast.promise(res, {
       loading: "Loading...",
       success: (data) => {

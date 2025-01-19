@@ -13,40 +13,40 @@ const AN_PendingSamplesViewMore = () => {
     const [substances,setSubstance]=useState(state.Substances_To_Be_Analysed)
     console.log(substances,"opin");
 
-    const handleResultChange=(e,typeOfTesting,test)=>{
+    const handleResultChange=(e,typeOfTesting,testID)=>{
         const { value } = e.target;
         setSubstance((prevState) => ({
             ...prevState,
             [typeOfTesting]:{
                 ...prevState[typeOfTesting],//always destructured in an object
                 Tests:prevState[typeOfTesting].Tests.map((item) =>//prevState[typeOfTesting] represent previous value of the key 
-                item.Test === test
-                    ? { ...item, Result: parseInt(value) || 0 }
+                item.Test.TestID === testID
+                    ? { ...item, Result: value || "0" }
                     : item
                 ),
             } 
           }));
     }
-    const handleStartDate=(e,typeOfTesting,test)=>{
+    const handleStartDate=(e,typeOfTesting,testID)=>{
         const {value}=e.target;
         setSubstance((prevState)=>({
             ...prevState,
             [typeOfTesting]:{
                 ...prevState[typeOfTesting],
                 Tests: prevState[typeOfTesting].Tests.map((item) =>
-                    item.Test === test ? { ...item, Start_Date: value } : item
+                    item.Test.TestID === testID ? { ...item, Start_Date: value } : item
                   ),
             }
         }));
     }
-    const handleEndDate=(e,typeOfTesting,test)=>{
+    const handleEndDate=(e,typeOfTesting,testID)=>{
         const {value}=e.target;
         setSubstance((prevState)=>({
             ...prevState,
             [typeOfTesting]:{
                 ...prevState[typeOfTesting],
                 Tests: prevState[typeOfTesting].Tests.map((item) =>
-                    item.Test === test ? { ...item, End_Date: value } : item
+                    item.Test.TestID === testID ? { ...item, End_Date: value } : item
                 ),
             }
         }));
@@ -80,60 +80,54 @@ const AN_PendingSamplesViewMore = () => {
           {
               Object.keys(state.Substances_To_Be_Analysed).map((key,i) => {
                   { console.log(state.Substances_To_Be_Analysed[key], "klfk") }
-                  return (
-                      <div className='flex flex-col mb-10' key={`${key}-${i}`}>
-                          <div className='bg-slate-100 flex gap-20 p-2'>
+                  const filteredItem=state.Substances_To_Be_Analysed[key].Tests.filter((data)=>data.Analyst.ID===userData._id)
+                  if(filteredItem.length>0){
+                      return (
+                          <div className='flex flex-col mb-10' key={`${key}-${i}`}>
+                              <div className='bg-slate-100 flex gap-20 p-2'>
+                                  <div>
+                                      <b>Type Of Testing:</b> <span className='font-semibold'>{key}</span>
+                                  </div>
+                              </div>
+    
                               <div>
-                                  <b>Type Of Testing:</b> <span className='font-semibold'>{key}</span>
+                                  <table className='"table-auto w-full border-collapse border border-gray-300'>
+                                      <thead>
+                                          <tr className="bg-slate-200">
+                                              <th className="border border-gray-300 px-4 py-2 text-center">S.No.</th>
+                                              <th className="border border-gray-300 px-4 py-2 text-center">Tests</th>
+                                              <th className="border border-gray-300 px-4 py-2 text-center">Method</th>
+                                              <th className="border border-gray-300 px-4 py-2 text-center">Unit</th>
+                                              <th className="border border-gray-300 px-4 py-2 text-center">Result</th>
+                                              <th className="border border-gray-300 px-4 py-2 text-center">Start Date-End Date</th>
+                                          </tr>
+                                      </thead>
+                                      {
+                                          state.Substances_To_Be_Analysed[key].Tests.filter((data)=>data.Analyst.ID===userData._id).map((item, index) => {
+                                              return (
+                                                  <tbody key={`${key}-${index}`}>
+    
+                                                      <tr className="hover:bg-gray-100">
+                                                          <td className="border border-gray-300 px-4 py-2 text-center font-bold">{index + 1}.</td>
+                                                          <td className="border border-gray-300 px-4 py-2 text-center">{item.Test.Test_Name}</td>
+                                                          <td className="border border-gray-300 px-4 py-2 text-center">{item.Method}</td>
+                                                          <td className="border border-gray-300 px-4 py-2 text-center">{item.Unit}</td>
+                                                          <td className="border border-gray-300 px-4 py-2 text-center"><input type="text" name={`Result-${item.Test.Test_Name}`} id={`Result-${item.Test.Test_Name}`} defaultValue={0} min={0} required onChange={(e)=>handleResultChange(e,key,item.Test.TestID)} className='text-center bg-zinc-300 rounded-md min-w-8' /></td>
+                                                          <td className="border border-gray-300 px-4 py-2 text-center">
+                                                          <input type="date" name={`Start_Date-${key}`} id={`Start_Date-${key}`} className='bg-zinc-300 p-1 mb-2 rounded' onChange={(e)=>handleStartDate(e,key,item.Test.TestID)}/>-<input type="date" name={`End_Date-${key}`} id={`Start_Date-${key}`} className='bg-zinc-300 p-1 mb-2 rounded' onChange={(e)=>handleEndDate(e,key,item.Test.TestID)}/>
+                                                          </td>
+                                                      </tr>
+                                                  </tbody>
+                                              )
+                                          })}
+                                  </table>
                               </div>
-                              {/* <div className='flex gap-2'>
-                                  <b>Start Date:</b>
-                                  <input type="date" name={`Start_Date-${key}`} id={`Start_Date-${key}`} className='bg-zinc-300 px-1 mb-2' onChange={(e)=>handleStartDate(e,key)}/>
-                              </div>
-                              <div className='flex gap-2'>
-                                  <b>End Date:</b>
-                                  <input type="date" name={`End_Date-${key}`} id={`Start_Date-${key}`} className='bg-zinc-300 px-1 mb-2' onChange={(e)=>handleEndDate(e,key)}/>
-                              </div> */}
+    
+    
+    
                           </div>
-
-                          <div>
-                              <table className='"table-auto w-full border-collapse border border-gray-300'>
-                                  <thead>
-                                      <tr className="bg-slate-200">
-                                          <th className="border border-gray-300 px-4 py-2 text-center">S.No.</th>
-                                          <th className="border border-gray-300 px-4 py-2 text-center">Tests</th>
-                                          <th className="border border-gray-300 px-4 py-2 text-center">Method</th>
-                                          <th className="border border-gray-300 px-4 py-2 text-center">Unit</th>
-                                          <th className="border border-gray-300 px-4 py-2 text-center">Result</th>
-                                          <th className="border border-gray-300 px-4 py-2 text-center">Start Date-End Date</th>
-                                      </tr>
-                                  </thead>
-                                  {
-                                      state.Substances_To_Be_Analysed[key].Tests.filter((data)=>data.Analyst.ID===userData._id).map((item, index) => {
-                                          return (
-                                              <tbody key={`${key}-${index}`}>
-
-                                                  <tr className="hover:bg-gray-100">
-                                                      <td className="border border-gray-300 px-4 py-2 text-center font-bold">{index + 1}.</td>
-                                                      <td className="border border-gray-300 px-4 py-2 text-center">{item.Test}</td>
-                                                      <td className="border border-gray-300 px-4 py-2 text-center">{item.Method}</td>
-                                                      <td className="border border-gray-300 px-4 py-2 text-center">{item.Unit}</td>
-                                                      <td className="border border-gray-300 px-4 py-2 text-center"><input type="number" name={`Result-${item.Test}`} id={`Result-${item.Test}`} defaultValue={0} min={0} required onChange={(e)=>handleResultChange(e,key,item.Test)} className='text-center bg-zinc-300 rounded-md w-20' /></td>
-                                                      <td className="border border-gray-300 px-4 py-2 text-center">
-                                                      <input type="date" name={`Start_Date-${key}`} id={`Start_Date-${key}`} className='bg-zinc-300 px-1 mb-2' onChange={(e)=>handleStartDate(e,key,item.Test)}/>-<input type="date" name={`End_Date-${key}`} id={`Start_Date-${key}`} className='bg-zinc-300 px-1 mb-2' onChange={(e)=>handleEndDate(e,key,item.Test)}/>
-                                                      </td>
-                                                  </tr>
-                                              </tbody>
-                                          )
-                                      })}
-                              </table>
-                          </div>
-
-
-
-                      </div>
-                  )
-              })}
+                      )}
+                  })}
 
         <br />
         <div className='w-full'>

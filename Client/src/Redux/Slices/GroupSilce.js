@@ -9,7 +9,9 @@ const initialState={
 // function to get Group Data
 export const getGroupData = createAsyncThunk("group/data", async () => {
     try {
-      let res=axios.get("http://localhost:5001/api/v1/group/data")//here await is not used purposely because of the following toast syntax
+      let res=axios.get("http://localhost:5001/api/v1/group/data",{
+        withCredentials: true, // Include cookies
+      })//here await is not used purposely because of the following toast syntax
   
       // getting response resolved here
       res = await res;//when promise is resolved it will give data
@@ -21,7 +23,9 @@ export const getGroupData = createAsyncThunk("group/data", async () => {
 
   export const updateGroupData=createAsyncThunk("GroupData/Update",async(data)=>{
     try{
-      let res=axios.put("http://localhost:5001/api/v1/Group/update",data)
+      let res=axios.put("http://localhost:5001/api/v1/Group/update",data,{
+        withCredentials: true, // Include cookies
+      })
       await toast.promise(res, {
         loading: "Loading...",
         success: (data) => {
@@ -41,7 +45,9 @@ export const getGroupData = createAsyncThunk("group/data", async () => {
 
   export const addGroupData=createAsyncThunk("GroupData/add",async(data)=>{
     try{
-      let res=axios.post("http://localhost:5001/api/v1/Group/add",data)
+      let res=axios.post("http://localhost:5001/api/v1/Group/add",data,{
+        withCredentials: true, // Include cookies
+      })
       await toast.promise(res, {
         loading: "Loading...",
         success: (data) => {

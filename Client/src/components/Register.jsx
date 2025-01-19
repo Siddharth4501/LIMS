@@ -27,7 +27,7 @@ const Register = () => {
     setGroup(groupData)
   },[groupData])
 
-  // For search
+  // For  type of testing search
   const [query, setQuery] = useState('');
   const [filteredItems, setFilteredItems] = useState([]);
   useEffect(() => {
@@ -37,27 +37,10 @@ const Register = () => {
     setFilteredItems(filtered);
   }, [query]);
 
-
+  //for tests section
   const [testSearch, setTestSearch] = useState({});
   const [filteredTestItems, setFilteredTestItems] = useState({});
-  // useEffect(() => {
-  //   if(choosenGroup !=''){
-  //     const filteredGroup = groups.find((group) => group.Group_Name === choosenGroup);
-  //     console.log(filteredGroup,"twada")
-  //     if(filteredGroup){
-  //       const subTestValue = [];
-  //       filteredGroup.Tests.map((item) => {
-  //         console.log("item", item)
-  //         subTestValue.push(item.Test)
-  //       })
-  //       console.log("subTestValue", subTestValue)
-  //       const filteredTest = subTestValue.filter(item =>
-  //         item.toLowerCase().includes(testSearch?.toLowerCase())
-  //       );
-  //       setFilteredTestItems(filteredTest);
-  //     }
-  //   }
-  // }, [testSearch]);
+  
   const handleTestSearchChange = (group, value) => {
     setTestSearch((prev) => ({
       ...prev,
@@ -118,6 +101,10 @@ const Register = () => {
 
     console.log(Tests, "sor1")
     console.log(Name, Quantity, Storage_Condititons, Registration_Number, Customer_Code, Packing_Type, Date, Treatment_Type,Nature_Of_Sample, Remarks, Group, selectedAnalysis, selectedTests, "jjj")
+    if(!Name || !Quantity || !Storage_Condititons || !Registration_Number || !Customer_Code || !Packing_Type || !Date || !Nature_Of_Sample || !Remarks || !Group || !selectedAnalysis.length || !selectedTests.length){
+      toast.error("All fields are necessary");
+      return
+    }
     const data={
       "Name":Name,
       "Quantity":Quantity,
@@ -146,69 +133,22 @@ const Register = () => {
     }
   };
 
-  // useEffect(() => {
-  //   if (choosenGroup != '') {
-  //     const filteredGroup = groups.filter((group) => { return group.Group_Name === choosenGroup });
-  //     if (filteredGroup) {
-  //       setAnalysisData(filteredGroup[0].Type_Of_Testing);
-  //       const data = [];
-  //       console.log("ppp", data)
-  //       filteredGroup[0].Tests.map((item) => {
-  //         console.log(item, "qqq")
-  //         if (data.length > 0) {
-  //           data.forEach(obj => {
-  //             if (obj.name == item.Type_Of_Testing) {
-  //               obj.subTests.push(item.Test)
-  //               console.log(data, "kk")
-  //             }
-  //             else {
-  //               const name = item.Type_Of_Testing
-  //               const subTests = [item.Test]
-  //               console.log(name, subTests, "ooo")
-  //               const obj = {
-  //                 name: name,
-  //                 subTests: subTests
-  //               };
-  //               data.push(obj)
-
-  //             }
-  //           })
-  //         }
-  //         else {
-  //           const name = item.Type_Of_Testing
-  //           const subTests = [item.Test]
-  //           console.log(name, subTests, "ooo0")
-  //           const obj = {
-  //             name: name,
-  //             subTests: subTests
-  //           };
-  //           data.push(obj)
-  //         }
-  //         console.log(data, "siddd")
-
-  //       })
-  //       setTestData(data)
-  //       console.log(filteredGroup[0].Type_Of_Testing, "ddjdjjw")
-
-  //     }
-
-  //   }
-  // }, [choosenGroup])
 
   useEffect(() => {
     if (choosenGroup !== '') {
       const filteredGroup = groups.find((group) => group.Group_Name === choosenGroup);
       if (filteredGroup) {
-        setAnalysisData(filteredGroup.Type_Of_Testing);
-
+        // setAnalysisData(filteredGroup.Type_Of_Testing);
+        const TypeOfTestingData=[]
         const data = [];
         filteredGroup.Tests.forEach((item) => {
           // Check if the object for this Type_Of_Testing already exists
           const existingObj = data.find((obj) => obj.name === item.Type_Of_Testing);
-
+          TypeOfTestingData.push(item.Type_Of_Testing)
           if (existingObj) {
             // If it exists, push the new sub-test into its subTests array
             existingObj.subTests.push(item.Test);
+
           } else {
             // If it doesn't exist, create a new object and push it to data
             data.push({
@@ -217,7 +157,7 @@ const Register = () => {
             });
           }
         });
-
+        setAnalysisData(TypeOfTestingData);
         setTestData(data);
       }
     }
@@ -226,13 +166,13 @@ const Register = () => {
   console.log(analysisData, "rrr")
 
 
-
+  //analysis data is without true false
   const initialStateOfAnanlysis = analysisData?.reduce((acc, key) => {
     acc[key] = false; // Set default value (false) for each key
     return acc;
   }, {});
 
-  const [selectedAnalysis, setSelectedAnalysis] = useState([]);
+  const [selectedAnalysis, setSelectedAnalysis] = useState([]);//analysis data with true false
 
   useEffect(() => {
     if (analysisData != []) {
@@ -359,7 +299,7 @@ const Register = () => {
             <input
               type="text"
               name="Name"
-              className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
+              className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
               required
             />
           </div>
@@ -368,7 +308,7 @@ const Register = () => {
             <input
               type="text"
               name="Quantity"
-              className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
+              className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
               required
             />
           </div>
@@ -377,7 +317,7 @@ const Register = () => {
             <input
               type="number"
               name="Storage_Conditions"
-              className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
+              className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
               required
             />
           </div>
@@ -386,7 +326,7 @@ const Register = () => {
             <input
               type="number"
               name="Registration_Number"
-              className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
+              className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
               required
             />
           </div>
@@ -395,7 +335,7 @@ const Register = () => {
             <input
               type="number"
               name="Customer_Code"
-              className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
+              className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
               required
             />
           </div>
@@ -403,7 +343,7 @@ const Register = () => {
             <label className="block text-sm font-semibold mb-2">Packing Type</label>
             <select
               name="Packing_Type"
-              className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
+              className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
               required
             >
               <option value="SEALED">SEALED</option>
@@ -415,7 +355,7 @@ const Register = () => {
             <input
               type="Date"
               name="Date"
-              className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
+              className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
               required
             />
           </div>
@@ -424,7 +364,7 @@ const Register = () => {
             <input
               type="text"
               name="Treatment_Type"
-              className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
+              className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
             />
           </div>
           <div>
@@ -432,7 +372,7 @@ const Register = () => {
           <input
             type="text"
             name="Nature_Of_Sample"
-            className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
+            className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
             required
           />
           </div>
@@ -442,7 +382,7 @@ const Register = () => {
           <input
             type="text"
             name="Remarks"
-            className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
+            className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
             required
           />
         </div>
@@ -459,7 +399,7 @@ const Register = () => {
               <label className="block text-sm font-semibold mb-2">Group</label>
               <select
                 name="Group"
-                className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
+                className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
                 onChange={(e) => groupFunction(e.target.value)}
                 required
               >
@@ -481,10 +421,10 @@ const Register = () => {
                   choosenGroup!=''?
                     <input type="text" placeholder="Search..." value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    className="p-1 border border-gray-300 bg-slate-100 rounded w-full"
+                    className="p-1 border-2 border-blue-600 bg-slate-100 rounded w-full"
                     />
                     :<div className="">
-                      <select name="" id="" className="w-full border border-gray-300 bg-slate-100 rounded-md p-2">
+                      <select name="" id="" className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2">
                         <option value="Select" className="">Select</option>
                       </select>
                     </div>
@@ -548,7 +488,7 @@ const Register = () => {
             {
               choosenGroup==''?(
                 <div className="w-full">
-                  <select name="" id="" className="w-full border border-gray-300 bg-slate-100 rounded-md p-2">
+                  <select name="" id="" className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2">
                     <option value="Select" className="">Select</option>
                   </select>
                 </div>
