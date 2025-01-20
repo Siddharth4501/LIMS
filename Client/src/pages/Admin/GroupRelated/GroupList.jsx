@@ -50,11 +50,7 @@ const GroupList = () => {
     <AdminCommomNav/>
       <div className='flex'>
         <AdminCommonPanel />
-        <div className='w-full'>
-          <div className='w-full flex bg-gray-300 border-gray-700 shadow-[0_0_6px_black] border-[3px] p-5'>
-            <div className='w-3/5 text-3xl font-bold pr-24'><span className='float-right'>Group List</span></div>
-            <div className='w-2/5'><button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right' onClick={() => navigate('/Admin/Home')}>Back</button></div>
-          </div>
+        <div className='w-full '>
           <br /><br />
           <div className='flex w-full bg-slate-200 border-indigo-700 border-[2px] p-3'>
             <div className='w-1/2'>
