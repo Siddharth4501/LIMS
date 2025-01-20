@@ -33,7 +33,7 @@ const AllDeletedSamples = () => {
         <div className='w-full '>
       <br /><br />
       <div className='w-full bg-slate-200 border border-indigo-700 border-[2px] p-4'>
-          <input type="text" className='w-1/2 border border-blue-800 border-2 rounded-md h-8 p-5 flex mx-auto' value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Search For A Particular Sample...' />
+          <input type="text" className='w-1/2 border border-blue-800 border-2 rounded-md h-8 p-4 flex mx-auto' value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Search For A Particular Sample...' />
       </div>
       <br /><br />
       {
