@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom'
 import { BsTrash } from "react-icons/bs";
 import toast from 'react-hot-toast';
+import AdminCommomNav from '../../../components/AdminCommomNav';
+import AdminCommonPanel from '../../../components/AdminCommonPanel';
 
 const ErrorList = () => {
   // const { allUserData } = useSelector((state) => state.auth);
@@ -42,11 +44,12 @@ const ErrorList = () => {
     }
   }
   return (
-    <div>
-          <div className='w-full flex bg-gray-300 border-gray-700 shadow-[0_0_6px_black] border-[3px] p-5'>
-            <div className='w-3/5 text-3xl font-bold pr-24'><span className='float-right'>Error List</span></div>
-            <div className='w-2/5'><button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Admin/Home')}>Back</button></div>
-          </div>
+    <>
+    <AdminCommomNav/>
+      <div className='flex'>
+        <AdminCommonPanel />
+        <div className='w-full pl-16'>
+          
           <br /><br />
           <div className='flex w-full bg-slate-200 border-indigo-700 border-[2px] p-3'>
             <div className='w-1/2'>
@@ -117,6 +120,8 @@ const ErrorList = () => {
           }
     
         </div>
+        </div>
+        </>
   )
 }
 
