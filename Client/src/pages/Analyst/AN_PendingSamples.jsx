@@ -33,8 +33,8 @@ const AN_PendingSamples = () => {
   },[])
   // It Determines userFound
   useEffect(() => {
-    const found = TmAnData?.filter((data)=>data.TM_Status==='Pending At Analyst').some((item) => {
-      const userObj = item.AN_Status.find((analyst) => analyst.Analyst.ID === userData?._id);
+    const found = TmAnData?.some((item) => {
+      const userObj = item.AN_Status.find((analyst) => analyst.Analyst.ID === userData?._id && analyst.Status==='Pending At Analyst');
       const filteredSample = sampleData?.filter(
         (data) => data._id === item.Sample_Alloted && data.Active===true && assignedGroups.includes(data.Group) && userObj
       );
@@ -55,7 +55,7 @@ const AN_PendingSamples = () => {
       </div>
       <br /><br />
     {
-      found==true?
+      found===true?
       (
 
       <div>
@@ -74,8 +74,8 @@ const AN_PendingSamples = () => {
           </thead>
           <tbody>
             {
-              TmAnData?.filter((data)=>data.TM_Status === 'Pending At Analyst').map((item,index)=>{
-                let userObj=item.AN_Status.find((analyst)=>analyst.Analyst.ID=== userData?._id)
+              TmAnData?.map((item,index)=>{
+                let userObj=item.AN_Status.find((analyst)=>analyst.Analyst.ID=== userData?._id && analyst.Status==='Pending At Analyst')
                 let filteredSample=sampleData?.filter((data)=>data._id== item.Sample_Alloted && data.Active===true && assignedGroups.includes(data.Group) && userObj)
                 if(filteredSample.length===0){
                   return null;
