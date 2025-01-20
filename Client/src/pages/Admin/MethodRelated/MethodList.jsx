@@ -49,7 +49,7 @@ const MethodList = () => {
       <AdminCommomNav />
       <div className='flex'>
         <AdminCommonPanel />
-        <div className='w-full pl-16'>
+        <div className='w-full'>
           
           <br /><br />
           <div className='flex w-full bg-slate-200 border border-indigo-700 border-[2px] p-3'>
