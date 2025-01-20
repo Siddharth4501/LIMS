@@ -15,14 +15,15 @@ const AdminCommonPanel = () => {
 
     return (
         <>
-        <div className="fixed top-[115px] left-0 z-50">
+        <div className="flex">
+            {/* fixed top-[115px] left-0 z-50 */}
             <div
-                className={`h-screen bg-gray-200 shadow-lg transition-all duration-300 ${isSidebarOpen ? "w-64" : "w-16"
+                className={`h-[84vh] bg-gray-200 shadow-lg transition-all duration-300 ${isSidebarOpen ? "w-64" : "w-16"
                     }`}
             >
                 {/* Hamburger Button */}
                 <div
-                    className="p-4 cursor-pointer hover:bg-gray-300"
+                    className="p-5 cursor-pointer hover:bg-gray-300 float-right"
                     onClick={toggleSidebar}
                 >
                     <div className="space-y-1">
