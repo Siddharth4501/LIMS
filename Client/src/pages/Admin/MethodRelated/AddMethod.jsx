@@ -5,6 +5,7 @@ import { getGroupData } from "../../../Redux/Slices/GroupSilce";
 import { sendSubstanceData } from "../../../Redux/Slices/SubstanceSlice";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import AdminCommomNav from "../../../components/AdminCommomNav";
 
 const AddMethod = () => {
     const navigate = useNavigate();
@@ -227,19 +228,15 @@ const handleDelete=async(userID)=>{
   }
   return (
     <div className="h-screen w-screen">
-        <div className="w-full flex border-2 bg-gray-300 border-gray-700 shadow p-5">
-            <div className="w-3/5 text-3xl font-bold pr-24">
-                <span className="float-right">Add Method</span>
-            </div>
-            <div className="w-2/5">
+      <AdminCommomNav/>
+            <div className="w-full p-4">
                 <button
-                    className="bg-indigo-700 px-4 py-1 text-white rounded-md float-right"
+                    className="bg-indigo-700 px-8 py-1 text-white rounded-md float-right"
                     onClick={() => navigate("/Admin/Substance/MethodList")}
                 >
                     Back
                 </button>
             </div>
-        </div>
       <br /><br /><br />
       <div className="flex flex-col border-2 border-blue-700 bg-gray-100 mt-8 w-3/4 justify-center m-auto p-2">
 
