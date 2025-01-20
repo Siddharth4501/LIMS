@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getSampleData } from '../../../Redux/Slices/SampleSlice';
 import Samples from '../../../components/Samples';
+import AdminCommomNav from '../../../components/AdminCommomNav';
+import AdminCommonPanel from '../../../components/AdminCommonPanel';
 
 const AllDeletedSamples = () => {
     const dispatch=useDispatch();
@@ -24,11 +26,11 @@ const AllDeletedSamples = () => {
       setFilteredItems(filtered);
     }, [query]);
   return (
-    <div className="">
-      <div className='w-full flex border bg-gray-300 border border-gray-700 shadow-[0_0_6px_black] border-[3px] p-5'>
-        <div className='w-3/5 text-3xl font-bold'><span className='float-right'>All Deleted Samples Record</span></div>
-        <div className='w-2/5'><button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Admin/Home')}>Back</button></div>
-      </div>
+    <>
+    <AdminCommomNav/>
+      <div className='flex'>
+        <AdminCommonPanel />
+        <div className='w-full '>
       <br /><br />
       <div className='w-full bg-slate-200 border border-indigo-700 border-[2px] p-4'>
           <input type="text" className='w-1/2 border border-blue-800 border-2 rounded-md h-8 p-5 flex mx-auto' value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Search For A Particular Sample...' />
@@ -79,6 +81,8 @@ const AllDeletedSamples = () => {
       
 
     </div>
+    </div>
+    </>
   )
 }
 
