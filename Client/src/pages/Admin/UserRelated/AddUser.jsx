@@ -5,6 +5,7 @@ import { getGroupData } from "../../../Redux/Slices/GroupSilce";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { createAccount } from "../../../Redux/Slices/AuthSlice";
+import AdminCommomNav from "../../../components/AdminCommomNav";
 
 const AddUser = () => {
     const navigate = useNavigate();
@@ -173,20 +174,16 @@ const AddUser = () => {
     return (
         <div>
             {/* Header */}
-            <div className="w-full flex border bg-gray-300 border-gray-700 shadow p-5">
-                <div className="w-3/5 text-3xl font-bold pr-24">
-                    <span className="float-right">Users List</span>
-                </div>
-                <div className="w-2/5">
+                <AdminCommomNav/>
+                <div className="w-full p-4">
                     <button
-                        className="bg-indigo-700 px-4 py-1 text-white rounded-md float-right"
+                        className="bg-indigo-700 px-8 py-1 text-white rounded-md float-right"
                         onClick={() => navigate("/Admin/User/UserList")}
                     >
                         Back
                     </button>
                 </div>
-            </div>
-
+<br /><br />
             {/* Form */}
             <div className="p-6 bg-slate-200 flex flex-col items-center justify-center">
                 <div className="w-full bg-white border border-gray-700 shadow-lg rounded-lg p-8">
