@@ -34,7 +34,7 @@ const TM_PendingSample = () => {
   console.log("lala",assignedGroups);
   const [found,setFound]=useState(false);
   useEffect(()=>{
-    TmAnData?.filter((data)=>data.TM_Status === 'Pending At Analyst').map((item)=>{
+    TmAnData?.filter((data)=>data.AN_Status.some((element)=>element.Status === 'Pending At Analyst')).map((item)=>{
       let filteredSample=sampleData?.filter((data)=>data._id== item.Sample_Alloted && data.Active===true && assignedGroups.includes(data.Group))
       if(filteredSample.length>0){
         setFound(true);
@@ -66,8 +66,8 @@ const TM_PendingSample = () => {
           </thead>
           <tbody>
             {
-              TmAnData?.filter((data)=>data.TM_Status === 'Pending At Analyst').map((item,index)=>{
-                let filteredSample=sampleData?.filter((data)=>data._id== item.Sample_Alloted && data.Avtive===true && assignedGroups.includes(data.Group))
+              TmAnData?.filter((data)=>data.AN_Status.some((element)=>element.Status === 'Pending At Analyst')).map((item,index)=>{
+                let filteredSample=sampleData?.filter((data)=>data._id== item.Sample_Alloted && data.Active===true && assignedGroups.includes(data.Group))
                 if(!filteredSample){
                   return null;
                 }
