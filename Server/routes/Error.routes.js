@@ -1,5 +1,5 @@
 import {Router} from "express";
-import { ErrorAdd, FetchError } from "../controllers/Error.controller";
+import { ErrorAdd, FetchError } from "../controllers/Error.controller.js";
 
 const router=Router()
 
