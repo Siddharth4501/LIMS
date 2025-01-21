@@ -1,42 +1,63 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom'
 import { updateTMANData } from '../../Redux/Slices/SampleSlice';
 import toast from 'react-hot-toast';
 import * as XLSX from "xlsx";
+import { CSVLink, CSVDownload } from "react-csv";
 
 const AN_PendingSamplesViewMore = () => {
     const {state}=useLocation();
     const dispatch=useDispatch();
     const navigate=useNavigate();
+    const [csvData,setCsvData]=useState([["ID", "Type Of Testing", "Name","Result"]])
     const userData=JSON.parse(localStorage.getItem("userData"));
     console.log(state,state.TMANID,"hjtyj");
     const [substances,setSubstance]=useState(state.Substances_To_Be_Analysed)
     const [resultColumn, setResultColumn] = useState([]);
+    // const [lastUpdated, setLastUpdated] = useState(null);
     console.log(substances,"opin");
-
-    const handleResultChange=(e,typeOfTesting,testID,index)=>{
-        const { value } = e.target;
-        if(resultColumn.length>0){
-            setResultColumn((prev) => {
-                return prev.map((item, idx) =>
-                  idx === index ? { ...item, Result: value } : item
-                );
-              });
+    
+const handleResultChange = (e, typeOfTesting, testID,Name) => {
+    const { value } = e.target;
+    
+    // Update resultColumn for the specific TestID
+    setResultColumn((prev) => {
+        console.log("siddddk")
+        const updatedColumn = [...prev];
+        const existingIndex = updatedColumn.findIndex(
+        (col) => col.Name === Name
+        );
+    
+        if (existingIndex !== -1) {
+        // Update existing entry
+        updatedColumn[existingIndex] = {
+            ...updatedColumn[existingIndex],
+            Result: value,
+        };
+        } else {
+        // Add new entry if not found
+        updatedColumn.push({
+            Name: Name,
+            Result: value,
+        });
         }
-        console.log(setResultColumn,"hkfw")
-        setSubstance((prevState) => ({
-            ...prevState,
-            [typeOfTesting]:{
-                ...prevState[typeOfTesting],//always destructured in an object
-                Tests:prevState[typeOfTesting].Tests.map((item) =>//prevState[typeOfTesting] represent previous value of the key 
-                item.Test.TestID === testID
-                    ? { ...item, Result: value || "0" }
-                    : item
-                ),
-            } 
-          }));
-    }
+        return updatedColumn;
+    });
+    
+    // Update substances for the specific testID
+    setSubstance((prevState) => ({
+        ...prevState,
+        [typeOfTesting]: {
+        ...prevState[typeOfTesting],
+        Tests: prevState[typeOfTesting].Tests.map((item) =>
+            item.Test.TestID === testID
+            ? { ...item, Result: value || "0" } // Update Result for the matching TestID
+            : item
+        ),
+        },
+    }));
+    };
     const handleStartDate=(e,typeOfTesting,testID)=>{
         const {value}=e.target;
         setSubstance((prevState)=>({
@@ -63,6 +84,49 @@ const AN_PendingSamplesViewMore = () => {
     }
     const handleSubmit=async(e)=>{
         e.preventDefault();
+        if(!state.TMANID || !userData._id){
+            toast.error("Unexpected error occured,please close the page and try again!!")
+        }
+        // let error=false
+        // Object.keys(substances).map((key)=>{
+        //     const filteredItem=substances[key].Tests.filter((data)=>data.Analyst.ID===userData._id)
+        //     filteredItem.forEach((element)=>{
+        //         if(element.Result===''){
+        //             toast.error(`Result for Test ${element.Test.Test_Name} is blank`)
+        //             error=true
+        //         }
+        //         if(element.Start_Date===''){
+        //             toast.error(`Start Date for Test ${element.Test.Test_Name} is blank`)
+        //             error=true
+        //         }
+        //         if(element.End_Date===''){
+        //             toast.error(`End Date for Test ${element.Test.Test_Name} is blank`)
+        //             error=true
+        //         }
+        //     })
+        // })
+        // if(error){
+        //     return
+        // }
+        //map is not used becase it is asynchronous and does not terminate immediately
+        for (const key of Object.keys(substances)) {
+            const filteredItems = substances[key].Tests.filter((data) => data.Analyst.ID === userData._id);
+        
+            for (const element of filteredItems) {
+              if (element.Result === '') {
+                toast.error(`Result for Test ${element.Test.Test_Name} is blank`);
+                return; // Exit function immediately on error
+              }
+            if(element.Start_Date===''){
+                toast.error(`Start Date for Test ${element.Test.Test_Name} is blank`)
+                return;
+            }
+            if(element.End_Date===''){
+                toast.error(`End Date for Test ${element.Test.Test_Name} is blank`)
+                return;
+            }
+}
+        }
         const data={
             "TMANID":state.TMANID,
             "Substances_To_Be_Analysed":substances,
@@ -80,6 +144,23 @@ const AN_PendingSamplesViewMore = () => {
           toast.error("Something Went Wrong");
         }
     }
+    useEffect(() => {
+        const data = [];
+    
+        Object.keys(substances).forEach((key) => {
+            substances[key].Tests.filter((item) => item.Analyst.ID === userData._id)
+                .forEach((element) => {
+                    data.push([
+                        element.Test.TestID,
+                        key,
+                        element.Test.Test_Name,
+                        element.Result,
+                    ]);
+                });
+        });
+    
+        setCsvData((prev) => [...prev, ...data]);
+    }, []);
     const handleExcelFileUpload=(e)=>{
         const file = e.target.files[0]; // Get the uploaded file
     if (file) {
@@ -95,17 +176,30 @@ const AN_PendingSamplesViewMore = () => {
         // Extract the "Result" column
         jsonData.map((row) => {
             const obj={
-            Name: row["Name"],    // Assuming the "Name" column exists
-            Result: row["Result"], // Assuming the "Result" column exists
+            testID:row["ID"],
+            TypeOfTesting: row["Type Of Testing"],  
+            Name: row["Name"],    
+            Result: row["Result"],
           }
           extractedData.push(obj);
         }); // Assuming "Result" is the column name
         setResultColumn(extractedData);
-      };
-
+        extractedData.map((item)=>{
+            setSubstance((prevState) => ({
+                ...prevState,
+                [item.TypeOfTesting]: {
+                ...prevState[item.TypeOfTesting],
+                Tests: prevState[item.TypeOfTesting].Tests?.map((data) =>
+                    data.Test.TestID === item.testID && data.Analyst.ID === userData._id
+                    ? { ...data, Result: item.Result || "0" } // Update Result for the matching TestID
+                    : data
+                ),
+                },
+            }));
+      });
+      }
       reader.readAsArrayBuffer(file); // Read the file as a binary array
-    }
-  };
+    }}
   console.log(resultColumn,"yup")
   return (
       <form onSubmit={handleSubmit}>
@@ -115,6 +209,7 @@ const AN_PendingSamplesViewMore = () => {
           </div>
           <br /><br />
           <div className='w-full'>
+            <CSVLink data={csvData} className='bg-indigo-700 text-white py-1 px-2 border-indigo-700 m-5 rounded '>Download Data in Excel</CSVLink>
             <input type="file" accept=".xlsx,.xls" name="ExcelFileInput" id="ExcelFileInput" onChange={handleExcelFileUpload} className='float-right bg-slate-200 p-1'/>
           </div>
           <br /><br />
@@ -155,18 +250,21 @@ const AN_PendingSamplesViewMore = () => {
                                                         <td className="border border-gray-300 px-4 py-2 text-center">{item.Method}</td>
                                                         <td className="border border-gray-300 px-4 py-2 text-center">{item.Unit}</td>
                                                 
-                                                        <td className="border border-gray-300 px-4 py-2 text-center"><input type="text" name={`Result-${item.Test.Test_Name}`} id={`Result-${item.Test.Test_Name}`} 
-                                                        value={
-                                                            resultColumn.length > 0 &&
-                                                            resultColumn[index] &&
-                                                            resultColumn[index].Name.trim() === item.Test.Test_Name.trim()
-                                                                ? resultColumn[index].Result
-                                                                : "0"
-                                                            } required onChange={(e)=>handleResultChange(e,key,item.Test.TestID,index)} className='text-center bg-zinc-300 rounded-md min-w-8 p-1' />
+                                                        <td className="border border-gray-300 px-4 py-2 text-center">
+                                                            <input
+                                                                type="text"
+                                                                name={`Result-${item.Test.Test_Name}`}
+                                                                id={`Result-${item.Test.Test_Name}`}
+                                                                value={
+                                                                resultColumn.find(
+                                                                    (col) => col.Name === item.Test.Test_Name
+                                                                )?.Result || "" 
+                                                                }
+                                                                onChange={(e) => handleResultChange(e, key, item.Test.TestID,item.Test.Test_Name)}
+                                                                className="text-center bg-zinc-300 rounded-md min-w-8 p-1"
+                                                            />
                                                         </td>
-                                                            
-                                                        
-                                                        
+                                                        {/* `${item.Test.Test_Name}-${index}` */} 
                                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                                         <input type="date" name={`Start_Date-${key}`} id={`Start_Date-${key}`} className='bg-zinc-300 p-1 m-2 rounded' onChange={(e)=>handleStartDate(e,key,item.Test.TestID)}/>-<input type="date" name={`End_Date-${key}`} id={`Start_Date-${key}`} className='bg-zinc-300 p-1 mb-2 rounded' onChange={(e)=>handleEndDate(e,key,item.Test.TestID)}/>
                                                         </td>
