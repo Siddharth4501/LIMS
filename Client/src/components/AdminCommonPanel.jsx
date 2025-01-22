@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 const AdminCommonPanel = () => {
     const [openMenu, setOpenMenu] = useState("");
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     const toggleMenu = (menu) => {
         setOpenMenu(openMenu === menu ? "" : menu);
