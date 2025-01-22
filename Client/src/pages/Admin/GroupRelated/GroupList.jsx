@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getGroupData } from '../../../Redux/Slices/GroupSilce';
+import { deleteGroupData, getGroupData } from '../../../Redux/Slices/GroupSilce';
 import { BsTrash } from "react-icons/bs";
 import toast from 'react-hot-toast';
 import AdminCommomNav from '../../../components/AdminCommomNav';
@@ -30,15 +30,15 @@ const GroupList = () => {
     setAllGroupDataState(groupData);
   }, [groupData])
 
-  const handleDelete = async (userID) => {
+  const handleDelete = async (groupID) => {
     try {
-      console.log(userID, "judju")
+      console.log(groupID, "judju")
       const data = {
         "groupID": groupID
       }
-      const response = await dispatch(DeleteUserData(data));
+      const response = await dispatch(deleteGroupData(data));
       if (response?.payload?.success) {
-        toast.success('User Deleted Successfully');
+        toast.success('Group Deleted Successfully');
         navigate('/Admin/Home')
       }
     } catch (error) {

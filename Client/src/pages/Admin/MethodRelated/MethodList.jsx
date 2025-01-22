@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom'
 import { BsTrash } from "react-icons/bs";
 import toast from 'react-hot-toast';
-import { getSubstanceData } from '../../../Redux/Slices/SubstanceSlice';
+import { deleteSubstance, getSubstanceData } from '../../../Redux/Slices/SubstanceSlice';
 import AdminCommomNav from '../../../components/AdminCommomNav';
 import AdminCommonPanel from '../../../components/AdminCommonPanel';
 
@@ -29,15 +29,15 @@ const MethodList = () => {
     setAllSubstanceDataState(substanceData);
   }, [substanceData])
 
-  const handleDelete = async (userID) => {
+  const handleDelete = async (methodID) => {
     try {
-      console.log(userID, "judju")
+      console.log(methodID, "judju")
       const data = {
-        "userID": userID
+        "methodID": methodID
       }
-      const response = await dispatch(DeleteUserData(data));
+      const response = await dispatch(deleteSubstance(data));
       if (response?.payload?.success) {
-        toast.success('User Deleted Successfully');
+        toast.success('Method Deleted Successfully');
         navigate('/Admin/Home')
       }
     } catch (error) {

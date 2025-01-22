@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getGroupData } from '../../../Redux/Slices/GroupSilce';
+import { deleteTest, getGroupData } from '../../../Redux/Slices/GroupSilce';
 import { BsTrash } from "react-icons/bs";
 import toast from 'react-hot-toast';
 import AdminCommomNav from '../../../components/AdminCommomNav';
@@ -30,21 +30,22 @@ const TestsList = () => {
         setAllGroupDataState(groupData);
     }, [groupData])
 
-    const handleDelete = async (userID) => {
+    const handleDelete = async (groupID,Test) => {
         try {
-            console.log(userID, "judju")
-            const data = {
-                "groupID": groupID
-            }
-            const response = await dispatch(DeleteUserData(data));
-            if (response?.payload?.success) {
-                toast.success('User Deleted Successfully');
-                navigate('/Admin/Home')
-            }
+          console.log(groupID,Test, "judju")
+          const data = {
+            "groupID": groupID,
+            "Test":Test
+          }
+          const response = await dispatch(deleteTest(data));
+          if (response?.payload?.success) {
+            toast.success('Test Deleted Successfully');
+            navigate('/Admin/Home')
+          }
         } catch (error) {
-            toast.error(error)
+          toast.error(error)
         }
-    }
+      }
     let indexsCounter = 1;
     return (
         <>
@@ -94,7 +95,7 @@ const TestsList = () => {
                                                                 <td className="border border-gray-300 px-4 py-2 text-center">{item.Group_Name}</td>
                                                                 {/* <td className="border border-gray-300 px-4 py-2 text-center">{designation.toString()}</td>
                                         <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td> */}
-                                                                <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id)}><BsTrash /></button></td>
+                                                                <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id,data.Test)}><BsTrash /></button></td>
                                                             </tr>
                                                         )
                                                     }))

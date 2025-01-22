@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getGroupData } from '../../../Redux/Slices/GroupSilce';
+import { deleteGroupData, deleteTypeOfTesting, getGroupData } from '../../../Redux/Slices/GroupSilce';
 import { BsTrash } from "react-icons/bs";
 import toast from 'react-hot-toast';
 import AdminCommomNav from '../../../components/AdminCommomNav';
@@ -30,15 +30,16 @@ const TypeOfTestingList = () => {
     setAllGroupDataState(groupData);
   }, [groupData])
 
-  const handleDelete = async (userID) => {
+  const handleDelete = async (groupID,TypeOfTesting) => {
     try {
-      console.log(userID, "judju")
+      console.log(groupID,TypeOfTesting, "judju")
       const data = {
-        "groupID": groupID
+        "groupID": groupID,
+        "Type_Of_Testing":TypeOfTesting
       }
-      const response = await dispatch(DeleteUserData(data));
+      const response = await dispatch(deleteTypeOfTesting(data));
       if (response?.payload?.success) {
-        toast.success('User Deleted Successfully');
+        toast.success('Type Of Testing Deleted Successfully');
         navigate('/Admin/Home')
       }
     } catch (error) {
@@ -93,7 +94,7 @@ const TypeOfTestingList = () => {
                                 <td className="border border-gray-300 px-4 py-2 text-center">{item.Group_Name}</td>
                                 {/* <td className="border border-gray-300 px-4 py-2 text-center">{designation.toString()}</td>
                                                 <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td> */}
-                                <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id)}><BsTrash /></button></td>
+                                <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id,data)}><BsTrash /></button></td>
                               </tr>
                             )
                           }))
