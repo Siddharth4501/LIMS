@@ -101,7 +101,7 @@ const Register = () => {
 
     console.log(Tests, "sor1")
     console.log(Name, Quantity, Storage_Condititons, Registration_Number, Customer_Code, Packing_Type, Date, Treatment_Type,Nature_Of_Sample, Remarks, Group, selectedAnalysis, selectedTests, "jjj")
-    if(!Name || !Quantity || !Storage_Condititons || !Registration_Number || !Customer_Code || !Packing_Type || !Date || !Nature_Of_Sample || !Remarks || !Group || !selectedAnalysis.length || !selectedTests.length){
+    if(!Name || !Quantity || !Storage_Condititons || !Registration_Number || !Customer_Code || !Packing_Type || !Date || !Nature_Of_Sample || !Remarks || !Group || !Type_Of_Testing.length || !Tests.length){
       toast.error("All fields are necessary");
       return
     }
