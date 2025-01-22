@@ -136,15 +136,19 @@ const [applyToAllAnalyst, setApplyToAllAnalyst] = useState({
 const [applyToAllMethod,setApplyToAllMethod]=useState('')//Track Method for apply to All
 const [applyToAllUnit,setApplyToAllUnit]=useState('')////Track Unit for apply to All
 
-const handleApplyToAllAnalyst = (analystValue,testType) => {
+const handleApplyToAllAnalyst = (analyst,testType) => {
   // Updates all rows with the selected Analyst value
   const updatedRowData={ ...rowData }
   updatedRowData[testType].Tests = rowData[testType].Tests.map((row) => ({
     ...row,
-    Analyst: analystValue,
+    Analyst:{
+      ...row.Analyst,
+      Name:analyst.Name,
+      ID:analyst.ID
+    }
   }));
   setRowData(updatedRowData);
-  setApplyToAllAnalyst(analystValue);
+  setApplyToAllAnalyst(analyst);
 }
 
 const handleApplyToAllMethod = (methodValue,testType) => {
@@ -217,7 +221,7 @@ const handleSubmit = async() => {
   return (
     <div>
       <div className="mt-3 mb-2 ml-2 border border-md border-gray-300 bg-slate-300 p-2 w-1/2 rounded-md">
-        <b>Due Date:</b> <input type="date" name="" id="" onChange={(e)=>handleDueDate(e)} className='bg-slate-100'/>
+        <b>Due Date:</b> <input type="date" name="DueDate" id="DueDate" min={state.Date.split('T')[0]} onChange={(e)=>handleDueDate(e)} className='bg-slate-100'/>
       </div>
       {sections.map((section) => (
         <div key={section.id} className="w-full p-4 bg-gray-100 mb-12">
@@ -261,7 +265,7 @@ const handleSubmit = async() => {
 
 
             <div className={`p-4 ${state.Tests.filter((item) => item.Type_Of_Testing === section.testType).length > 2
-              ? "max-h-64 overflow-y-auto"
+              ? "max-h-128 overflow-y-auto"
               : ""
               }`}>
               {state.Tests.filter(
@@ -297,7 +301,7 @@ const handleSubmit = async() => {
                         updateRowData(section.testType,index, 'Analyst', e.target.value,selectedId);
                         setApplyToAllAnalyst(()=>({
                           "Name":e.target.value,
-                          "ID":e.target.id
+                          "ID":selectedOption.id
                         })); // Track the value for "Apply to All"
                       }}
                       disabled={checkedTests.includes(item.Test)}
