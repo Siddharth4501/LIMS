@@ -134,8 +134,74 @@ const GroupData = async (req, res, next) => {
     }
 }
 
+const GroupDelete = async (req, res, next) => {
+    try {
+        const id=req.params.id;
+        const group = await Group.findById(id)
+        if (!group) {
+            return next(new AppError('Group not found'))
+        }
+        await Group.findByIdAndDelete(id);
+        res.status(200).json({
+            success: true,
+            message:`'${group.Group_Name}' Deleted Successfully`,
+        })
+    }
+    catch (e) {
+        return next(new AppError(e.message, 500))
+    }
+}
+
+const TypeOfTestingDelete = async (req, res, next) => {
+    try {
+        const {groupID,Type_Of_Testing}=req.body;
+        const group = await Group.findById(groupID)
+        if (!group) {
+            return next(new AppError('Group not found'))
+        }
+        group.Type_Of_Testing=group.Type_Of_Testing.filter((data) => data !== Type_Of_Testing);
+
+        group.Tests=group.Tests.filter((test) => {
+            test.Type_Of_Testing !== Type_Of_Testing;
+        });
+        await group.save();
+        res.status(200).json({
+            success: true,
+            message: `'${Type_Of_Testing}' Deleted Successfully`,
+        })
+    }
+    catch (e) {
+        return next(new AppError(e.message, 500))
+    }
+}
+
+const TestsDelete = async (req, res, next) => {
+    try {
+        const {groupID,Test}=req.body;
+        const group = await Group.findById(groupID)
+        if (!group) {
+            return next(new AppError('Group not found'))
+        }
+
+        group.Tests=group.Tests.filter((test) => {
+            test.Test !== Test;
+        });
+        await group.save();
+        res.status(200).json({
+            success: true,
+            message: `'${Test}' Deleted Successfully`,
+        })
+    }
+    catch (e) {
+        return next(new AppError(e.message, 500))
+    }
+}
+
 export {
     GroupAdd,
     GroupUpdate,
     GroupData,
+    GroupDelete,
+    TypeOfTestingDelete,
+    TestsDelete
 }
