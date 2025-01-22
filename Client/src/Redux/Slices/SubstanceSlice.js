@@ -42,6 +42,30 @@ export const getSubstanceData = createAsyncThunk("substance/data", async () => {
   
     })
 
+    export const deleteSubstance=createAsyncThunk("Substance/Delete",async(data)=>{
+      try{
+        const {methodID}=data
+        const id=methodID;
+        let res=axios.delete(`http://localhost:5001/api/v1/Substance/delete/${id}`,{
+          withCredentials: true, // Include cookies
+        })
+        await toast.promise(res, {
+          loading: "Loading...",
+          success: (data) => {
+            return data?.data?.message;
+          },
+          error: "Failed to delete data",
+        });
+        
+        // getting response resolved here
+        res = await res;//when promise is resolved it will give data
+        return res.data;//catched by action
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
+    
+      })
+
   const substanceSlice=createSlice({
         name:'substance',
         initialState,
