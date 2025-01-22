@@ -18,7 +18,7 @@ const AdminCommonPanel = () => {
         <div className="flex">
             {/* fixed top-[115px] left-0 z-50 */}
             <div
-                className={`h-[84vh] bg-gray-200 shadow-lg transition-all duration-300 ${isSidebarOpen ? "w-64" : "w-12"
+                className={`h-[84vh] bg-gray-200 opacity-95 shadow-lg transition-all duration-300 ${isSidebarOpen ? "w-64" : "w-12"
                     }`}
             >
                 {/* Hamburger Button */}
