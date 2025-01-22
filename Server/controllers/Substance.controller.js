@@ -106,8 +106,28 @@ const SubstanceEdit=async(req,res,next)=>{
         
     })
 }
+
+const SubstanceDelete = async (req, res, next) => {
+    try {
+        const id=req.params.id;
+        const substance = await Substance.findById(id)
+        if (!substance) {
+            return next(new AppError('Substance not found'))
+        }
+        await Substance.findByIdAndDelete(id);
+        res.status(200).json({
+            success: true,
+            message: 'Substance Deleted Successfully',
+        })
+    }
+    catch (e) {
+        return next(new AppError(e.message, 500))
+    }
+}
+
 export {
     SubstanceData,
     SubstanceEdit,
     SubstanceAdd,
+    SubstanceDelete
 }
