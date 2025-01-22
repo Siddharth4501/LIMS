@@ -24,7 +24,7 @@ const techManager_AnalystSchema=new Schema(
                         Name:String,
                         ID:{ type: mongoose.Schema.Types.ObjectId, ref: "User" }
                       },
-                      Result: { type: "string", default: "0" },
+                      Result: { type: "string", default: "" },
                       StartDate: { type: "string", format: "date-time" },
                       EndDate: { type: "string", format: "date-time" },
                     },
