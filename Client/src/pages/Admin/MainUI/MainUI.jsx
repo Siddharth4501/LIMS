@@ -15,7 +15,7 @@ const MainUI = () => {
                 <AdminCommonPanel />
 
                 {/* Right Section */}
-                <div className='w-full bg-[url("/src/assets/images/AdminBack4.jpg")] bg-cover bg-no-repeat bg-bottom' style={{ backgroundColor: "rgba(0, 0, 0, 0.2)",backgroundBlendMode: "darken"}}>
+                <div className='w-full bg-[url("/src/assets/images/AdminBack4.jpg")] bg-cover bg-no-repeat bg-bottom' style={{ backgroundColor: "rgba(0, 0, 0, 0.1)",backgroundBlendMode: "darken"}}>
                 </div>
             </div>
         </div>
