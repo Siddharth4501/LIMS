@@ -30,7 +30,7 @@ const SampleViewMore = () => {
       initialRowData[testType] = {Tests: [] };
       initialRowData[testType].Tests = state.Tests
         .filter((test) => test.Type_Of_Testing === testType)
-        .map((test) => ({ Test:{"Test_Name":test.Test,"TestID":test._id},Analyst: {"Name":'',"ID":''}, Method: '', Unit: '',Result:0,Start_Date:'',End_Date:'' }));
+        .map((test) => ({ Test:{"Test_Name":test.Test,"TestID":test._id},Analyst: {"Name":'',"ID":''}, Method: '', Unit: '',Result:'',Start_Date:'',End_Date:'' }));
     });//make Test as an obj whith unique id
     setRowData(initialRowData);
   }, [state.Tests, state.Type_Of_Testing]);
