@@ -105,6 +105,21 @@ export const login = createAsyncThunk("auth/login", async (data) => {
     }
   })
 
+  export const DeleteUserRole=createAsyncThunk("UserRole/Delete",async(data)=>{
+    try {
+      console.log(data,'fgh')
+      let res=axios.post("http://localhost:5001/api/v1/user/role/delete",data,{
+        withCredentials: true, // Include cookies
+      })//here await is not used purposely because of the following toast syntax
+  
+      // getting response resolved here
+      res = await res;//when promise is resolved it will give data
+      return res.data;
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  })
+
   // function to change user password
 export const changePassword = createAsyncThunk(
   "/auth/changePassword",
