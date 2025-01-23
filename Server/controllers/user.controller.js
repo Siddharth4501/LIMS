@@ -138,7 +138,26 @@ const DeleteUserData=async(req,res,next)=>{
         res.status(201).json({
             success:true,
             message:`user ${user.fullName} Deleted Successfully`,
-            user
+        })
+    }
+    catch(e){
+        return next(new AppError(e.message,500))
+    }
+}
+
+const DeleteUserRole=async(req,res,next)=>{
+    try{
+        const { userID,role }=req.body;
+        console.log(userID)
+        const user=await User.findById(userID)
+        if(!user){
+            return next(new AppError('Error in deleting user role',400))
+        }
+        user.roles=user.roles.filter((item)=>item.designation!==role);
+        user.save();
+        res.status(201).json({
+            success:true,
+            message:`Role ${role} Deleted Successfully for User ${user.fullName}`,
         })
     }
     catch(e){
@@ -152,5 +171,6 @@ export {
     Logout,
     UserData,
     changePassword,
-    DeleteUserData
+    DeleteUserData,
+    DeleteUserRole,
 }
