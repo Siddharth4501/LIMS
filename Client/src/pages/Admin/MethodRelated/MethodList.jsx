@@ -15,7 +15,7 @@ const MethodList = () => {
   const [query, setQuery] = useState('');
   const [filteredItems, setFilteredItems] = useState([]);
   useEffect(() => {
-    const filtered = substanceData.filter(item =>
+    const filtered = allSubstanceDataState.filter(item =>
       item.Test.Test_Name.toLowerCase().includes(query.toLowerCase())
     );
     setFilteredItems(filtered);
