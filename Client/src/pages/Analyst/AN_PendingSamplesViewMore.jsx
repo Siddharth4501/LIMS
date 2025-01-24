@@ -20,13 +20,13 @@ const AN_PendingSamplesViewMore = () => {
     
 const handleResultChange = (e, typeOfTesting, testID,Name) => {
     const { value } = e.target;
-    
+    console.log(value,"cdp");
     // Update resultColumn for the specific TestID
     setResultColumn((prev) => {
         console.log("siddddk")
         const updatedColumn = [...prev];
         const existingIndex = updatedColumn.findIndex(
-        (col) => col.Name === Name
+        (col) => col.testID === testID
         );
     
         if (existingIndex !== -1) {
@@ -52,7 +52,7 @@ const handleResultChange = (e, typeOfTesting, testID,Name) => {
         ...prevState[typeOfTesting],
         Tests: prevState[typeOfTesting].Tests.map((item) =>
             item.Test.TestID === testID
-            ? { ...item, Result: value || "0" } // Update Result for the matching TestID
+            ? { ...item, Result: value || "" } // Update Result for the matching TestID
             : item
         ),
         },
@@ -191,7 +191,7 @@ const handleResultChange = (e, typeOfTesting, testID,Name) => {
                 ...prevState[item.TypeOfTesting],
                 Tests: prevState[item.TypeOfTesting].Tests?.map((data) =>
                     data.Test.TestID === item.testID && data.Analyst.ID === userData._id
-                    ? { ...data, Result: item.Result || "0" } // Update Result for the matching TestID
+                    ? { ...data, Result: item.Result || "" } // Update Result for the matching TestID
                     : data
                 ),
                 },
@@ -226,7 +226,13 @@ const handleResultChange = (e, typeOfTesting, testID,Name) => {
                                   </div>
                               </div>
     
-                              <div>
+                              <div className={
+                                      state.Substances_To_Be_Analysed[key].Tests.filter(
+                                          (data) => data.Analyst.ID === userData._id
+                                      ).length >0
+                                          ? 'overflow-y-auto max-h-128' // Adjust max height here as needed
+                                          : ''
+                                  }>
                                   <table className='"table-auto w-full border-collapse border border-gray-300'>
                                       <thead>
                                           <tr className="bg-slate-200">
@@ -239,11 +245,12 @@ const handleResultChange = (e, typeOfTesting, testID,Name) => {
                                           </tr>
                                       </thead>
                                       {
-                                          state.Substances_To_Be_Analysed[key].Tests.filter((data)=>data.Analyst.ID===userData._id).map((item, index) => {
-                                            {console.log(index,resultColumn[index],"liop")}
+                                        
+                                        substances[key].Tests.filter((data)=>data.Analyst.ID===userData._id).map((item, index) => {
+                                            const filteredItem=state.Substances_To_Be_Analysed[key].Tests.filter((data)=>data.Analyst.ID===userData._id);
+                                            {console.log(index,resultColumn[index],"liop",filteredItem.length)}
                                               return (
-                                                
-                                                  <tbody key={`${key}-${index}`}>
+                                                  <tbody key={`${key}-${index}`} >
                                                     <tr className="hover:bg-gray-100">
                                                         <td className="border border-gray-300 px-4 py-2 text-center font-bold">{index + 1}.</td>
                                                         <td className="border border-gray-300 px-4 py-2 text-center">{item.Test.Test_Name}</td>
@@ -254,19 +261,21 @@ const handleResultChange = (e, typeOfTesting, testID,Name) => {
                                                             <input
                                                                 type="text"
                                                                 name={`Result-${item.Test.Test_Name}`}
-                                                                id={`Result-${item.Test.Test_Name}`}
+                                                                id={`Result-${item.Test.Test_Name}`}  
                                                                 value={
-                                                                resultColumn.find(
-                                                                    (col) => col.Name === item.Test.Test_Name
-                                                                )?.Result || "" 
+                                                                    resultColumn.find(
+                                                                    (col) => col.testID === item.Test.TestID
+                                                                )?.Result || item.Result || ""
+                                                                
                                                                 }
+                                                                placeholder='Enter Result Here..'
                                                                 onChange={(e) => handleResultChange(e, key, item.Test.TestID,item.Test.Test_Name)}
-                                                                className="text-center bg-zinc-300 rounded-md min-w-8 p-1"
+                                                                className="text-center border-2 border-blue-700 rounded-md w-72 max-w-72 p-1 focus:border-blue-700"
                                                             />
                                                         </td>
-                                                        {/* `${item.Test.Test_Name}-${index}` */} 
+                                                        
                                                         <td className="border border-gray-300 px-4 py-2 text-center">
-                                                        <input type="date" name={`Start_Date-${key}`} id={`Start_Date-${key}`} className='bg-zinc-300 p-1 m-2 rounded' onChange={(e)=>handleStartDate(e,key,item.Test.TestID)}/>-<input type="date" name={`End_Date-${key}`} id={`Start_Date-${key}`} className='bg-zinc-300 p-1 mb-2 rounded' onChange={(e)=>handleEndDate(e,key,item.Test.TestID)}/>
+                                                        <input type="date" name={`Start_Date-${key}`} id={`Start_Date-${key}`} min={state.Date.split('T')[0]} max={state.Due_Date.split('T')[0]} className='bg-zinc-300 p-1 m-2 rounded' onChange={(e)=>handleStartDate(e,key,item.Test.TestID)}/>-<input type="date" name={`End_Date-${key}`} id={`Start_Date-${key}`} className='bg-zinc-300 p-1 mb-2 rounded' min={state.Date.split('T')[0]} max={state.Due_Date.split('T')[0]} onChange={(e)=>handleEndDate(e,key,item.Test.TestID)}/>
                                                         </td>
                                                     </tr>
                                                   </tbody>
@@ -274,9 +283,6 @@ const handleResultChange = (e, typeOfTesting, testID,Name) => {
                                           })}
                                   </table>
                               </div>
-    
-    
-    
                           </div>
                       )}
                   })}

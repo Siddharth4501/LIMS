@@ -4,14 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { getGroupData } from "../../../Redux/Slices/GroupSilce";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { createAccount } from "../../../Redux/Slices/AuthSlice";
+import { createAccount, getAllUserData } from "../../../Redux/Slices/AuthSlice";
 import AdminCommomNav from "../../../components/AdminCommomNav";
 
 const AddUser = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { groupData } = useSelector((state) => state.group);
-
+    const { allUserData } = useSelector((state) => state.auth);
     // State for form fields
     const [userName, setUserName] = useState("");
     const [userEmail, setUserEmail] = useState("");
@@ -36,12 +36,45 @@ const AddUser = () => {
             await dispatch(getGroupData());
         })();
     }, [dispatch]);
+    useEffect(() => {
+        (async () => {
+            await dispatch(getAllUserData());
+        })();
+    }, [dispatch]);
+    console.log(allUserData,"ju")
     const getAvailableRoles = (sectionIndex) => {
         const selectedRoles = sections.map((section) => section.designation);
-        return allRoles.filter(
-            (role) => !selectedRoles.includes(role) || selectedRoles[sectionIndex] === role
-        );
+    
+        // Get the list of all assigned "Technical Manager" roles
+        const assignedTechnicalManagers = allUserData
+            .flatMap((user) =>
+                user.roles.filter((item) => item.designation === "Technical Manager")
+            )
+            .map((role) => role.Assigned_Group[0]);
+    
+        console.log(assignedTechnicalManagers, "zebra");
+    
+        // Check if a designation other than "Technical Manager" is selected in the first section
+        // const isNonTechnicalManagerSelectedInFirstSection =
+        //     sections[0].designation && sections[0].designation !== "Technical Manager";
+    
+        return allRoles
+            .filter((role) => {
+                // Exclude "Technical Manager" if:
+                // 1. All technical managers are already assigned
+                if (role === "Technical Manager") {
+                    if (assignedTechnicalManagers.length === groupData.length) {
+                        return false;
+                    }
+                }
+                return true;
+            })
+            .filter((role) => {
+                // Ensures role is not already selected for this section unless it's explicitly chosen
+                return !selectedRoles.includes(role) || selectedRoles[sectionIndex] === role;
+            });
     };
+    
 
     // Validation Functions
     const validateUserName = (name) => {
@@ -119,12 +152,27 @@ const AddUser = () => {
         if (role==='Sample Registration'){
             handleGroupChange("All",sectionIndex)
         }
+        if(role==='Technical Manager'){
+            const existingGroup=updatedSections[sectionIndex].Assigned_Group[0] || ''
+            const find=allUserData.find((user)=> user.roles.some((role)=>role.designation==='Technical Manager' && role.Assigned_Group.includes(existingGroup)))
+            if(find){
+                toast.error(`Technical Manager For the group ${existingGroup} already exist`)
+                return
+            }
+        }
         updatedSections[sectionIndex].designation = role;
         setSections(updatedSections);
     };
 
     const handleGroupChange = (group, sectionIndex) => {
         const updatedSections = [...sections];
+        if(updatedSections[sectionIndex].designation==='Technical Manager'){
+            const find=allUserData.find((user)=> user.roles.some((role)=>role.designation==='Technical Manager' && role.Assigned_Group.includes(group)))
+            if(find){
+                toast.error(`Technical Manager For the group ${group} already exist`)
+                return
+            }
+        }
         updatedSections[sectionIndex].Assigned_Group = [group];
         setSections(updatedSections);
     };
@@ -183,51 +231,51 @@ const AddUser = () => {
                         Back
                     </button>
                 </div>
-<br /><br />
+            <br /><br />
             {/* Form */}
             <div className="p-6 bg-slate-200 flex flex-col items-center justify-center">
                 <div className="w-full bg-white border border-gray-700 shadow-lg rounded-lg p-8">
                     <div className="grid grid-cols-3 gap-6 mb-6">
                         <div>
-                            <label htmlFor="userName" className="block text-sm font-medium text-gray-700">User Name</label>
+                            <label htmlFor="userName" className="block text-sm font-medium text-gray-700">User Name<span className="text-red-500">*</span></label>
                             <input
                                 type="text"
                                 id="userName"
                                 value={userName}
                                 onChange={handleNameChange}
-                                className="mt-1 block w-full p-2 border-blue-500 border-2 rounded-md"
+                                className="mt-1 block w-full p-2 border-blue-500 border-2 rounded-md bg-slate-100"
                             />
                             {errors.userName && <p className="text-red-500 text-sm">{errors.userName}</p>}
                         </div>
                         <div>
-                            <label htmlFor="userEmail" className="block text-sm font-medium text-gray-700">User Email</label>
+                            <label htmlFor="userEmail" className="block text-sm font-medium text-gray-700">User Email<span className="text-red-500">*</span></label>
                             <input
                                 type="email"
                                 id="userEmail"
                                 value={userEmail}
                                 onChange={handleEmailChange}
-                                className="mt-1 block w-full p-2 border-blue-500 border-2 rounded-md"
+                                className="mt-1 block w-full p-2 border-blue-500 border-2 rounded-md bg-slate-100"
                             />
                             {errors.userEmail && <p className="text-red-500 text-sm">{errors.userEmail}</p>}
                         </div>
                         <div>
-                            <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
+                            <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password<span className="text-red-500">*</span></label>
                             <input
                                 type="password"
                                 id="password"
                                 value={userPassword}
                                 onChange={handlePasswordChange}
-                                className="mt-1 block w-full p-2 border-blue-500 border-2 rounded-md"
+                                className="mt-1 block w-full p-2 border-blue-500 border-2 rounded-md bg-slate-100"
                             />
                             {errors.userPassword && <p className="text-red-500 text-sm">{errors.userPassword}</p>}
                         </div>
                     </div>
                     {sections.map((section, i) => (
-                        <div className="grid grid-cols-3 gap-6 mb-4 border-blue-500 border-2 rounded-md bg-gray-50" key={i}>
+                        <div className="grid grid-cols-3 gap-6 mb-4 border-blue-500 border-2 rounded-md bg-slate-100" key={i}>
                             {/* Role Section */}
                             <div className="p-4 ">
                                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Role
+                                    Role<span className="text-red-500">*</span>
                                 </label>
                                 <div>
                                     {getAvailableRoles(i).map((role) => (
@@ -259,7 +307,7 @@ const AddUser = () => {
                                 ):(
                                     <div className="p-4">
                                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                                            Group
+                                            Group<span className="text-red-500">*</span>
                                         </label>
                                         <div className={groupData.length > 4 ? "max-h-32 overflow-y-auto" : ""}>
                                             {groupData.map((item) => (
@@ -309,7 +357,7 @@ const AddUser = () => {
                         </div>
                     ))}
                     {
-                        sections.length>=3?<span className="w-0"></span>:(
+                        sections.length>=4 ?<span className="w-0"></span>:(
                             <div className="w-full mt-2">
                                 <button
                                     type="button"

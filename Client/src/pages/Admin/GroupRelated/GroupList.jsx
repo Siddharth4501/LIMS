@@ -117,7 +117,7 @@ const GroupList = () => {
                         return (
                           <tr className="hover:bg-gray-100" key={item._id} >
                             <td className="border border-gray-300 px-4 py-2 text-center">{index + 1}</td>
-                            <td className="border border-gray-300 px-4 py-2 text-center">{item.Group_Name}</td>
+                            <td className="border border-gray-300 px-4 py-2 text-center ">{item.Group_Name}</td>
                             <td className="border border-gray-300 px-4 py-2 text-center">{item._id}</td>
                             <td className="border border-gray-300 px-4 py-2 text-center">{item.Group_Location_Number}</td>
                             {/* <td className="border border-gray-300 px-4 py-2 text-center">{designation.toString()}</td> */}
