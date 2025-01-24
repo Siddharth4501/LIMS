@@ -16,7 +16,7 @@ const UserList = () => {
   const [query, setQuery] = useState('');
   const [filteredItems, setFilteredItems] = useState([]);
   useEffect(() => {
-    const filtered = allUserData.filter(item =>
+    const filtered = allUserDataState.filter(item =>
       item.fullName.toLowerCase().includes(query.toLowerCase()) || item.email.toLowerCase().includes(query.toLowerCase())
     );
     setFilteredItems(filtered);
@@ -25,11 +25,12 @@ const UserList = () => {
     (async () => {
       await dispatch(getAllUserData());
     })();
-  }, []);
+  }, [dispatch]);
   useEffect(() => {
     setAllUserDataState(allUserData);
-  }, [allUserData])
+  },[allUserData])
 
+  console.log("first",allUserDataState,allUserData);
   const handleDelete = async (userID) => {
     try {
       console.log(userID, "judju")
@@ -80,6 +81,7 @@ const UserList = () => {
                     {
                       allUserDataState?.filter((data) => data.Active_Status === true).map((item, index) => {
                         const designation = [];
+                        console.log(allUserDataState,"frtakxo")
                         item.roles.map((role) => {
                           designation.push(role.designation)
                         })
