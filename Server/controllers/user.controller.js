@@ -165,11 +165,42 @@ const DeleteUserRole=async(req,res,next)=>{
     }
 }
 
+const UpdateUser = async (req, res, next) => {
+    // Destructuring the necessary data from the req object
+    const { roles,fullName,email,userID } = req.body;
+  
+    const user = await User.findById(userID);
+  
+    if (!user) {
+      return next(new AppError('Invalid user id or user does not exist'));
+    }
+  
+    if (fullName) {
+      user.fullName = fullName;
+    }
+  
+    if (email) {
+        user.email = email;
+    }
+    if (roles.length>0) {
+        user.roles = roles;
+    }
+
+    // Save the user object
+    await user.save();
+  
+    res.status(200).json({
+      success: true,
+      message: 'User details updated successfully',
+    });
+  }
+
 export {
     Login,
     Register,
     Logout,
     UserData,
+    UpdateUser,
     changePassword,
     DeleteUserData,
     DeleteUserRole,
