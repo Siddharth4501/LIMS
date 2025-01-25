@@ -4,6 +4,8 @@ import {  BsTrash } from "react-icons/bs";
 import { DeleteSampleData } from '../Redux/Slices/SampleSlice';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
+import { FaPrint } from "react-icons/fa6";
+import { MdPrintDisabled } from "react-icons/md";
 
 const Samples = ({difference,data,index}) => {
   const dispatch=useDispatch();
@@ -61,7 +63,16 @@ const Samples = ({difference,data,index}) => {
                     </td>
                   </>
                 ):difference=== 'ParticularUser Sample History'?(
-                    data.Active===true?<td className='border border-gray-300 px-4 py-2 text-center'><span className='bg-green-600 text-white px-6 py-1 rounded-md'>Active</span></td>:<td className='border border-gray-300 px-4 py-2 text-center'><span className='bg-red-600 text-white px-4 py-1 rounded-md'>Deleted</span></td> 
+                    <>
+                      <td className="border border-gray-300 px-4 py-2 text-center">{data.Sample_Status}</td>
+                      {
+                        data.Sample_Status==='Approved By TM' ? <td className="border border-gray-300 px-4 py-2 text-center"><button className='center'><FaPrint /></button></td>:<td className="border border-gray-300 px-4 py-2 text-center cursor-not-allowed"><button className='center'><MdPrintDisabled /></button></td>
+                      }
+                      
+                      {
+                      data.Active===true?<td className='border border-gray-300 px-4 py-2 text-center'><span className='bg-green-600 text-white px-6 py-1 rounded-md'>Active</span></td>:<td className='border border-gray-300 px-4 py-2 text-center'><span className='bg-red-600 text-white px-4 py-1 rounded-md'>Deleted</span></td> 
+                      }
+                    </>
                 ):(
                   <td className='w-0'></td>
                 )
