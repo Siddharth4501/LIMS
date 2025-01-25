@@ -48,7 +48,9 @@ const ParticularUserSRH = () => {
                   <th className="border border-gray-300 px-4 py-2 text-center">Expand
                       {/* <button className="text-blue-500 hover:text-blue-700 underline">Expand &gt;&gt; </button> */}
                   </th>
-                  <th className="border border-gray-300 px-4 py-2 text-center">Status</th>
+                  <th className="border border-gray-300 px-4 py-2 text-center">Sample Status</th>
+                  <th className="border border-gray-300 px-4 py-2 text-center">Report</th>
+                  <th className="border border-gray-300 px-4 py-2 text-center">Active Status</th>
                 </tr>
               </thead>
             {
@@ -71,7 +73,9 @@ const ParticularUserSRH = () => {
                   <th className="border border-gray-300 px-4 py-2 text-center">Expand
                       {/* <button className="text-blue-500 hover:text-blue-700 underline">Expand &gt;&gt; </button> */}
                   </th>
-                  <th className="border border-gray-300 px-4 py-2 text-center">Status</th>
+                  <th className="border border-gray-300 px-4 py-2 text-center">Sample Status</th>
+                  <th className="border border-gray-300 px-4 py-2 text-center">Report</th>
+                  <th className="border border-gray-300 px-4 py-2 text-center">Active Status</th>
                 </tr>
               </thead>
             {
