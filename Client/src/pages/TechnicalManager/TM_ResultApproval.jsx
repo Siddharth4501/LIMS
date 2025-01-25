@@ -7,12 +7,22 @@ const TM_ResultApproval = () => {
   const { TmAnData,sampleData }=useSelector((state)=>state.sample)
   const dispatch=useDispatch();
   const navigate=useNavigate();
+  const [TmAnDataState,setTmAnDataState]=useState([]);
+  const [sampleDataState,setSampleDataState]=useState([])
   useEffect(() => {
       (async () => {
       await dispatch(getTMANData());
       await dispatch(getSampleData());
       })();
   }, []);
+  useEffect(() => {
+      setTmAnDataState(TmAnData);
+    },[TmAnData])
+
+  useEffect(() => {
+    setSampleDataState(sampleData);
+  },[sampleData])
+  
   console.log(TmAnData,sampleData)
   const userData=JSON.parse(localStorage.getItem("userData"));
   const [assignedGroups,setAssignedGroups]=useState([])
@@ -33,8 +43,8 @@ const TM_ResultApproval = () => {
   console.log("lala",assignedGroups);
   const [found,setFound]=useState(false);
   useEffect(()=>{
-    TmAnData?.filter((data)=>data.TM_Status === 'Pending For Approval At TM').map((item)=>{
-      let filteredSample=sampleData?.filter((data)=>data._id== item.Sample_Alloted && data.Active===true && assignedGroups.includes(data.Group))
+    TmAnDataState?.filter((data)=>data.TM_Status === 'Pending For Approval At TM').map((item)=>{
+      let filteredSample=sampleDataState?.filter((data)=>data._id== item.Sample_Alloted && data.Active===true && assignedGroups.includes(data.Group))
       if(filteredSample.length>0){
         setFound(true);
       }
@@ -70,8 +80,8 @@ const TM_ResultApproval = () => {
           </thead>
           <tbody>
             {
-              TmAnData?.filter((data)=>data.TM_Status === 'Pending For Approval At TM').map((item,index)=>{
-                let filteredSample=sampleData?.filter((data)=>data._id== item.Sample_Alloted && data.Active===true && assignedGroups.includes(data.Group))
+              TmAnDataState?.filter((data)=>data.TM_Status === 'Pending For Approval At TM').map((item,index)=>{
+                let filteredSample=sampleDataState?.filter((data)=>data._id== item.Sample_Alloted && data.Active===true && assignedGroups.includes(data.Group))
                 if(filteredSample==0){
                   return null;
                 }
@@ -97,7 +107,7 @@ const TM_ResultApproval = () => {
         </table>
       </div>
         ):(
-          <div className='text-xl font-semibold text-center w-full h-[48vh] translate-y-3/4 text-gray-600'>No Samples For Result Approval Yet!!!</div>
+          <div className='text-2xl font-semibold text-center w-full h-[48vh] translate-y-3/4 text-gray-600'>No Samples For Result Approval Yet!!!</div>
         )
         
       }
