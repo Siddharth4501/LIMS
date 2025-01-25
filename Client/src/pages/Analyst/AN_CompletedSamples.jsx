@@ -28,10 +28,11 @@ const AN_CompletedSamples = () => {
   // It Determines userFound
   useEffect(() => {
     const found = TmAnData?.some((item) => {
-      const userObj = item.AN_Status.find((analyst) => analyst.Analyst.ID === userData?._id);
+      const userObj = item.AN_Status.find((analyst) => analyst.Analyst.ID === userData?._id && analyst.Status==='Forwarded By TM');
       const filteredSample = sampleData?.filter(
         (data) => data._id === item.Sample_Alloted && data.Active===true && assignedGroups.includes(data.Group) && userObj
       );
+      console.log(filteredSample.length,"tyu",filteredSample)
       return filteredSample?.length > 0;
     });
     setUserFound(found);
@@ -45,6 +46,7 @@ const AN_CompletedSamples = () => {
       })();
   }, []);
   console.log(TmAnData,sampleData)
+  console.log(userFound,"jilo")
   return (
     <div>
       <div className='w-full flex border bg-gray-300 p-5'>
@@ -72,7 +74,7 @@ const AN_CompletedSamples = () => {
           <tbody>
           {
               TmAnData?.filter((data)=>data.TM_Status === 'Approved By TM').map((item,index)=>{
-                let userObj=item.AN_Status.find((analyst)=>analyst.Analyst.ID=== userData?._id)
+                let userObj=item.AN_Status.find((analyst)=>analyst.Analyst.ID=== userData?._id && analyst.Status==='Forwarded By TM')
                 let filteredSample=sampleData?.filter((data)=>data._id=== item.Sample_Alloted && data.Active===true && assignedGroups.includes(data.Group) && userObj)
                 if(!filteredSample){
                   return null;
