@@ -79,6 +79,10 @@ const UserListViewMore = () => {
 
     const handleRoleDelete = async (userID, role) => {
         try {
+            if(sections.length===1){
+                toast.error("At Least One Role Should Be Assigned To A User");
+                return
+            }
             const data = {
                 "userID": userID,
                 "role": role
@@ -274,7 +278,7 @@ const UserListViewMore = () => {
                                     <tr className="hover:bg-gray-100" key={`newSection-${index}`}>
                                         <td className="border border-gray-300 px-4 py-2 text-center">{index + 1}.</td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
-                                            <select name={`name-${item.designation}-${index}`} id={`name-${item.designation}-${index}`} value={item.designation || ''} className='bg-slate-100 py-1 w-3/4 border-2 border-blue-700' onChange={(e) => handleRoleChange(e, index)}>
+                                            <select name={`name-${item.designation}-${index}`} id={`name-${item.designation}-${index}`} value={item.designation || ''} className='bg-slate-100 py-1 w-3/4 border-2 border-blue-700 outline-0' onChange={(e) => handleRoleChange(e, index)}>
                                                 <option value="">Role</option>
                                                 {getAvailableRoles(index).map((role, i) => (
                                                     <option value={role} key={`remainingRole-${role}-${i}`}>{role}</option>
@@ -286,7 +290,7 @@ const UserListViewMore = () => {
                                           item.designation==='Sample Registration'?(
                                             <span className="">______</span>        
                                           ):(
-                                            <select name="" id="" className='bg-slate-100 py-1 w-3/4 border-2 border-blue-700' value={item.Assigned_Group[0] || ''} onChange={(e) => handleGroupChange(e.target.value, index)}>
+                                            <select name="" id="" className='bg-slate-100 py-1 w-3/4 border-2 border-blue-700 outline-0' value={item.Assigned_Group[0] || ''} onChange={(e) => handleGroupChange(e.target.value, index)}>
                                                 <option value="">Group</option>
                                                 {groupData.map((group, grpi) => (
                                                     <option value={group.Group_Name} key={`Group-${group.Group_Name}-${grpi}`}>{group.Group_Name}</option>
@@ -297,7 +301,7 @@ const UserListViewMore = () => {
                                         {
                                           item.designation==='Sample Review'?(
                                             <td className="border border-gray-300 px-4 py-2 text-center">
-                                              <select name="" id="" className='bg-slate-100 py-1 w-3/4 border-2 border-blue-700' value="Technical Manager" onChange={(e) => handleRepToChange("Technical Manager", index)}>
+                                              <select name="" id="" className='bg-slate-100 py-1 w-3/4 border-2 border-blue-700 outline-0' value="Technical Manager" onChange={(e) => handleRepToChange("Technical Manager", index)}>
                                                 <option value="">Reporting To</option>
                                                 <option value="Technical Manager" key={`RepTo-Technical Manager-${index}`}>Technical Manager</option>
 
@@ -324,7 +328,7 @@ const UserListViewMore = () => {
             </div>
             <br /><br /><br />
             <div className='w-full mb-20'>
-                <button type="button" className='bg-indigo-700 text-lg py-1 font-semibold rounded-md text-white float-center flex justify-center mx-auto w-1/5 hover:bg-indigo-900' onClick={handleEditSubmit}>Edit</button>
+                <button type="button" className='bg-indigo-700 text-lg py-1 font-semibold rounded-md text-white float-center flex justify-center mx-auto w-1/5 hover:bg-indigo-900' onClick={handleEditSubmit}>Edit Details</button>
             </div>
         </div>
     );
