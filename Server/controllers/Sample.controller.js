@@ -75,7 +75,7 @@ const DeleteSampleData=async(req,res,next)=>{
             return next(new AppError('Error in deleting Sample data',400))
         }
         sample.Active=false;
-        sample.save();
+        await sample.save();
         res.status(201).json({
             success:true,
             message:`Sample ${sample.Name} Deleted Successfully`,
@@ -88,14 +88,38 @@ const DeleteSampleData=async(req,res,next)=>{
 }
 
 const SampleEdit=async(req,res,next)=>{
-    const {ID}=req.body;
-    console.log(ID)
+    const {ID,TMANID,Status}=req.body;
+    console.log(ID,TMANID,Status);
     const sample=await Sample.findById(ID)
     if(!sample){
         return next(new AppError('Error Upating Sample',400))
     }
-    sample.Sample_Status="Pending At Analyst";
-    sample.save()
+    console.log()
+    if(TMANID){
+        const TMANData=await TechManager_Analyst.findById(TMANID);
+        if(!TMANData){
+            return next(new AppError("Can't Update Registered Sample Status",400))
+        }
+        if(Status==='Pending For Approval At TM'){
+            const reqStatusFoundForPending=TMANData.AN_Status.some((data)=>data.Status==='Pending For Approval At TM');
+            console.log("reqStatusFoundForPending",reqStatusFoundForPending);
+            if(reqStatusFoundForPending){
+                sample.Sample_Status=Status;
+                await sample.save();
+        }}
+        else if(Status==="Approved By TM"){
+            const reqStatusFoundForApproval=TMANData.AN_Status.every((data)=>data.Status==='Approved By TM');
+            console.log("reqStatusFoundForApproval",reqStatusFoundForApproval);
+            if(reqStatusFoundForApproval){
+                sample.Sample_Status=Status;
+                await sample.save();
+        }
+        }
+    }
+    else{
+        sample.Sample_Status=Status;
+        await sample.save();
+    }
     res.status(201).json({
         success:true,
         message:'Sample edited successfully',
