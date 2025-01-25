@@ -60,83 +60,95 @@ const MethodList = () => {
               <button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right mr-4' onClick={() => navigate('/Admin/Substance/AddMethod')}>Add Method</button>
             </div>
           </div>
-          <br /><br />
           {
-            filteredItems.length == 0 ? query === '' ? (
+            allSubstanceDataState.length>0?
+            (
               <div>
-                <table className='table-auto w-full border-collapse border border-gray-300'>
-                  <thead>
-                    <tr className="bg-slate-200">
-                      <th className="border border-gray-300 px-4 py-2 text-center">S.No.</th>
-                      <th className="border border-gray-300 px-4 py-2 text-center">Test</th>
-                      <th className="border border-gray-300 px-4 py-2 text-center">Test ID</th>
-                      <th className="border border-gray-300 px-4 py-2 text-center">Method</th>
-                      <th className="border border-gray-300 px-4 py-2 text-center">Unit</th>
-                      <th className="border border-gray-300 px-4 py-2 text-center">Expand</th>
-                      <th className="border border-gray-300 px-4 py-2 text-center">Delete</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      allSubstanceDataState?.map((item, index) => {
-                        return item.MethodUnitList.map((data) => {
-                          return (
 
-                            <tr className="hover:bg-gray-100" key={item._id} >
-                              <td className="border border-gray-300 px-4 py-2 text-center">{index + 1}</td>
-                              <td className="border border-gray-300 px-4 py-2 text-center">{item.Test.Test_Name}</td>
-                              <td className="border border-gray-300 px-4 py-2 text-center">{item.Test.TestID}</td>
-                              <td className="border border-gray-300 px-4 py-2 text-center">{data.Method}</td>
-                              <td className="border border-gray-300 px-4 py-2 text-center">{data.Unit}</td>
-                              <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td>
-                              <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id)}><BsTrash /></button></td>
+                  <br /><br />
+                  {
+                    filteredItems.length == 0 ? query === '' ? (
+                      <div>
+                        <table className='table-auto w-full border-collapse border border-gray-300'>
+                          <thead>
+                            <tr className="bg-slate-200">
+                              <th className="border border-gray-300 px-4 py-2 text-center">S.No.</th>
+                              <th className="border border-gray-300 px-4 py-2 text-center">Test</th>
+                              <th className="border border-gray-300 px-4 py-2 text-center">Test ID</th>
+                              <th className="border border-gray-300 px-4 py-2 text-center">Method</th>
+                              <th className="border border-gray-300 px-4 py-2 text-center">Unit</th>
+                              <th className="border border-gray-300 px-4 py-2 text-center">Expand</th>
+                              <th className="border border-gray-300 px-4 py-2 text-center">Delete</th>
                             </tr>
-                          )
-                        })
-                      })
-                    }
-
-                  </tbody>
-                </table>
-              </div>
-            ) : (
-              <div className='text-2xl font-bold w-full text-center'>No Results Found!!!</div>
-            ) : (
-              <div>
-                <table className='table-auto w-full border-collapse border border-gray-300'>
-                  <thead>
-                    <tr className="bg-slate-200">
-                      <th className="border border-gray-300 px-4 py-2 text-center">S.No.</th>
-                      <th className="border border-gray-300 px-4 py-2 text-center">Test</th>
-                      <th className="border border-gray-300 px-4 py-2 text-center">Test ID</th>
-                      <th className="border border-gray-300 px-4 py-2 text-center">Method</th>
-                      <th className="border border-gray-300 px-4 py-2 text-center">Unit</th>
-                      <th className="border border-gray-300 px-4 py-2 text-center">Expand</th>
-                      <th className="border border-gray-300 px-4 py-2 text-center">Delete</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      filteredItems?.map((item, index) => {
-                        return item.MethodUnitList.map((data) => {
-                          return (
-                            <tr className="hover:bg-gray-100" key={item._id} >
-                              <td className="border border-gray-300 px-4 py-2 text-center">{index + 1}</td>
-                              <td className="border border-gray-300 px-4 py-2 text-center">{item.Test.Test_Name}</td>
-                              <td className="border border-gray-300 px-4 py-2 text-center">{item.Test.TestID}</td>
-                              <td className="border border-gray-300 px-4 py-2 text-center">{data.Method}</td>
-                              <td className="border border-gray-300 px-4 py-2 text-center">{data.Unit}</td>
-                              <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td>
-                              <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id)}><BsTrash /></button></td>
+                          </thead>
+                          <tbody>
+                            {
+                              allSubstanceDataState?.map((item, index) => {
+                                return item.MethodUnitList.map((data) => {
+                                  return (
+        
+                                    <tr className="hover:bg-gray-100" key={item._id} >
+                                      <td className="border border-gray-300 px-4 py-2 text-center">{index + 1}</td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center">{item.Test.Test_Name}</td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center">{item.Test.TestID}</td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center">{data.Method}</td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center">{data.Unit}</td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id)}><BsTrash /></button></td>
+                                    </tr>
+                                  )
+                                })
+                              })
+                            }
+        
+                          </tbody>
+                        </table>
+                      </div>
+                    ) : (
+                      <div className='text-2xl font-bold w-full text-center'>No Results Found!!!</div>
+                    ) : (
+                      <div>
+                        <table className='table-auto w-full border-collapse border border-gray-300'>
+                          <thead>
+                            <tr className="bg-slate-200">
+                              <th className="border border-gray-300 px-4 py-2 text-center">S.No.</th>
+                              <th className="border border-gray-300 px-4 py-2 text-center">Test</th>
+                              <th className="border border-gray-300 px-4 py-2 text-center">Test ID</th>
+                              <th className="border border-gray-300 px-4 py-2 text-center">Method</th>
+                              <th className="border border-gray-300 px-4 py-2 text-center">Unit</th>
+                              <th className="border border-gray-300 px-4 py-2 text-center">Expand</th>
+                              <th className="border border-gray-300 px-4 py-2 text-center">Delete</th>
                             </tr>
-                          )
-                        })
-                      })
-                    }
-
-                  </tbody>
-                </table>
+                          </thead>
+                          <tbody>
+                            {
+                              filteredItems?.map((item, index) => {
+                                return item.MethodUnitList.map((data) => {
+                                  return (
+                                    <tr className="hover:bg-gray-100" key={item._id} >
+                                      <td className="border border-gray-300 px-4 py-2 text-center">{index + 1}</td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center">{item.Test.Test_Name}</td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center">{item.Test.TestID}</td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center">{data.Method}</td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center">{data.Unit}</td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id)}><BsTrash /></button></td>
+                                    </tr>
+                                  )
+                                })
+                              })
+                            }
+        
+                          </tbody>
+                        </table>
+                      </div>
+                    )
+                  }
               </div>
+            )
+            :
+            (
+              <div className='h-[68vh] w-[96vw] flex justify-center items-center '><div className='text-2xl font-semibold'>No Method Added Yet!!!</div></div>
             )
           }
         </div>

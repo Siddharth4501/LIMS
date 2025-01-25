@@ -63,89 +63,100 @@ const TypeOfTestingList = () => {
               <button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right mr-4' onClick={() => navigate('/Admin/Group/AddTypeOfTesting')}>Add Type Of Testing</button>
             </div>
           </div>
-          <br /><br />
           {
-            filteredItems.length === 0 ? query === '' ? (
+            allGroupDataState.length>0?
+            (
               <div>
-                <table className='table-auto w-full border-collapse border border-gray-300'>
-                  <thead>
-                    <tr className="bg-slate-200">
-                      <th className="border border-gray-300 px-4 py-2 text-center">S.No.</th>
-                      <th className="border border-gray-300 px-4 py-2 text-center">Type Of Testing</th>
-                      <th className="border border-gray-300 px-4 py-2 text-center">Group ID</th>
-                      <th className="border border-gray-300 px-4 py-2 text-center">Group</th>
-                      {/* <th className="border border-gray-300 px-4 py-2 text-center">Roles</th>
-                          <th className="border border-gray-300 px-4 py-2 text-center">Expand</th> */}
-                      <th className="border border-gray-300 px-4 py-2 text-center">Delete</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-
-                      allGroupDataState.map((item, index) => {
-                        return (
-                          item.Type_Of_Testing.map((data, i) => {
-                            const currentIndex = indexsCounter++;
-                            return (
-                              <tr className="hover:bg-gray-100" key={`${data}-${i}`} >
-                                <td className="border border-gray-300 px-4 py-2 text-center">{currentIndex}</td>
-                                <td className="border border-gray-300 px-4 py-2 text-center">{data}</td>
-                                <td className="border border-gray-300 px-4 py-2 text-center">{item._id}</td>
-                                <td className="border border-gray-300 px-4 py-2 text-center">{item.Group_Name}</td>
-                                {/* <td className="border border-gray-300 px-4 py-2 text-center">{designation.toString()}</td>
-                                                <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td> */}
-                                <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id,data)}><BsTrash /></button></td>
-                              </tr>
-                            )
-                          }))
-                      })
-                    }
-
-                  </tbody>
-                </table>
+                <br /><br />
+                {
+                  filteredItems.length === 0 ? query === '' ? (
+                    <div>
+                      <table className='table-auto w-full border-collapse border border-gray-300'>
+                        <thead>
+                          <tr className="bg-slate-200">
+                            <th className="border border-gray-300 px-4 py-2 text-center">S.No.</th>
+                            <th className="border border-gray-300 px-4 py-2 text-center">Type Of Testing</th>
+                            <th className="border border-gray-300 px-4 py-2 text-center">Group ID</th>
+                            <th className="border border-gray-300 px-4 py-2 text-center">Group</th>
+                            {/* <th className="border border-gray-300 px-4 py-2 text-center">Roles</th>
+                                <th className="border border-gray-300 px-4 py-2 text-center">Expand</th> */}
+                            <th className="border border-gray-300 px-4 py-2 text-center">Delete</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {
+      
+                            allGroupDataState.map((item, index) => {
+                              return (
+                                item.Type_Of_Testing.map((data, i) => {
+                                  const currentIndex = indexsCounter++;
+                                  return (
+                                    <tr className="hover:bg-gray-100" key={`${data}-${i}`} >
+                                      <td className="border border-gray-300 px-4 py-2 text-center">{currentIndex}</td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center">{data}</td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center">{item._id}</td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center">{item.Group_Name}</td>
+                                      {/* <td className="border border-gray-300 px-4 py-2 text-center">{designation.toString()}</td>
+                                                      <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td> */}
+                                      <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id,data)}><BsTrash /></button></td>
+                                    </tr>
+                                  )
+                                }))
+                            })
+                          }
+      
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div className='text-2xl font-bold w-full text-center'>No Results Found!!!</div>
+                  ) : (
+                    <div>
+                      <table className='table-auto w-full border-collapse border border-gray-300'>
+                        <thead>
+                          <tr className="bg-slate-200">
+                            <th className="border border-gray-300 px-4 py-2 text-center">S.No.</th>
+                            <th className="border border-gray-300 px-4 py-2 text-center">Type Of Testing</th>
+                            <th className="border border-gray-300 px-4 py-2 text-center">Group ID</th>
+                            <th className="border border-gray-300 px-4 py-2 text-center">Group</th>
+                            {/* <th className="border border-gray-300 px-4 py-2 text-center">Roles</th>
+                              <th className="border border-gray-300 px-4 py-2 text-center">Expand</th> */}
+                            <th className="border border-gray-300 px-4 py-2 text-center">Delete</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {
+                            filteredItems.map((item, index) => {
+                              return (
+                                item.Type_Of_Testing.filter((data) =>
+                                  data.toLowerCase().includes(query.toLowerCase())
+                                ).map((TOT, i) => {
+                                  const currentIndex = indexsCounter++;
+                                  return (
+                                    <tr className="hover:bg-gray-100" key={`${TOT}-${i}`} >
+                                      <td className="border border-gray-300 px-4 py-2 text-center">{currentIndex}</td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center">{TOT}</td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center">{item._id}</td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center">{item.Group_Name}</td>
+                                      {/* <td className="border border-gray-300 px-4 py-2 text-center">{designation.toString()}</td>
+                                                      <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td> */}
+                                      <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id)}><BsTrash /></button></td>
+                                    </tr>
+                                  )
+                                }))
+                            })
+                          }
+      
+                        </tbody>
+                      </table>
+                    </div>
+                  )
+                }
               </div>
-            ) : (
-              <div className='text-2xl font-bold w-full text-center'>No Results Found!!!</div>
-            ) : (
-              <div>
-                <table className='table-auto w-full border-collapse border border-gray-300'>
-                  <thead>
-                    <tr className="bg-slate-200">
-                      <th className="border border-gray-300 px-4 py-2 text-center">S.No.</th>
-                      <th className="border border-gray-300 px-4 py-2 text-center">Type Of Testing</th>
-                      <th className="border border-gray-300 px-4 py-2 text-center">Group ID</th>
-                      <th className="border border-gray-300 px-4 py-2 text-center">Group</th>
-                      {/* <th className="border border-gray-300 px-4 py-2 text-center">Roles</th>
-                        <th className="border border-gray-300 px-4 py-2 text-center">Expand</th> */}
-                      <th className="border border-gray-300 px-4 py-2 text-center">Delete</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      filteredItems.map((item, index) => {
-                        return (
-                          item.Type_Of_Testing.filter((data) =>
-                            data.toLowerCase().includes(query.toLowerCase())
-                          ).map((TOT, i) => {
-                            const currentIndex = indexsCounter++;
-                            return (
-                              <tr className="hover:bg-gray-100" key={`${TOT}-${i}`} >
-                                <td className="border border-gray-300 px-4 py-2 text-center">{currentIndex}</td>
-                                <td className="border border-gray-300 px-4 py-2 text-center">{TOT}</td>
-                                <td className="border border-gray-300 px-4 py-2 text-center">{item._id}</td>
-                                <td className="border border-gray-300 px-4 py-2 text-center">{item.Group_Name}</td>
-                                {/* <td className="border border-gray-300 px-4 py-2 text-center">{designation.toString()}</td>
-                                                <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td> */}
-                                <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id)}><BsTrash /></button></td>
-                              </tr>
-                            )
-                          }))
-                      })
-                    }
-
-                  </tbody>
-                </table>
-              </div>
+            )
+            :
+            (
+              <div className='h-[68vh] w-[96vw] flex justify-center items-center '><div className='text-2xl font-semibold'>No Type Of Testing Added Yet!!!</div></div>
             )
           }
 
