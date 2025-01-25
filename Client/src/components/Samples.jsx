@@ -66,11 +66,11 @@ const Samples = ({difference,data,index}) => {
                     <>
                       <td className="border border-gray-300 px-4 py-2 text-center">{data.Sample_Status}</td>
                       {
-                        data.Sample_Status==='Approved By TM' ? <td className="border border-gray-300 px-4 py-2 text-center"><button className='center'><FaPrint /></button></td>:<td className="border border-gray-300 px-4 py-2 text-center cursor-not-allowed"><button className='center'><MdPrintDisabled /></button></td>
+                        data.Sample_Status==='Approved By TM' ? <td className="border border-gray-300 px-4 py-2 text-center"><button className='center'><FaPrint /></button></td>:<td className="border border-gray-300 px-4 pt-3 text-center cursor-not-allowed"><button className='center'><MdPrintDisabled className='cursor-not-allowed text-lg' /></button></td>
                       }
                       
                       {
-                      data.Active===true?<td className='border border-gray-300 px-4 py-2 text-center'><span className='bg-green-600 text-white px-6 py-1 rounded-md'>Active</span></td>:<td className='border border-gray-300 px-4 py-2 text-center'><span className='bg-red-600 text-white px-4 py-1 rounded-md'>Deleted</span></td> 
+                      data.Active===true?<td className='border border-gray-300 px-4 py-2 text-center'><span className='text-green-600 font-semibold'>Active</span></td>:<td className='border border-gray-300 px-4 py-2 text-center'><span className='text-red-600 font-semibold'>Deleted</span></td> 
                       }
                     </>
                 ):(
