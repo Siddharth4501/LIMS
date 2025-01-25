@@ -178,14 +178,16 @@ const TypeOfTestingDelete = async (req, res, next) => {
 const TestsDelete = async (req, res, next) => {
     try {
         const {groupID,Test}=req.body;
+        console.log(Test,"sidjdw")
         const group = await Group.findById(groupID)
         if (!group) {
             return next(new AppError('Group not found'))
         }
-
+        console.log(group.Tests,"dpepdw");
         group.Tests=group.Tests.filter((test) => {
-            test.Test !== Test;
+            return test.Test !== Test;
         });
+        console.log(group.Tests,"hwqpoe");
         await group.save();
         res.status(200).json({
             success: true,
