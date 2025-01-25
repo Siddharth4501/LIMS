@@ -31,7 +31,7 @@ const UserInterface = () => {
         navigate('/User/Change-Password')
     }
     return (
-        <div className="w-screen bg-no-repeat h-screen">
+        <div className="w-screen bg-no-repeat h-screen bg-gray-100">
 
             <div className="flex items-center justify-between p-4 shadow-md bg-slate-400 border border-2 border-slate-700">
 
@@ -62,6 +62,9 @@ const UserInterface = () => {
                         </select>
                     </div>
                 </div>
+            </div>
+            <div className=" h-[68vh] w-[96vw] mt-20 ml-5 bg-[url('/src/assets/images/DFRL.jpg')] bg-contain bg-no-repeat bg-center">
+                
             </div>
         </div>
     );
