@@ -55,7 +55,7 @@ const AddTests = () => {
         const res=await dispatch(updateGroupData(data));
         if(res?.payload?.success){
             toast.success("Group Added Successfully");
-            navigate('/Admin/Home');
+            navigate('/Admin/Group/TestsList');
         }
         else{
             toast.error("Something went Wrong");
