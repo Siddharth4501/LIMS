@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { updateTMANData } from '../../Redux/Slices/SampleSlice';
+import { updateSample, updateTMANData } from '../../Redux/Slices/SampleSlice';
 import toast from 'react-hot-toast';
 
 const TM_ResultApprovalViewMore = () => {
@@ -35,8 +35,19 @@ const TM_ResultApprovalViewMore = () => {
         const res=await dispatch(updateTMANData(data))
         if(res?.payload?.success){
             //here in res?.payload?.success ,the success parameter comes from res.json at backend
-            toast.success("result added successfully")
-            navigate('/ResultApproval')
+            const ID=state.Sample_Alloted;
+            const obj={
+                "ID":ID,
+                "TMANID":state.TMANID,
+                "Status":"Approved By TM"
+            };
+            const response=await dispatch(updateSample(obj))
+            if(response?.payload?.success){
+                //here in res?.payload?.success ,the success parameter comes from res.json at backend
+                toast.success("result added successfully")
+                navigate('/ResultApproval')
+            }
+            
           }
         else {
           toast.error("Something Went Wrong");
