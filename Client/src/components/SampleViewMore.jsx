@@ -204,7 +204,10 @@ const handleSubmit = async() => {
     const res=await dispatch(sendTMData(allotmentData));
     if(res?.payload?.success){
       const ID=state._id
-      const obj={"ID":ID};
+      const obj={
+        "ID":ID,
+        "Status":"Pending At Analyst"
+      };
       const response=await dispatch(updateSample(obj))
       if(response?.payload?.success){
         //here in res?.payload?.success ,the success parameter comes from res.json at backend
