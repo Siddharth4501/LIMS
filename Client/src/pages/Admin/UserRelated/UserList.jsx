@@ -52,7 +52,6 @@ const UserList = () => {
       <div className='flex'>
         <AdminCommonPanel />
         <div className='w-full'>
-          
           <br /><br />
           <div className='flex w-full bg-slate-200 border-indigo-700 border-[2px] p-3'>
             <div className='w-1/2'>
@@ -62,85 +61,94 @@ const UserList = () => {
               <button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right mr-4' onClick={() => navigate('/Admin/User/AddUser')}>Add User</button>
             </div>
           </div>
-          <br /><br />
           {
-            filteredItems.length == 0 ? query === '' ? (
+            allUserDataState?.filter((data) => data.Active_Status === true).length>0?(
               <div>
-                <table className='table-auto w-full border-collapse border border-gray-300'>
-                  <thead>
-                    <tr className="bg-slate-200">
-                      <th className="border border-gray-300 px-4 py-2 text-center">S.No.</th>
-                      <th className="border border-gray-300 px-4 py-2 text-center">User Name.</th>
-                      <th className="border border-gray-300 px-4 py-2 text-center">User ID</th>
-                      <th className="border border-gray-300 px-4 py-2 text-center">Roles</th>
-                      <th className="border border-gray-300 px-4 py-2 text-center">Expand</th>
-                      <th className="border border-gray-300 px-4 py-2 text-center">Delete</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      allUserDataState?.filter((data) => data.Active_Status === true).map((item, index) => {
-                        const designation = [];
-                        console.log(allUserDataState,"frtakxo")
-                        item.roles.map((role) => {
-                          designation.push(role.designation)
-                        })
-                        return (
-                          <tr className="hover:bg-gray-100" key={item._id} >
-                            <td className="border border-gray-300 px-4 py-2 text-center">{index + 1}</td>
-                            <td className="border border-gray-300 px-4 py-2 text-center">{item.fullName}</td>
-                            <td className="border border-gray-300 px-4 py-2 text-center">{item._id}</td>
-                            <td className="border border-gray-300 px-4 py-2 text-center">{designation.toString()}</td>
-                            <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td>
-                            <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id)}><BsTrash /></button></td>
+                {
+                  filteredItems.length == 0 ? query === '' ? (
+                    <div>
+                      <table className='table-auto w-full border-collapse border border-gray-300'>
+                        <thead>
+                          <tr className="bg-slate-200">
+                            <th className="border border-gray-300 px-4 py-2 text-center">S.No.</th>
+                            <th className="border border-gray-300 px-4 py-2 text-center">User Name.</th>
+                            <th className="border border-gray-300 px-4 py-2 text-center">User ID</th>
+                            <th className="border border-gray-300 px-4 py-2 text-center">Roles</th>
+                            <th className="border border-gray-300 px-4 py-2 text-center">Expand</th>
+                            <th className="border border-gray-300 px-4 py-2 text-center">Delete</th>
                           </tr>
-                        )
-                      })
-                    }
-
-                  </tbody>
-                </table>
-              </div>
-            ) : (
-              <div className='text-2xl font-bold w-full text-center'>No Results Found!!!</div>
-            ) : (
-              <div>
-                <table className='table-auto w-full border-collapse border border-gray-300'>
-                  <thead>
-                    <tr className="bg-slate-200">
-                      <th className="border border-gray-300 px-4 py-2 text-center">S.No.</th>
-                      <th className="border border-gray-300 px-4 py-2 text-center">User Name.</th>
-                      <th className="border border-gray-300 px-4 py-2 text-center">User ID</th>
-                      <th className="border border-gray-300 px-4 py-2 text-center">Roles</th>
-                      <th className="border border-gray-300 px-4 py-2 text-center">Expand</th>
-                      <th className="border border-gray-300 px-4 py-2 text-center">Delete</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      filteredItems?.filter((data) => data.Active_Status === true).map((item, index) => {
-                        const designation = [];
-                        item.roles.map((role) => {
-                          designation.push(role.designation)
-                        })
-                        return (
-                          <tr className="hover:bg-gray-100" key={item._id} >
-                            <td className="border border-gray-300 px-4 py-2 text-center">{index + 1}</td>
-                            <td className="border border-gray-300 px-4 py-2 text-center">{item.fullName}</td>
-                            <td className="border border-gray-300 px-4 py-2 text-center">{item._id}</td>
-                            <td className="border border-gray-300 px-4 py-2 text-center">{designation.toString()}</td>
-                            <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td>
-                            <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id)}><BsTrash /></button></td>
+                        </thead>
+                        <tbody>
+                          {
+                            allUserDataState?.filter((data) => data.Active_Status === true).map((item, index) => {
+                              const designation = [];
+                              console.log(allUserDataState,"frtakxo")
+                              item.roles.map((role) => {
+                                designation.push(role.designation)
+                              })
+                              return (
+                                <tr className="hover:bg-gray-100" key={item._id} >
+                                  <td className="border border-gray-300 px-4 py-2 text-center">{index + 1}</td>
+                                  <td className="border border-gray-300 px-4 py-2 text-center">{item.fullName}</td>
+                                  <td className="border border-gray-300 px-4 py-2 text-center">{item._id}</td>
+                                  <td className="border border-gray-300 px-4 py-2 text-center">{designation.toString()}</td>
+                                  <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td>
+                                  <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id)}><BsTrash /></button></td>
+                                </tr>
+                              )
+                            })
+                          }
+      
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div className='text-2xl font-bold w-full text-center'>No Results Found!!!</div>
+                  ) : (
+                    <div>
+                      <table className='table-auto w-full border-collapse border border-gray-300'>
+                        <thead>
+                          <tr className="bg-slate-200">
+                            <th className="border border-gray-300 px-4 py-2 text-center">S.No.</th>
+                            <th className="border border-gray-300 px-4 py-2 text-center">User Name.</th>
+                            <th className="border border-gray-300 px-4 py-2 text-center">User ID</th>
+                            <th className="border border-gray-300 px-4 py-2 text-center">Roles</th>
+                            <th className="border border-gray-300 px-4 py-2 text-center">Expand</th>
+                            <th className="border border-gray-300 px-4 py-2 text-center">Delete</th>
                           </tr>
-                        )
-                      })
-                    }
-
-                  </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                          {
+                            filteredItems?.filter((data) => data.Active_Status === true).map((item, index) => {
+                              const designation = [];
+                              item.roles.map((role) => {
+                                designation.push(role.designation)
+                              })
+                              return (
+                                <tr className="hover:bg-gray-100" key={item._id} >
+                                  <td className="border border-gray-300 px-4 py-2 text-center">{index + 1}</td>
+                                  <td className="border border-gray-300 px-4 py-2 text-center">{item.fullName}</td>
+                                  <td className="border border-gray-300 px-4 py-2 text-center">{item._id}</td>
+                                  <td className="border border-gray-300 px-4 py-2 text-center">{designation.toString()}</td>
+                                  <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td>
+                                  <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id)}><BsTrash /></button></td>
+                                </tr>
+                              )
+                            })
+                          }
+      
+                        </tbody>
+                      </table>
+                    </div>
+                  )
+                }
               </div>
-            )
-          }
+              )
+              :
+              (
+                <div className='h-[68vh] w-[96vw] flex justify-center items-center '><div className='text-2xl font-semibold'>No User Registrations Yet!!!</div></div>
+              )
+            }
 
         </div>
       </div>
