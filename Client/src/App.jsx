@@ -36,6 +36,7 @@ import MethodList from './pages/Admin/MethodRelated/MethodList.jsx'
 import AddMethod from './pages/Admin/MethodRelated/AddMethod.jsx'
 import ErrorList from './pages/Admin/ErrorRelated/ErrorList.jsx'
 import AddError from './pages/Admin/ErrorRelated/AddError.jsx'
+import UserTestReport from './pages/Admin/UserRelated/UserTestReport.jsx'
 
 
 function App() {
@@ -81,6 +82,7 @@ function App() {
           <Route path="/Admin/Substance/AddMethod" element={<AddMethod/>} />
           <Route path="/Admin/Error/ErrorList" element={<ErrorList/>} />
           <Route path="/Admin/Error/AddError" element={<AddError/>} />
+          <Route path="/UserTestReport" element={<UserTestReport/>} />
 
         </Routes> 
     </>
