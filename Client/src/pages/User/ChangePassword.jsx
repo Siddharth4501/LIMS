@@ -8,7 +8,7 @@ import { changePassword } from "../../Redux/Slices/AuthSlice";
 const ChangePassword = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const UserData=JSON.parse(localStorage.getItem('userData') || '{}');
   const [userPassword, setUserPassword] = useState({
     oldPassword: "",
     newPassword: "",
@@ -96,12 +96,22 @@ const ChangePassword = () => {
             onChange={handlePasswordChange}
         />
         </div>
-
-        <Link to={"/"}>
-        <p className="link text-accent cursor-pointer flex items-center justify-center w-full gap-2">
-            <AiOutlineArrowLeft /> <span className="font-semibold underline">Back to Profile</span>
-        </p>
-        </Link>
+        {
+          UserData?.roles.some((role)=>role.designation==='Admin')?(
+            <Link to={"/Admin/Home"}>
+            <p className="link text-accent cursor-pointer flex items-center justify-center w-full gap-2">
+                <AiOutlineArrowLeft /> <span className="font-semibold underline">Back to Profile</span>
+            </p>
+            </Link>
+          ):
+          (
+            <Link to={"/"}>
+            <p className="link text-accent cursor-pointer flex items-center justify-center w-full gap-2">
+                <AiOutlineArrowLeft /> <span className="font-semibold underline">Back to Profile</span>
+            </p>
+            </Link>
+          )
+        }
 
         <button
         className="w-full bg-yellow-600 hover:bg-yellow-700 transition-all ease-in-out duration-300 rounded-sm py-1 font-semibold text-lg cursor-pointer"

@@ -37,6 +37,13 @@ import AddMethod from './pages/Admin/MethodRelated/AddMethod.jsx'
 import ErrorList from './pages/Admin/ErrorRelated/ErrorList.jsx'
 import AddError from './pages/Admin/ErrorRelated/AddError.jsx'
 import UserTestReport from './pages/Admin/UserRelated/UserTestReport.jsx'
+import Denied from './pages/Denied.jsx'
+import NotFound from './pages/NotFound.jsx'
+import RequireAuth from './components/Auth/RequireAuth.jsx'
+import NotRequireAuth from './components/Auth/NotRequireAuth.jsx'
+import Logo from './pages/Admin/ExtraDetailsRelated/Logo.jsx'
+import NameOfLab from './pages/Admin/ExtraDetailsRelated/NameOfLab.jsx'
+import AdministratorProfile from './pages/Admin/ExtraDetailsRelated/AdministratorProfile.jsx'
 
 
 function App() {
@@ -44,44 +51,66 @@ function App() {
   return (
     <>
        <Routes>
-          <Route path="/Technical Manager/Home" element={<TM_Home/>} />
-          <Route path="/Login" element={<Login/>} />
-          <Route path="/" element={<UserInterface/>} />
+       <  Route element={<RequireAuth allowedRoles={["Sample Registration","Analyst","Technical Manager"]} />}>
+            <Route path="/" element={<UserInterface/>} />
+          </Route>
+          <Route element={<RequireAuth allowedRoles={["Analyst"]} />}>
+            <Route path="/AN_PendingSample/ViewMore" element={<AN_PendingSamplesViewMore/>} />
+            <Route path="/AN_PendingSamples" element={<AN_PendingSamples/>} />
+            <Route path="/AN_CompletedSamples" element={<AN_CompletedSamples/>} />
+            <Route path="/Analyst/Home" element={<AnalystHome/>} />
+          </Route>
+
+          <Route element={<RequireAuth allowedRoles={["Technical Manager"]} />}>
+            <Route path="/Technical Manager/Home" element={<TM_Home/>} />
+            <Route path="/SampleAllotment" element={<TM_SampleAllotment/>} />
+            <Route path="/SampleAllotment/View_More" element={<SampleViewMore/>} />
+            <Route path="/ResultApproval" element={<TM_ResultApproval/>} />
+            <Route path="/ResultApproval/Result_Status" element={<TM_RAResultStatus/>} />
+            <Route path="/ResultApproval/Result_Status/View_More" element={<TM_ResultApprovalViewMore/>} />
+            <Route path="/ResultApproved" element={<TM_ApprovedRes/>} />
+            <Route path="/TM_PendingSamples" element={<TM_PendingSample/>} />
+          </Route>
+
+          <Route element={<RequireAuth allowedRoles={["Sample Registration"]} />}>
+            <Route path="/Sample Registration/Home" element={<UserSampleRegister/>} />
+            <Route path="/SampleRegister" element={<Register/>} />
+            <Route path="/SampleRegistrationUser/SampleHistory" element={<ParticularUserSRH/>} />
+            <Route path="/SampleRegistrationUser/SampleHistory/View_More" element={<FullHistory/>} />
+          </Route>
+
+          <Route element={<RequireAuth allowedRoles={["Admin"]} />}>
+            <Route path="/Admin/Home" element={<MainUI/>} />
+            <Route path="/Admin/Group/GroupList" element={<GroupList/>} />
+            <Route path="/Admin/Group/TypeOfTestingList" element={<TypeOfTestingList/>} />
+            <Route path="/Admin/Group/TestsList" element={<TestsList/>} />
+            <Route path="/Admin/Group/AddGroup" element={<AddGroup/>} />
+            <Route path="/Admin/Group/AddTypeOfTesting" element={<AddTypeOfTesting/>} />
+            <Route path="/Admin/Group/AddTests" element={<AddTests/>} />
+            <Route path="/Admin/User/UserList" element={<UserList/>} />
+            <Route path="/Admin/User/AddUser" element={<AddUser/>} />
+            <Route path="/Admin/User/UserList/View_More" element={<UserListViewMore/>} />
+            <Route path="/Admin/User/DeletedUserList" element={<DeletedUserList/>} />
+            <Route path="/Admin/Sample/AllSampleHistory" element={<AllSamplesHistory/>} />
+            <Route path="/Admin/Sample/AllSampleHistory/View_More" element={<FullHistory/>} />
+            <Route path="/Admin/Sample/DeletedSampleHistory" element={<AllDeletedSamples/>} />
+            <Route path="/Admin/Sample/DeletedSampleHistory/View_More" element={<FullHistory/>} />
+            <Route path="/Admin/Substance/MethodList" element={<MethodList/>} />
+            <Route path="/Admin/Substance/AddMethod" element={<AddMethod/>} />
+            <Route path="/Admin/Error/ErrorList" element={<ErrorList/>} />
+            <Route path="/Admin/Error/AddError" element={<AddError/>} />
+            <Route path="/Admin/Administration/Logo" element={<Logo/>} />
+            <Route path="/Admin/Administration/NameOfLab" element={<NameOfLab/>} />
+            <Route path="/Admin/Administration/AdminProfile" element={<AdministratorProfile/>} />
+          </Route>
+          
+          <Route element={<NotRequireAuth />}>
+            <Route path="/Login" element={<Login />} /> 
+          </Route>
+          
           <Route path="/User/Change-Password" element={<ChangePassword />} />
-          <Route path="/Sample Registration/Home" element={<UserSampleRegister/>} />
-          <Route path="/SampleRegister" element={<Register/>} />
-          <Route path="/SampleAllotment" element={<TM_SampleAllotment/>} />
-          <Route path="/SampleAllotment/View_More" element={<SampleViewMore/>} />
-          <Route path="/ResultApproval" element={<TM_ResultApproval/>} />
-          <Route path="/ResultApproval/Result_Status" element={<TM_RAResultStatus/>} />
-          <Route path="/ResultApproval/Result_Status/View_More" element={<TM_ResultApprovalViewMore/>} />
-          <Route path="/ResultApproved" element={<TM_ApprovedRes/>} />
-          <Route path="/TM_PendingSamples" element={<TM_PendingSample/>} />
-          <Route path="/SampleRegistrationUser/SampleHistory" element={<ParticularUserSRH/>} />
-          <Route path="/SampleRegistrationUser/SampleHistory/View_More" element={<FullHistory/>} />
-          <Route path="/AN_PendingSample/ViewMore" element={<AN_PendingSamplesViewMore/>} />
-          <Route path="/AN_PendingSamples" element={<AN_PendingSamples/>} />
-          <Route path="/AN_CompletedSamples" element={<AN_CompletedSamples/>} />
-          <Route path="/Analyst/Home" element={<AnalystHome/>} />
-          <Route path="/Admin/Home" element={<MainUI/>} />
-          <Route path="/Admin/Group/GroupList" element={<GroupList/>} />
-          <Route path="/Admin/Group/TypeOfTestingList" element={<TypeOfTestingList/>} />
-          <Route path="/Admin/Group/TestsList" element={<TestsList/>} />
-          <Route path="/Admin/Group/AddGroup" element={<AddGroup/>} />
-          <Route path="/Admin/Group/AddTypeOfTesting" element={<AddTypeOfTesting/>} />
-          <Route path="/Admin/Group/AddTests" element={<AddTests/>} />
-          <Route path="/Admin/User/UserList" element={<UserList/>} />
-          <Route path="/Admin/User/AddUser" element={<AddUser/>} />
-          <Route path="/Admin/User/UserList/View_More" element={<UserListViewMore/>} />
-          <Route path="/Admin/User/DeletedUserList" element={<DeletedUserList/>} />
-          <Route path="/Admin/Sample/AllSampleHistory" element={<AllSamplesHistory/>} />
-          <Route path="/Admin/Sample/AllSampleHistory/View_More" element={<FullHistory/>} />
-          <Route path="/Admin/Sample/DeletedSampleHistory" element={<AllDeletedSamples/>} />
-          <Route path="/Admin/Sample/DeletedSampleHistory/View_More" element={<FullHistory/>} />
-          <Route path="/Admin/Substance/MethodList" element={<MethodList/>} />
-          <Route path="/Admin/Substance/AddMethod" element={<AddMethod/>} />
-          <Route path="/Admin/Error/ErrorList" element={<ErrorList/>} />
-          <Route path="/Admin/Error/AddError" element={<AddError/>} />
+          <Route path="*" element={<NotFound/>} />
+          <Route path="/denied" element={<Denied/>} />
           <Route path="/UserTestReport" element={<UserTestReport/>} />
 
         </Routes> 

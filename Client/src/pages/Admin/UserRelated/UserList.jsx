@@ -80,7 +80,7 @@ const UserList = () => {
                         </thead>
                         <tbody>
                           {
-                            allUserDataState?.filter((data) => data.Active_Status === true).map((item, index) => {
+                            allUserDataState?.filter((data) => data.Active_Status === true).filter((element)=>element.roles.some((ele)=>ele.designation !=='Admin')).map((item, index) => {
                               const designation = [];
                               console.log(allUserDataState,"frtakxo")
                               item.roles.map((role) => {
@@ -119,7 +119,7 @@ const UserList = () => {
                         </thead>
                         <tbody>
                           {
-                            filteredItems?.filter((data) => data.Active_Status === true).map((item, index) => {
+                            filteredItems?.filter((data) => data.Active_Status === true).filter((element)=>element.roles.some((ele)=>ele.designation !=='Admin')).map((item, index) => {
                               const designation = [];
                               item.roles.map((role) => {
                                 designation.push(role.designation)
