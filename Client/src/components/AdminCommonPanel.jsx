@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Navigate, NavLink } from "react-router-dom";
 
 const AdminCommonPanel = () => {
+    const userData=JSON.parse(localStorage.getItem('userData'));
     const [openMenu, setOpenMenu] = useState("");
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -36,7 +37,7 @@ const AdminCommonPanel = () => {
                 {isSidebarOpen && (
                     <div>
                         <div className="w-full p-4 hover:bg-gray-300">
-                            Dr. G. Phanu Kumar
+                            {userData.fullName.toUpperCase()}
                         </div>
                         <div className="cursor-pointer">
                             <button
@@ -51,7 +52,7 @@ const AdminCommonPanel = () => {
                                     <p className="p-2 hover:bg-gray-300">
                                         <NavLink to={"/Admin/Group/GroupList"}>
                                             Group List
-                                        </NavLink>
+                                        </NavLink>     
                                     </p>
                                     <p className="p-2 hover:bg-gray-300">
                                         <NavLink to={"/Admin/Group/TypeOfTestingList"}>
@@ -119,9 +120,21 @@ const AdminCommonPanel = () => {
                             </button>
                             {openMenu === "administration" && (
                                 <div className="pl-6">
-                                    <p className="p-2 hover:bg-gray-300">Logo</p>
-                                    <p className="p-2 hover:bg-gray-300">Name of Lab</p>
-                                    <p className="p-2 hover:bg-gray-300">Self Profile</p>
+                                    <p className="p-2 hover:bg-gray-300">
+                                        <NavLink to={"/Admin/Administration/Logo"}>
+                                            Logo
+                                        </NavLink>
+                                    </p>
+                                    <p className="p-2 hover:bg-gray-300">
+                                        <NavLink to={"/Admin/Administration/NameOfLab"}>
+                                            Name Of Lab
+                                        </NavLink>
+                                    </p>
+                                    <p className="p-2 hover:bg-gray-300">
+                                        <NavLink to={"/Admin/Administration/AdminProfile"}>
+                                            Self Profile
+                                        </NavLink>
+                                    </p>
                                 </div>
                             )}
                         </div>

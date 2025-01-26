@@ -1,13 +1,30 @@
 import React from 'react'
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { logout } from '../Redux/Slices/AuthSlice';
 
 const AdminCommomNav = () => {
+    const dispatch=useDispatch();
     const navigate=useNavigate();
-    const handleAdminNavigation=(e)=>{
+    const handleAdminNavigation=async(e)=>{
         const {value}=e.target;
         console.log(value,"frt")
         if(value==="AdminHome"){
             navigate('/Admin/Home');
+        }
+        else if(value==='logout'){
+            const res=await dispatch(logout())
+            if(res?.payload?.success){
+                navigate('/Login')
+                toast.success("Successfully Logged Out");
+                
+            }
+            else{
+                toast.error("Something Went Wrong");
+            }
+        }
+        else if(value=='change-password'){
+            navigate('/User/Change-Password')
         }
     }
   return (
