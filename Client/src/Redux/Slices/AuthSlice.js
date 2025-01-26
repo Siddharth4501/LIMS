@@ -48,7 +48,9 @@ export const login = createAsyncThunk("auth/login", async (data) => {
       res = await res;//when promise is resolved it will give data
       return res.data;
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data?.message || "An error occurred");
+      // rejectWithValue is used to properly reject the thunk with the error and goes to login.rejected reducer
+      return rejectWithValue(error?.response?.data || error.message);
     }
   });
   
@@ -173,6 +175,12 @@ export const changePassword = createAsyncThunk(
           localStorage.setItem("isLoggedIn", true);
           state.isLoggedIn = true;
           state.userData = action?.payload?.user;
+        })
+        .addCase(login.rejected, (state) => {
+          localStorage.removeItem("userData");
+          localStorage.removeItem("isLoggedIn");
+          state.isLoggedIn = false;
+          state.userData = {};
         })
         // for user logout
         .addCase(logout.fulfilled, (state) => {
