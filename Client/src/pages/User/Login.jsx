@@ -15,31 +15,52 @@ const Login = () => {
         setShowPassword((prevState)=>!prevState);
     }
 
-    // function to login
+    //functon to login
     const handleLogin = async (e) => {
         e.preventDefault();
         e.stopPropagation();
-        const email=e.target[0].value
-        const password=e.target[1].value
-        console.log(email,password)
-
-        // checking the empty fields
+    
+        const email = e.target[0].value;
+        const password = e.target[1].value;
+    
+        // Validate fields
         if (!email || !password) {
-        toast.error("Please fill all the fields");
-        return;
+            toast.error("Please fill all the fields");
+            return;
         }
-        const loginData={
-            "email":email,
-            "password":password
+    
+        const loginData = {
+            email,
+            password,
+        };
+    
+        try {
+            // Dispatch login action
+            const res = await dispatch(login(loginData));
+    
+            if (res?.payload?.success) {
+                const UserData = JSON.parse(localStorage.getItem('userData') || '{}');
+    
+                if (UserData?.roles) {
+                    // Navigate based on user roles
+                    if (UserData.roles.some((role) => role.designation !== 'Admin')) {
+                        navigate("/");
+                    } else if (UserData.roles.some((role) => role.designation === 'Admin')) {
+                        navigate("/Admin/Home");
+                    }
+                } else {
+                    toast.error("User data not found or invalid roles");
+                }
+            } else {
+                // Handle login failure
+                toast.error("Invalid email or password");
+            }
+        } catch (error) {
+            console.error("Login error:", error);
+            toast.error("Something went wrong. Please try again.");
         }
-        // calling login action
-        const res = await dispatch(login(loginData));
-
-        // redirect to home page if true
-        if (res?.payload?.success) navigate("/");
-
-
     };
+    
   return (
     <div className="flex flex-col font-bold h-screen w-screen justify-center">
         <form onSubmit={handleLogin} className='grid gap-2 border border-indigo-800 shadow-blue-500/50 border-[3px] rounded-lg h-96 w-2/5 m-auto p-4 bg-slate-400'>
