@@ -1,46 +1,46 @@
 import React from 'react'
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { logout } from '../../Redux/Slices/AuthSlice';
 
 const TM_Home = () => {
-    const navigate=useNavigate();
-    const dispatch=useDispatch()
-    const userData=JSON.parse(localStorage.getItem("userData"));
-    const handleSampleAllotment=()=>{
+    const navigate = useNavigate();
+    const dispatch = useDispatch()
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    const handleSampleAllotment = () => {
         navigate('/SampleAllotment')
     }
-    const handleResultApproval=()=>{
+    const handleResultApproval = () => {
         navigate('/ResultApproval')
     }
-    const handlePendingSample=()=>{
+    const handlePendingSample = () => {
         navigate('/TM_PendingSamples')
     }
-    const handleApprovedResult=()=>{
+    const handleApprovedResult = () => {
         navigate('/ResultApproved')
     }
 
-    const handleRedirection=async(e)=>{
-        const value=e.target.value;
-        if(value==='User Home'){
+    const handleRedirection = async (e) => {
+        const value = e.target.value;
+        if (value === 'User Home') {
             navigate('/')
         }
-        else if(value==='logout'){
-            const res=await dispatch(logout())
-            if(res?.payload?.success){
+        else if (value === 'logout') {
+            const res = await dispatch(logout())
+            if (res?.payload?.success) {
                 navigate('/Login')
                 toast.success("Successfully Logged Out");
-                
+
             }
-            else{
+            else {
                 toast.error("Something Went Wrong");
             }
         }
-        else if(value=='change-password'){
+        else if (value == 'change-password') {
             navigate('/User/Change-Password')
         }
-        
+
     }
 
     return (
@@ -68,38 +68,26 @@ const TM_Home = () => {
             <br /><br />
             <div className='grid grid-cols-2 gap-12 mt-16 px-4 py-2 m-auto w-3/4'>
                 <center>
-                    <button className='bg-red-500  shadow-lg shadow-red-500/50 w-80 px-4 py-2 rounded-md ml-8 text-2xl font-normal border-black border-2 transition-transform duration-300 ease-in-out hover:scale-105' onClick={handleSampleAllotment}>
-                        <div className='flex flex-col gap-3'>
-                            <div className='h-32 w-32 rounded-full border-2 border-white bg-red-800 text-white flex justify-center mx-auto '><div className='flex justify-center m-auto font-bold text-2xl'>SA</div></div>
-                            <div className='text-white'>Sample Allotment</div>
-                        </div>
+                    <button className='bg-red-500 shadow-lg shadow-red-500/50 w-80 px-4 py-2 rounded-md text-2xl font-normal transition-transform duration-300 ease-in-out hover:scale-105' onClick={handleSampleAllotment}>
+                        Sample Allotment
                     </button>
                 </center>
                 <center>
-                    <button className='bg-cyan-500  shadow-lg shadow-cyan-500/50 w-80 px-4 py-2 rounded-md mr-32 text-2xl font-normal border-black border-2 transition-transform duration-300 ease-in-out hover:scale-105' onClick={handleResultApproval}>
-                        <div className='flex flex-col gap-3'>
-                            <div className='h-32 w-32 rounded-full border-2 border-white bg-cyan-800 text-white flex justify-center mx-auto '><div className='flex justify-center m-auto font-bold text-2xl'>RA</div></div>
-                            <div className='text-white'>Result Approval</div>
-                        </div>
+                    <button className='bg-cyan-500 shadow-lg shadow-cyan-500/50 w-80 px-4 py-2 rounded-md text-2xl font-normal transition-transform duration-300 ease-in-out hover:scale-105' onClick={handleResultApproval}>
+                        Result Approval !!
                     </button>
                 </center>
                 <center>
-                    <button className='bg-indigo-500  shadow-lg shadow-indigo-500/50 w-80 px-4 py-2 rounded-md ml-8 text-2xl font-normal border-black border-2 transition-transform duration-300 ease-in-out hover:scale-105' onClick={handlePendingSample}>
-                        <div className='flex flex-col gap-3'>
-                            <div className='h-32 w-32 rounded-full border-2 border-white bg-indigo-800 text-white flex justify-center mx-auto '><div className='flex justify-center m-auto font-bold text-2xl'>PS</div></div>
-                            <div className='text-white'>Pending Samples</div>
-                        </div>
+                    <button className='bg-indigo-500 shadow-lg shadow-indigo-500/50 w-80 px-4 py-2 rounded-md text-2xl font-normal transition-transform duration-300 ease-in-out hover:scale-105' onClick={handlePendingSample}>
+                        Pending Samples !!
                     </button>
                 </center>
                 <center>
-                    <button className='bg-blue-500 shadow-lg shadow-blue-500/50 w-80 px-4 py-2 rounded-md mr-32 text-2xl font-normal border-black border-2 transition-transform duration-300 ease-in-out hover:scale-105' onClick={handleApprovedResult}>
-                        <div className='flex flex-col gap-3'>
-                            <div className='h-32 w-32 rounded-full border-2 border-white bg-blue-800 text-white flex justify-center mx-auto '><div className='flex justify-center m-auto font-bold text-2xl'>AR</div></div>
-                            <div className='text-white'>Approved Result</div>
-                        </div>
+                    <button className='bg-blue-500 shadow-lg shadow-blue-500/50 w-80 px-4 py-2 rounded-md text-2xl font-normal transition-transform duration-300 ease-in-out hover:scale-105' onClick={handleApprovedResult}>
+                        Approved Result
                     </button>
                 </center>
-                
+
             </div>
         </>
     )
