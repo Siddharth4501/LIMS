@@ -86,7 +86,8 @@ const UserTestReport = () => {
                                 DFRL/FOOD/24/0004/01
                             </p>
                             <p>
-                                <span className="font-semibold">Sample Name:</span> {state.Name}
+                                <span className="font-semibold">Sample Name:</span> 
+                                {state.Name}
                             </p>
                             <p>
                                 <span className="font-semibold">Mfg. Date:</span> -
@@ -96,13 +97,8 @@ const UserTestReport = () => {
                                 {state.Date.split('T')[0]}
                             </p>
                             <p>
-                                <span className="font-semibold">Sample Conditions:</span> - {state.Nature_Of_Sample}
-                            </p>
-                            <p>
-                                <span className="font-semibold">Temperature of Sample:</span> - {state.Storage_Conditions}
-                            </p>
-                            <p>
-                                <span className="font-semibold">Analysis Start Date:</span> -
+                                <span className="font-semibold">Sample Conditions:</span> - 
+                                {state.Nature_Of_Sample}
                             </p>
                         </div>
                         <div>
@@ -115,61 +111,19 @@ const UserTestReport = () => {
                                 {state.Remarks}
                             </p>
                             <p>
-                                <span className="font-semibold">Expiry Date:</span> -
-                            </p>
-                            <p>
                                 <span className="font-semibold">Sample Drawn By:</span> -
                             </p>
                             <p>
-                                <span className="font-semibold">Quantity Received:</span> - {state.Quantity}
+                                <span className="font-semibold">Quantity Received:</span> - 
+                                {state.Quantity}
                             </p>
                             <p>
                                 <span className="font-semibold">Discipline:</span> -
-                            </p>
-                            <p>
-                                <span className="font-semibold">Analysis Completion Date:</span> -
                             </p>
                         </div>
                     </div>
                 </div>
 
-                {/* <div className="border-t mt-6 pt-4">
-                    <h3 className="font-semibold text-lg">Test Results:</h3>
-                    <table className="w-full border mt-4">
-                        <thead>
-                            <tr className="bg-gray-100">
-                                <th className="border px-4 py-2">Sr.No</th>
-                                <th className="border px-4 py-2">Test Parameters</th>
-                                <th className="border px-4 py-2">Result</th>
-                                <th className="border px-4 py-2">Unit</th>
-                                <th className="border px-4 py-2">Specification Limit</th>
-                                <th className="border px-4 py-2">Method</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td className="border px-4 py-2 text-center">1</td>
-                                <td className="border px-4 py-2">Benzoic Acid</td>
-                                <td className="border px-4 py-2 text-center">45</td>
-                                <td className="border px-4 py-2 text-center">mg/kg</td>
-                                <td className="border px-4 py-2 text-center">-</td>
-                                <td className="border px-4 py-2 text-center">
-                                    DFRL/SOP/CHEM/219/01
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="border px-4 py-2 text-center">2</td>
-                                <td className="border px-4 py-2">Vitamin D</td>
-                                <td className="border px-4 py-2 text-center">454</td>
-                                <td className="border px-4 py-2 text-center">%</td>
-                                <td className="border px-4 py-2 text-center">-</td>
-                                <td className="border px-4 py-2 text-center">
-                                    DFRL/SOP/CHEM/220/01
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div> */}
                 <div className="border-t mt-6 pt-4">
                     <h3 className="font-semibold text-lg mb-4">Test Results : </h3>
                     {
@@ -243,20 +197,7 @@ const UserTestReport = () => {
                 <div className="w-full">
                     <button className="flex justify-center mx-auto bg-blue-500 px-4 py-1 text-white my-5 hover:bg-blue-600 " onClick={handlePrint}><span className="pt-1 pr-1"><FaPrint/></span>Print</button>
                 </div>
-                {/* <div className="border-t mt-6 pt-4">
-                    <h3 className="font-semibold text-lg">Remarks:</h3>
-                    <p className="mt-2">Sample Confirmity Remarks</p>
-                </div>
-
-
-                <div className="flex justify-between items-center mt-6">
-                    <p>Checked By:</p>
-                    <p>Authorized By:</p>
-                </div> */}
-                <div className="flex my-8">
-                    <button onClick={handlePrint}>Print</button>
-                    <div><FaPrint/></div>
-                </div>
+        
             </div>
         </div>
     );
