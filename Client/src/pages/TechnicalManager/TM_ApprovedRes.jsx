@@ -31,15 +31,24 @@ const TM_ApprovedRes = () => {
       })();
   }, []);
   console.log(TmAnData,sampleData)
+  const [TmAnDataState,setTmAnDataState]=useState([]);
+  const [sampleDataState,setSampleDataState]=useState([])
+    useEffect(() => {
+        setTmAnDataState(TmAnData);
+      },[TmAnData])
+  
+    useEffect(() => {
+      setSampleDataState(sampleData);
+    },[sampleData])
   const [found,setFound]=useState(false)
   useEffect(()=>{
-    TmAnData?.filter((data)=>data.TM_Status === 'Approved By TM').map((item)=>{
-      let filteredSample=sampleData?.filter((data)=>data._id== item.Sample_Alloted && data.Active===true && assignedGroups.includes(data.Group))
+    TmAnDataState?.filter((data)=>data.TM_Status === 'Approved By TM').map((item)=>{
+      let filteredSample=sampleDataState?.filter((data)=>data._id== item.Sample_Alloted && data.Active===true && assignedGroups.includes(data.Group))
       if(filteredSample.length>0){
         setFound(true);
       }
     })
-  },[TmAnData,sampleData,userData])
+  },[TmAnData,sampleData,userData,TmAnDataState,sampleDataState])
   return (
     <div>
       <div className='w-full flex border bg-gray-300 p-5'>
@@ -66,8 +75,8 @@ const TM_ApprovedRes = () => {
           </thead>
           <tbody>
             {
-              TmAnData?.filter((data)=>data.TM_Status === 'Approved By TM').map((item,index)=>{
-                let filteredSample=sampleData?.filter((data)=>data._id== item.Sample_Alloted && data.Active===true && assignedGroups.includes(data.Group))
+              TmAnDataState?.filter((data)=>data.TM_Status === 'Approved By TM').map((item,index)=>{
+                let filteredSample=sampleDataState?.filter((data)=>data._id== item.Sample_Alloted && data.Active===true && assignedGroups.includes(data.Group))
                 if(filteredSample.length==0){
                   return null;
                 }
@@ -75,14 +84,14 @@ const TM_ApprovedRes = () => {
                   {console.log(filteredSample,"kiuku")}
                   return(
                     <tr className="hover:bg-gray-100" key={item._id}>
-                      <td className="border border-gray-300 px-4 py-2 text-center">{index+1}</td>
-                      <td className="border border-gray-300 px-4 py-2 text-center">{filteredSample[0]?.Registration_Number}</td>
-                      <td className="border border-gray-300 px-4 py-2 text-center">{filteredSample[0]?.Name}</td>
-                      <td className="border border-gray-300 px-4 py-2 text-center">{item.Due_Date.split('T')[0]}</td>
-                      <td className="border border-gray-300 px-4 py-2 text-center">{filteredSample[0]?.Storage_Conditions}</td>
-                      <td className="border border-gray-300 px-4 py-2 text-center">{filteredSample[0]?.Date.split('T')[0]}</td>
-                      <td className="border border-gray-300 px-4 py-2 text-center">{item.TM_Status}</td>
-                      <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-900' onClick={()=>handleNavigation(item,filteredSample[0],item._id)}>View</button></td>
+                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{index+1}</td>
+                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{filteredSample[0]?.Registration_Number}</td>
+                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{filteredSample[0]?.Name}</td>
+                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.Due_Date.split('T')[0]}</td>
+                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{filteredSample[0]?.Storage_Conditions}</td>
+                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{filteredSample[0]?.Date.split('T')[0]}</td>
+                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.TM_Status}</td>
+                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-900' onClick={()=>handleNavigation(item,filteredSample[0],item._id)}>View</button></td>
                     </tr>
                   )
                 }

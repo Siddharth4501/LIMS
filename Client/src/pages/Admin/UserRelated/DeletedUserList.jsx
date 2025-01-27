@@ -64,11 +64,11 @@ const DeletedUserList = () => {
                             })
                             return (
                               <tr className="hover:bg-gray-100" key={item._id} >
-                                <td className="border border-gray-300 px-4 py-2 text-center">{index + 1}</td>
-                                <td className="border border-gray-300 px-4 py-2 text-center">{item.fullName}</td>
-                                <td className="border border-gray-300 px-4 py-2 text-center">{item._id}</td>
-                                <td className="border border-gray-300 px-4 py-2 text-center">{designation.toString()}</td>
-                                <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td>
+                                <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{index + 1}</td>
+                                <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.fullName}</td>
+                                <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item._id}</td>
+                                <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{designation.toString()}</td>
+                                <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td>
                               </tr>
                             )
                           })
@@ -100,11 +100,11 @@ const DeletedUserList = () => {
                             })
                             return (
                               <tr className="hover:bg-gray-100" key={item._id} >
-                                <td className="border border-gray-300 px-4 py-2 text-center">{index + 1}</td>
-                                <td className="border border-gray-300 px-4 py-2 text-center">{item.fullName}</td>
-                                <td className="border border-gray-300 px-4 py-2 text-center">{item._id}</td>
-                                <td className="border border-gray-300 px-4 py-2 text-center">{designation.toString()}</td>
-                                <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td>
+                                <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{index + 1}</td>
+                                <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.fullName}</td>
+                                <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item._id}</td>
+                                <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{designation.toString()}</td>
+                                <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td>
                               </tr>
                             )
                           })

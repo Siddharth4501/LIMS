@@ -61,10 +61,20 @@ const UserSampleRegister = () => {
       <br /><br /><br /><br /><br /><br /><br />
       <div className='grid grid-cols-2 gap-12 mt-16 px-4 py-2 m-auto w-3/4'>
         <center>
-          <button className='bg-red-500 shadow-lg shadow-red-500/50 w-80 px-4 py-2 rounded-md text-2xl font-normal' onClick={handleSampleRegister}>Sample Register</button>
+            <button className='bg-red-500  shadow-lg shadow-red-500/50 w-80 px-4 py-2 rounded-md ml-8 text-2xl font-normal border-black border-2 transition-transform duration-300 ease-in-out hover:scale-105' onClick={handleSampleRegister}>
+                <div className='flex flex-col gap-3'>
+                    <div className='h-32 w-32 rounded-full border-2 border-white bg-red-800 text-white flex justify-center mx-auto '><div className='flex justify-center m-auto font-bold text-2xl'>SR</div></div>
+                    <div className='text-white'>Sample Register</div>
+                </div>
+            </button>
         </center>
         <center>
-          <button className='bg-cyan-500 shadow-lg shadow-cyan-500/50 w-80 px-4 py-2 rounded-md text-2xl font-normal' onClick={handleSampleHistoryPage}>Sample History Page</button>
+            <button className='bg-cyan-500  shadow-lg shadow-cyan-500/50 w-80 px-4 py-2 rounded-md mr-32 text-2xl font-normal border-black border-2 transition-transform duration-300 ease-in-out hover:scale-105' onClick={handleSampleHistoryPage}>
+                <div className='flex flex-col gap-3'>
+                    <div className='h-32 w-32 rounded-full border-2 border-white bg-cyan-800 text-white flex justify-center mx-auto '><div className='flex justify-center m-auto font-bold text-2xl'>SH</div></div>
+                    <div className='text-white'>Sample History</div>
+                </div>
+            </button>
         </center>
       </div>
     </>

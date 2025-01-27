@@ -88,13 +88,13 @@ const MethodList = () => {
                                   return (
         
                                     <tr className="hover:bg-gray-100" key={item._id} >
-                                      <td className="border border-gray-300 px-4 py-2 text-center">{index + 1}</td>
-                                      <td className="border border-gray-300 px-4 py-2 text-center">{item.Test.Test_Name}</td>
-                                      <td className="border border-gray-300 px-4 py-2 text-center">{item.Test.TestID}</td>
-                                      <td className="border border-gray-300 px-4 py-2 text-center">{data.Method}</td>
-                                      <td className="border border-gray-300 px-4 py-2 text-center">{data.Unit}</td>
-                                      <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td>
-                                      <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id)}><BsTrash /></button></td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{index + 1}</td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.Test.Test_Name}</td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.Test.TestID}</td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{data.Method}</td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{data.Unit}</td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id)}><BsTrash /></button></td>
                                     </tr>
                                   )
                                 })
@@ -126,13 +126,13 @@ const MethodList = () => {
                                 return item.MethodUnitList.map((data) => {
                                   return (
                                     <tr className="hover:bg-gray-100" key={item._id} >
-                                      <td className="border border-gray-300 px-4 py-2 text-center">{index + 1}</td>
-                                      <td className="border border-gray-300 px-4 py-2 text-center">{item.Test.Test_Name}</td>
-                                      <td className="border border-gray-300 px-4 py-2 text-center">{item.Test.TestID}</td>
-                                      <td className="border border-gray-300 px-4 py-2 text-center">{data.Method}</td>
-                                      <td className="border border-gray-300 px-4 py-2 text-center">{data.Unit}</td>
-                                      <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td>
-                                      <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id)}><BsTrash /></button></td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{index + 1}</td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.Test.Test_Name}</td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.Test.TestID}</td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{data.Method}</td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{data.Unit}</td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id)}><BsTrash /></button></td>
                                     </tr>
                                   )
                                 })

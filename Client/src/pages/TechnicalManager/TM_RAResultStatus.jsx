@@ -31,11 +31,11 @@ const TM_RAResultStatus = () => {
               state.AN_Status.map((item,index)=>{ 
                 return(
                   <tr className="hover:bg-gray-100" key={item.Analyst.ID}>
-                    <td className="border border-gray-300 px-4 py-2 text-center">{index+1}</td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">{item.Analyst.Name}</td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">{item.Analyst.ID}</td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">{item.Status}</td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">{
+                    <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{index+1}</td>
+                    <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.Analyst.Name}</td>
+                    <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.Analyst.ID}</td>
+                    <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.Status}</td>
+                    <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{
                       item.Status==='Approved By TM'?<span className='text-sm font-bold text-green-500'>Approved</span>:item.Status==='Pending At Analyst'?<button className='bg-gray-400 text-white px-4 py-1 rounded-md cursor-not-allowed' disabled={true}>View</button>:
                       <button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-900' onClick={()=>handleNavigation(state,item)}>View</button>
                       }

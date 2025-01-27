@@ -65,20 +65,41 @@ const TM_Home = () => {
                 </div>
 
             </div>
-            <br /><br /><br /><br />
+            <br /><br />
             <div className='grid grid-cols-2 gap-12 mt-16 px-4 py-2 m-auto w-3/4'>
                 <center>
-                    <button className='bg-red-500 shadow-lg shadow-red-500/50 w-80 px-4 py-2 rounded-md text-2xl font-normal' onClick={handleSampleAllotment}>Sample Allotment</button>
+                    <button className='bg-red-500  shadow-lg shadow-red-500/50 w-80 px-4 py-2 rounded-md ml-8 text-2xl font-normal border-black border-2 transition-transform duration-300 ease-in-out hover:scale-105' onClick={handleSampleAllotment}>
+                        <div className='flex flex-col gap-3'>
+                            <div className='h-32 w-32 rounded-full border-2 border-white bg-red-800 text-white flex justify-center mx-auto '><div className='flex justify-center m-auto font-bold text-2xl'>SA</div></div>
+                            <div className='text-white'>Sample Allotment</div>
+                        </div>
+                    </button>
                 </center>
                 <center>
-                    <button className='bg-cyan-500 shadow-lg shadow-cyan-500/50 w-80 px-4 py-2 rounded-md text-2xl font-normal' onClick={handleResultApproval}>Result Approval !!</button>
+                    <button className='bg-cyan-500  shadow-lg shadow-cyan-500/50 w-80 px-4 py-2 rounded-md mr-32 text-2xl font-normal border-black border-2 transition-transform duration-300 ease-in-out hover:scale-105' onClick={handleResultApproval}>
+                        <div className='flex flex-col gap-3'>
+                            <div className='h-32 w-32 rounded-full border-2 border-white bg-cyan-800 text-white flex justify-center mx-auto '><div className='flex justify-center m-auto font-bold text-2xl'>RA</div></div>
+                            <div className='text-white'>Result Approval</div>
+                        </div>
+                    </button>
                 </center>
                 <center>
-                    <button className='bg-indigo-500 shadow-lg shadow-indigo-500/50 w-80 px-4 py-2 rounded-md text-2xl font-normal' onClick={handlePendingSample}>Pending Samples !!</button>
+                    <button className='bg-indigo-500  shadow-lg shadow-indigo-500/50 w-80 px-4 py-2 rounded-md ml-8 text-2xl font-normal border-black border-2 transition-transform duration-300 ease-in-out hover:scale-105' onClick={handlePendingSample}>
+                        <div className='flex flex-col gap-3'>
+                            <div className='h-32 w-32 rounded-full border-2 border-white bg-indigo-800 text-white flex justify-center mx-auto '><div className='flex justify-center m-auto font-bold text-2xl'>PS</div></div>
+                            <div className='text-white'>Pending Samples</div>
+                        </div>
+                    </button>
                 </center>
                 <center>
-                    <button className='bg-blue-500 shadow-lg shadow-blue-500/50 w-80 px-4 py-2 rounded-md text-2xl font-normal' onClick={handleApprovedResult}>Approved Result</button>
+                    <button className='bg-blue-500 shadow-lg shadow-blue-500/50 w-80 px-4 py-2 rounded-md mr-32 text-2xl font-normal border-black border-2 transition-transform duration-300 ease-in-out hover:scale-105' onClick={handleApprovedResult}>
+                        <div className='flex flex-col gap-3'>
+                            <div className='h-32 w-32 rounded-full border-2 border-white bg-blue-800 text-white flex justify-center mx-auto '><div className='flex justify-center m-auto font-bold text-2xl'>AR</div></div>
+                            <div className='text-white'>Approved Result</div>
+                        </div>
+                    </button>
                 </center>
+                
             </div>
         </>
     )

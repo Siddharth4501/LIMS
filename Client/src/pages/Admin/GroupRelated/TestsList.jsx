@@ -92,14 +92,14 @@ const TestsList = () => {
                                                                     const currentIndex = indexsCounter++;
                                                                     return (
                                                                         <tr className="hover:bg-gray-100" key={`${data.Test}-${i}`} >
-                                                                            <td className="border border-gray-300 px-4 py-2 text-center">{currentIndex}</td>
-                                                                            <td className="border border-gray-300 px-4 py-2 text-center">{data.Test}</td>
-                                                                            <td className="border border-gray-300 px-4 py-2 text-center">{data.Type_Of_Testing}</td>
-                                                                            <td className="border border-gray-300 px-4 py-2 text-center">{item._id}</td>
-                                                                            <td className="border border-gray-300 px-4 py-2 text-center">{item.Group_Name}</td>
+                                                                            <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{currentIndex}</td>
+                                                                            <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{data.Test}</td>
+                                                                            <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{data.Type_Of_Testing}</td>
+                                                                            <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item._id}</td>
+                                                                            <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.Group_Name}</td>
                                                                             {/* <td className="border border-gray-300 px-4 py-2 text-center">{designation.toString()}</td>
                                                     <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td> */}
-                                                                            <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id,data.Test)}><BsTrash /></button></td>
+                                                                            <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id,data.Test)}><BsTrash /></button></td>
                                                                         </tr>
                                                                     )
                                                                 }))
@@ -136,14 +136,14 @@ const TestsList = () => {
                                                                     const currentIndex = indexsCounter++;
                                                                     return (
                                                                         <tr className="hover:bg-gray-100" key={`${testObj.Test}-${i}`} >
-                                                                            <td className="border border-gray-300 px-4 py-2 text-center">{currentIndex}</td>
-                                                                            <td className="border border-gray-300 px-4 py-2 text-center">{testObj.Test}</td>
-                                                                            <td className="border border-gray-300 px-4 py-2 text-center">{testObj.Type_Of_Testing}</td>
-                                                                            <td className="border border-gray-300 px-4 py-2 text-center">{item._id}</td>
-                                                                            <td className="border border-gray-300 px-4 py-2 text-center">{item.Group_Name}</td>
+                                                                            <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{currentIndex}</td>
+                                                                            <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{testObj.Test}</td>
+                                                                            <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{testObj.Type_Of_Testing}</td>
+                                                                            <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item._id}</td>
+                                                                            <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.Group_Name}</td>
                                                                             {/* <td className="border border-gray-300 px-4 py-2 text-center">{designation.toString()}</td> */}
                                                                             {/* <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td> */}
-                                                                            <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id)}><BsTrash /></button></td>
+                                                                            <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id)}><BsTrash /></button></td>
                                                                         </tr>
                                                                     )
                                                                 }))
