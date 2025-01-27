@@ -83,7 +83,7 @@ const AN_CompletedSamples = () => {
                 {
                   TmAnDataState?.filter((data) => data.TM_Status === 'Approved By TM').map((item, index) => {
                     let userObj = item.AN_Status.find((analyst) => analyst.Analyst.ID === userData?._id && analyst.Status === 'Forwarded By TM')
-                    let filteredSample = sampleData?.filter((data) => data._id === item.Sample_Alloted && data.Active === true && assignedGroups.includes(data.Group) && userObj)
+                    let filteredSample = sampleDataState?.filter((data) => data._id === item.Sample_Alloted && data.Active === true && assignedGroups.includes(data.Group) && userObj)
                     if (!filteredSample) {
                       return null;
                     }
