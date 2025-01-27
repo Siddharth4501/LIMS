@@ -32,15 +32,24 @@ const TM_PendingSample = () => {
     setAssignedGroups(userGroup);
   },[])
   console.log("lala",assignedGroups);
+  const [TmAnDataState,setTmAnDataState]=useState([]);
+  const [sampleDataState,setSampleDataState]=useState([])
+    useEffect(() => {
+        setTmAnDataState(TmAnData);
+      },[TmAnData])
+  
+    useEffect(() => {
+      setSampleDataState(sampleData);
+    },[sampleData])
   const [found,setFound]=useState(false);
   useEffect(()=>{
-    TmAnData?.filter((data)=>data.AN_Status.some((element)=>element.Status === 'Pending At Analyst')).map((item)=>{
-      let filteredSample=sampleData?.filter((data)=>data._id== item.Sample_Alloted && data.Active===true && assignedGroups.includes(data.Group))
+    TmAnDataState?.filter((data)=>data.AN_Status.some((element)=>element.Status === 'Pending At Analyst')).map((item)=>{
+      let filteredSample=sampleDataState?.filter((data)=>data._id== item.Sample_Alloted && data.Active===true && assignedGroups.includes(data.Group))
       if(filteredSample.length>0){
         setFound(true);
       }
     })
-  },[TmAnData,sampleData,userData])
+  },[TmAnData,sampleData,userData,TmAnDataState,sampleDataState])
   return (
     <div>
       <div className='w-full flex border bg-gray-300 p-5'>
@@ -66,21 +75,21 @@ const TM_PendingSample = () => {
           </thead>
           <tbody>
             {
-              TmAnData?.filter((data)=>data.AN_Status.some((element)=>element.Status === 'Pending At Analyst')).map((item,index)=>{
-                let filteredSample=sampleData?.filter((data)=>data._id== item.Sample_Alloted && data.Active===true && assignedGroups.includes(data.Group))
+              TmAnDataState?.filter((data)=>data.AN_Status.some((element)=>element.Status === 'Pending At Analyst')).map((item,index)=>{
+                let filteredSample=sampleDataState?.filter((data)=>data._id== item.Sample_Alloted && data.Active===true && assignedGroups.includes(data.Group))
                 if(!filteredSample){
                   return null;
                 }
                 {console.log(filteredSample,"kiuku")}
                 return(
                   <tr className="hover:bg-gray-100" key={item._id}>
-                    <td className="border border-gray-300 px-4 py-2 text-center">{index+1}</td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">{filteredSample[0]?.Registration_Number}</td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">{filteredSample[0]?.Name}</td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">{item.Due_Date.split('T')[0]}</td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">{filteredSample[0]?.Storage_Conditions}</td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">{filteredSample[0]?.Date.split('T')[0]}</td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">{item.TM_Status}</td>
+                    <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{index+1}</td>
+                    <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{filteredSample[0]?.Registration_Number}</td>
+                    <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{filteredSample[0]?.Name}</td>
+                    <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.Due_Date.split('T')[0]}</td>
+                    <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{filteredSample[0]?.Storage_Conditions}</td>
+                    <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{filteredSample[0]?.Date.split('T')[0]}</td>
+                    <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.TM_Status}</td>
                     
                   </tr>
                 )
