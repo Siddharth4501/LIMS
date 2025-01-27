@@ -40,37 +40,40 @@ const Samples = ({difference,data,index}) => {
           toast.error(error)
       }
     }
+    const handleReportView=()=>{
+        navigate('/UserTestReport',{state:{...data}})
+    }
   return (
           
           <tbody>
               <tr className="hover:bg-gray-100">
-              <td className="border border-gray-300 px-4 py-2 text-center">{index+1}</td>
-              <td className="border border-gray-300 px-4 py-2 text-center">{data.Registration_Number}</td>
-              <td className="border border-gray-300 px-4 py-2 text-center">{data.Name}</td>
-              <td className="border border-gray-300 px-4 py-2 text-center">{data.Group}</td>
-              <td className="border border-gray-300 px-4 py-2 text-center">{data.Date.split('T')[0]}</td>
-              <td className="border border-gray-300 px-4 py-2 text-center">                 
+              <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{index+1}</td>
+              <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{data.Registration_Number}</td>
+              <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{data.Name}</td>
+              <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{data.Group}</td>
+              <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{data.Date.split('T')[0]}</td>
+              <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">                 
                 <button className="bg-indigo-700 hover:bg-indigo-900 rounded-md text-white pl-4 pr-4 pt-1 pb-1" onClick={handleRedirection}>View </button>
               </td>
               {
                 difference==='All Sample History' ?(
                   <>
-                    <td className='border border-gray-300 px-4 py-2 text-center'>
+                    <td className='border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto'>
                       {data.Sample_Status}
                     </td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">                 
+                    <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">                 
                     {data?.Sample_Status==='Forwarded To TM'?<button className="bg-red-700 hover:bg-red-800 rounded-md text-white pl-4 pr-4 pt-1 pb-1" onClick={()=>handleDelete(data._id)}><BsTrash/></button>:<button className="bg-red-700 rounded-md text-white pl-4 pr-4 pt-1 pb-1 cursor-not-allowed" disabled={true}><BsTrash/></button>}
                     </td>
                   </>
                 ):difference=== 'ParticularUser Sample History'?(
                     <>
-                      <td className="border border-gray-300 px-4 py-2 text-center">{data.Sample_Status}</td>
+                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{data.Sample_Status}</td>
                       {
-                        data.Sample_Status==='Approved By TM' ? <td className="border border-gray-300 px-4 py-2 text-center"><button className='center'><FaPrint /></button></td>:<td className="border border-gray-300 px-4 pt-3 text-center cursor-not-allowed"><button className='center'><MdPrintDisabled className='cursor-not-allowed text-lg' /></button></td>
+                        data.Sample_Status==='Approved By TM' ? <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button className="bg-indigo-700 hover:bg-indigo-900 rounded-md text-white pl-4 pr-4 pt-1 pb-1" onClick={handleReportView}>View</button></td>:<td className="border border-gray-300 px-4 pt-3 text-center cursor-not-allowed max-w-72  overflow-x-auto"><button className="bg-gray-300 rounded-md pl-4 pr-4 pt-1 pb-1 cursor-not-allowed" disabled>View</button></td>
                       }
                       
                       {
-                      data.Active===true?<td className='border border-gray-300 px-4 py-2 text-center'><span className='text-green-600 font-semibold'>Active</span></td>:<td className='border border-gray-300 px-4 py-2 text-center'><span className='text-red-600 font-semibold'>Deleted</span></td> 
+                      data.Active===true?<td className='border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto'><span className='text-green-600 font-semibold'>Active</span></td>:<td className='border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto'><span className='text-red-600 font-semibold'>Deleted</span></td> 
                       }
                     </>
                 ):(
