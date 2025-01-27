@@ -1,6 +1,11 @@
 import React from "react";
+import { FaPrint } from "react-icons/fa6";
+
 
 const UserTestReport = () => {
+    const handlePrint=()=>{
+        window.print();
+    }
     return (
         <div className="bg-gray-100 p-8">
             <div className="max-w-4xl mx-auto bg-white shadow-md border p-8 rounded-md">
@@ -179,7 +184,7 @@ const UserTestReport = () => {
                     <div className="flex justify-end mt-6">
                         <div className="text-center">
                             <p className="font-semibold">Verified By</p>
-                            <p>(Dr. G. Phani Kumar)</p>
+                            <p>(Dr. G. Phanu Kumar)</p>
                         </div>
                     </div>
                     {/* Notes Section */}
@@ -209,6 +214,10 @@ const UserTestReport = () => {
                     <p>Checked By:</p>
                     <p>Authorized By:</p>
                 </div> */}
+                <div className="flex my-8">
+                    <button onClick={handlePrint}>Print</button>
+                    <div><FaPrint/></div>
+                </div>
             </div>
         </div>
     );
