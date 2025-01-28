@@ -1,11 +1,22 @@
-import React from 'react'
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../Redux/Slices/AuthSlice';
+import { getNameOfLab } from '../Redux/Slices/ExtraSlice';
 
 const AdminCommomNav = () => {
+    const {LabNameData}=useSelector(state=>state.administration);
+    const [LabNameDataState,setLabNameDataState]=useState([]);
     const dispatch=useDispatch();
     const navigate=useNavigate();
+    useEffect(() => {
+        (async () => {
+          await dispatch(getNameOfLab());
+        })();
+      }, []);
+    useEffect(() => {
+        setLabNameDataState(LabNameData);
+    }, [LabNameData]);
     const handleAdminNavigation=async(e)=>{
         const {value}=e.target;
         console.log(value,"frt")
@@ -33,10 +44,10 @@ const AdminCommomNav = () => {
                     <img src=" /src/assets/images/DRDO-Logo1.jpg" alt="Logo"
                         className="h-20 w-22 object-contain mr-8 ml-4 rounded-full"
                     />
-                    <span className="text-lg font-bold">Name of Lab : DFRL</span>
+                    <span className="text-lg font-bold">Name of Lab : {LabNameDataState.length>0?LabNameDataState[0].Lab_Name:'DIBT'} </span>
                 </div>
                 <div className='mx-6'>
-                    <select name="" id="" className="p-2 rounded-lg border border-blue-800 bg-slate-100" onChange={handleAdminNavigation}>
+                    <select name="" id="" className="p-2 rounded-lg border border-blue-800 bg-slate-100 outline-0" onChange={handleAdminNavigation}>
                         <option value="admin">Administrator</option>
                         <option value="AdminHome">Home</option>
                         <option value="change-password">Change Password</option>
