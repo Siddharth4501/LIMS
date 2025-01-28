@@ -4,12 +4,13 @@ import AppError from "../utils/error.utils.js";
 
 const SampleRegister=async(req,res,next)=>{
     try{
-        const {Name,Quantity,Storage_Conditions,Registration_Number,Customer_Code,Packing_Type,Date,Treatment_Type,Nature_Of_Sample,Remarks,Group,Type_Of_Testing,Tests,ID}=req.body;
+        const {Name,Quantity,Storage_Conditions,Customer_Code,Packing_Type,Date,Mfg_Date,Treatment_Type,Nature_Of_Sample,Issued_To,Remarks,Group,Type_Of_Testing,Tests,ID}=req.body;
         
-        if(!Name || !Quantity || !Storage_Conditions || !Registration_Number || !Customer_Code || !Packing_Type || !Date || !Nature_Of_Sample || !Remarks || !Group || Type_Of_Testing.length==0 || Tests.length==0 ||  !ID){
+        if(!Name || !Quantity || !Storage_Conditions || !Customer_Code || !Packing_Type || !Date || !Mfg_Date || !Nature_Of_Sample || !Issued_To || !Remarks || !Group || Type_Of_Testing.length==0 || Tests.length==0 ||  !ID){
             return next(new AppError('All fields are required',400))
         }
-        const Found=await Sample.find({Registration_Number});
+        const registrationNumber = await Sample.generateRegistrationNumber();
+        const Found=await Sample.find({registrationNumber});
         console.log(Found,"alal")
         if(Found.length>0){
             return next(new AppError('Sample with this Registration Number already exists',400))
@@ -18,12 +19,14 @@ const SampleRegister=async(req,res,next)=>{
             Name,
             Quantity,
             Storage_Conditions,
-            Registration_Number,
+            Registration_Number:registrationNumber,
             Customer_Code,
             Packing_Type,
             Date,
+            Mfg_Date,
             Treatment_Type,
             Nature_Of_Sample,
+            Issued_To,
             Remarks,
             Group,
             Type_Of_Testing,
