@@ -7,6 +7,7 @@ import userRoutes from './routes/user.routes.js'
 import substanceRoutes from './routes/Substance.routes.js'
 import groupRoutes from './routes/Group.routes.js'
 import errorRoutes from './routes/Error.routes.js'
+import administrationRoutes from './routes/Administration.routes.js'
 import errorMiddleware from './middlewares/error.middleware.js';
 
 const app=express();
@@ -28,6 +29,7 @@ app.use('/api/v1/user',userRoutes);
 app.use('/api/v1/Substance',substanceRoutes);
 app.use('/api/v1/Group',groupRoutes);
 app.use('/api/v1/Error',errorRoutes);
+app.use('/api/v1/Administration',administrationRoutes);
 
 app.all('*',(req,res)=>{
     res.status(404).send('OOPS!! 404 Page Not Found');
