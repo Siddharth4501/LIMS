@@ -73,7 +73,7 @@ const FullHistory = () => {
           <div>
             <label className="block text-sm font-semibold mb-2">Registration Number</label>
             <input
-              type="number"
+              type="text"
               name="Registration_Number"
               className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
               defaultValue={state.Registration_Number}
