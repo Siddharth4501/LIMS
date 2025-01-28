@@ -20,7 +20,8 @@ const sampleSchema=new Schema(
             // required:[true,'Storage Condition is required'],
         },
         Registration_Number:{
-            type:Number,
+            type:String,
+            unique:true
             // required:[true,'Registration Number is required'],
             
         },
@@ -36,10 +37,17 @@ const sampleSchema=new Schema(
         Date:{
             type:Date,
         },
+        Mfg_Date:{
+            type:String,
+            trim:true,
+        },
         Treatment_Type:{
             type:String,
         },
         Nature_Of_Sample:{
+            type:String,
+        },
+        Issued_To:{
             type:String,
         },
         Remarks:{
@@ -73,6 +81,21 @@ const sampleSchema=new Schema(
         timestamps:true
     }
 );
+
+sampleSchema.statics.generateRegistrationNumber = async function () {
+    const lastEntry = await this.findOne().sort({ _id: -1 }); // Use 'this' to refer to the model
+    let newNumber = 'REG/2025/'; // Base prefix for the registration number
+
+    if (lastEntry && lastEntry.Registration_Number) {
+        // Extract the last number part from the registration number
+        const lastNumber = parseInt(lastEntry.Registration_Number.split('/')[2], 10);
+        newNumber += String(lastNumber + 1).padStart(6, '0'); // Increment and pad to 6 digits
+    } else {
+        newNumber += '000001'; // If no entries, start with '000001'
+    }
+
+    return newNumber; // Return the new registration number
+};
 
 const Sample =model('Sample',sampleSchema);
 
