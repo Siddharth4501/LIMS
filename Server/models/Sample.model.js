@@ -84,7 +84,9 @@ const sampleSchema=new Schema(
 
 sampleSchema.statics.generateRegistrationNumber = async function () {
     const lastEntry = await this.findOne().sort({ _id: -1 }); // Use 'this' to refer to the model
-    let newNumber = 'REG/2025/'; // Base prefix for the registration number
+    const date = new Date();
+    const year = date.getFullYear();
+    let newNumber = `REG/${year}/`; // Base prefix for the registration number
 
     if (lastEntry && lastEntry.Registration_Number) {
         // Extract the last number part from the registration number
