@@ -162,7 +162,7 @@ const TypeOfTestingDelete = async (req, res, next) => {
         group.Type_Of_Testing=group.Type_Of_Testing.filter((data) => data !== Type_Of_Testing);
 
         group.Tests=group.Tests.filter((test) => {
-            test.Type_Of_Testing !== Type_Of_Testing;
+            return test.Type_Of_Testing !== Type_Of_Testing;
         });
         await group.save();
         res.status(200).json({
