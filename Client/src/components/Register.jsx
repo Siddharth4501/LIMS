@@ -71,12 +71,13 @@ const Register = () => {
     const Name = formData.get("Name");
     const Quantity = formData.get("Quantity");
     const Storage_Condititons = formData.get("Storage_Conditions");
-    const Registration_Number = formData.get("Registration_Number");
     const Customer_Code = formData.get("Customer_Code");
     const Packing_Type = formData.get("Packing_Type");
     const Date = formData.get("Date");
+    const Mfg_Date = formData.get("Mfg_Date");
     const Treatment_Type = formData.get("Treatment_Type");
     const Nature_Of_Sample = formData.get("Nature_Of_Sample");
+    const Issued_To = formData.get("Issued_To");
     const Remarks=formData.get("Remarks");
     const Group = formData.get("Group");
     const Type_Of_Testing = [];
@@ -100,8 +101,8 @@ const Register = () => {
     })
 
     console.log(Tests, "sor1")
-    console.log(Name, Quantity, Storage_Condititons, Registration_Number, Customer_Code, Packing_Type, Date, Treatment_Type,Nature_Of_Sample, Remarks, Group, selectedAnalysis, selectedTests, "jjj")
-    if(!Name || !Quantity || !Storage_Condititons || !Registration_Number || !Customer_Code || !Packing_Type || !Date || !Nature_Of_Sample || !Remarks || !Group || !Type_Of_Testing.length || !Tests.length){
+    console.log(Name, Quantity, Storage_Condititons, Customer_Code, Packing_Type, Date,Mfg_Date, Treatment_Type,Nature_Of_Sample, Remarks, Issued_To,Group, selectedAnalysis, selectedTests, "jjj")
+    if(!Name || !Quantity || !Storage_Condititons || !Customer_Code || !Packing_Type || !Date || !Mfg_Date || !Nature_Of_Sample || !Issued_To || !Remarks || !Group || !Type_Of_Testing.length || !Tests.length){
       toast.error("All fields are necessary");
       return
     }
@@ -109,12 +110,13 @@ const Register = () => {
       "Name":Name,
       "Quantity":Quantity,
       "Storage_Conditions":Storage_Condititons,
-      "Registration_Number":Registration_Number,
       "Customer_Code":Customer_Code,
       "Packing_Type":Packing_Type,
       "Date":Date,
+      "Mfg_Date":Mfg_Date,
       "Treatment_Type":Treatment_Type,
       "Nature_Of_Sample":Nature_Of_Sample,
+      "Issue_To":Issued_To,
       "Remarks":Remarks,
       "Group":Group,
       "Type_Of_Testing":Type_Of_Testing,
@@ -322,15 +324,6 @@ const Register = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold mb-2">Registration Number</label>
-            <input
-              type="number"
-              name="Registration_Number"
-              className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
-              required
-            />
-          </div>
-          <div>
             <label className="block text-sm font-semibold mb-2">Customer Code</label>
             <input
               type="number"
@@ -351,10 +344,19 @@ const Register = () => {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-semibold mb-2">Date</label>
+            <label className="block text-sm font-semibold mb-2">Registration Date</label>
             <input
               type="Date"
               name="Date"
+              className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-semibold mb-2">Manufacturing Date</label>
+            <input
+              type="date"
+              name="Mfg_Date"
               className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
               required
             />
@@ -377,14 +379,25 @@ const Register = () => {
           />
           </div>
         </div>
-        <div className="p-2">
-          <label className="block text-sm font-semibold mb-2">Remarks</label>
-          <input
-            type="text"
-            name="Remarks"
-            className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
-            required
-          />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-2">
+        <div>
+            <label className="block text-sm font-semibold mb-2">Issued To</label>
+            <input
+              type="text"
+              name="Issued_To"
+              className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
+              required
+            />
+          </div>
+          <div className="">
+            <label className="block text-sm font-semibold mb-2">Remarks</label>
+            <input
+              type="text"
+              name="Remarks"
+              className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
+              required
+            />
+          </div>
         </div>
         <div 
         className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-2"
