@@ -43,6 +43,9 @@ const Samples = ({difference,data,index}) => {
     const handleReportView=()=>{
         navigate('/UserTestReport',{state:{...data}})
     }
+    const handleNABLView=()=>{
+      navigate('/UserNABLTestReport',{state:{...data}})
+    }
   return (
           
           <tbody>
@@ -64,6 +67,9 @@ const Samples = ({difference,data,index}) => {
                     <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">                 
                     {data?.Sample_Status==='Forwarded To TM'?<button className="bg-red-700 hover:bg-red-800 rounded-md text-white pl-4 pr-4 pt-1 pb-1" onClick={()=>handleDelete(data._id)}><BsTrash/></button>:<button className="bg-red-700 rounded-md text-white pl-4 pr-4 pt-1 pb-1 cursor-not-allowed" disabled={true}><BsTrash/></button>}
                     </td>
+                    {
+                      data.Sample_Status==='Approved By TM' ? <td className="border border-gray-300 pl-12 py-2 text-center max-w-72  overflow-x-auto flex gap-2"><button className="bg-indigo-700 hover:bg-indigo-900 rounded-md text-white pl-4 pr-4 pt-1 pb-1" onClick={handleReportView}>Non NABL</button><button className="bg-indigo-700 hover:bg-indigo-900 rounded-md text-white pl-4 pr-4 pt-1 pb-1" onClick={handleNABLView}>NABL</button></td>:<td className="border border-gray-300 pl-12 py-2 text-center max-w-72  overflow-x-auto flex gap-2"><button className="bg-gray-300 rounded-md px-4 py-1 cursor-not-allowed" disabled>Non NABL</button><button className="bg-gray-300 rounded-md pl-4 pr-4 pt-1 pb-1 cursor-not-allowed" disabled>NABL</button></td>
+                    }
                   </>
                 ):difference=== 'ParticularUser Sample History'?(
                     <>
