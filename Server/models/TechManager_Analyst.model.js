@@ -27,6 +27,7 @@ const techManager_AnalystSchema=new Schema(
                       Result: { type: "string", default: "" },
                       StartDate: { type: "string", format: "date-time" },
                       EndDate: { type: "string", format: "date-time" },
+                      NABL:{type:Boolean,default:false}
                     },
                   }
                 }
