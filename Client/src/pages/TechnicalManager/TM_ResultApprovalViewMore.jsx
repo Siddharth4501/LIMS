@@ -18,7 +18,7 @@ const TM_ResultApprovalViewMore = () => {
                 ...prevState[typeOfTesting],//always destructured in an object
                 Tests:prevState[typeOfTesting].Tests.map((item) =>//prevState[typeOfTesting] represent previous value of the key 
                 item.Test.TestID===testID
-                    ? { ...item, Result: value || "0" }
+                    ? { ...item, Result: value || "" }
                     : item
                 ),
             } 
