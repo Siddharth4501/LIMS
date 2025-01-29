@@ -53,6 +53,7 @@ const AllSamplesHistory = () => {
                         <th className="border border-gray-300 px-4 py-2 text-center">Expand</th>
                         <th className="border border-gray-300 px-4 py-2 text-center">Status</th>
                         <th className="border border-gray-300 px-4 py-2 text-center">Delete</th>
+                        <th className="border border-gray-300 px-4 py-2 text-center">Report</th>
                       </tr>
                     </thead>
                     {
@@ -75,6 +76,7 @@ const AllSamplesHistory = () => {
                         <th className="border border-gray-300 px-4 py-2 text-center">Expand</th>
                         <th className="border border-gray-300 px-4 py-2 text-center">Status</th>
                         <th className="border border-gray-300 px-4 py-2 text-center">Delete</th>
+                        <th className="border border-gray-300 px-4 py-2 text-center">Report</th>
                       </tr>
                     </thead>
                     {
