@@ -4,6 +4,7 @@ import axios from "axios";
 
 const initialState={
     LabNameData:[],
+    logoData:[]
 }
 
 // there is no need to make a reducer for the signup action because we dont neet to store anything in store ,we simply pefomt async operation so thunk is enough for it
@@ -13,11 +14,33 @@ export const saveNameOfLab = createAsyncThunk("NameOfLab/save", async (data) => 
       withCredentials: true, // Include cookies
     })
     toast.promise(res, {
-      loading: "Wait! Creating your account",
+      loading: "Wait! Adding Lab Name",
       success: (data) => {
         return data?.data?.message;
       },
-      error: "Failed to create account",
+      error: "Failed to Add Lab Name",
+    });
+
+    // getting response resolved here
+    res = await res;
+    return res.data;
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+  }
+});
+
+export const saveLogo = createAsyncThunk("Logo/save", async (data) => {
+  try {
+    let res = axios.post("http://localhost:5001/api/v1/Administration/Logo/save",data,{
+      withCredentials: true, // Include cookies
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+    toast.promise(res, {
+      loading: "Wait! Adding Logo",
+      success: (data) => {
+        return data?.data?.message;
+      },
+      error: "Failed to upload image",
     });
 
     // getting response resolved here
@@ -42,6 +65,20 @@ export const getNameOfLab = createAsyncThunk("NameOfLab/data", async () => {
     }
   });
 
+  export const getLogo = createAsyncThunk("Logo/data", async () => {
+    try {
+      let res = axios.get("http://localhost:5001/api/v1/Administration/Logo/data",{
+        withCredentials: true, // Include cookies
+      })
+  
+      // getting response resolved here
+      res = await res;
+      return res.data;
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+    }
+  });
+
 const extraSlice=createSlice({
       name:'administration',
       initialState,
@@ -54,6 +91,13 @@ const extraSlice=createSlice({
             //action.payload is json response from backend object coantaining success,message,data here (group)
             if (action.payload) {
                 state.LabNameData = action.payload.labName;
+            }
+          })
+          .addCase(getLogo.fulfilled, (state, action) => {
+            //action grabbed response returned from thunk
+            //action.payload is json response from backend object coantaining success,message,data here (group)
+            if (action.payload) {
+                state.logoData = action.payload.logo;
             }
           })
         }
