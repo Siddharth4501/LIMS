@@ -11,7 +11,7 @@ import administrationRoutes from './routes/Administration.routes.js'
 import errorMiddleware from './middlewares/error.middleware.js';
 
 const app=express();
-
+app.use('/uploads', express.static('uploads'));
 app.use(cors({
     origin:'http://localhost:5173',
     methods: 'GET,PUT,HEAD,PATCH,POST,DELETE',
