@@ -44,6 +44,7 @@ import NotRequireAuth from './components/Auth/NotRequireAuth.jsx'
 import Logo from './pages/Admin/ExtraDetailsRelated/Logo.jsx'
 import NameOfLab from './pages/Admin/ExtraDetailsRelated/NameOfLab.jsx'
 import AdministratorProfile from './pages/Admin/ExtraDetailsRelated/AdministratorProfile.jsx'
+import NABLReportSelection from './pages/Admin/UserRelated/NABLReportSelection.jsx'
 
 
 function App() {
@@ -51,9 +52,11 @@ function App() {
   return (
     <>
        <Routes>
-       <  Route element={<RequireAuth allowedRoles={["Sample Registration","Analyst","Technical Manager"]} />}>
+
+          <Route element={<RequireAuth allowedRoles={["Sample Registration","Analyst","Technical Manager"]} />}>
             <Route path="/" element={<UserInterface/>} />
           </Route>
+
           <Route element={<RequireAuth allowedRoles={["Analyst"]} />}>
             <Route path="/AN_PendingSample/ViewMore" element={<AN_PendingSamplesViewMore/>} />
             <Route path="/AN_PendingSamples" element={<AN_PendingSamples/>} />
@@ -79,6 +82,10 @@ function App() {
             <Route path="/SampleRegistrationUser/SampleHistory/View_More" element={<FullHistory/>} />
           </Route>
 
+          <Route element={<RequireAuth allowedRoles={["Sample Registration","Admin"]} />}>
+            <Route path="/UserTestReport" element={<UserTestReport/>} />
+          </Route>
+
           <Route element={<RequireAuth allowedRoles={["Admin"]} />}>
             <Route path="/Admin/Home" element={<MainUI/>} />
             <Route path="/Admin/Group/GroupList" element={<GroupList/>} />
@@ -102,17 +109,20 @@ function App() {
             <Route path="/Admin/Administration/Logo" element={<Logo/>} />
             <Route path="/Admin/Administration/NameOfLab" element={<NameOfLab/>} />
             <Route path="/Admin/Administration/AdminProfile" element={<AdministratorProfile/>} />
+            <Route path="/UserNABLTestReport" element={<NABLReportSelection/>} />
           </Route>
           
           <Route element={<NotRequireAuth />}>
             <Route path="/Login" element={<Login />} /> 
           </Route>
+
+          <Route element={<RequireAuth allowedRoles={["Sample Registration","Analyst","Technical Manager","Admin"]} />}>
+            <Route path="/User/Change-Password" element={<ChangePassword />} />
+          </Route>
           
-          <Route path="/User/Change-Password" element={<ChangePassword />} />
+          
           <Route path="*" element={<NotFound/>} />
           <Route path="/denied" element={<Denied/>} />
-          <Route path="/UserTestReport" element={<UserTestReport/>} />
-
         </Routes> 
     </>
   )
