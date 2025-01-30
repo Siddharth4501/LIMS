@@ -192,7 +192,7 @@ const TMANData=async(req,res,next)=>{
 
 const TMANDataUpdate=async(req,res,next)=>{
     try{
-        const {TMANID,Substances_To_Be_Analysed,currentUserID,TM_Status,clickedAnalystID}=req.body;
+        const {TMANID,Substances_To_Be_Analysed,currentUserID,TM_Status,clickedAnalystID,NABL_Related_Substances_To_Be_Analysed,NABL_Page}=req.body;
         if(TM_Status==='Pending For Approval At TM'){
             console.log(TMANID,Substances_To_Be_Analysed,TM_Status,"bale");
             const TMANData=await TechManager_Analyst.findById(TMANID)
@@ -258,6 +258,17 @@ const TMANDataUpdate=async(req,res,next)=>{
             res.status(201).json({
                 success:true,
                 message:'TMAN Data Updated Successfully',
+            })
+        }
+        else if(NABL_Page){
+            console.log(TMANID,NABL_Related_Substances_To_Be_Analysed,NABL_Page,"bale");
+            const TMANData=await TechManager_Analyst.findById(TMANID)
+            console.log(TMANData,"shava")
+            TMANData.Substances_To_Be_Analysed = NABL_Related_Substances_To_Be_Analysed;
+            await TMANData.save();
+            res.status(201).json({
+                success:true,
+                message:'Report Generation Successful',
             })
         }
     }
