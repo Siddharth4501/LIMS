@@ -3,11 +3,16 @@ import { FaPrint } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { getTMANData } from "../../../Redux/Slices/SampleSlice";
+import { getAllUserData } from "../../../Redux/Slices/AuthSlice";
 
 const UserTestReport = () => {
     const {TmAnData}=useSelector((state)=>state.sample)
+    const {allUserData}=useSelector(state=>state.auth);
     const {state}=useLocation();
+    const [ReportNo,setReportNo]=useState('')
     const dispatch=useDispatch();
+    const [allUserDataState,setAllUserDataState]=useState();
+    const [filteredUser,setFilteredUser]=useState();
     const [TmAnDataState,setTmAnDataState]=useState([])
     const [filteredTmAnData,setFilteredTmAnData]=useState([]);
     console.log(state);
@@ -17,12 +22,20 @@ const UserTestReport = () => {
     useEffect(() => {
         (async () => {
         await dispatch(getTMANData());
+        await dispatch(getAllUserData());
         })();
     }, []);
     console.log(TmAnData)
     useEffect(() => {
         setTmAnDataState(TmAnData);
-        },[TmAnData])
+    },[TmAnData])
+    useEffect(() => {
+        setAllUserDataState(allUserData);
+    },[allUserData])
+    useEffect(() => {
+        const filteredUser=allUserDataState?.find((user)=>user._id===state.Registered_By);
+        setFilteredUser(filteredUser);
+    },[allUserDataState]);
     useEffect(()=>{
         const filteredItem=TmAnDataState?.filter((item)=>item.Sample_Alloted===state._id );
         if(filteredItem?.length>0){
@@ -30,6 +43,21 @@ const UserTestReport = () => {
         }
     },[TmAnDataState])
     console.log(filteredTmAnData,"filteredTmAnData")
+    useEffect(()=>{
+        const generateReportNumber = ()=> {
+            const RegistrationNo=parseInt(state.Registration_Number.split('/')[2],10);
+            const date = new Date();
+            const year = date.getFullYear();
+            const lastTwoDigits = year % 100;
+            let newNumber = `DIBT/AR/${lastTwoDigits}/`;
+            
+            if (RegistrationNo) {  
+                newNumber += String(RegistrationNo).padStart(6, '0');
+                setReportNo(newNumber);
+            }
+        };
+        generateReportNumber();
+    },[]);
     return (
         <div className="bg-gray-100 p-8">
             <div className="max-w-4xl mx-auto bg-white shadow-md border p-8 rounded-md">
@@ -45,12 +73,14 @@ const UserTestReport = () => {
                     {/* Title */}
                     <div className="text-center flex-1">
                         <h1 className="text-xl font-bold uppercase">
-                            Defence Food Research Laboratory
+                            DEFENCE INSTITUTE OF BIO-DEFENCE TECHNOLOGIES
                         </h1>
-                        <p className="text-sm">
-                            DFRL, Siddhartha Nagar, Mysuru, Karnataka 570011
+                        <p className="text-lg">
+                            Food Quality Assurance <br />
+                            DIBT (DFRL), Siddhartha Nagar Mysuru, Karnataka 570011
+
                         </p>
-                        <h2 className="text-lg font-semibold mt-2">Test Report</h2>
+                        <h2 className="text-lg font-bold mt-2">Test Report</h2>
                     </div>
                 </div>
 
@@ -58,7 +88,7 @@ const UserTestReport = () => {
                     <div>
                         <p>
                             <span className="font-semibold">Report No:</span>
-                            DFRL/FOOD/24/0004/01/R0
+                            {ReportNo?ReportNo:''}
                         </p>
                         <p>
                             <span className="font-semibold">Issued To:</span> Sofist
@@ -70,10 +100,6 @@ const UserTestReport = () => {
                             <span className="font-semibold">Report Issue Date:</span>
                             25/11/2024
                         </p>
-                        <p>
-                            <span className="font-semibold">Your Ref:</span>
-                            JOB/D3/NBT/16/06/2023
-                        </p>
                     </div>
                 </div>
 
@@ -83,7 +109,7 @@ const UserTestReport = () => {
                         <div>
                             <p className="">
                                 <span className="font-semibold">Registration No:</span>
-                                DFRL/FOOD/24/0004/01
+                                {state.Registration_Number}
                             </p>
                             <p>
                                 <span className="font-semibold">Sample Name:</span> 
@@ -97,8 +123,8 @@ const UserTestReport = () => {
                                 {state.Date.split('T')[0]}
                             </p>
                             <p>
-                                <span className="font-semibold">Sample Conditions:</span> - 
-                                {state.Nature_Of_Sample}
+                                <span className="font-semibold">Storage Conditions (in ℃):</span> 
+                                {state.Storage_Conditions}
                             </p>
                         </div>
                         <div>
@@ -111,14 +137,11 @@ const UserTestReport = () => {
                                 {state.Remarks}
                             </p>
                             <p>
-                                <span className="font-semibold">Sample Drawn By:</span> -
+                                <span className="font-semibold">Sample Drawn By:</span> - {filteredUser?filteredUser.fullName : ''}
                             </p>
                             <p>
                                 <span className="font-semibold">Quantity Received:</span> - 
                                 {state.Quantity}
-                            </p>
-                            <p>
-                                <span className="font-semibold">Discipline:</span> -
                             </p>
                         </div>
                     </div>
@@ -127,12 +150,11 @@ const UserTestReport = () => {
                 <div className="border-t mt-6 pt-4">
                     <h3 className="font-semibold text-lg mb-4">Test Results : </h3>
                     {
-                        filteredTmAnData.length>0?Object.keys(filteredTmAnData[0]?.Substances_To_Be_Analysed)?.map((key,i) => {
-                    
+                        state.difference==='Normal Report' && filteredTmAnData.length>0?Object.keys(filteredTmAnData[0]?.Substances_To_Be_Analysed)?.map((key,i) => {
                             return(
                                 <div className="mb-5" key={`${key}-${i}`}>
                                     <div className="text-center font-medium text-base mb-2">
-                                        Type Of Testing Name: {key}
+                                        {key}
                                     </div>
                                     {/* Table */}
                                     <div className="overflow-x-auto">
@@ -144,7 +166,7 @@ const UserTestReport = () => {
                                                     <th className="border px-2 py-1 text-center">Result</th>
                                                     <th className="border px-2 py-1 text-center">Unit</th>
                                                     <th className="border px-2 py-1">Method</th>
-                                                    <th className="border px-2 py-1">Remarks</th>
+                                                    <th className="border px-2 py-1">Limit</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -168,8 +190,53 @@ const UserTestReport = () => {
                                     </div>
                                 </div>
                             )})
+
                             :
-                            <span className="w-0"></span>
+                            state.difference==='NABL Report' && filteredTmAnData.length>0?Object.keys(filteredTmAnData[0]?.Substances_To_Be_Analysed)?.map((key,i) => {
+                                const filteredItem=filteredTmAnData[0]?.Substances_To_Be_Analysed[key].Tests.filter((data)=>data.NABL===true );
+                                if(filteredItem.length>0){
+                                    return(
+                                        <div className="mb-5" key={`${key}-${i}`}>
+                                            <div className="text-center font-medium text-base mb-2">
+                                                {key}
+                                            </div>
+                                            {/* Table */}
+                                            <div className="overflow-x-auto">
+                                                <table className="w-full border border-collapse text-left text-sm">
+                                                    <thead>
+                                                        <tr className="bg-gray-100">
+                                                            <th className="border px-2 py-1 text-center">Sr. No</th>
+                                                            <th className="border px-2 py-1">Test</th>
+                                                            <th className="border px-2 py-1 text-center">Result</th>
+                                                            <th className="border px-2 py-1 text-center">Unit</th>
+                                                            <th className="border px-2 py-1">Method</th>
+                                                            <th className="border px-2 py-1">Limit</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {
+                                                        filteredTmAnData[0]?.Substances_To_Be_Analysed[key]?.Tests?.filter((ele)=>ele.NABL===true).map((test,index)=> {
+                                                            
+                                                            return(
+                                                                <tr key={`${test}-${index}-${i}`} className="hover:bg-gray-50">
+                                                                    <td className="border px-2 py-1 text-center">{index + 1}</td>
+                                                                    <td className="border px-2 py-1">{test.Test.Test_Name}</td>
+                                                                    <td className="border px-2 py-1 text-center">{test.Result}</td>
+                                                                    <td className="border px-2 py-1 text-center">{test.Unit}</td>
+                                                                    <td className="border px-2 py-1">{test.Method}</td>
+                                                                    <td className="border px-2 py-1">None</td>
+                                                                </tr>
+                                                            )
+                                                        })}
+                                                            
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    )}
+                                })
+                                :
+                                <span className="w-0"></span>
                             }
 
                     {/* Verified By Section */}
