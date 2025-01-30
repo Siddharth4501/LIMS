@@ -41,7 +41,7 @@ const Samples = ({difference,data,index}) => {
       }
     }
     const handleReportView=()=>{
-        navigate('/UserTestReport',{state:{...data}})
+        navigate('/UserTestReport',{state:{...data,difference:'Normal Report'}})
     }
     const handleNABLView=()=>{
       navigate('/UserNABLTestReport',{state:{...data}})
