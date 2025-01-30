@@ -2,21 +2,26 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../Redux/Slices/AuthSlice';
-import { getNameOfLab } from '../Redux/Slices/ExtraSlice';
+import { getLogo, getNameOfLab } from '../Redux/Slices/ExtraSlice';
 
 const AdminCommomNav = () => {
-    const {LabNameData}=useSelector(state=>state.administration);
+    const {LabNameData,logoData}=useSelector(state=>state.administration)
     const [LabNameDataState,setLabNameDataState]=useState([]);
+    const [logoDataState,setLogoDataState]=useState([]);
     const dispatch=useDispatch();
     const navigate=useNavigate();
     useEffect(() => {
         (async () => {
           await dispatch(getNameOfLab());
+          await dispatch(getLogo());
         })();
       }, []);
     useEffect(() => {
         setLabNameDataState(LabNameData);
     }, [LabNameData]);
+    useEffect(() => {
+        setLogoDataState(logoData);
+    }, [logoData]);
     const handleAdminNavigation=async(e)=>{
         const {value}=e.target;
         console.log(value,"frt")
@@ -41,7 +46,7 @@ const AdminCommomNav = () => {
   return (
       <div className="flex items-center justify-between p-4 shadow-md bg-slate-400 border-slate-700 border-2">
                 <div className="flex items-center">
-                    <img src=" /src/assets/images/DRDO-Logo1.jpg" alt="Logo"
+                    <img src={logoDataState.length>0?`http://localhost:5001${logoDataState[0]?.imageUrl}`:''} alt="Logo"
                         className="h-20 w-22 object-contain mr-8 ml-4 rounded-full"
                     />
                     <span className="text-lg font-bold">Name of Lab : {LabNameDataState.length>0?LabNameDataState[0].Lab_Name:'DIBT'} </span>
