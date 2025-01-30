@@ -47,26 +47,26 @@ const NABLReportSelection = () => {
     const handleNABLDataSubmit=async()=>{
         let flag=false;
         for(let key in substances){
-            flag=substances[key].Tests.some((test)=>test.NABL===true)
-            console.log(flag,"dwed")
-            // if(flag){
-            //     return
-            // }
+            if(substances[key].Tests.some((test)=>test.NABL===true)){
+                flag=true;
+                break;
+            }
         }
-        // if(flag===false){
-        //     toast.error("Please Select At Least One Test");
-        //     return
-        // }
+        if(flag===false){
+            toast.error("Please Select At Least One Test");
+            return
+        }
         const data={
             "NABL_Related_Substances_To_Be_Analysed":substances,
             "TMANID":found._id,
-            "NABL":true
+            "NABL_Page":true
         }
+        console.log(flag,"Dwdw")
         try{
             const response=await dispatch(updateTMANData(data));
             if(response?.payload?.success){
                 toast.success("Successfully Selected NABL Data");
-                navigate('/UserTestReport',{state:{...state}});
+                navigate('/UserTestReport',{state:{...state,difference:'NABL Report'}});
             }
         }
         catch(error){
@@ -103,7 +103,7 @@ const NABLReportSelection = () => {
                                                                     <tr className="hover:bg-gray-100">
                                                                         <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{index+1}.</td>
                                                                         <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{test.Test.Test_Name}</td>
-                                                                        <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><input type="radio" name={`name-${key}-${i}-${index}`} id={`id-${key}-${i}-${index}`} onChange={(e)=>handleNABLChange(e,key,test.Test.TestID)}/></td>
+                                                                        <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><input type="radio" name={`name-${key}-${i}-${index}`} id={`id-${key}-${i}-${index}`} checked={test.NABL} onChange={(e)=>handleNABLChange(e,key,test.Test.TestID)}/></td>
                                                                     </tr>
                                                                 </tbody>
 
