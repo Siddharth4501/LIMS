@@ -239,8 +239,8 @@ const handleResultChange = (e, typeOfTesting, testID,Name) => {
                               <div className={
                                       state.Substances_To_Be_Analysed[key].Tests.filter(
                                           (data) => data.Analyst.ID === userData._id
-                                      ).length >0
-                                          ? 'overflow-y-auto max-h-128' // Adjust max height here as needed
+                                      ).length >3
+                                          ? 'overflow-y-auto max-h-[500px]'
                                           : ''
                                   }>
                                   <table className='"table-auto w-full border-collapse border border-gray-300'>
