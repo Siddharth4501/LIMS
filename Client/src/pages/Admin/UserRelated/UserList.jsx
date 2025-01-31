@@ -61,6 +61,7 @@ const UserList = () => {
               <button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right mr-4' onClick={() => navigate('/Admin/User/AddUser')}>Add User</button>
             </div>
           </div>
+          <br /><br />
           {
             allUserDataState?.filter((data) => data.Active_Status === true).length>0?(
               <div>
@@ -75,6 +76,7 @@ const UserList = () => {
                             <th className="border border-gray-300 px-4 py-2 text-center">User ID</th>
                             <th className="border border-gray-300 px-4 py-2 text-center">Roles</th>
                             <th className="border border-gray-300 px-4 py-2 text-center">Expand</th>
+                            <th className="border border-gray-300 px-4 py-2 text-center">Reset Password</th>
                             <th className="border border-gray-300 px-4 py-2 text-center">Delete</th>
                           </tr>
                         </thead>
@@ -93,6 +95,7 @@ const UserList = () => {
                                   <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item._id}</td>
                                   <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{designation.toString()}</td>
                                   <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td>
+                                  <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/reset-password', { state: { ...item } })}>Click</button></td>
                                   <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id)}><BsTrash /></button></td>
                                 </tr>
                               )
@@ -114,6 +117,7 @@ const UserList = () => {
                             <th className="border border-gray-300 px-4 py-2 text-center">User ID</th>
                             <th className="border border-gray-300 px-4 py-2 text-center">Roles</th>
                             <th className="border border-gray-300 px-4 py-2 text-center">Expand</th>
+                            <th className="border border-gray-300 px-4 py-2 text-center">Reset Password</th>
                             <th className="border border-gray-300 px-4 py-2 text-center">Delete</th>
                           </tr>
                         </thead>
@@ -131,6 +135,7 @@ const UserList = () => {
                                   <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item._id}</td>
                                   <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{designation.toString()}</td>
                                   <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td>
+                                  <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/reset-password', { state: { ...item } })}>Click</button></td>
                                   <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id)}><BsTrash /></button></td>
                                 </tr>
                               )
@@ -157,3 +162,4 @@ const UserList = () => {
 }
 
 export default UserList
+
