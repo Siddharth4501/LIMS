@@ -52,7 +52,7 @@ const AdminCommomNav = () => {
                     <span className="text-lg font-bold">Name of Lab : {LabNameDataState.length>0?LabNameDataState[0].Lab_Name:'DIBT'} </span>
                 </div>
                 <div className='mx-6'>
-                    <select name="" id="" className="p-2 rounded-lg border border-blue-800 bg-slate-100 outline-0" onChange={handleAdminNavigation}>
+                    <select name="" id="" className="p-2 rounded-lg border-2 border-blue-600 outline-0" onChange={handleAdminNavigation}>
                         <option value="admin">Administrator</option>
                         <option value="AdminHome">Home</option>
                         <option value="change-password">Change Password</option>
