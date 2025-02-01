@@ -195,6 +195,37 @@ const UpdateUser = async (req, res, next) => {
     });
   }
 
+const resetPassword=async(req,res,next)=>{
+    // Extracting password from req.body object
+    const { password,userId } = req.body;
+    // Check if password is not there then send response saying password is required
+    if (!password) {
+        return next(new AppError('Password is required', 400));
+    }
+    
+    // Checking if token matches in DB and if it is still valid(Not expired)
+    const user = await User.findById(userId);
+    
+    // If not found or expired send the response
+    if (!user) {
+        return next(
+        new AppError('Unable To Reset Password, please try again', 400)
+        );
+    }
+    
+    // Update the password if token is valid and not expired
+    user.password = password;
+    
+    // Saving the updated user values
+    await user.save();
+    
+    // Sending the response when everything goes good
+    res.status(200).json({
+        success: true,
+        message: `Password changed successfully for user ${user.fullName}`,
+    });
+}
+
 export {
     Login,
     Register,
@@ -204,4 +235,5 @@ export {
     changePassword,
     DeleteUserData,
     DeleteUserRole,
+    resetPassword,
 }

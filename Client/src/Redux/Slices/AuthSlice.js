@@ -163,6 +163,28 @@ export const changePassword = createAsyncThunk(
   }
 );
 
+// function to reset the password
+export const resetPassword = createAsyncThunk("/user/reset", async (data) => {
+  try {
+    let res = axios.post('http://localhost:5001/api/v1/user/Reset-Password',data,{
+      withCredentials: true, // Include cookies
+    });
+
+    toast.promise(res, {
+      loading: "Resetting...",
+      success: (data) => {
+        return data?.data?.message;
+      },
+      error: "Failed to reset password",
+    });
+    // getting response resolved here
+    res = await res;
+    return res.data;
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+  }
+});
+
   const authSlice=createSlice({
     name:'auth',
     initialState,
