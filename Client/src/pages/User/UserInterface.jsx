@@ -31,12 +31,12 @@ const UserInterface = () => {
         navigate('/User/Change-Password')
     }
     return (
-        <div className="w-screen bg-no-repeat h-screen bg-gray-100">
+        <div className="w-screen bg-no-repeat h-screen bg-[url('/src/assets/images/DRDODIBT-BACK.png')] bg-cover bg-center">
 
             <div className="flex items-center justify-between p-4 shadow-md bg-slate-400 border border-2 border-slate-700">
 
                 <div className="flex items-center">
-                    <img src=" /src/assets/images/DRDO-Logo1.jpg" alt="Logo"
+                    <img src=" /src/assets/images/DIBT.jpg" alt="Logo"
                         className="h-20 w-22 object-contain mr-8 ml-4 rounded-full"
                     />
                     <span className="text-lg font-bold">Name of Lab : DFRL</span>
@@ -63,7 +63,7 @@ const UserInterface = () => {
                     </div>
                 </div>
             </div>
-            <div className=" h-[68vh] w-[96vw] mt-20 ml-5 bg-[url('/src/assets/images/DFRL.jpg')] bg-contain bg-no-repeat bg-center">
+            <div className=" h-[68vh] w-[96vw] mt-20 ml-5">
                 
             </div>
         </div>
