@@ -10,10 +10,6 @@ import { FaEye } from "react-icons/fa";
 const Login = () => {
     const dispatch=useDispatch();
     const navigate=useNavigate();
-    const [showPassword,setShowPassword]=useState(false);
-    const handlePasswordToggle=()=>{
-        setShowPassword((prevState)=>!prevState);
-    }
 
     //functon to login
     const handleLogin = async (e) => {
@@ -62,19 +58,27 @@ const Login = () => {
     };
     
   return (
-    <div className="flex flex-col font-bold h-screen w-screen justify-center">
-        <form onSubmit={handleLogin} className='grid gap-2 border border-indigo-800 shadow-blue-500/50 border-[3px] rounded-lg h-96 w-2/5 m-auto p-4 bg-slate-400'>
-        <center><h1 className='text-4xl italic'>Login</h1></center>
-            <div className='w-full p-2 pt-5 flex'>
-                <span className='pt-2 p-1'><MdEmail /></span>
-                <label htmlFor="Email" className='w-1/4 text-xl italic'>Email:</label>
-                <input type="email" name="Email" className='w-3/4 h-8 rounded-3xl pl-4' placeholder="Enter your email..." />
+    <div className="flex flex-col font-bold min-h-screen w-screen justify-center bg-[url('/src/assets/images/DRDODIBT-BACK.png')] bg-cover bg-center ">
+        <form onSubmit={handleLogin} className='grid gap-2 border-blue-600 shadow-blue-500/50 border-2 shadow-[0_0_6px_gray] rounded-lg h-96 xl:w-2/5 w-4/5 m-auto p-4 bg-gray-200'>
+            <center><h1 className='text-4xl'>Login</h1></center>
+            <div className='w-full p-2 pt-5 flex sm:flex-row flex-col'>
+                <div className='flex w-1/4 mx-auto'>
+                    <span className='pt-2 p-1'><MdEmail /></span>
+                    <label htmlFor="Email" className='w-full text-xl'>Email:</label>
+                </div>
+                <div className='sm:w-3/4 w-full'>
+                    <input type="email" name="Email" className='w-full h-8 rounded-3xl pl-4 border-2 border-blue-600 outline-0' placeholder="Enter your email..." />
+                </div>
+                
             </div>
-            <div className='relative w-full p-2 pt-5 flex'>
-                <span className='pt-2 p-1'><RiLockPasswordFill /></span>
-                <label htmlFor="Password" className='w-1/4 text-xl italic'>Password:</label>
-                <input type={showPassword==true?'text':'password'} name="Password" id="" className='w-3/4 h-8 rounded-3xl pl-4' placeholder="Enter your password..." />
-                <span className='absolute right-4 top-1/4 transform-translate-y-1/2 pt-1'><button type="button" onClick={handlePasswordToggle}>{showPassword==true ? <FaEye/>:<FaEyeSlash />}</button></span>
+            <div className='relative w-full p-2 pt-5 flex sm:flex-row flex-col'>
+                <div className='flex w-1/4  mx-auto'>
+                    <span className='pt-2 p-1'><RiLockPasswordFill /></span>
+                    <label htmlFor="Password" className='w-full text-xl'>Password:</label>
+                </div>
+                <div className='sm:w-3/4 w-full'>
+                    <input type="password" name="Password" id="" className='w-full h-8 rounded-3xl pl-4 border-2 border-blue-600 outline-0' placeholder="Enter your password..." />
+                </div>
             </div>
             <div className='w-full'>
                 <button type="submit" className='bg-indigo-700 rounded-md text-white w-1/4 py-1 flex justify-center mx-auto hover:bg-indigo-800'>Submit</button>
