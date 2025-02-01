@@ -211,6 +211,16 @@ const UserListViewMore = () => {
                 <div className='w-2/5'><button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right' onClick={() => navigate('/Admin/User/UserList')}>Back</button></div>
             </div>
             <br />
+            <div className='p-2'>
+                <label className="block text-sm font-semibold mb-2 mt-2">ID</label>
+                <input
+                    type="text"
+                    name="UserID"
+                    className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2 outline-0"
+                    defaultValue={state._id}
+                    disabled={true}
+                />
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-2">
                 <div>
                     <label className="block text-sm font-semibold mb-2">Full Name</label>
@@ -235,16 +245,7 @@ const UserListViewMore = () => {
                     {errors.userEmail && <p className="text-red-500 text-sm">{errors.userEmail}</p>}
                 </div>
             </div>
-            <div className='p-2'>
-                <label className="block text-sm font-semibold mb-2 mt-2">ID</label>
-                <input
-                    type="text"
-                    name="UserID"
-                    className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2 outline-0"
-                    defaultValue={state._id}
-                    disabled={true}
-                />
-            </div>
+            
             <br />
             <div className='p-2'>
                 <table className='table-auto w-full border-collapse border border-gray-300'>
@@ -335,3 +336,4 @@ const UserListViewMore = () => {
 };
 
 export default UserListViewMore;
+
