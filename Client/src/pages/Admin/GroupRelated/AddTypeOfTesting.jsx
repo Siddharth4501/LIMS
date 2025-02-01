@@ -62,12 +62,12 @@ const AddTypeOfTesting = () => {
     }
 
   return (
-    <div>
+    <div className="min-h-screen w-screen bg-[url('/src/assets/images/DRDODIBT-BACK.png')] bg-cover bg-center">
         <AdminCommomNav/>
             <div className='w-full p-4'><button className='bg-indigo-700 px-8 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Admin/Group/TypeOfTestingList')}>Back</button></div>
         <br /><br /><br />
         <div className='w-full'>
-            <form className='flex flex-col w-1/2 min-h-96 mx-auto bg-slate-400 gap-5 shadow-[0_0_6px_black] justify-center px-10 rounded-md border-slate-700 border-[3px]' onSubmit={handleSumbit}>
+            <form className='flex flex-col w-1/2 min-h-96 mx-auto bg-gray-200 gap-5 shadow-[0_0_6px_gray] justify-center px-10 rounded-md border-blue-600 border-2' onSubmit={handleSumbit}>
                 <div className='flex'>
                     <label htmlFor="GroupName" className='w-1/3 text-lg font-semibold'>Group:</label>
                     <select name="GroupName" id="" className='w-2/3 p-1 rounded-3xl border border-blue-700 border-2' onChange={handleOnChange}>

@@ -47,12 +47,12 @@ const AddGroup = () => {
     }
     console.log(groupFields,"ty")
   return (
-    <div>
+    <div className="min-h-screen w-screen bg-[url('/src/assets/images/DRDODIBT-BACK.png')] bg-cover bg-center">
         <AdminCommomNav/>
             <div className=' w-full p-4'><button className='bg-indigo-700 px-8 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Admin/Group/GroupList')}>Back</button></div>
-        <br /><br /><br /><br />
-        <div>
-        <form className='flex flex-col w-1/3 min-h-56 mx-auto bg-slate-400 gap-5 shadow-[0_0_6px_black] justify-center px-10 rounded-md border-slate-700 border-[3px]' onSubmit={handleSumbit}>
+        <br /><br /><br /><br /><br />
+        <div >
+        <form className='flex flex-col w-1/3 min-h-56 mx-auto bg-gray-200 gap-5 shadow-[0_0_6px_gray] justify-center px-10 rounded-md border-blue-600 border-2' onSubmit={handleSumbit}>
             <div className='flex w-full pt-8'>
                 <label htmlFor="GroupName" className='text-lg w-1/5'>Name:<span className='text-red-600'>*</span></label>
                 <div className='flex flex-col w-4/5'>
