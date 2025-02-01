@@ -57,11 +57,11 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen w-screen bg-gray-100">
+    <div className="flex items-center justify-center min-h-screen w-screen bg-gray-100 bg-[url('/src/assets/images/DRDODIBT-BACK.png')] bg-cover bg-center">
     {/* forget password card */}
     <form
         onSubmit={handleFormSubmit}
-        className="flex flex-col justify-center gap-6 rounded-lg p-4 w-80 h-[26rem] shadow-[0_0_5px_black] border border-slate-700 border-2 bg-slate-400"
+        className="flex flex-col justify-center gap-6 rounded-lg p-4 w-80 h-[26rem] shadow-[0_0_5px_black] border border-blue-600 border-2 bg-gray-300"
     >
         <h1 className="text-center text-2xl font-bold">Change Password</h1>
 
@@ -75,7 +75,7 @@ const ChangePassword = () => {
             name="oldPassword"
             id="oldPassword"
             placeholder="Enter your old password"
-            className="bg-slate-200 px-2 py-1 border border-black border-2"
+            className="bg-gray-100 px-2 py-1 border-2 border-blue-600"
             value={userPassword.oldPassword}
             onChange={handlePasswordChange}
         />
@@ -91,7 +91,7 @@ const ChangePassword = () => {
             name="newPassword"
             id="newPassword"
             placeholder="Enter your new password"
-            className="bg-slate-200 px-2 py-1 border border-black border-2"
+            className="bg-gray-100 px-2 py-1 border-blue-600 border-2 outline-0"
             value={userPassword.newPassword}
             onChange={handlePasswordChange}
         />

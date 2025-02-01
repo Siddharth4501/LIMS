@@ -45,7 +45,7 @@ const FullHistory = () => {
             <input
               type="text"
               name="Name"
-              className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
+              className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
               defaultValue={state.Name}
               disabled={true}
             />
@@ -55,7 +55,7 @@ const FullHistory = () => {
             <input
               type="text"
               name="Quantity"
-              className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
+              className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
               defaultValue={state.Quantity}
               disabled={true}
             />
@@ -65,7 +65,7 @@ const FullHistory = () => {
             <input
               type="number"
               name="Storage_Conditions"
-              className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
+              className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
               defaultValue={state.Storage_Conditions}
               disabled={true}
             />
@@ -75,7 +75,7 @@ const FullHistory = () => {
             <input
               type="text"
               name="Registration_Number"
-              className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
+              className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
               defaultValue={state.Registration_Number}
               disabled={true}
             />
@@ -85,7 +85,7 @@ const FullHistory = () => {
             <input
               type="number"
               name="Customer_Code"
-              className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
+              className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
               defaultValue={state.Customer_Code}
               disabled={true}
             />
@@ -94,7 +94,7 @@ const FullHistory = () => {
             <label className="block text-sm font-semibold mb-2">Packing Type</label>
             <select
               name="Packing_Type"
-              className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
+              className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
             >
               <option defaultValue={state.Packing_Type}>{state.Packing_Type}</option>
               
@@ -105,7 +105,7 @@ const FullHistory = () => {
             <input
               type="text"
               name="Date"
-              className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
+              className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
               defaultValue={state.Date.split('T')[0]}
               disabled={true}
             />
@@ -115,7 +115,7 @@ const FullHistory = () => {
             <input
               type="text"
               name="Treatment_Type"
-              className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
+              className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
               defaultValue={state.Treatment_Type}
               disabled={true}
             />
@@ -125,7 +125,7 @@ const FullHistory = () => {
           <input
             type="text"
             name="Nature_Of_Sample"
-            className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
+            className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
             defaultValue={state.Nature_Of_Sample}
             disabled={true}
           />
@@ -137,7 +137,7 @@ const FullHistory = () => {
           <input
             type="text"
             name="Remarks"
-            className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
+            className="w-full bg-slate-100 rounded-md p-2 border-2 border-blue-600"
             defaultValue={state.Remarks}
             disabled={true}
           />
@@ -152,7 +152,7 @@ const FullHistory = () => {
               <label className="block text-sm font-semibold mb-2">Group</label>
               <select
                 name="Group"
-                className="w-full border border-gray-300 bg-slate-100 rounded-md p-2"
+                className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
               >
                 <option value={state.Group}>{state.Group}</option>
               </select>
@@ -160,9 +160,9 @@ const FullHistory = () => {
             <div className="pt-2">
               <h2 className="text-sm font-semibold mb-2">Type of Testing</h2>
 
-              <div className={`${state.Type_Of_Testing.length > 1
-                        ? "max-h-32 overflow-y-auto"
-                        : ""
+              <div className={`${state.Type_Of_Testing.length > 4
+                        ? "max-h-32 overflow-y-auto border-2 border-blue-600"
+                        : "border-2 border-blue-600"
                         }`}> 
                 {
                     state.Type_Of_Testing.map((item,index)=>{
@@ -182,9 +182,9 @@ const FullHistory = () => {
           
           <div className="">
             <h2 className="text-sm font-semibold mb-2">Tests</h2>
-            <div className={`${state.Type_Of_Testing.length > 1
-                        ? "max-h-64 overflow-y-auto"
-                        : ""
+            <div className={`${state.Tests.length > 4
+                        ? "max-h-64 overflow-y-auto border-2 border-blue-600"
+                        : "border-2 border-blue-600"
                         }`}>
 
               {
