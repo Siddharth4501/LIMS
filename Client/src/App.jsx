@@ -45,6 +45,7 @@ import Logo from './pages/Admin/ExtraDetailsRelated/Logo.jsx'
 import NameOfLab from './pages/Admin/ExtraDetailsRelated/NameOfLab.jsx'
 import AdministratorProfile from './pages/Admin/ExtraDetailsRelated/AdministratorProfile.jsx'
 import NABLReportSelection from './pages/Admin/UserRelated/NABLReportSelection.jsx'
+import ResetPassword from './pages/Admin/UserRelated/ResetPassword.jsx'
 
 
 function App() {
@@ -98,6 +99,7 @@ function App() {
             <Route path="/Admin/User/AddUser" element={<AddUser/>} />
             <Route path="/Admin/User/UserList/View_More" element={<UserListViewMore/>} />
             <Route path="/Admin/User/DeletedUserList" element={<DeletedUserList/>} />
+            <Route path="/Admin/User/reset-password" element={<ResetPassword />} />
             <Route path="/Admin/Sample/AllSampleHistory" element={<AllSamplesHistory/>} />
             <Route path="/Admin/Sample/AllSampleHistory/View_More" element={<FullHistory/>} />
             <Route path="/Admin/Sample/DeletedSampleHistory" element={<AllDeletedSamples/>} />
