@@ -31,7 +31,7 @@ const Register = () => {
   const [query, setQuery] = useState('');
   const [filteredItems, setFilteredItems] = useState([]);
   useEffect(() => {
-    const filtered = analysisData.filter(item =>
+    const filtered = analysisData?.filter(item =>
       item.toLowerCase().includes(query.toLowerCase())
     );
     setFilteredItems(filtered);
@@ -146,7 +146,9 @@ const Register = () => {
         filteredGroup.Tests.forEach((item) => {
           // Check if the object for this Type_Of_Testing already exists
           const existingObj = data.find((obj) => obj.name === item.Type_Of_Testing);
-          TypeOfTestingData.push(item.Type_Of_Testing)
+          if(!(TypeOfTestingData.includes(item.Type_Of_Testing))){
+            TypeOfTestingData.push(item.Type_Of_Testing)
+          }
           if (existingObj) {
             // If it exists, push the new sub-test into its subTests array
             existingObj.subTests.push(item.Test);
@@ -164,9 +166,6 @@ const Register = () => {
       }
     }
   }, [choosenGroup]);
-
-  console.log(analysisData, "rrr")
-
 
   //analysis data is without true false
   const initialStateOfAnanlysis = analysisData?.reduce((acc, key) => {
@@ -286,11 +285,11 @@ const Register = () => {
     }
 
   }
-
+  console.log("analsisData12",analysisData)
   return (
     <>
-      <form onSubmit={handleSubmit} className="space-y-6 max-w-full mx-auto bg-white">
-        <div className='w-full flex border bg-gray-300 p-5'>
+      <form onSubmit={handleSubmit} className="space-y-6 max-w-full mx-auto bg-gray-100">
+        <div className='w-full flex border-2 border-slate-700 bg-gray-300 p-5'>
           <div className='w-3/5 text-3xl font-bold'><span className='float-right'>Sample Registration Form</span></div>
           <div className='w-2/5'><button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Sample Registration/Home')}>Back</button></div>
         </div>
@@ -301,8 +300,9 @@ const Register = () => {
             <input
               type="text"
               name="Name"
-              className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
+              className="w-full border-2 border-blue-600 rounded-md p-2 outline-0"
               required
+              placeholder="Enter Sample Name..."
             />
           </div>
           <div>
@@ -310,8 +310,9 @@ const Register = () => {
             <input
               type="text"
               name="Quantity"
-              className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
+              className="w-full border-2 border-blue-600 rounded-md p-2 outline-0"
               required
+              placeholder="Enter Sample Quantity..."
             />
           </div>
           <div>
@@ -319,8 +320,9 @@ const Register = () => {
             <input
               type="number"
               name="Storage_Conditions"
-              className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
+              className="w-full border-2 border-blue-600 rounded-md p-2 outline-0"
               required
+              placeholder="Enter Storage Conditions..."
             />
           </div>
           <div>
@@ -328,15 +330,16 @@ const Register = () => {
             <input
               type="number"
               name="Customer_Code"
-              className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
+              className="w-full border-2 border-blue-600 rounded-md p-2 outline-0"
               required
+              placeholder="Enter Customer Code..."
             />
           </div>
           <div>
             <label className="block text-sm font-semibold mb-2">Packing Type</label>
             <select
               name="Packing_Type"
-              className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
+              className="w-full border-2 border-blue-600 rounded-md p-2 outline-0"
               required
             >
               <option value="SEALED">SEALED</option>
@@ -348,8 +351,9 @@ const Register = () => {
             <input
               type="Date"
               name="Date"
-              className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
+              className="w-full border-2 border-blue-600 rounded-md p-2 outline-0"
               required
+              placeholder="Enter Registration Date..."
             />
           </div>
           <div>
@@ -357,8 +361,9 @@ const Register = () => {
             <input
               type="date"
               name="Mfg_Date"
-              className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
+              className="w-full border-2 border-blue-600 rounded-md p-2 outline-0"
               required
+              placeholder="Enter Manufacturing Date..."
             />
           </div>
           <div>
@@ -366,7 +371,8 @@ const Register = () => {
             <input
               type="text"
               name="Treatment_Type"
-              className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
+              className="w-full border-2 border-blue-600 rounded-md p-2 outline-0"
+              placeholder="Enter Treatment Type..."
             />
           </div>
           <div>
@@ -374,8 +380,9 @@ const Register = () => {
           <input
             type="text"
             name="Nature_Of_Sample"
-            className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
+            className="w-full border-2 border-blue-600 rounded-md p-2 outline-0"
             required
+            placeholder="Enter Nature Of Sample..."
           />
           </div>
         </div>
@@ -385,8 +392,9 @@ const Register = () => {
             <input
               type="text"
               name="Issued_To"
-              className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
+              className="w-full border-2 border-blue-600 rounded-md p-2 outline-0"
               required
+              placeholder="Issued To..."
             />
           </div>
           <div className="">
@@ -394,8 +402,9 @@ const Register = () => {
             <input
               type="text"
               name="Remarks"
-              className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
+              className="w-full border-2 border-blue-600 rounded-md p-2 outline-0"
               required
+              placeholder="Enter Remarks..."
             />
           </div>
         </div>
@@ -412,9 +421,10 @@ const Register = () => {
               <label className="block text-sm font-semibold mb-2">Group</label>
               <select
                 name="Group"
-                className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2"
+                className="w-full border-2 border-blue-600 rounded-md p-2 outline-0"
                 onChange={(e) => groupFunction(e.target.value)}
                 required
+                
               >
                 <option value="Select">Select</option>
                 {
@@ -429,15 +439,15 @@ const Register = () => {
             <div className="pt-2">
               <h2 className="text-sm font-semibold mb-2">Type of Testing</h2>
 
-              <div className={`${choosenGroup!=''?'p-4':'bg-slate-100 border rounded-md'}`}>
+              <div className={`${choosenGroup!=''?'p-4 border border-gray-600 rounded-md':' rounded-md'}`}>
                 {
                   choosenGroup!=''?
                     <input type="text" placeholder="Search..." value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    className="p-1 border-2 border-blue-600 bg-slate-100 rounded w-full"
+                    className="p-1 border-2 border-blue-600 rounded w-full outline-0"
                     />
                     :<div className="">
-                      <select name="" id="" className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2">
+                      <select name="" id="" className="w-full border-2 border-blue-600 rounded-md p-2 outline-0">
                         <option value="Select" className="">Select</option>
                       </select>
                     </div>
@@ -450,18 +460,18 @@ const Register = () => {
                       // <div key={index}>{item}</div>
                       <div
                         className={`${Object.keys(selectedAnalysis).length > 3
-                          ? "max-h-32 overflow-y-auto bg-slate-300"
-                          : ""
+                          ? "max-h-64 overflow-y-auto mt-3 p-1"
+                          : "mt-3 p-1"
                           }`}
                       >
-                        {Object.keys(selectedAnalysis).map((key) => (
-                          <div key={key} className="flex items-center space-x-2">
+                        {Object.keys(selectedAnalysis).map((key,index) => (
+                          <div key={`${key}-${index}`} className="flex items-center space-x-2">
                             <input
                               type="checkbox"
                               name={key}
                               checked={selectedAnalysis[key]}
                               onChange={handleAnalysisChange}
-                              className="rounded-md"
+                              className="rounded-md outline-0"
                             />
                             <label className="text-sm">{key}</label>
                           </div>
@@ -470,18 +480,18 @@ const Register = () => {
                     ) : (
                       <div
                         className={`${Object.keys(selectedAnalysis).length > 3
-                          ? "max-h-32 overflow-y-auto"
+                          ? "max-h-64 overflow-y-auto"
                           : ""
-                          } border rounded-md p-2 bg-slate-300`}
+                          } border-2 border-blue-600 rounded-md p-2 mt-3`}
                       >
-                        {(filteredItems).map((data, key) => (
-                          <div key={key} className="flex items-center space-x-2">
+                        {filteredItems?.map((data, i) => (
+                          <div key={`${data}-${i}`} className="flex items-center space-x-2">
                             <input
                               type="checkbox"
                               name={data}
                               checked={selectedAnalysis[data]}
                               onChange={handleAnalysisChange}
-                              className="rounded-md"
+                              className="rounded-md outline-0"
                             />
                             <label className="text-sm">{data}</label>
                           </div>
@@ -501,7 +511,7 @@ const Register = () => {
             {
               choosenGroup==''?(
                 <div className="w-full">
-                  <select name="" id="" className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2">
+                  <select name="" id="" className="w-full border-2 border-blue-600 rounded-md p-2 outline-0">
                     <option value="Select" className="">Select</option>
                   </select>
                 </div>
@@ -510,7 +520,7 @@ const Register = () => {
             <div
               className={` p-2 ${Object.keys(selectedTests).filter((group) => selectedAnalysis[group])
                 .length > 1
-                ? "max-h-64 overflow-y-auto"
+                ? "max-h-[600px] overflow-y-auto"
                 : ""
                 }`}
             >
@@ -527,7 +537,7 @@ const Register = () => {
                           type="checkbox"
                           checked={selectedTests[group].isChecked}
                           onChange={(e) => handleGroupTestChange(group, e.target.checked)}
-                          className="rounded-md"
+                          className="rounded-md outline-0"
                         />
                         <span>{group}</span>
                       </div>
@@ -536,8 +546,8 @@ const Register = () => {
 
                     <div
                       className={`ml-6 border rounded-md p-2 ${Object.keys(selectedTests[group].subTests).length > 1
-                        ? "max-h-32 overflow-y-auto"
-                        : ""
+                        ? "max-h-64 overflow-y-auto border border-gray-700"
+                        : "border border-gray-700"
                         }`}
                     >
                       <input type="text" id={`search-${group}`} placeholder="Search..." value={searchValue}
@@ -546,7 +556,7 @@ const Register = () => {
                           // if(e.target.value.length>0){setTestSearch(e.target.value)}
                           // else if(e.target.value.length==0){setFilteredTestItems([]);setTestSearch()}
                         }}
-                        className="p-1 border border-gray-300 bg-slate-100 rounded w-full mb-2"
+                        className="p-1 border-2 border-blue-600 rounded w-full mb-2 outline-0"
                       />
                       {/* {Object.keys(selectedTests[group].subTests).map((sub) => (
                         <div key={sub} className="flex items-center space-x-2">
@@ -569,9 +579,9 @@ const Register = () => {
                           (filtered_Items.length === 0) ? (
                             <div
                               className={`${Object.keys(selectedTests).length > 1
-                                ? "max-h-32 overflow-y-auto bg-slate-300"
+                                ? "max-h-64 overflow-y-auto bg-slate-300"
                                 : ""
-                                } border rounded-md p-2 bg-white`}
+                                } border-2 border-blue-600 rounded-md p-2 bg-white`}
                             >
                               {Object.keys(selectedTests[group].subTests).map((sub) => (
                                 <div key={sub} className="flex items-center space-x-2">
@@ -593,7 +603,7 @@ const Register = () => {
                               className={`${Object.keys(selectedTests).length > 1
                                 ? "max-h-32 overflow-y-auto"
                                 : ""
-                                } border rounded-md p-2 bg-slate-300`}
+                                } border rounded-md p-2`}
                             >
                               {(filtered_Items).map((data, key) => (
                                 <div key={key} className="flex items-center space-x-2">
@@ -604,7 +614,7 @@ const Register = () => {
                                     onChange={(e) =>
                                       handleSubTestChange(group, data, e.target.checked)
                                     }
-                                    className="rounded-md"
+                                    className="rounded-md outline-0"
                                   />
                                   <label className="text-sm">{data}</label>
                                 </div>
