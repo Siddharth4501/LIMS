@@ -31,7 +31,7 @@ const UserInterface = () => {
         navigate('/User/Change-Password')
     }
     return (
-        <div className="w-screen bg-no-repeat h-screen bg-[url('/src/assets/images/DRDODIBT-BACK.png')] bg-cover bg-center">
+        <div className="w-screen bg-no-repeat h-screen">
 
             <div className="flex items-center justify-between p-4 shadow-md bg-slate-400 border border-2 border-slate-700">
 
@@ -63,7 +63,7 @@ const UserInterface = () => {
                     </div>
                 </div>
             </div>
-            <div className=" h-[68vh] w-[96vw] mt-20 ml-5">
+            <div className=" min-h-[84vh] w-screen bg-[url('/src/assets/images/LIMS-BACK4.webp')] bg-cover bg-top">
                 
             </div>
         </div>
