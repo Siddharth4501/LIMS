@@ -28,9 +28,27 @@ const AddGroup = () => {
         newFields[index][field] = value;
         setGroupFields(newFields);
     };
+    // Remove a  group from a specific test section
+  const removeGroupSection = (groupIndex) => {
+    if(groupIndex>0){
+      setGroupFields((prev) =>
+        prev.filter((_, i) =>
+          i !== groupIndex
+        )
+      );
+    }
+    else{
+        toast.error("At least one Group Should Be Added");
+    }
+  };
+
     const handleSumbit=async(e)=>{
         e.preventDefault();
         e.stopPropagation();
+        if(groupFields.length===0){
+            toast.error("At least one Group Should Be Added")
+            return;
+        }
         const data={
             "Group_Names":groupFields,
             "Type_Of_Testing":[],
@@ -52,36 +70,50 @@ const AddGroup = () => {
             <div className=' w-full p-4'><button className='bg-indigo-700 px-8 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Admin/Group/GroupList')}>Back</button></div>
         <br /><br /><br /><br /><br />
         <div >
-        <form className='flex flex-col w-1/3 min-h-56 mx-auto bg-gray-200 gap-5 shadow-[0_0_6px_gray] justify-center px-10 rounded-md border-blue-600 border-2' onSubmit={handleSumbit}>
+        <form className='flex flex-col w-3/5 min-h-56 mx-auto bg-gray-200 gap-5 shadow-[0_0_6px_gray] justify-center px-10 rounded-md border-blue-600 border-2' onSubmit={handleSumbit}>
             <div className='flex w-full pt-8'>
-                <label htmlFor="GroupName" className='text-lg w-1/5'>Name:<span className='text-red-600'>*</span></label>
-                <div className='flex flex-col w-4/5'>
-                    {groupFields.map((field, index) => (
-                            <div className='w-full' key={`${index}`}>
+                
+                <div className='flex flex-col w-full'>
+                    {groupFields?.map((field, index) => (
+                        <div className='w-full flex lg:flex-row flex-col gap-4 border-2 border-gray-700 p-2 mb-5' key={`${index}`}>
+                            <div className='flex flex-col w-full '>
+                                <label htmlFor="GroupName" className='text-lg w-full'>Name:<span className='text-red-600'>*</span></label>
                                 <input
                                 type="text" 
-                                id={`GroupName-${index}`}
+                                id={`GroupID-${index}`}
                                 name={`GroupName-${index}`}
                                 placeholder='Enter Group Name'
                                 value={field.Group_Name}
+                                required
                                 onChange={(e) => handleInputChange(index,"Group_Name", e.target.value)}
                                 className="w-full mb-2 pl-4 font-semibold rounded-3xl h-8 border-blue-700 border-2"
                                 />
-                                <input type="number" name={`Group_Location_Numbe-${index}`} id={`Group_Location_Numbe-${index}`} placeholder='Enter Group Location Number' className="w-full mb-2 pl-4 font-semibold rounded-3xl h-8 border-blue-700 border-2" onChange={(e) => handleInputChange(index,"Group_Location_Number", e.target.value)}/>
                             </div>
+                            <div className='flex flex-col w-full'>
+                                <label htmlFor="GroupName" className='text-lg w-full'>Group Location Number:<span className='text-red-600'>*</span></label>
+                                <input type="number" name={`Group_Location_Number-${index}`} required id={`Group_Location_Number-${index}`} placeholder='Enter Group Location Number' className="w-full mb-2 pl-4 font-semibold rounded-3xl h-8 border-blue-700 border-2" onChange={(e) => handleInputChange(index,"Group_Location_Number", e.target.value)}/>
+                            </div>
+                        </div>
+                            
                             
  
-                        ))}
-                    </div>
-                {/* <input type="text" placeholder='Enter Group Name' name="GroupName" className='w-4/5 h-8 rounded-3xl pl-4 border-blue-700 border-2' /> */}
+                    ))}
+                </div>
             </div>
             <div className=" w-full ">
                 <button
+                    type='button'
+                    className="bg-red-500 text-white text-sm px-4 py-1 rounded float-left"
+                    onClick={() => removeGroupSection(groupFields.length - 1)}
+                >
+                    Remove
+                </button>
+                <button
                     type="button"
                     onClick={handleAddMore}
-                    className="text-sm text-white bg-indigo-700 py-1 px-4 float-right rounded-md"
+                    className="text-sm bg-green-500 text-white px-4 py-1 rounded float-right rounded-md"
                 >
-                    Add More
+                    Add Group
                 </button>
             </div>
             <div className='w-full flex justify-center pb-8'>

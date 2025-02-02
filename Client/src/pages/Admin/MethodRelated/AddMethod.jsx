@@ -22,6 +22,7 @@ const AddMethod = () => {
         {
           Method: "",
           Unit: "",
+          Limit:"",
         },
       ],
     },
@@ -103,6 +104,7 @@ const AddMethod = () => {
           {
             Method: "",
             Unit: "",
+            Limit:"",
           },
         ],
       },
@@ -121,6 +123,7 @@ const AddMethod = () => {
                 {
                   Method: "",
                   Unit: "",
+                  Limit:"",
                 },
               ],
             }
@@ -133,6 +136,9 @@ const AddMethod = () => {
   const removeTestSection = (index) => {
     if(index>0){
       setTestSection((prev) => prev.filter((_, i) => i !== index));
+    }
+    else if(index===0){
+      toast.error("At least One Test Section is Required")
     }
   };
 
@@ -151,6 +157,9 @@ const AddMethod = () => {
             : test
         )
       );
+    }
+    else if(methodIndex===0){
+      toast.error("At least One Method is Required")
     }
   };
 
@@ -204,30 +213,30 @@ const handleSubmit=async()=>{
     try {
         const res = await dispatch(sendSubstanceData(data));
         if (res?.payload?.success) {
-            toast.success("Methdod And Unit Successfully Added");
+            toast.success("Methdod Added Successfully");
             navigate("/Admin/Substance/MethodList");
         }
     } catch (error) {
         toast.error(error?.message || "An error occurred.");
     }
 }
-const handleDelete=async(userID)=>{
-    try {
-      console.log(userID,"judju")
-      const data={
-        "userID":userID
-      }
-      const response = await dispatch(DeleteUserData(data));
-      if (response?.payload?.success) {
-        toast.success('User Deleted Successfully');
-        navigate('/Admin/Home')
-      }
-    } catch (error) {
-        toast.error(error)
-    }
-  }
+// const handleDelete=async(userID)=>{
+//     try {
+//       console.log(userID,"judju")
+//       const data={
+//         "userID":userID
+//       }
+//       const response = await dispatch(DeleteUserData(data));
+//       if (response?.payload?.success) {
+//         toast.success('User Deleted Successfully');
+//         navigate('/Admin/Home')
+//       }
+//     } catch (error) {
+//         toast.error(error)
+//     }
+//   }
   return (
-    <div className="h-screen w-screen">
+    <div className="min-h-screen w-screen bg-[url('/src/assets/images/DRDODIBT-BACK.png')] bg-cover bg-center">
       <AdminCommomNav/>
             <div className="w-full p-4">
                 <button
@@ -238,13 +247,13 @@ const handleDelete=async(userID)=>{
                 </button>
             </div>
       <br /><br /><br />
-      <div className="flex flex-col border-2 border-blue-700 bg-gray-100 mt-8 w-3/4 justify-center m-auto p-2">
+      <div className="flex flex-col border-2 border-blue-600 bg-gray-200 mt-8 w-4/5 justify-center m-auto p-2 shadow-[0_0_6px_gray]">
 
         <div className="flex justify-center m-auto w-full p-4">
             <div className="w-full ">
             {/* Group Selection */}
             <select
-                className="w-full border-2 border-blue-700 p-2 mb-4"
+                className="w-full border-2 border-gray-700 p-2 mb-4 outline-0 "
                 onChange={(e) => setSelectedGroup(e.target.value)}
             >
                 <option value="">Choose Group</option>
@@ -259,22 +268,15 @@ const handleDelete=async(userID)=>{
                 <div>
                 {testSection.map((test, testIndex) => (
                     <div
-                    className="mb-4 border-2 border-blue-700 p-4"
+                    className="mb-4 border-2 border-gray-700 p-4"
                     key={`test-${testIndex}`}
                     >
                     <div className="flex gap-4 mb-2">
                         {/* Test Name */}
                         <div className="w-full">
                         <select
-                            className="w-full border-2 border-blue-700 p-2"
+                            className="w-full border-2 border-blue-700 p-2 outline-0"
                             value={test.Test_Name}
-                            // onChange={(e) =>
-                            // updateTestSection(
-                            //     testIndex,
-                            //     "Test_Name",
-                            //     e.target.value,
-                            // )
-                            // }
                             onChange={(e) => {
                               const selectedTestName = e.target.value;
                               const selectedTestOption = allGroupDataState
@@ -310,10 +312,10 @@ const handleDelete=async(userID)=>{
                     {/* Method Section */}
                     {test.methodSection.map((method, methodIndex) => (
                         <div
-                        className="flex gap-4 mb-2"
+                        className="flex sm:flex-row flex-col gap-4 mb-2"
                         key={`method-${testIndex}-${methodIndex}`}
                         >
-                        <div className="w-1/2">
+                        <div className="sm:w-1/3 w-full">
                             <input
                             type="text"
                             placeholder="Enter Method"
@@ -326,10 +328,10 @@ const handleDelete=async(userID)=>{
                                 e.target.value
                                 )
                             }
-                            className="w-full border-2 border-blue-700 p-2 border"
+                            className="w-full border-2 border-blue-700 p-2 outline-0"
                             />
                         </div>
-                        <div className="w-1/2">
+                        <div className="sm:w-1/3 w-full">
                             <input
                             type="text"
                             placeholder="Enter Unit"
@@ -339,6 +341,22 @@ const handleDelete=async(userID)=>{
                                 testIndex,
                                 methodIndex,
                                 "Unit",
+                                e.target.value
+                                )
+                            }
+                            className="w-full border-2 border-blue-700 p-2 outline-0"
+                            />
+                        </div>
+                        <div className="sm:w-1/3 w-full">
+                            <input
+                            type="text"
+                            placeholder="Enter Limit"
+                            value={method.Limit}
+                            onChange={(e) =>
+                                updateMethodSection(
+                                testIndex,
+                                methodIndex,
+                                "Limit",
                                 e.target.value
                                 )
                             }
@@ -354,18 +372,20 @@ const handleDelete=async(userID)=>{
                         </div>
                     ))}
 
-                    <button
-                        className="bg-green-500 text-white px-4 py-1 rounded mt-2"
-                        onClick={() => addMethod(testIndex)}
-                    >
-                        Add Method
-                    </button>
-                    <button
-                        className="bg-red-500 text-white px-4 py-1 rounded mt-2 ml-4"
-                        onClick={() => removeTestSection(testIndex)}
-                    >
-                        Remove Test Section
-                    </button>
+                      <div className="flex sm:flex-row flex-col">
+                        <button
+                            className="bg-green-500 text-white px-4 py-1 rounded sm:mt-2"
+                            onClick={() => addMethod(testIndex)}
+                        >
+                            Add Method
+                        </button>
+                        <button
+                            className="bg-red-500 text-white px-4 py-1 rounded mt-2 sm:ml-4"
+                            onClick={() => removeTestSection(testIndex)}
+                        >
+                            Remove Test Section
+                        </button>
+                      </div>
                     </div>
                 ))}
 
@@ -379,7 +399,7 @@ const handleDelete=async(userID)=>{
             )}
             </div>
         </div>
-        <div className="w-full flex justify-center"><button className="bg-indigo-700 px-4 py-1 rounded-md text-white hover:bg-indigo-800" onClick={handleSubmit}>Submit</button></div>
+        <div className="w-full flex justify-center"><button className="bg-indigo-700 px-8 py-1 rounded-md text-white hover:bg-indigo-800 text-lg" onClick={handleSubmit}>Submit</button></div>
       </div>
     </div>
   );
