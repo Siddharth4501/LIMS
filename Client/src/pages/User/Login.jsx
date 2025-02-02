@@ -5,8 +5,7 @@ import {  useNavigate } from "react-router-dom";
 import { login } from "../../Redux/Slices/AuthSlice";
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
-import { FaEyeSlash } from "react-icons/fa";
-import { FaEye } from "react-icons/fa";
+
 const Login = () => {
     const dispatch=useDispatch();
     const navigate=useNavigate();
@@ -15,9 +14,9 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         e.stopPropagation();
-    
-        const email = e.target[0].value;
-        const password = e.target[1].value;
+        const formData=new FormData(e.target);
+        const email = formData.get("Email");
+        const password = formData.get("Password");
     
         // Validate fields
         if (!email || !password) {
@@ -59,9 +58,9 @@ const Login = () => {
     
   return (
     <div className="flex flex-col font-bold min-h-screen w-screen justify-center bg-[url('/src/assets/images/DRDODIBT-BACK.png')] bg-cover bg-center ">
-        <form onSubmit={handleLogin} className='grid gap-2 border-blue-600 shadow-blue-500/50 border-2 shadow-[0_0_6px_gray] rounded-lg h-96 xl:w-2/5 w-4/5 m-auto p-4 bg-gray-200'>
-            <center><h1 className='text-4xl'>Login</h1></center>
-            <div className='w-full p-2 pt-5 flex sm:flex-row flex-col'>
+        <form onSubmit={handleLogin} className='grid border-blue-600 shadow-blue-500/50 border-2 shadow-[0_0_6px_gray] rounded-lg h-96 xl:w-2/5 w-4/5 m-auto p-4 bg-gray-200'>
+            <center><h1 className='text-4xl'>LIMS LOGIN</h1></center>
+            <div className='w-full md:p-2 flex sm:flex-row flex-col'>
                 <div className='flex w-1/4 mx-auto'>
                     <span className='pt-2 p-1'><MdEmail /></span>
                     <label htmlFor="Email" className='w-full text-xl'>Email:</label>
@@ -71,7 +70,7 @@ const Login = () => {
                 </div>
                 
             </div>
-            <div className='relative w-full p-2 pt-5 flex sm:flex-row flex-col'>
+            <div className='w-full md:p-2 flex sm:flex-row flex-col'>
                 <div className='flex w-1/4  mx-auto'>
                     <span className='pt-2 p-1'><RiLockPasswordFill /></span>
                     <label htmlFor="Password" className='w-full text-xl'>Password:</label>
