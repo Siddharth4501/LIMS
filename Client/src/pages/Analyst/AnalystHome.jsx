@@ -46,7 +46,7 @@ const AnalystHome = () => {
             />
             <span className="text-lg font-bold">Name of Lab:DFRL</span>
           </div>
-          <div className='text-center font-semibold text-3xl'>Analyst Role</div>
+          <div className='text-center font-semibold text-3xl'>Analyst</div>
           <div className='mx-6'>
             <select name="" id="" className="p-2 rounded-lg border border-blue-800" onClick={handleRedirection}>
               <option value="name">{userData.fullName.toUpperCase()}</option>
@@ -56,15 +56,15 @@ const AnalystHome = () => {
             </select>
           </div>
         </div>
-        <br /><br /><br /><br /><br /><br />
-        <div className='grid grid-cols-2 gap-12 mt-16 px-4 py-2 m-auto w-3/4'>
+        <br /><br /><br /><br /><br />
+        <div className='grid gap-12 mt-16 px-4 py-2 m-auto w-3/4'>
           <center>
-            <button className='bg-red-500 shadow-lg shadow-red-500/50 w-80 px-4 py-2 rounded-md text-2xl font-normal transition-transform duration-300 ease-in-out hover:scale-105' onClick={handlePendingSample}>
+            <button className='bg-indigo-700 shadow-lg text-white hover:bg-indigo-900 w-80 px-4 py-2 rounded-md text-2xl font-normal transition-transform duration-300 ease-in-out hover:scale-105' onClick={handlePendingSample}>
               Pending Samples
             </button>
           </center>
           <center>
-            <button className='bg-cyan-500 shadow-lg shadow-cyan-500/50 w-80 px-4 py-2 rounded-md text-2xl font-normal transition-transform duration-300 ease-in-out hover:scale-105' onClick={handleCompletedSample}>
+            <button className='bg-indigo-700 shadow-lg text-white hover:bg-indigo-900 w-80 px-4 py-2 rounded-md text-2xl font-normal transition-transform duration-300 ease-in-out hover:scale-105' onClick={handleCompletedSample}>
               Completed Samples
             </button>
           </center>
