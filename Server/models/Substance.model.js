@@ -14,7 +14,8 @@ const substanceSchema=new Schema(
         MethodUnitList:[
             {
                 Method:String,
-                Unit:String
+                Unit:String,
+                Limit:String
             },
         ],  
         
