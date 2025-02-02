@@ -10,7 +10,6 @@ const SampleViewMore = () => {
   const { state } = useLocation();
   const dispatch=useDispatch();
   const navigate=useNavigate();
-  const [checkedTests, setCheckedTests] = useState([]);
   const [rowData, setRowData] = useState([]);
   const [dueDate,setDueDate]=useState();
   const {allUserData}=useSelector((state)=>state.auth)
@@ -36,10 +35,8 @@ const SampleViewMore = () => {
   }, [state.Tests, state.Type_Of_Testing]);
   console.log(rowData,"ddef")
 
-  const [saveData, setSaveData] = useState([]);
   const [sections, setSections] = useState([{ id: 0, testType: '' }]);
   const [selectedTestTypes, setSelectedTestTypes] = useState([]);
-  console.log(saveData, "sA");
   // Handler to add new sections
   const handleAddSection = () => {
     const newSection = { id: sections.length, testType: '' };
@@ -69,42 +66,6 @@ const SampleViewMore = () => {
 
     setSections(updatedSections);
     setSelectedTestTypes(updatedSelectedTestTypes);
-  };
-
-  // Handler for "Select All" toggle
-  const handleSelectAll = (testType) => {
-    const relatedTests = state.Tests.filter(
-      (item) => item.Type_Of_Testing === testType
-    ).map((item) => item.Test);
-
-    if (relatedTests.every((test) => checkedTests.includes(test))) {
-      setCheckedTests(checkedTests.filter((test) => !relatedTests.includes(test)));
-      setSaveData((prevSaveData) =>
-        prevSaveData.filter(
-          (data) => !relatedTests.some((test) => data.Test === test)
-        )
-      );
-    } else {
-      setCheckedTests([...checkedTests, ...relatedTests]);
-      const allData = state.Tests.filter(
-        (item) => item.Type_Of_Testing === testType
-      ).map((item, index) => ({ ...item, ...rowData[testType][index] }));
-      setSaveData((prevSaveData) => [...prevSaveData, ...allData]);
-    }
-  };
-
-  // Handler for individual test toggle
-  const handleTestToggle = (testName, item,testType,index) => {
-    if (checkedTests.includes(testName)) {
-      setSaveData((prevSaveData) =>
-        prevSaveData.filter((data) => data.Test !== testName)
-      );
-      setCheckedTests(checkedTests.filter((test) => test !== testName));
-    } else {
-      const data = { ...item, ...rowData[testType][index] };
-      setSaveData((prevSaveData) => [...prevSaveData, data]);
-      setCheckedTests([...checkedTests, testName]);
-    }
   };
 
   // Updates row data for tests
@@ -193,7 +154,7 @@ const handleApplyToAllUnitBtn = (isChecked,testType) => {
 }
 const handleSubmit = async() => {
 
-  if (checkedTests.length === state.Tests.length && dueDate  && state._id){
+  if (dueDate  && state._id){
     const allotmentData={
       "TM_Data":rowData,
       "Due_Date":dueDate,
@@ -220,21 +181,23 @@ const handleSubmit = async() => {
     toast.error("Please fill all the fields");
   }
 }
+console.log("dhoku",rowData);
 
   return (
     <div>
-      <div className="mt-3 mb-2 ml-2 border border-md border-gray-300 bg-slate-300 p-2 w-1/2 rounded-md">
-        <b>Due Date:</b> <input type="date" name="DueDate" id="DueDate" min={state.Date.split('T')[0]} onChange={(e)=>handleDueDate(e)} className='bg-slate-100'/>
+      <div className="mt-3 mb-2 border-2 border-md border-gray-600 bg-slate-200 py-2 px-4 w-3/5 mx-auto rounded-md">
+        <div className='flex justify-center gap-2'><b className='text-lg'>Due Date:</b> <input type="date" name="DueDate" id="DueDate" min={state.Date.split('T')[0]} onChange={(e)=>handleDueDate(e)} className='px-4 border-2 border-blue-600'/></div>
       </div>
+      <br />
       {sections.map((section) => (
-        <div key={section.id} className="w-full p-4 bg-gray-100 mb-12">
+        <div key={section.id} className="w-full p-4 bg-gray-200 mb-12">
           <div className="border border-gray-300 rounded-lg shadow-sm bg-white">
             {section.testType === '' ? (
               <div className="flex items-center p-4 border-b">
                 <select
                   name="Type Of Testing"
                   id="Type Of Testing"
-                  className="w-1/4 p-2 bg-slate-100 border border-gray-300 rounded-lg text-gray-700"
+                  className="w-1/4 p-2 border-2 border-blue-600 rounded-lg text-gray-700 font-semibold"
                   value={section.testType}
                   onChange={(e) => updateTestType(section.id, e.target.value)}
                 >
@@ -249,26 +212,13 @@ const handleSubmit = async() => {
                 </select>
               </div>
             ) : (
-              <div>
-                <input
-                  type="checkbox"
-                  className="mt-4 mr-2 ml-4 h-5 w-5 text-blue-600"
-                  onChange={() => handleSelectAll(section.testType)}
-                  checked={
-                    state.Tests.filter(
-                      (item) => item.Type_Of_Testing === section.testType
-                    ).every((test) => checkedTests.includes(test.Test))
-                  }
-                />
+              <div className='pl-5 pt-2'>
                 <span className='font-semibold text-lg'>{section.testType}</span>
               </div>
             )}
 
-
-
-
             <div className={`p-4 ${state.Tests.filter((item) => item.Type_Of_Testing === section.testType).length > 2
-              ? "max-h-128 overflow-y-auto"
+              ? "max-h-[500px] overflow-y-auto"
               : ""
               }`}>
               {state.Tests.filter(
@@ -276,16 +226,10 @@ const handleSubmit = async() => {
               ).map((item, index) => (
                 <div
                   key={index}
-                  className="grid grid-cols-6 gap-4 mb-4 p-3 border border-gray-200 rounded-lg shadow-sm bg-gray-100"
+                  className="grid grid-cols-5 gap-4 mb-4 p-3 border border-gray-200 rounded-lg shadow-sm bg-gray-100"
                 >
                   <div className="font-bold rounded-md p-2">{index + 1}</div>
                   <div className="flex items-center border-l-2 pl-2">
-                    <input
-                      type="checkbox"
-                      className="mr-2 h-5 w-5 text-blue-600"
-                      checked={checkedTests.includes(item.Test)}
-                      onChange={() => handleTestToggle(item.Test, item,section.testType, index)}
-                    />
                     <span>{item.Test}</span>
                   </div>
                   <div>
@@ -310,7 +254,7 @@ const handleSubmit = async() => {
                       disabled={checkedTests.includes(item.Test)}
                       value={rowData[section.testType].Tests[index]?.Analyst?.Name || ''}
                     >
-                      <option value="Analyst" id='Analyst'>Analyst</option>
+                      <option value="" id=''>Analyst</option>
                       {
                         allUserData
                         ?.filter((user) =>
@@ -342,7 +286,7 @@ const handleSubmit = async() => {
                       disabled={checkedTests.includes(item.Test)}
                       value={rowData[section.testType].Tests[index]?.Method || ''}
                     >
-                      <option value="Method">Method</option>
+                      <option value="">Method</option>
                       <option value="Method1">Method1</option>
                       <option value="Method2">Method2</option>
                       <option value="Method3">Method3</option>
@@ -365,15 +309,12 @@ const handleSubmit = async() => {
                       disabled={checkedTests.includes(item.Test)}
                       value={rowData[section.testType].Tests[index]?.Unit || ''}
                     >
-                      <option value="Unit">Unit</option>
+                      <option value="">Unit</option>
                       <option value="Unit1">Unit1</option>
                       <option value="Unit2">Unit2</option>
                       <option value="Unit3">Unit3</option>
                       <option value="Unit4">Unit4</option>
                     </select>
-                  </div>
-                  <div className="text-center font-semibold text-gray-700 pt-8">
-                    Result:0
                   </div>
                 </div>
               ))}
