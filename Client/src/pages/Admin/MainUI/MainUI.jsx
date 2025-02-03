@@ -10,7 +10,7 @@ const MainUI = () => {
     return (
         <div>
             <AdminCommomNav />
-            <div className=' flex w-full bg-[url("/src/assets/images/LIMS-ADMIN-BG.jpeg")] bg-cover bg-no-repeat bg-center' style={{ backgroundColor: "rgba(0, 0, 0, 0.15)",backgroundBlendMode: "darken"}}>
+            <div className=' flex w-full bg-[url("/src/assets/images/LIMS-BACK.jpg")] bg-cover bg-no-repeat bg-center' style={{ backgroundColor: "rgba(0, 0, 0, 0.15)",backgroundBlendMode: "darken"}}>
                 {/* Left Panel  */}
                 <AdminCommonPanel />
 
