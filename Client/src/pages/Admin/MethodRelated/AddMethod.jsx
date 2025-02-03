@@ -159,7 +159,7 @@ const AddMethod = () => {
       );
     }
     else if(methodIndex===0){
-      toast.error("At least One Method is Required")
+      toast.error("At least One Method is Required");
     }
   };
 
@@ -319,6 +319,7 @@ const handleSubmit=async()=>{
                             <input
                             type="text"
                             placeholder="Enter Method"
+                            name={`name-method-${testIndex}-${methodIndex}`}
                             value={method.Method}
                             onChange={(e) =>
                                 updateMethodSection(
@@ -336,6 +337,7 @@ const handleSubmit=async()=>{
                             type="text"
                             placeholder="Enter Unit"
                             value={method.Unit}
+                            name={`name-unit-${testIndex}-${methodIndex}`}
                             onChange={(e) =>
                                 updateMethodSection(
                                 testIndex,
@@ -352,6 +354,7 @@ const handleSubmit=async()=>{
                             type="text"
                             placeholder="Enter Limit"
                             value={method.Limit}
+                            name={`name-limit-${testIndex}-${methodIndex}`}
                             onChange={(e) =>
                                 updateMethodSection(
                                 testIndex,
