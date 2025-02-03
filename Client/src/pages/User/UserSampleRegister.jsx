@@ -37,7 +37,7 @@ const UserSampleRegister = () => {
   return (
     <>
       <div className="w-screen h-screen bg-[url('/src/assets/images/DRDODIBT-BACK.png')] bg-cover bg-center">
-        <div className="flex items-center justify-between p-4 shadow-md bg-slate-400 border border-2 border-slate-700">
+        <div className="flex items-center justify-between p-4 shadow-md bg-slate-500 border border-2 border-slate-800">
           <div className="flex items-center">
             <img src="/src/assets/images/DRDO-Logo1.jpg" alt="Logo"
               className="h-20 w-22 object-contain mr-8 ml-4 rounded-full"
@@ -48,7 +48,7 @@ const UserSampleRegister = () => {
             <h1 className='text-center font-medium text-3xl p-4'>Sample Registration</h1>
           </div>
           <div className='mx-6'>
-            <select name="" id="" className="p-2 rounded-lg border border-blue-800 bg-slate-100" onChange={handleRedirection}>
+            <select name="" id="" className="p-2 rounded-lg border-2 outline-0 border-blue-600" onChange={handleRedirection}>
               <option value="name">{userData.fullName.toUpperCase()}</option>
               <option value="User Home">Home</option>
               <option value="change-password">Change Password</option>
