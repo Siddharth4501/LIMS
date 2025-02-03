@@ -44,6 +44,7 @@ const MethodList = () => {
       toast.error(error)
     }
   }
+  let indexsCounter = 1;
   return (
     <>
       <AdminCommomNav />
@@ -85,10 +86,11 @@ const MethodList = () => {
                             {
                               allSubstanceDataState?.map((item, index) => {
                                 return item.MethodUnitList.map((data) => {
+                                  const currentIndex = indexsCounter++;
                                   return (
         
-                                    <tr className="hover:bg-gray-100" key={item._id} >
-                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{index + 1}</td>
+                                    <tr className="hover:bg-gray-100" key={`${item._id}-${data.Method}-${currentIndex}`} >
+                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{currentIndex}</td>
                                       <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.Test.Test_Name}</td>
                                       <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.Test.TestID}</td>
                                       <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{data.Method}</td>
@@ -124,9 +126,10 @@ const MethodList = () => {
                             {
                               filteredItems?.map((item, index) => {
                                 return item.MethodUnitList.map((data) => {
+                                  const currentIndex = indexsCounter++;
                                   return (
-                                    <tr className="hover:bg-gray-100" key={item._id} >
-                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{index + 1}</td>
+                                    <tr className="hover:bg-gray-100" key={`Search-Related-${item._id}-${data.Method}-${currentIndex}`} >
+                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{currentIndex}</td>
                                       <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.Test.Test_Name}</td>
                                       <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.Test.TestID}</td>
                                       <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{data.Method}</td>

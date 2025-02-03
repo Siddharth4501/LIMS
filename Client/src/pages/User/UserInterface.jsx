@@ -33,7 +33,7 @@ const UserInterface = () => {
     return (
         <div className="w-screen bg-no-repeat h-screen">
 
-            <div className="flex items-center justify-between p-4 shadow-md bg-slate-400 border border-2 border-slate-700">
+            <div className="flex sm:flex-row flex-col items-center justify-between p-4 shadow-md bg-slate-500 border border-2 border-slate-800">
 
                 <div className="flex items-center">
                     <img src=" /src/assets/images/DIBT.jpg" alt="Logo"
@@ -42,10 +42,10 @@ const UserInterface = () => {
                     <span className="text-lg font-bold">Name of Lab : DFRL</span>
                 </div>
 
-                <div className='flex '>
-                    <h2 className='pt-2 text-teal-900 font-bold'>Change Role</h2>
-                    <div className='px-2 mr-6'>
-                        <select name="" id="" className="p-2 rounded-lg border border-blue-800 bg-slate-100" value={selectedRole} onChange={handleChange}>
+                <div className='flex sm:flex-row flex-col '>
+                    <h2 className='pt-2 text-gray-800 text-lg font-bold sm:mx-0 mx-auto'>Change Role</h2>
+                    <div className='px-2 mr-6 sm:ml-0 ml-5 mb-1'>
+                        <select name="" id="" className="p-2 rounded-lg border-2 outline-0 border-blue-600" value={selectedRole} onChange={handleChange}>
                             <option value="" className='cursor-not-allowed' disabled>Select a role</option>
                             {
                                 userData.roles.map((item)=>{
@@ -54,8 +54,8 @@ const UserInterface = () => {
                             }
                         </select>
                     </div>
-                    <div className='mx-6'>
-                        <select name="" id="" className="p-2 rounded-lg border border-blue-800 bg-slate-100" onChange={handleLogout}>
+                    <div className='sm:mx-6 mx-auto'>
+                        <select name="" id="" className="p-2 rounded-lg border-2 outline-0 border-blue-600" onChange={handleLogout}>
                             <option value={userData.fullName}>{userData.fullName.toUpperCase()}</option>
                             <option value="change-password">Change Password</option>
                             <option value="logout" className='text-red-500'>Log Out!</option>

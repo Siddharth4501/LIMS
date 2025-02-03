@@ -220,7 +220,7 @@ const AddUser = () => {
     };
     console.log(sections,"hell1");
     return (
-        <div>
+        <div className="min-h-screen w-screen bg-[url('/src/assets/images/DRDODIBT-BACK.png')] bg-cover bg-center">
             {/* Header */}
                 <AdminCommomNav/>
                 <div className="w-full p-4">
@@ -233,7 +233,7 @@ const AddUser = () => {
                 </div>
             <br /><br />
             {/* Form */}
-            <div className="p-6 bg-slate-200 flex flex-col items-center justify-center">
+            <div className="p-6  flex flex-col items-center justify-center">
                 <div className="w-full bg-white border border-gray-700 shadow-lg rounded-lg p-8">
                     <div className="grid grid-cols-3 gap-6 mb-6">
                         <div>
@@ -243,7 +243,7 @@ const AddUser = () => {
                                 id="userName"
                                 value={userName}
                                 onChange={handleNameChange}
-                                className="mt-1 block w-full p-2 border-blue-500 border-2 rounded-md bg-slate-100"
+                                className="mt-1 block w-full p-2 border-blue-500 border-2 rounded-md"
                             />
                             {errors.userName && <p className="text-red-500 text-sm">{errors.userName}</p>}
                         </div>
@@ -254,7 +254,7 @@ const AddUser = () => {
                                 id="userEmail"
                                 value={userEmail}
                                 onChange={handleEmailChange}
-                                className="mt-1 block w-full p-2 border-blue-500 border-2 rounded-md bg-slate-100"
+                                className="mt-1 block w-full p-2 border-blue-500 border-2 rounded-md"
                             />
                             {errors.userEmail && <p className="text-red-500 text-sm">{errors.userEmail}</p>}
                         </div>
@@ -265,13 +265,13 @@ const AddUser = () => {
                                 id="password"
                                 value={userPassword}
                                 onChange={handlePasswordChange}
-                                className="mt-1 block w-full p-2 border-blue-500 border-2 rounded-md bg-slate-100"
+                                className="mt-1 block w-full p-2 border-blue-500 border-2 rounded-md"
                             />
                             {errors.userPassword && <p className="text-red-500 text-sm">{errors.userPassword}</p>}
                         </div>
                     </div>
                     {sections.map((section, i) => (
-                        <div className="grid grid-cols-3 gap-6 mb-4 border-blue-500 border-2 rounded-md bg-slate-100" key={i}>
+                        <div className="grid grid-cols-3 gap-6 mb-4 border-blue-500 border-2 rounded-md" key={i}>
                             {/* Role Section */}
                             <div className="p-4 ">
                                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -362,9 +362,9 @@ const AddUser = () => {
                                 <button
                                     type="button"
                                     onClick={handleAddMore}
-                                    className="text-sm text-white bg-indigo-700 py-1 px-4 float-right rounded-md"
+                                    className="text-sm text-white bg-green-500 py-1 px-4 float-right rounded-md"
                                 >
-                                    Add More
+                                    Add Role
                                 </button>
                             </div>
                         )
