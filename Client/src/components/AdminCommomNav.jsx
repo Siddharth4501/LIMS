@@ -44,7 +44,7 @@ const AdminCommomNav = () => {
         }
     }
   return (
-      <div className="flex items-center justify-between p-4 shadow-md bg-slate-400 border-slate-700 border-2">
+      <div className="flex items-center justify-between p-4 shadow-md bg-slate-500 border-slate-700 border-2">
                 <div className="flex items-center">
                     <img src={logoDataState.length>0?`http://localhost:5001${logoDataState[0]?.imageUrl}`:''} alt="Logo"
                         className="h-20 w-22 object-contain mr-8 ml-4 rounded-full"
