@@ -75,7 +75,11 @@ const sampleSchema=new Schema(
         Active:{
             type:Boolean,
             default:true,
-        }          
+        },
+        Upload_File:{
+            type:String,
+            trim:true
+        }         
     },
     {
         timestamps:true
