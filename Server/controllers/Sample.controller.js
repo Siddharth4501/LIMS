@@ -276,6 +276,25 @@ const TMANDataUpdate=async(req,res,next)=>{
         return next(new AppError(e.message,500))
     }
 }
+
+const uploadFile=async(req,res,next)=>{
+    const {sampleID}=req.body;
+    console.log("rewp",typeof(sampleID));
+    if(!req.file){
+        return next(new AppError('File cannot be Added', 400))
+    }
+    const sample=await Sample.findById(sampleID);
+    if(!sample){
+        return next(new AppError('Error in Uploading File',400))
+    }
+    sample.Upload_File=`/uploads/${req.file.filename}`;
+    await sample.save();
+    res.status(201).json({
+        success:true,
+        message:`File Added Successfully`,
+    })
+}
+
 export {
     SampleRegister,
     SampleData,
@@ -283,5 +302,6 @@ export {
     TMDataSave,
     TMANData,
     TMANDataUpdate,
-    DeleteSampleData
+    DeleteSampleData,
+    uploadFile
 }
