@@ -21,6 +21,8 @@ const upload = multer({
       ext !== ".jpeg" &&
       ext !== ".webp" &&
       ext !== ".png" &&
+      ext !== ".xlsx" &&
+      ext !== ".pdf" &&
       ext !== ".mp4"
     ) {
       cb(new Error(`Unsupported file type! ${ext}`), false);
