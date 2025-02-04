@@ -139,6 +139,28 @@ export const updateTMANData=createAsyncThunk("TMANuser/Update",async(data)=>{
 
   })
 
+  export const uploadFile=createAsyncThunk("Sample/File/Upload",async(data)=>{
+    try{
+      let res=axios.post("http://localhost:5001/api/v1/Sample/File/Upload",data,{
+        withCredentials: true, // Include cookies
+      })
+      await toast.promise(res, {
+        loading: "Loading...",
+        success: (data) => {
+          return data?.data?.message;
+        },
+        error: "Failed to send data",
+      });
+  
+      // getting response resolved here
+      res = await res;//when promise is resolved it will give data
+      return res.data;//catched by action
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  
+    })
+
   const sampleSlice=createSlice({
       name:'sample',
       initialState,
