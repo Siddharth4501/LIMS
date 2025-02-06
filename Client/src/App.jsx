@@ -46,6 +46,8 @@ import NameOfLab from './pages/Admin/ExtraDetailsRelated/NameOfLab.jsx'
 import AdministratorProfile from './pages/Admin/ExtraDetailsRelated/AdministratorProfile.jsx'
 import NABLReportSelection from './pages/Admin/UserRelated/NABLReportSelection.jsx'
 import ResetPassword from './pages/Admin/UserRelated/ResetPassword.jsx'
+import AdminUserRegister from './pages/User/AdminUserRegister.jsx'
+import AdminPermit from './components/AdminPermit.jsx'
 
 
 function App() {
@@ -62,6 +64,7 @@ function App() {
             <Route path="/AN_PendingSample/ViewMore" element={<AN_PendingSamplesViewMore/>} />
             <Route path="/AN_PendingSamples" element={<AN_PendingSamples/>} />
             <Route path="/AN_CompletedSamples" element={<AN_CompletedSamples/>} />
+            <Route path="/AN_CompletedSamples/View_More" element={<FullHistory/>} />
             <Route path="/Analyst/Home" element={<AnalystHome/>} />
           </Route>
 
@@ -73,6 +76,7 @@ function App() {
             <Route path="/ResultApproval/Result_Status" element={<TM_RAResultStatus/>} />
             <Route path="/ResultApproval/Result_Status/View_More" element={<TM_ResultApprovalViewMore/>} />
             <Route path="/ResultApproved" element={<TM_ApprovedRes/>} />
+            <Route path="/ResultApproved/View_More" element={<FullHistory/>} />
             <Route path="/TM_PendingSamples" element={<TM_PendingSample/>} />
           </Route>
 
@@ -108,14 +112,18 @@ function App() {
             <Route path="/Admin/Substance/AddMethod" element={<AddMethod/>} />
             <Route path="/Admin/Error/ErrorList" element={<ErrorList/>} />
             <Route path="/Admin/Error/AddError" element={<AddError/>} />
-            <Route path="/Admin/Administration/Logo" element={<Logo/>} />
-            <Route path="/Admin/Administration/NameOfLab" element={<NameOfLab/>} />
+            <Route  element={<AdminPermit/>} >
+              <Route path="/Admin/Administration/Logo" element={<Logo/>} />
+              <Route path="/Admin/Administration/NameOfLab" element={<NameOfLab/>} />
+            </Route>
+            
             <Route path="/Admin/Administration/AdminProfile" element={<AdministratorProfile/>} />
             <Route path="/UserNABLTestReport" element={<NABLReportSelection/>} />
           </Route>
           
           <Route element={<NotRequireAuth />}>
             <Route path="/Login" element={<Login />} /> 
+            <Route path="/AdminRegister" element={<AdminUserRegister />} /> 
           </Route>
 
           <Route element={<RequireAuth allowedRoles={["Sample Registration","Analyst","Technical Manager","Admin"]} />}>
