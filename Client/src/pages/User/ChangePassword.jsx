@@ -57,7 +57,7 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen w-screen bg-gray-100 bg-[url('/src/assets/images/DRDODIBT-BACK.png')] bg-cover bg-center">
+    <div className="flex items-center justify-center min-h-screen w-screen bg-gray-100 bg-[url('/src/assets/images/DRDODIBT-BACK.png')] bg-cover bg-center bg-fixed">
     {/* forget password card */}
     <form
         onSubmit={handleFormSubmit}

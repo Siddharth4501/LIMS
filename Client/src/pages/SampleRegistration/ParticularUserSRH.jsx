@@ -3,6 +3,7 @@ import Samples from '../../components/Samples';
 import { getSampleData } from '../../Redux/Slices/SampleSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import UserCommonNav from '../../components/UserCommonNav';
 
 const ParticularUserSRH = () => {
     const dispatch=useDispatch();
@@ -26,9 +27,9 @@ const ParticularUserSRH = () => {
     }, [query]);
   return (
     <div className="">
-      <div className='w-full flex border bg-gray-300 border border-slate-700 border-[3px] shadow-[0_0_6px_black] p-5'>
-        <div className='w-3/5 text-3xl font-bold'><span className='float-right'>Sample Registration Record</span></div>
-        <div className='w-2/5'><button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Sample Registration/Home')}>Back</button></div>
+      <UserCommonNav assignedRole='Sample Registration'/>
+      <div className='w-full p-5'>
+        <div className='w-full'><button className='bg-indigo-700 px-8 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Sample Registration/Home')}>Back</button></div>
       </div>
       <br /><br />
       <div className='w-full bg-slate-200 border border-indigo-700 border-[2px] p-4'>

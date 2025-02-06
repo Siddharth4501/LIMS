@@ -4,7 +4,8 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { updateSample, updateTMANData } from '../../Redux/Slices/SampleSlice';
 import toast from 'react-hot-toast';
 import * as XLSX from "xlsx";
-import { CSVLink, CSVDownload } from "react-csv";
+import { CSVLink } from "react-csv";
+import UserCommonNav from '../../components/UserCommonNav';
 
 const AN_PendingSamplesViewMore = () => {
     const {state}=useLocation();
@@ -84,30 +85,11 @@ const handleResultChange = (e, typeOfTesting, testID,Name) => {
     }
     const handleSubmit=async(e)=>{
         e.preventDefault();
+
         if(!state.TMANID || !userData._id){
             toast.error("Unexpected error occured,please close the page and try again!!")
         }
-        // let error=false
-        // Object.keys(substances).map((key)=>{
-        //     const filteredItem=substances[key].Tests.filter((data)=>data.Analyst.ID===userData._id)
-        //     filteredItem.forEach((element)=>{
-        //         if(element.Result===''){
-        //             toast.error(`Result for Test ${element.Test.Test_Name} is blank`)
-        //             error=true
-        //         }
-        //         if(element.Start_Date===''){
-        //             toast.error(`Start Date for Test ${element.Test.Test_Name} is blank`)
-        //             error=true
-        //         }
-        //         if(element.End_Date===''){
-        //             toast.error(`End Date for Test ${element.Test.Test_Name} is blank`)
-        //             error=true
-        //         }
-        //     })
-        // })
-        // if(error){
-        //     return
-        // }
+
         //map is not used becase it is asynchronous and does not terminate immediately
         for (const key of Object.keys(substances)) {
             const filteredItems = substances[key].Tests.filter((data) => data.Analyst.ID === userData._id);
@@ -210,17 +192,41 @@ const handleResultChange = (e, typeOfTesting, testID,Name) => {
       }
       reader.readAsArrayBuffer(file); // Read the file as a binary array
     }}
-  console.log(resultColumn,"yup")
+  console.log(resultColumn,"yup");
+  const handleDateApplyToAll=(TypeOfTesting, TestID)=>{
+    let foundItem=substances[TypeOfTesting].Tests.find((test)=>test.Test.TestID===TestID);
+    if(!foundItem){
+        toast.error("Something Went Wrong,Please Try Again");
+        return;
+    }
+    const StartDate=foundItem.Start_Date;
+    const EndDate=foundItem.End_Date;
+    if(StartDate && EndDate){
+        setSubstance((prevState) => ({
+            ...prevState,
+            [TypeOfTesting]: {
+            ...prevState[TypeOfTesting],
+            Tests: prevState[TypeOfTesting].Tests.map((item) =>
+                item.Analyst?.ID === userData?._id
+                ? { ...item, Start_Date:String(StartDate),End_Date:String(EndDate) } // Update Date for the matching Analyst
+                : item
+            ),
+            },
+        }));
+    };
+    }
+  console.log(substances,"hudda")
   return (
       <form onSubmit={handleSubmit}>
         <div>
-          <div className='flex border bg-gray-300 text-3xl justify-center font-bold p-5'>
-              Add Result Page
+            <UserCommonNav assignedRole='Analyst'/>
+          <div className='w-full p-5'>
+            <button type='button' className='float-right bg-indigo-700 px-8 py-1 rounded-md text-white' onClick={()=>navigate('/AN_PendingSamples')}>Back</button>
           </div>
-          <br /><br />
+          <br />
           <div className='w-full'>
             <CSVLink data={csvData} className='bg-indigo-700 text-white py-1 px-2 border-indigo-700 m-5 rounded '>Download Data in Excel</CSVLink>
-            <input type="file" accept=".xlsx,.xls" name="ExcelFileInput" id="ExcelFileInput" onChange={handleExcelFileUpload} className='float-right bg-slate-200 p-1'/>
+            <input type="file" accept=".xlsx,.xls" name="ExcelFileInput" id="ExcelFileInput" onChange={handleExcelFileUpload} className='float-right bg-gray-100 p-1 border-2 border-gray-600'/>
           </div>
           <br /><br />
           {
@@ -280,12 +286,17 @@ const handleResultChange = (e, typeOfTesting, testID,Name) => {
                                                                 }
                                                                 placeholder='Enter Result Here..'
                                                                 onChange={(e) => handleResultChange(e, key, item.Test.TestID,item.Test.Test_Name)}
-                                                                className="text-center border-2 border-blue-700 rounded-md w-72 max-w-72 p-1 focus:border-blue-700"
+                                                                className="text-center border-2 border-blue-700 rounded-md w-72 max-w-72 p-1 focus:border-blue-700 outline-0"
                                                             />
                                                         </td>
                                                         
-                                                        <td className="border border-gray-300 px-4 py-2 text-center">
-                                                        <input type="date" name={`Start_Date-${key}`} id={`Start_Date-${key}`} min={state.Date.split('T')[0]} max={state.Due_Date.split('T')[0]} className='bg-zinc-300 p-1 m-2 rounded' onChange={(e)=>handleStartDate(e,key,item.Test.TestID)}/>-<input type="date" name={`End_Date-${key}`} id={`Start_Date-${key}`} className='bg-zinc-300 p-1 mb-2 rounded' min={state.Date.split('T')[0]} max={state.Due_Date.split('T')[0]} onChange={(e)=>handleEndDate(e,key,item.Test.TestID)}/>
+                                                        <td className="border border-gray-300 px-4 py-2 text-center flex flex-col">
+                                                            <div className='full'>
+                                                                <button type='button' className='px-4 py-1 text-white min-w-32 rounded bg-sky-600 hover:bg-sky-700' onClick={()=>handleDateApplyToAll(key, item.Test.TestID)}>Apply To All</button>
+                                                            </div>
+                                                            <div>
+                                                                <input type="date" name={`Start_Date-${key}`} id={`Start_Date-${key}`} min={state.Date.split('T')[0]} max={state.Due_Date.split('T')[0]} value={item.Start_Date} className='border-2 border-blue-600 p-1 m-2 rounded outline-0' onChange={(e)=>handleStartDate(e,key,item.Test.TestID)}/>-<input type="date" name={`End_Date-${key}`} id={`Start_Date-${key}`} value={item.End_Date} className='border-2 border-blue-600 p-1 mb-2 rounded m-2 outline-0' min={state.Date.split('T')[0]} max={state.Due_Date.split('T')[0]} onChange={(e)=>handleEndDate(e,key,item.Test.TestID)}/>
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                   </tbody>

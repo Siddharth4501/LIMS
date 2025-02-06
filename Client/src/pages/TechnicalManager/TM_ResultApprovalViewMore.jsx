@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { updateSample, updateTMANData } from '../../Redux/Slices/SampleSlice';
 import toast from 'react-hot-toast';
+import UserCommonNav from '../../components/UserCommonNav';
 
 const TM_ResultApprovalViewMore = () => {
     const {state}=useLocation();
@@ -74,11 +75,10 @@ const TM_ResultApprovalViewMore = () => {
   return (
     
     <div>
-        <div className='w-full flex border bg-gray-300 p-5'>
-            <div className='w-3/5 text-3xl font-bold'><span className='float-right'>Result Approval Page</span></div>
-            <div className='w-2/5'><button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right' onClick={()=>navigate('/ResultApproval/Result_Status',{state:{...state}})}>Back</button></div>
+        <UserCommonNav assignedRole='Technical Manager'/>
+        <div className='w-full flex p-5'>
+            <div className='w-full'><button className='bg-indigo-700 px-8 py-1 text-white rounded-md float-right' onClick={()=>navigate('/ResultApproval/Result_Status',{state:{...state}})}>Back</button></div>
         </div>
-        <br /><br />
         {
             state.analystClicked.Status==='Pending For Approval At TM'?(
             Object.keys(state.Substances_To_Be_Analysed).map((key,i) => {

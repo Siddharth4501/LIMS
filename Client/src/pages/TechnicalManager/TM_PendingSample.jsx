@@ -2,6 +2,7 @@ import React,{ useEffect,useState }from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getTMANData,getSampleData } from '../../Redux/Slices/SampleSlice'
 import { useNavigate } from 'react-router-dom';
+import UserCommonNav from '../../components/UserCommonNav';
 
 const TM_PendingSample = () => {
   const { TmAnData,sampleData }=useSelector((state)=>state.sample)
@@ -52,11 +53,10 @@ const TM_PendingSample = () => {
   },[TmAnData,sampleData,userData,TmAnDataState,sampleDataState])
   return (
     <div>
-      <div className='w-full flex border bg-gray-300 p-5'>
-        <div className='w-3/5 text-3xl font-bold'><span className='float-right'>Pending Samples At Analyst</span></div>
-        <div className='w-2/5'><button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Technical Manager/Home')}>Back</button></div>
+      <UserCommonNav assignedRole='Technical Manager'/>
+      <div className='w-full flex p-5'>
+        <div className='w-full'><button className='bg-indigo-700 px-8 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Technical Manager/Home')}>Back</button></div>
       </div>
-      <br /><br />
       {
         found?(
 
@@ -100,7 +100,7 @@ const TM_PendingSample = () => {
         </table>
       </div>
         ):(
-          <div className='text-xl font-semibold text-center w-full h-[48vh] translate-y-3/4 text-gray-600'>No Pending Samples At Analyst!!!</div>
+          <div className='text-2xl font-semibold text-center w-full h-[48vh] translate-y-1/2 text-gray-800'>No Pending Samples At Analyst!!!</div>
         )
       }
     </div>

@@ -13,7 +13,7 @@ const DeletedUserList = () => {
   const [query, setQuery] = useState('');
   const [filteredItems, setFilteredItems] = useState([]);
   useEffect(() => {
-    const filtered = allUserData.filter(item =>
+    const filtered = allUserDataState.filter(item =>
       item.fullName.toLowerCase().includes(query.toLowerCase()) || item.email.toLowerCase().includes(query.toLowerCase())
     );
     setFilteredItems(filtered);
@@ -43,7 +43,7 @@ const DeletedUserList = () => {
               </div>
               <br /><br />
               {
-                filteredItems.length == 0 ? query === '' ? (
+                filteredItems?.length == 0 ? query === '' ? (
                   <div>
                     <table className='table-auto w-full border-collapse border border-gray-300'>
                       <thead>

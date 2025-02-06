@@ -1,10 +1,13 @@
 import React,{ useEffect,useState }from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getTMANData,getSampleData } from '../../Redux/Slices/SampleSlice'
+import { getTMANData,getSampleData, uploadFile } from '../../Redux/Slices/SampleSlice'
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import UserCommonNav from '../../components/UserCommonNav';
 
 const AN_PendingSamples = () => {
   const { TmAnData,sampleData }=useSelector((state)=>state.sample)
+  const [file, setFile] = useState(null);
   const dispatch=useDispatch();
   const navigate=useNavigate();
   const [found,setFound]=useState(false);
@@ -56,13 +59,33 @@ const AN_PendingSamples = () => {
   const handleNavigation=(data,filteredSample,TMANID)=>{
     navigate("/AN_PendingSample/ViewMore",{state:{...data,...filteredSample,TMANID}})
   }
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+  const handleFileUpload = async (sampleID) => {
+    if (!file) return toast.error("Please select an image");
+    const formData = new FormData();
+    formData.append("sampleDetailsFile", file);
+    formData.append("sampleID", sampleID);
+    formData.append("AnalystName", userData?.fullName);
+    formData.append("AnalystID", userData?._id);
+    try {
+        const res = await dispatch(uploadFile(formData));
+        if(res?.payload?.success){
+          toast.success("Upload Successful")
+          navigate('/AN_PendingSamples');
+        }
+    } catch (err) {
+        toast.error("Upload failed");
+    }
+  };
+  let indexsCounter=1;
   return (
     <div>
-      <div className='w-full flex border bg-gray-300 p-5'>
-        <div className='w-2/3 text-3xl font-bold'><span className='float-right'>Pending Sample Page For Analyst</span></div>
-        <div className='w-1/3'><button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Analyst/Home')}>Back</button></div>
+      <UserCommonNav assignedRole='Analyst'/>
+      <div className='w-full flex p-5'>
+        <div className='w-full'><button className='bg-indigo-700 px-8 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Analyst/Home')}>Back</button></div>
       </div>
-      <br /><br />
     {
       found===true?
       (
@@ -78,28 +101,37 @@ const AN_PendingSamples = () => {
                 <th className="border border-gray-300 px-4 py-2 text-center">Storage Condition</th>
                 <th className="border border-gray-300 px-4 py-2 text-center">Registration Date</th>
                 <th className="border border-gray-300 px-4 py-2 text-center">Status</th>
+                <th className="border border-gray-300 px-4 py-2 text-center">Upload File</th>
                 <th className="border border-gray-300 px-4 py-2 text-center">Expand</th>
             </tr>
           </thead>
           <tbody>
             {
               TmAnDataState?.map((item,index)=>{
-                let userObj=item.AN_Status.find((analyst)=>analyst.Analyst.ID=== userData?._id && analyst.Status==='Pending At Analyst')
+                let userObj=item.AN_Status.find((analyst)=>analyst.Analyst?.ID=== userData?._id && analyst.Status==='Pending At Analyst')
                 let filteredSample=sampleDataState?.filter((data)=>data._id== item.Sample_Alloted && data.Active===true && assignedGroups.includes(data.Group) && userObj)
                 if(filteredSample.length===0){
                   return null;
                 }
                 else{
                   {console.log(filteredSample,"kiuku",userObj)}
+                  const currentIndex = indexsCounter++;
                   return(
-                    <tr className="hover:bg-gray-100" key={item._id}>
-                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{index+1}</td>
+                    <tr className="hover:bg-gray-100" key={`${item._id}-${index}`}>
+                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{currentIndex}</td>
                       <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{filteredSample[0]?.Registration_Number}</td>
                       <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{filteredSample[0]?.Name}</td>
                       <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.Due_Date.split('T')[0]}</td>
                       <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{filteredSample[0]?.Storage_Conditions}</td>
                       <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{filteredSample[0]?.Date.split('T')[0]}</td>
                       <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.TM_Status}</td>
+                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">
+                        <input type="file" name={`name-sampleDetailsFile-${item._id}`} id="sampleDetailsFile" className='w-full border-2 mb-1 p-1' onChange={(e)=>handleFileChange(e)}/>
+                        <button className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-900' onClick={()=>handleFileUpload(filteredSample[0]?._id)}>Submit</button>
+                        {/* {
+                          filteredSample[0]?.Upload_File ? <span className='text-green-600 font-semibold text:sm pl-1 ml-1'>Uploaded</span> : ''
+                        } */}
+                      </td>
                       <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-900' onClick={()=>handleNavigation(item,filteredSample[0],item._id)}>View</button></td>
                     </tr>
                   )
@@ -112,7 +144,7 @@ const AN_PendingSamples = () => {
       </div>
         ):
         (
-          <div className='text-2xl font-semibold text-center w-full h-[48vh] translate-y-3/4 text-gray-600'>
+          <div className='text-2xl font-semibold text-center w-full h-[48vh] translate-y-1/2 text-gray-800'>
             No Pending Samples Yet!!
           </div>
         )

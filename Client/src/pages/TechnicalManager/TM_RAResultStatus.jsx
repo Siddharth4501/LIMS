@@ -1,6 +1,7 @@
 import React from 'react'
 import toast from 'react-hot-toast';
 import { useLocation, useNavigate } from 'react-router-dom'
+import UserCommonNav from '../../components/UserCommonNav';
 
 const TM_RAResultStatus = () => {
     const {state}=useLocation();
@@ -10,11 +11,10 @@ const TM_RAResultStatus = () => {
       }
   return (
     <div>
-      <div className='w-full flex border bg-gray-300 p-5'>
-            <div className='w-3/5 text-3xl font-bold'><span className='float-right'>TM Result Status Page</span></div>
-            <div className='w-2/5'><button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right' onClick={()=>navigate('/ResultApproval')}>Back</button></div>
+      <UserCommonNav assignedRole='Technical Manager'/>
+      <div className='w-full flex p-5'>
+            <div className='w-full'><button className='bg-indigo-700 px-8 py-1 text-white rounded-md float-right' onClick={()=>navigate('/ResultApproval')}>Back</button></div>
         </div>
-      <br /><br />
       <div>
         <table className='table-auto w-full border-collapse border border-gray-300'>
           <thead>

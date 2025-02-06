@@ -56,7 +56,7 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="min-h-screen w-screen bg-[url('/src/assets/images/DRDODIBT-BACK.png')] bg-cover bg-center">
+    <div className="min-h-screen w-screen bg-[url('/src/assets/images/DRDODIBT-BACK.png')] bg-cover bg-center bg-fixed">
 
         {/* forget password container */}
         <div

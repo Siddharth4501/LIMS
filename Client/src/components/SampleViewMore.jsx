@@ -15,12 +15,17 @@ const SampleViewMore = () => {
   const navigate=useNavigate();
   const [rowData, setRowData] = useState([]);
   const [dueDate,setDueDate]=useState();
+  const [allUserDataState,setAllUserDataState]=useState([]);
+
   const {allUserData}=useSelector((state)=>state.auth)
   useEffect(() => {
     (async () => {
       await dispatch(getAllUserData());
     })();
   }, []);
+  useEffect(() => {
+    setAllUserDataState(allUserData);
+  },[allUserData])
   useEffect(() => {
     (async () => {
       await dispatch(getSubstanceData());
@@ -164,7 +169,10 @@ const handleApplyToAllUnitBtn = (isChecked,testType) => {
   }
 }
 const handleSubmit = async() => {
-
+  if(!dueDate){
+    toast.error("Due Date is Required");
+    return;
+  }
   let flag = false;
 
   const keys = Object.keys(rowData); // Get all keys from rowData
@@ -183,6 +191,11 @@ const handleSubmit = async() => {
       }
       if (test.Unit === '') {
         toast.error(`Unit is required at Type Of Testing: ${key}, Test: ${key}, Index: ${testIndex+1}`);
+        flag = true;
+        break;
+      }
+      if (test.Analyst.Name === '' || test.Analyst.ID === '' ) {
+        toast.error(`Analyst is required at Type Of Testing: ${key}, Test: ${test.Test.Test_Name}, Index: ${testIndex+1}`);
         flag = true;
         break;
       }
@@ -221,172 +234,182 @@ const handleSubmit = async() => {
 console.log("dhoku",rowData);
   return (
     <div>
-      <div className="mt-3 mb-2 border-2 border-md border-gray-600 bg-slate-200 py-2 px-4 w-3/5 mx-auto rounded-md">
+      <div className="mt-3 mb-2 border-2 border-md border-blue-600 bg-zinc-100 py-2 px-4 w-3/5 mx-auto rounded-md">
         <div className='flex justify-center gap-2'><b className='text-lg'>Due Date:</b> <input type="date" name="DueDate" id="DueDate" min={state.Date.split('T')[0]} onChange={(e)=>handleDueDate(e)} className='px-4 border-2 border-blue-600'/></div>
       </div>
       <br />
-      {sections.map((section) => (
-        <div key={section.id} className="w-full p-4 bg-gray-200 mb-12">
-          <div className="border border-gray-300 rounded-lg shadow-sm bg-white">
-            {section.testType === '' ? (
-              <div className="flex items-center p-4 border-b">
-                <select
-                  name="Type Of Testing"
-                  id="Type Of Testing"
-                  className="w-1/4 p-2 border-2 border-blue-600 rounded-lg text-gray-700 font-semibold"
-                  value={section.testType}
-                  onChange={(e) => updateTestType(section.id, e.target.value)}
-                >
-                  <option value="">Type Of Testing</option>
-                  {state.Type_Of_Testing.filter(
-                    (item) => !selectedTestTypes.includes(item)
-                  ).map((item) => (
-                    <option key={item} value={item}>
-                      {item}
-                    </option>
+      <div className='w-full'>
+        {sections.map((section) => (
+          <div key={section.id} className='w-full'>
+            <div  className="w-full p-4 bg-gray-200 mb-12">
+              <div className="border border-gray-300 rounded-lg shadow-sm bg-white">
+                {section.testType === '' ? (
+                  <div className="flex items-center p-4 border-b">
+                    <select
+                      name="Type Of Testing"
+                      id="Type Of Testing"
+                      className="w-1/4 p-2 border-2 border-blue-600 rounded-lg text-gray-700 font-semibold"
+                      value={section.testType}
+                      onChange={(e) => updateTestType(section.id, e.target.value)}
+                    >
+                      <option value="">Type Of Testing</option>
+                      {state.Type_Of_Testing.filter(
+                        (item) => !selectedTestTypes.includes(item)
+                      ).map((item) => (
+                        <option key={item} value={item}>
+                          {item}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                ) : (
+                  <div className='pl-5 pt-2'>
+                    <span className='font-semibold text-lg'>{section.testType}</span>
+                  </div>
+                )}
+
+                <div className={`p-4 ${state.Tests.filter((item) => item.Type_Of_Testing === section.testType).length > 2
+                  ? "max-h-[500px] overflow-y-auto"
+                  : ""
+                  }`}>
+                  {state.Tests.filter(
+                    (item) => item.Type_Of_Testing === section.testType
+                  ).map((item, index) => (
+                    <div
+                      key={index}
+                      className="grid grid-cols-5 gap-4 mb-4 p-3 border border-gray-200 rounded-lg shadow-sm bg-gray-100"
+                    >
+                      <div className="font-bold rounded-md p-2">{index + 1}</div>
+                      <div className="flex items-center border-l-2 pl-2">
+                        <span>{item.Test}</span>
+                      </div>
+                      <div>
+                        <button
+                          className="bg-sky-600 text-white p-2 rounded-md text-xs hover:bg-sky-800 focus:outline-none"
+                          onClick={() => handleApplyToAllAnalystBtn(true,section.testType)}
+                        >
+                          Apply to All
+                        </button>
+                        <select
+                          className="bg-white p-2 border border-gray-300 rounded-lg text-gray-700 w-full mt-2"
+                          onChange={(e) => {
+                            const selectedOption = e.target.options[e.target.selectedIndex];
+                            const selectedId = selectedOption.id;
+                            {console.log(selectedId,"igh")}
+                            updateRowData(section.testType,index, 'Analyst', e.target.value,selectedId);
+                            setApplyToAllAnalyst(()=>({
+                              "Name":e.target.value,
+                              "ID":selectedOption.id
+                            })); // Track the value for "Apply to All"
+                          }}
+                          value={rowData[section.testType].Tests[index]?.Analyst?.Name || ''}
+                        >
+                          <option value="" id=''>Analyst</option>
+                          {
+                            allUserDataState
+                            ?.filter((element)=>element.Active_Status===true)
+                            ?.filter((user) =>
+                              user.roles?.some(
+                                (item) => item?.designation === "Analyst" && item?.Assigned_Group.includes(state.Group)
+                              )
+                            )
+                            .map((data) => {
+                              return <option key={data._id} id={data._id} value={data.fullName}>{data.fullName}</option>;
+                            })
+                          
+                          }
+                        </select>
+                      </div>
+
+                      <div>
+                        <button
+                          className="bg-sky-600 text-white p-2 mb-1 rounded-md text-xs hover:bg-sky-800 focus:outline-none"
+                          onClick={() => handleApplyToAllMethodBtn(true,section.testType)}
+                        >
+                          Apply to All
+                        </button>
+                        <select
+                          className="bg-white p-2 border border-gray-300 rounded-lg text-gray-700 w-full"
+                          onChange={(e) => {
+                            updateRowData(section.testType,index, 'Method', e.target.value);
+                            setApplyToAllMethod(e.target.value)
+                          }}
+                          value={rowData[section.testType].Tests[index]?.Method || ''}
+                        >
+                          <option value="">Method</option>
+                          {
+                            allSubstanceDataState
+                              ?.map((substance) => {
+                                // Find the substance where TestID matches item._id
+                                
+                                if (substance.Test.Test_Name !== item.Test) return null;  
+                                return substance?.MethodUnitList?.map((ele,ele_idx) => (
+                                  <option key={`${ele.Method}-${ele_idx}`} value={ele.Method}>
+                                    {ele.Method}
+                                  </option>
+                                ));
+                              })
+                          }
+                        </select>
+                      </div>
+                      <div>
+                        <button
+                          className="bg-sky-600 text-white p-2 mb-1 rounded-md text-xs hover:bg-sky-800 focus:outline-none"
+                          onClick={() => handleApplyToAllUnitBtn(true,section.testType)}
+                        >
+                          Apply to All
+                        </button>
+                        <select
+                          className="bg-white p-2 border border-gray-300 rounded-lg text-gray-700 w-full"
+                          onChange={(e) => {
+                            updateRowData(section.testType,index, 'Unit', e.target.value)
+                            setApplyToAllUnit(e.target.value)
+                          }}
+                          value={rowData[section.testType].Tests[index]?.Unit || ''}
+                        >
+                          <option value="">Unit</option>
+                          {
+                            allSubstanceDataState
+                              ?.map((substance) => {
+                                // Find the substance where TestID matches item._id
+                                if (substance.Test.Test_Name !== item.Test) return null;
+                                return substance?.MethodUnitList?.map((ele,ele_idx) => (
+                                  <option key={`${ele.Unit}-${ele_idx}`} value={ele.Unit}>
+                                    {ele.Unit}
+                                  </option>
+                                ));
+                              })
+                          }    
+                        </select>
+                      </div>
+                    </div>
                   ))}
-                </select>
-              </div>
-            ) : (
-              <div className='pl-5 pt-2'>
-                <span className='font-semibold text-lg'>{section.testType}</span>
-              </div>
-            )}
-
-            <div className={`p-4 ${state.Tests.filter((item) => item.Type_Of_Testing === section.testType).length > 2
-              ? "max-h-[500px] overflow-y-auto"
-              : ""
-              }`}>
-              {state.Tests.filter(
-                (item) => item.Type_Of_Testing === section.testType
-              ).map((item, index) => (
-                <div
-                  key={index}
-                  className="grid grid-cols-5 gap-4 mb-4 p-3 border border-gray-200 rounded-lg shadow-sm bg-gray-100"
-                >
-                  <div className="font-bold rounded-md p-2">{index + 1}</div>
-                  <div className="flex items-center border-l-2 pl-2">
-                    <span>{item.Test}</span>
-                  </div>
-                  <div>
-                    <button
-                      className="bg-sky-600 text-white p-2 rounded-md text-xs hover:bg-sky-800 focus:outline-none"
-                      onClick={() => handleApplyToAllAnalystBtn(true,section.testType)}
-                    >
-                      Apply to All
-                    </button>
-                    <select
-                      className="bg-white p-2 border border-gray-300 rounded-lg text-gray-700 w-full mt-2"
-                      onChange={(e) => {
-                        const selectedOption = e.target.options[e.target.selectedIndex];
-                        const selectedId = selectedOption.id;
-                        {console.log(selectedId,"igh")}
-                        updateRowData(section.testType,index, 'Analyst', e.target.value,selectedId);
-                        setApplyToAllAnalyst(()=>({
-                          "Name":e.target.value,
-                          "ID":selectedOption.id
-                        })); // Track the value for "Apply to All"
-                      }}
-                      value={rowData[section.testType].Tests[index]?.Analyst?.Name || ''}
-                    >
-                      <option value="" id=''>Analyst</option>
-                      {
-                        allUserData
-                        ?.filter((user) =>
-                          user.roles?.some(
-                            (item) => item?.designation === "Analyst" && item?.Assigned_Group.includes(state.Group)
-                          )
-                        )
-                        .map((data) => {
-                          return <option key={data._id} id={data._id} value={data.fullName}>{data.fullName}</option>;
-                        })
-                      
-                      }
-                    </select>
-                  </div>
-
-                  <div>
-                    <button
-                      className="bg-sky-600 text-white p-2 mb-1 rounded-md text-xs hover:bg-sky-800 focus:outline-none"
-                      onClick={() => handleApplyToAllMethodBtn(true,section.testType)}
-                    >
-                      Apply to All
-                    </button>
-                    <select
-                      className="bg-white p-2 border border-gray-300 rounded-lg text-gray-700 w-full"
-                      onChange={(e) => {
-                        updateRowData(section.testType,index, 'Method', e.target.value);
-                        setApplyToAllMethod(e.target.value)
-                      }}
-                      value={rowData[section.testType].Tests[index]?.Method || ''}
-                    >
-                      <option value="">Method</option>
-                      {
-                        allSubstanceDataState
-                          ?.map((substance) => {
-                            // Find the substance where TestID matches item._id
-                            
-                            if (substance.Test.Test_Name !== item.Test) return null;  
-                            return substance?.MethodUnitList?.map((ele,ele_idx) => (
-                              <option key={`${ele.Method}-${ele_idx}`} value={ele.Method}>
-                                {ele.Method}
-                              </option>
-                            ));
-                          })
-                      }
-                    </select>
-                  </div>
-                  <div>
-                    <button
-                      className="bg-sky-600 text-white p-2 mb-1 rounded-md text-xs hover:bg-sky-800 focus:outline-none"
-                      onClick={() => handleApplyToAllUnitBtn(true,section.testType)}
-                    >
-                      Apply to All
-                    </button>
-                    <select
-                      className="bg-white p-2 border border-gray-300 rounded-lg text-gray-700 w-full"
-                      onChange={(e) => {
-                        updateRowData(section.testType,index, 'Unit', e.target.value)
-                        setApplyToAllUnit(e.target.value)
-                      }}
-                      value={rowData[section.testType].Tests[index]?.Unit || ''}
-                    >
-                      <option value="">Unit</option>
-                      {
-                        allSubstanceDataState
-                          ?.map((substance) => {
-                            // Find the substance where TestID matches item._id
-                            if (substance.Test.Test_Name !== item.Test) return null;
-                            return substance?.MethodUnitList?.map((ele,ele_idx) => (
-                              <option key={`${ele.Unit}-${ele_idx}`} value={ele.Unit}>
-                                {ele.Unit}
-                              </option>
-                            ));
-                          })
-                      }    
-                    </select>
-                  </div>
                 </div>
-              ))}
-            </div>
 
+              </div>
+              
+
+            </div>
           </div>
-          {
-            sections.length === state.Type_Of_Testing.length ? <span className=''></span> : (
+        ))}
+        {
+          sections.length === state.Type_Of_Testing.length ? <span className=''></span> : (
+            <div className='w-full'>
               <div className="w-full">
                 <button
                   type="button"
-                  className="bg-indigo-700 px-4 py-1 rounded-md text-white hover:bg-indigo-900 float-right mr-2 mt-6"
+                  className="bg-indigo-700 px-4 py-1 rounded-md text-white hover:bg-indigo-900 float-right mr-2"
                   onClick={handleAddSection}
                 >
                   Add More
                 </button>
               </div>
-            )
-          }
-
-        </div>
-      ))}
+              <br /><br /><br /><br />
+            </div>
+            
+          )
+        }
+      </div>
       {
         selectedTestTypes.length === state.Type_Of_Testing.length ? (
           <div className='w-full mb-20'><button type="button" className='bg-indigo-700 px-10 py-1 text-lg font-semibold rounded-md text-white float-center flex justify-center mx-auto w-1/4 hover:bg-indigo-900' onClick={handleSubmit}>Submit</button></div>

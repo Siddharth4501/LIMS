@@ -7,10 +7,10 @@ const RequireAuth = ({ allowedRoles }) => {
   console.log(allowedRoles,"allowedRoles")
   const location = useLocation();
 
-  return isLoggedIn &&  userData && allowedRoles.find((myRole) => userData.roles.some((role)=>role.designation===myRole)) ? (
+  return isLoggedIn &&  userData && userData?.Active_Status===true && allowedRoles.find((myRole) => userData.roles.some((role)=>role.designation===myRole)) ? (
     <Outlet />
     
-  ) : isLoggedIn &&  userData ? (
+  ) : isLoggedIn &&  userData && userData?.Active_Status===true ? (
     <Navigate to={"/denied"} state={{ from: location }} replace />
   ) : (
     <Navigate to={"/login"} state={{ from: location }} replace />

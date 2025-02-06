@@ -3,6 +3,7 @@ import Samples from '../../components/Samples';
 import { getSampleData } from '../../Redux/Slices/SampleSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import UserCommonNav from '../../components/UserCommonNav';
 
 const TM_SampleAllotment = () => {
   
@@ -42,11 +43,10 @@ const TM_SampleAllotment = () => {
   },[samples,userData])
   return (
     <div className="">
-      <div className='w-full flex border bg-gray-300 p-5'>
-          <div className='w-3/5 text-3xl font-bold'><span className='float-right'>Sample Allotment Page</span></div>
-          <div className='w-2/5'><button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Technical Manager/Home')}>Back</button></div>
+      <UserCommonNav assignedRole='Technical Manager'/>
+      <div className='w-full flex p-5'>
+          <div className='w-full'><button className='bg-indigo-700 px-8 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Technical Manager/Home')}>Back</button></div>
       </div>
-      <br /><br />
       {
         found?(
           <div>
@@ -57,7 +57,7 @@ const TM_SampleAllotment = () => {
                     <th className="border border-gray-300 px-4 py-2 text-center">Reg. No.</th>
                     <th className="border border-gray-300 px-4 py-2 text-center">Sample Name</th>
                     <th className="border border-gray-300 px-4 py-2 text-center">Group</th>
-                    <th className="border border-gray-300 px-4 py-2 text-center">Registered Date</th>
+                    <th className="border border-gray-300 px-4 py-2 text-center">Registration Date</th>
                     <th className="border border-gray-300 px-4 py-2 text-center">Expand</th>
                   </tr>
                 </thead>
@@ -69,7 +69,7 @@ const TM_SampleAllotment = () => {
               </table>
           </div>
         ):(
-          <div className='text-xl font-semibold text-center w-full h-[48vh] translate-y-3/4 text-gray-600'>No Samples for Allotment!!!</div>
+          <div className='text-2xl font-semibold text-center w-full h-[48vh] translate-y-1/2 text-gray-800'>No Samples for Allotment!!!</div>
         )
       }
 

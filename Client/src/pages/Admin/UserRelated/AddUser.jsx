@@ -220,7 +220,7 @@ const AddUser = () => {
     };
     console.log(sections,"hell1");
     return (
-        <div className="min-h-screen w-screen bg-[url('/src/assets/images/DRDODIBT-BACK.png')] bg-cover bg-center">
+        <div className="min-h-screen w-screen bg-[url('/src/assets/images/DRDODIBT-BACK.png')] bg-cover bg-center bg-fixed">
             {/* Header */}
                 <AdminCommomNav/>
                 <div className="w-full p-4">
@@ -234,7 +234,7 @@ const AddUser = () => {
             <br /><br />
             {/* Form */}
             <div className="p-6  flex flex-col items-center justify-center">
-                <div className="w-full bg-white border border-gray-700 shadow-lg rounded-lg p-8">
+                <div className="w-full border-2 border-gray-700 shadow-lg rounded-lg p-8 bg-gray-100">
                     <div className="grid grid-cols-3 gap-6 mb-6">
                         <div>
                             <label htmlFor="userName" className="block text-sm font-medium text-gray-700">User Name<span className="text-red-500">*</span></label>
