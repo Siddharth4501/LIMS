@@ -38,6 +38,45 @@ const Register=async(req,res,next)=>{
     })
 }
 
+const AdminRegister=async(req,res,next)=>{
+    const {fullName,email,password,verificationPassword}=req.body;
+    console.log(fullName,email,password,verificationPassword);
+    if(!fullName || !email || !password || !verificationPassword){
+        return next(new AppError("All fields are required",400));
+    }
+    const userExist=await User.findOne({Admin:true});
+    if(userExist){
+        return next(new AppError("Admin Already Exist",400))
+    }
+    const Active_Status=true;
+    const roles=[
+        {
+            designation:'Admin',
+            Assigned_Group:['None'],
+            Reporting_To:'None'
+        }
+    ]
+    const user=await User.create({
+        fullName,
+        email,
+        password,
+        roles,
+        Active_Status,
+        VerificationPassword:verificationPassword,
+        Admin:true
+    });
+    if(!user){
+        return next(new AppError('Admin registration failed,please try again',400));
+    }
+    await user.save()
+    user.password=undefined
+
+    res.status(201).json({
+        success:true,
+        message:'Admin Registered successfully',
+        user,
+    })
+}
 
 const Login=async(req,res,next)=>{
     try{
@@ -50,9 +89,11 @@ const Login=async(req,res,next)=>{
         if(!user || !isMatch){
             return next(new AppError('Email or Password does not match',400))
         }
+        if(user.Active_Status===false){
+            return next(new AppError("Either User Has Been Deleted Or User Deosn't Exist",400))
+        }
         const token=await user.generateJWTToken();
         user.password=undefined
-
         res.cookie('token',token,cookieOptions);
         res.status(201).json({
             success:true,
@@ -236,4 +277,5 @@ export {
     DeleteUserData,
     DeleteUserRole,
     resetPassword,
+    AdminRegister,
 }
