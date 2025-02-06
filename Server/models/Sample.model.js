@@ -76,10 +76,17 @@ const sampleSchema=new Schema(
             type:Boolean,
             default:true,
         },
-        Upload_File:{
-            type:String,
-            trim:true
-        }         
+        Upload_File:[
+            {
+                Analyst_Name:String,
+                Analyst_ID:String,
+                Sample_ID:String,
+                FileUrl:{
+                    type:String,
+                    trime:true
+                }
+            },
+        ]         
     },
     {
         timestamps:true
