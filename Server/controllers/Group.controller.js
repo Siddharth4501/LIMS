@@ -121,7 +121,7 @@ const GroupData = async (req, res, next) => {
     try {
         const group = await Group.find({})
         if (!group) {
-            return next(new AppError('Group cannot be created'))
+            return next(new AppError('Group Data cannot be fetched'))
         }
         res.status(200).json({
             success: true,
