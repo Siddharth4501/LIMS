@@ -41,6 +41,13 @@ const userSchema=new Schema({
         type:Boolean,
         default:true,
     },
+    VerificationPassword:{
+        type:String
+    },
+    Admin:{
+        type:Boolean,
+        default:false
+    }
     
 },{timeStamps:true})
 
