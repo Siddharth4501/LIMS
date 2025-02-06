@@ -278,8 +278,8 @@ const TMANDataUpdate=async(req,res,next)=>{
 }
 
 const uploadFile=async(req,res,next)=>{
-    const {sampleID}=req.body;
-    console.log("rewp",typeof(sampleID));
+    const {sampleID,AnalystName,AnalystID}=req.body;
+    console.log("rewp",sampleID,AnalystName,AnalystID);
     if(!req.file){
         return next(new AppError('File cannot be Added', 400))
     }
@@ -287,7 +287,19 @@ const uploadFile=async(req,res,next)=>{
     if(!sample){
         return next(new AppError('Error in Uploading File',400))
     }
-    sample.Upload_File=`/uploads/${req.file.filename}`;
+    const foundindex=sample.Upload_File.findIndex((item)=>item.Analyst_ID===String(AnalystID))
+    if(foundindex !== -1){
+        sample.Upload_File[foundindex].FileUrl = `/uploads/${req.file.filename}`;
+    }
+    else{
+        const obj={
+            Analyst_Name:AnalystName,
+            Analyst_ID:AnalystID,
+            Sample_ID:sampleID,
+            FileUrl:`/uploads/${req.file.filename}`
+        }
+        sample.Upload_File.push(obj);
+    }
     await sample.save();
     res.status(201).json({
         success:true,
