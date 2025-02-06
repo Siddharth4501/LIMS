@@ -53,7 +53,7 @@ const AllDeletedSamples = () => {
                 </tr>
               </thead>
               {
-                samples?.filter((data)=>data.Active===false).map((element,index)=>{
+                samples?.filter((data)=>data.Active===false)?.sort((a, b) => a.Group.localeCompare(b.Group))?.map((element,index)=>{
                   return <Samples key={`${'All Deleted Sample History'}-${element._id}`} difference='All Deleted Sample History' data={element} index={index}/>
                 })
               }
@@ -73,7 +73,7 @@ const AllDeletedSamples = () => {
                 </tr>
               </thead>
               {
-                filteredItems?.filter((data)=>data.Active===false).map((element,index)=>{
+                filteredItems?.filter((data)=>data.Active===false)?.sort((a, b) => a.Group.localeCompare(b.Group))?.map((element,index)=>{
                   return <Samples key={`${'All Deleted Sample History'}-${element._id}`} difference='All Deleted Sample History' data={element} index={index}/>
                 })
               }

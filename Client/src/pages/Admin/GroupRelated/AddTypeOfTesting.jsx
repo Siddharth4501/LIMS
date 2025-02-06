@@ -77,7 +77,7 @@ const AddTypeOfTesting = () => {
     }
 
   return (
-    <div className="min-h-screen w-screen bg-[url('/src/assets/images/DRDODIBT-BACK.png')] bg-cover bg-center bg-repeat">
+    <div className="min-h-screen w-screen bg-[url('/src/assets/images/DRDODIBT-BACK.png')] bg-cover bg-center bg-fixed">
         <AdminCommomNav/>
             <div className='w-full p-4'><button className='bg-indigo-700 px-8 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Admin/Group/TypeOfTestingList')}>Back</button></div>
         <br /><br /><br />
@@ -86,7 +86,7 @@ const AddTypeOfTesting = () => {
                 <div className='border-2 border-gray-700 flex flex-col gap-3 p-2'>
                     <div className='flex lg:flex-row flex-col'>
                         <label htmlFor="GroupName" className='lg:w-1/3 w-full text-lg font-semibold'>Group:</label>
-                        <select name="GroupName" id="GroupID" className='lg:w-2/3 w-full p-1 rounded-3xl border border-blue-700 border-2 outline-0' onChange={handleOnChange}>
+                        <select name="GroupName" id="GroupID" className='lg:w-2/3 w-full p-1 rounded border border-blue-700 border-2 outline-0' onChange={handleOnChange}>
                             <option value="">Choose Group</option>
                             {
                                 groupData.map((item)=>{
@@ -107,7 +107,7 @@ const AddTypeOfTesting = () => {
                                             value={field}
                                             required
                                             onChange={(e) => handleInputChange(index, e)}
-                                            className="w-full pl-4 p-1 rounded-3xl font-semibold border border-blue-700 border-2 outline-0"
+                                            className="w-full pl-4 p-1 rounded font-semibold border border-blue-700 border-2 outline-0"
                                         />
                                     </div> 
                                 ))}

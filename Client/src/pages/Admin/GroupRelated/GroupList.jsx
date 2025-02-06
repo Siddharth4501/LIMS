@@ -72,7 +72,7 @@ const GroupList = () => {
                           <thead>
                             <tr className="bg-slate-200">
                               <th className="border border-gray-300 px-4 py-2 text-center">S.No.</th>
-                              <th className="border border-gray-300 px-4 py-2 text-center">Group Name.</th>
+                              <th className="border border-gray-300 px-4 py-2 text-center">Group Name</th>
                               <th className="border border-gray-300 px-4 py-2 text-center">Group ID</th>
                               <th className="border border-gray-300 px-4 py-2 text-center">Group Location No.</th>
                               {/* <th className="border border-gray-300 px-4 py-2 text-center">Expand</th> */}
@@ -81,7 +81,7 @@ const GroupList = () => {
                           </thead>
                           <tbody>
                             {
-                              allGroupDataState.map((item, index) => {
+                              allGroupDataState?.map((item, index) => {
                                 return (
                                   <tr className="hover:bg-gray-100" key={item._id} >
                                     <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{index + 1}</td>
@@ -107,7 +107,7 @@ const GroupList = () => {
                           <thead>
                             <tr className="bg-slate-200">
                               <th className="border border-gray-300 px-4 py-2 text-center">S.No.</th>
-                              <th className="border border-gray-300 px-4 py-2 text-center">Group Name.</th>
+                              <th className="border border-gray-300 px-4 py-2 text-center">Group Name</th>
                               <th className="border border-gray-300 px-4 py-2 text-center">Group ID</th>
                               <th className="border border-gray-300 px-4 py-2 text-center">Group Location No.</th>
                               {/* <th className="border border-gray-300 px-4 py-2 text-center">Roles</th>

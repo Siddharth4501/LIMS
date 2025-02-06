@@ -33,7 +33,7 @@ const handleUpload = async () => {
 };
   return (
     <>
-      <div className="min-h-screen w-screen bg-[url('/src/assets/images/DRDODIBT-BACK.png')] bg-cover bg-center">
+      <div className="min-h-screen w-screen bg-[url('/src/assets/images/DRDODIBT-BACK.png')] bg-cover bg-center bg-fixed">
         <AdminCommomNav />
         <div className="flex">
             <AdminCommonPanel/>
@@ -41,7 +41,7 @@ const handleUpload = async () => {
             <br /><br /><br /><br /><br />
                 <div className='flex flex-col gap-2 w-1/2 justify-center m-auto min-h-72 border-2 bg-gray-200 border-2 border-blue-600 items-center shadow-[0_0_6px_gray]'>
                     <div className='text-xl font-semibold'>Logo:</div>
-                    <div className='w-full'><input type="file" placeholder='Choose Logo' accept='image/*' name='logo' className='w-3/4 flex justify-center mx-auto h-12 p-2 border-2  bg-white border-blue-600 font-semibold outline-0' onChange={handleFileChange} />
+                    <div className='w-full'><input type="file" placeholder='Choose Logo' accept='image/*' name='logo' className='w-3/4 flex justify-center mx-auto h-12 p-2 border-2 rounded bg-white border-blue-600 font-semibold outline-0' onChange={handleFileChange} />
 
                     </div>
                     {preview && <img src={preview} alt="Preview" width="200px" />}

@@ -6,7 +6,7 @@ const AdministratorProfile = () => {
   const userData=JSON.parse(localStorage.getItem("userData"));
   return (
     <>
-    <div className="min-h-screen w-screen bg-[url('/src/assets/images/DRDODIBT-BACK.png')] bg-cover bg-center">
+    <div className="min-h-screen w-screen bg-[url('/src/assets/images/DRDODIBT-BACK.png')] bg-cover bg-center bg-fixed">
 
         <AdminCommomNav />
         <div className='flex'>

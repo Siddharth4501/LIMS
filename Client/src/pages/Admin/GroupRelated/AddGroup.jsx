@@ -65,7 +65,7 @@ const AddGroup = () => {
     }
     console.log(groupFields,"ty")
   return (
-    <div className="min-h-screen w-screen bg-[url('/src/assets/images/DRDODIBT-BACK.png')] bg-cover bg-center">
+    <div className="min-h-screen w-screen bg-[url('/src/assets/images/DRDODIBT-BACK.png')] bg-cover bg-center bg-fixed">
         <AdminCommomNav/>
             <div className=' w-full p-4'><button className='bg-indigo-700 px-8 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Admin/Group/GroupList')}>Back</button></div>
         <br /><br /><br /><br /><br />
@@ -86,12 +86,12 @@ const AddGroup = () => {
                                 value={field.Group_Name}
                                 required
                                 onChange={(e) => handleInputChange(index,"Group_Name", e.target.value)}
-                                className="w-full mb-2 pl-4 font-semibold rounded-3xl h-8 border-blue-700 border-2"
+                                className="w-full mb-2 pl-4 font-semibold rounded h-8 border-blue-700 border-2"
                                 />
                             </div>
                             <div className='flex flex-col w-full'>
                                 <label htmlFor="GroupName" className='text-lg w-full'>Group Location Number:<span className='text-red-600'>*</span></label>
-                                <input type="number" name={`Group_Location_Number-${index}`} required id={`Group_Location_Number-${index}`} placeholder='Enter Group Location Number' className="w-full mb-2 pl-4 font-semibold rounded-3xl h-8 border-blue-700 border-2" onChange={(e) => handleInputChange(index,"Group_Location_Number", e.target.value)}/>
+                                <input type="number" name={`Group_Location_Number-${index}`} required id={`Group_Location_Number-${index}`} placeholder='Enter Group Location Number' className="w-full mb-2 pl-4 font-semibold rounded h-8 border-blue-700 border-2" onChange={(e) => handleInputChange(index,"Group_Location_Number", e.target.value)}/>
                             </div>
                         </div>
                             

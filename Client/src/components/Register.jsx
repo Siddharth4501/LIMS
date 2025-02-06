@@ -5,10 +5,13 @@ import { useDispatch,useSelector } from "react-redux";
 import { getGroupData } from "../Redux/Slices/GroupSilce";
 import { registerSample } from "../Redux/Slices/SampleSlice";
 import { useNavigate } from "react-router-dom";
+import { getError } from "../Redux/Slices/ExtraSlice";
+import UserCommonNav from "./UserCommonNav";
 
 const Register = () => {
   const dispatch=useDispatch();
   const navigate=useNavigate();
+  const { errorData } = useSelector((state) => state.administration);
   const { groupData } = useSelector((state) => state.group);
   console.log("mrsfnejgojrioejg",groupData)
   const userData =JSON.parse(localStorage.getItem("userData"));
@@ -18,10 +21,21 @@ const Register = () => {
     })();
   }, []);
   
+  const [errorDataState, setErrorDataState] = useState([]);
   const [groups, setGroup] = useState([])
   const [choosenGroup, setChoosenGroup] = useState('');
   const [analysisData, setAnalysisData] = useState([]);
   const [testData, setTestData] = useState([])
+
+  useEffect(() => {
+    (async () => {
+      await dispatch(getError());
+    })();
+  }, []);
+
+  useEffect(() => {
+    setErrorDataState(errorData);
+  }, [errorData])
 
   useEffect(()=>{
     setGroup(groupData)
@@ -143,9 +157,11 @@ const Register = () => {
         // setAnalysisData(filteredGroup.Type_Of_Testing);
         const TypeOfTestingData=[]
         const data = [];
-        filteredGroup.Tests.forEach((item) => {
+        
+        filteredGroup?.Tests?.forEach((item) => {
           // Check if the object for this Type_Of_Testing already exists
           const existingObj = data.find((obj) => obj.name === item.Type_Of_Testing);
+          
           if(!(TypeOfTestingData.includes(item.Type_Of_Testing))){
             TypeOfTestingData.push(item.Type_Of_Testing)
           }
@@ -219,7 +235,11 @@ const Register = () => {
   const handleAnalysisChange = (e) => {
     const { name, checked } = e.target;
     setFilteredItems([]);
-
+    const errorObj=errorDataState.find((error)=>error.Type_Of_Testing === name && error.Group_Name=== choosenGroup)
+    if(errorObj){
+      toast.error(`${name}-${errorObj.Error_Message}`);
+      return;
+    }
     setSelectedAnalysis((prev) => ({
       ...prev,
       [name]: checked,
@@ -288,12 +308,11 @@ const Register = () => {
   console.log("analsisData12",analysisData)
   return (
     <>
-      <form onSubmit={handleSubmit} className="space-y-6 max-w-full mx-auto bg-gray-100">
-        <div className='w-full flex border-2 border-slate-700 bg-gray-300 p-5'>
-          <div className='w-3/5 text-3xl font-bold'><span className='float-right'>Sample Registration Form</span></div>
-          <div className='w-2/5'><button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Sample Registration/Home')}>Back</button></div>
+      <form onSubmit={handleSubmit} className="space-y-6 max-w-full mx-auto">
+        <UserCommonNav assignedRole='Sample Registration'/>
+        <div className='w-full p-5'>
+          <div className='w-full'><button type="button" className='bg-indigo-700 px-8 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Sample Registration/Home')}>Back</button></div>
         </div>
-        <br />
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-2">
           <div>
             <label className="block text-sm font-semibold mb-2">Name</label>

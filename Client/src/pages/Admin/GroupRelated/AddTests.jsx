@@ -11,10 +11,10 @@ const AddTests = () => {
     const { groupData } = useSelector((state) => state.group);
     const [selectedGroupID,setSelectedGroupID]=useState('')
     const [typeOfTesting,setTypeOfTesting]=useState('')
-     const [typeOfTests, setTypeOfTests] = useState([{
-        Type_Of_Testing:'',
-        Test:''
-     }]);
+    const [typeOfTests, setTypeOfTests] = useState([{
+    Type_Of_Testing:'',
+    Test:''
+    }]);
         const handleAddMore = () => {
             setTypeOfTests([...typeOfTests,{
                 Type_Of_Testing:'',
@@ -80,7 +80,7 @@ const AddTests = () => {
     }
 
   return (
-    <div className="min-h-screen w-screen bg-[url('/src/assets/images/DRDODIBT-BACK.png')] bg-cover bg-center">
+    <div className="min-h-screen w-screen bg-[url('/src/assets/images/DRDODIBT-BACK.png')] bg-cover bg-center bg-fixed">
         <AdminCommomNav/>
             <div className='w-full p-4'><button className='bg-indigo-700 px-8 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Admin/Group/TestsList')}>Back</button></div>
         <br /><br /><br />
@@ -89,7 +89,7 @@ const AddTests = () => {
                 <div className='w-full border-2 border-gray-700 p-2 flex flex-col gap-3'>
                     <div className='flex lg:flex-row flex-col '>
                         <label htmlFor="GroupName" className='lg:w-1/3 w-full text-lg font-semibold'>Group:</label>
-                        <select name="GroupName" id="" className='lg:w-2/3 w-full p-1 rounded-3xl border-blue-700 border-2 outline-0' onChange={handleOnChange}>
+                        <select name="GroupName" id="" className='lg:w-2/3 w-full p-1 rounded border-blue-700 border-2 outline-0' onChange={handleOnChange}>
                             <option value="">Choose Group</option>
                             {
                                 groupData.map((item)=>{
@@ -100,7 +100,7 @@ const AddTests = () => {
                     </div>
                     <div className='flex lg:flex-row flex-col'>
                         <label htmlFor="TypeOfTesting" className='lg:w-1/3 w-full text-lg font-semibold'>Enter Type Of Testing:</label>
-                        <select name="TypeOfTesting" id="" className='lg:w-2/3 w-full p-1 rounded-3xl border-blue-700 border-2 outline-0' onChange={(e)=>setTypeOfTesting(e.target.value)}>
+                        <select name="TypeOfTesting" id="" className='lg:w-2/3 rounded w-full p-1 border-blue-700 border-2 outline-0' onChange={(e)=>setTypeOfTesting(e.target.value)}>
                             <option value="">Choose Type Of Testing</option>
                             {
                                 groupData?.filter((item)=>item._id===selectedGroupID).map((data)=>{
@@ -119,7 +119,7 @@ const AddTests = () => {
                     <label htmlFor="Tests" className='lg:w-1/3 w-full text-lg font-semibold'>Enter Tests:</label>
                     <div className='lg:w-2/3 w-full'>
                         {typeOfTests.map((field, index) => (
-                            <div key={`${index}`} className="mb-2  full">
+                            <div key={`${index}`} className="mb-2 full">
                                 <input
                                     type="text"
                                     name="TypeOfTesting"
@@ -127,7 +127,7 @@ const AddTests = () => {
                                     value={field.Test}
                                     required
                                     onChange={(e) => handleInputChange(index, e)}
-                                    className="w-full p-1 rounded-3xl pl-4 font-semibold border-blue-700 border-2 outline-0"
+                                    className="w-full p-1 rounded pl-4 font-semibold border-blue-700 border-2 outline-0"
                                 /> 
                             </div>    
                             ))}

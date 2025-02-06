@@ -21,7 +21,7 @@ const AllSamplesHistory = () => {
   useEffect(() => { setSamples(sampleData) }, [sampleData])
   useEffect(() => {
     const filtered = samples?.filter(item =>
-      item.Name.toLowerCase().includes(query.toLowerCase())
+      item.Name.toLowerCase().includes(query.toLowerCase()) || item.Group.toLowerCase().includes(query.toLowerCase()) || item.Date.toLowerCase().includes(query.toLowerCase()) || item.Type_Of_Testing.some((TOT)=>TOT.toLowerCase().includes(query.toLowerCase()))
     );
     setFilteredItems(filtered);
   }, [query]);
@@ -33,13 +33,14 @@ const AllSamplesHistory = () => {
         {
           samples?.filter((data) => data.Active === true).length>0?(
 
-            <div className='w-full '>
+            <div className='w-full'>
               <br /><br />
-              <div className='w-full bg-slate-200 border border-indigo-700 border-[2px] p-4'>
-                <input type="text" className='w-1/2 border border-blue-800 border-2 rounded-md h-8 p-4 flex mx-auto' value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Search For A Particular Sample...' />
+              <div className='w-full bg-gray-100 border border-indigo-700 border-[2px] p-4'>
+                <input type="text" className='w-1/2 border border-blue-800 border-2 rounded-md h-8 p-4 flex mx-auto outline-0' value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Search For A Particular Sample...' />
               </div>
               <br /><br />
-              <span><b>Note:</b>Samples whoes status is other than 'Forwared To TM' cannot be deleted</span>
+              <span><b>Note1:</b>Samples whoes status is other than 'Forwared To TM' cannot be deleted</span> <br />
+              <span><b>Note2:</b>Samples on the basis of Sample Name,Group,Registration Date and Type Of Testing</span>
               {
                 filteredItems.length === 0 ? query === '' ? (
                   <table className="table-auto w-full border-collapse border border-gray-300">
@@ -49,15 +50,15 @@ const AllSamplesHistory = () => {
                         <th className="border border-gray-300 px-4 py-2 text-center">Reg. No.</th>
                         <th className="border border-gray-300 px-4 py-2 text-center">Sample Name</th>
                         <th className="border border-gray-300 px-4 py-2 text-center">Group</th>
-                        <th className="border border-gray-300 px-4 py-2 text-center">Registered Date</th>
+                        <th className="border border-gray-300 px-4 py-2 text-center">Registration Date</th>
                         <th className="border border-gray-300 px-4 py-2 text-center">Expand</th>
                         <th className="border border-gray-300 px-4 py-2 text-center">Status</th>
-                        <th className="border border-gray-300 px-4 py-2 text-center">Delete</th>
                         <th className="border border-gray-300 px-4 py-2 text-center">Report</th>
+                        <th className="border border-gray-300 px-4 py-2 text-center">Delete</th>
                       </tr>
                     </thead>
                     {
-                      samples?.filter((data) => data.Active === true).map((element, index) => {
+                      samples?.filter((data) => data.Active === true)?.sort((a, b) => a.Name.localeCompare(b.Name))?.map((element, index) => {
                         return <Samples key={`${'All Sample History'}-${element._id}`} difference='All Sample History' data={element} index={index} />
                       })
                     }
@@ -72,15 +73,15 @@ const AllSamplesHistory = () => {
                         <th className="border border-gray-300 px-4 py-2 text-center">Reg. No.</th>
                         <th className="border border-gray-300 px-4 py-2 text-center">Sample Name</th>
                         <th className="border border-gray-300 px-4 py-2 text-center">Group</th>
-                        <th className="border border-gray-300 px-4 py-2 text-center">Registered Date</th>
+                        <th className="border border-gray-300 px-4 py-2 text-center">Registration Date</th>
                         <th className="border border-gray-300 px-4 py-2 text-center">Expand</th>
                         <th className="border border-gray-300 px-4 py-2 text-center">Status</th>
-                        <th className="border border-gray-300 px-4 py-2 text-center">Delete</th>
                         <th className="border border-gray-300 px-4 py-2 text-center">Report</th>
+                        <th className="border border-gray-300 px-4 py-2 text-center">Delete</th>
                       </tr>
                     </thead>
                     {
-                      filteredItems?.filter((data) => data.Active === true).map((element, index) => {
+                      filteredItems?.filter((data) => data.Active === true)?.sort((a, b) => a.Name.localeCompare(b.Name))?.map((element, index) => {
                         return <Samples key={`${'All Sample History'}-${element._id}`} difference='All Sample History' data={element} index={index} />
                       })
                     }

@@ -236,7 +236,7 @@ const handleSubmit=async()=>{
 //     }
 //   }
   return (
-    <div className="min-h-screen w-screen bg-[url('/src/assets/images/DRDODIBT-BACK.png')] bg-cover bg-center">
+    <div className="min-h-screen w-screen bg-[url('/src/assets/images/DRDODIBT-BACK.png')] bg-cover bg-center bg-fixed">
       <AdminCommomNav/>
             <div className="w-full p-4">
                 <button
