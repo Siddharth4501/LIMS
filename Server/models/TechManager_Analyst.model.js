@@ -15,18 +15,27 @@ const techManager_AnalystSchema=new Schema(
                     type: "object",
                     properties: {
                       Test: {
-                        Test_Name:String,
-                        TestID:String,
+                        Test_Name:{
+                          type:String,
+                          trim:true,
+                        },
+                        TestID:{
+                          type:String,
+                          trim:true,
+                        }
                       },
-                      Method: { type: "string" },
-                      Unit: { type: "string" },
+                      Method: { type: "string",trim:true, },
+                      Unit: { type: "string",trim:true, },
                       Analyst: {
-                        Name:String,
+                        Name:{
+                          type:String,
+                          trim:true,
+                        },
                         ID:{ type: mongoose.Schema.Types.ObjectId, ref: "User" }
                       },
-                      Result: { type: "string", default: "" },
-                      StartDate: { type: "string", format: "date-time" },
-                      EndDate: { type: "string", format: "date-time" },
+                      Result: { type: "string",trim:true, default: "" },
+                      StartDate: { type: Date,default:null},
+                      EndDate: { type: Date,default:null},
                       NABL:{type:Boolean,default:false}
                     },
                   }
@@ -37,14 +46,23 @@ const techManager_AnalystSchema=new Schema(
         },
         
         
-        TM_Status:String,
+        TM_Status:{
+          type:String,
+          trim:true,
+        },
         AN_Status:[
           {
             Analyst: {
-              Name:String,
+              Name:{
+                type:String,
+                trim:true,
+              },
               ID:{ type: mongoose.Schema.Types.ObjectId, ref: "User" }
             },
-            Status: String,
+            Status: {
+              type:String,
+              trim:true,
+            },
           },
         ],
         Due_Date:{

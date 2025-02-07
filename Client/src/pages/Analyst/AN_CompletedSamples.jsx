@@ -78,7 +78,7 @@ const AN_CompletedSamples = () => {
                   <th className="border border-gray-300 px-4 py-2 text-center">Registration Date</th>
                   <th className="border border-gray-300 px-4 py-2 text-center">Sample Name</th>
                   <th className="border border-gray-300 px-4 py-2 text-center">Due Date</th>
-                  <th className="border border-gray-300 px-4 py-2 text-center">Storage Condition</th>
+                  <th className="border border-gray-300 px-4 py-2 text-center">Storage Condition(in ℃)</th>
                   <th className="border border-gray-300 px-4 py-2 text-center">Completion Date</th>
                   <th className="border border-gray-300 px-4 py-2 text-center">Status</th>
                   <th className="border border-gray-300 px-4 py-2 text-center">Expand</th>

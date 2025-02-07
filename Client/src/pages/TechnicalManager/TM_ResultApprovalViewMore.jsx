@@ -117,7 +117,7 @@ const TM_ResultApprovalViewMore = () => {
                                                         <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.Unit}</td>
                                                         <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><input type="text" name={`Result-${item.Test}`} id={`Result-${item.Test}`} min={0} defaultValue={item.Result} onChange={(e)=>handleResultChange(e,key,item.Test.TestID)} className='text-center bg-zinc-300 rounded-md min-w-8 p-1' /></td>
                                                         <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">
-                                                        <input type="date" disabled={true} name={`Start_Date-${key}`} id={`Start_Date-${key}`} className='bg-zinc-300 p-1 mb-2 text-center rounded' defaultValue={item.Start_Date}/>----<input type="date" name={`End_Date-${key}`} id={`Start_Date-${key}`} className='bg-zinc-300 p-1 mb-2 text-center rounded' defaultValue={item.End_Date} disabled={true}/>
+                                                        <input type="date" disabled={true} name={`Start_Date-${key}`} id={`Start_Date-${key}`} className='bg-zinc-300 p-1 mb-2 text-center rounded' defaultValue={item.Start_Date.split('T')[0]}/>----<input type="date" name={`End_Date-${key}`} id={`Start_Date-${key}`} className='bg-zinc-300 p-1 mb-2 text-center rounded' defaultValue={item.End_Date.split('T')[0]} disabled={true}/>
                                                         </td>
                                                     </tr>
                                                 </tbody>

@@ -40,7 +40,21 @@ const ChangePassword = () => {
     const res = await dispatch(changePassword(userPassword));
     setUserPassword({ oldPassword: "", newPassword: "" });
 
-    if (res.payload.success) navigate("/");
+    // clearing the input fields
+    setUserPassword({
+      oldPassword: "",
+      newPassword: "",
+    });
+
+    // redirecting to profile page if password changed
+    if (res.payload.success){
+      if(UserData.Admin===true){
+        navigate('/Admin/Home');
+      }
+      else{
+        navigate("/");
+      }
+    }
   };
 
   return (

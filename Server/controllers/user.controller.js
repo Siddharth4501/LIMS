@@ -9,73 +9,83 @@ const cookieOptions={
 }
 
 const Register=async(req,res,next)=>{
-    const {fullName,email,password,roles}=req.body
-    if(!fullName || !email || !password || !roles){
-        return next(new AppError("All fields are required",400));
-    }
-    const userExist=await User.findOne({email});
-    if(userExist){
-        return next(new AppError("User Already Exist",400))
-    }
-    const Active_Status=true;
-    const user=await User.create({
-        fullName,
-        email,
-        password,
-        roles,
-        Active_Status
-    });
-    if(!user){
-        return next(new AppError('User registration failed,please try again',400));
-    }
-    await user.save()
-    user.password=undefined
+    try{
+        const {fullName,email,password,roles}=req.body
+        if(!fullName || !email || !password || !roles){
+            return next(new AppError("All fields are required",400));
+        }
+        const userExist=await User.findOne({email});
+        if(userExist){
+            return next(new AppError("User Already Exist",400))
+        }
+        const Active_Status=true;
+        const user=await User.create({
+            fullName,
+            email,
+            password,
+            roles,
+            Active_Status
+        });
+        if(!user){
+            return next(new AppError('User registration failed,please try again',400));
+        }
+        await user.save()
+        user.password=undefined
+    
+        res.status(201).json({
+            success:true,
+            message:'User registered successfully',
+            user,
+        })
 
-    res.status(201).json({
-        success:true,
-        message:'User registered successfully',
-        user,
-    })
+    }catch(e){
+        return next(new AppError(e.message,500))
+    }
 }
 
 const AdminRegister=async(req,res,next)=>{
-    const {fullName,email,password,verificationPassword}=req.body;
-    console.log(fullName,email,password,verificationPassword);
-    if(!fullName || !email || !password || !verificationPassword){
-        return next(new AppError("All fields are required",400));
-    }
-    const userExist=await User.findOne({Admin:true});
-    if(userExist){
-        return next(new AppError("Admin Already Exist",400))
-    }
-    const Active_Status=true;
-    const roles=[
-        {
-            designation:'Admin',
-            Assigned_Group:['None'],
-            Reporting_To:'None'
+    try{
+        const {fullName,email,password,verificationPassword}=req.body;
+        console.log(fullName,email,password,verificationPassword);
+        if(!fullName || !email || !password || !verificationPassword){
+            return next(new AppError("All fields are required",400));
         }
-    ]
-    const user=await User.create({
-        fullName,
-        email,
-        password,
-        roles,
-        Active_Status,
-        VerificationPassword:verificationPassword,
-        Admin:true
-    });
-    if(!user){
-        return next(new AppError('Admin registration failed,please try again',400));
-    }
-    await user.save()
-    user.password=undefined
+        const userExist=await User.findOne({Admin:true});
+        if(userExist){
+            return next(new AppError("Admin Already Exist",400))
+        }
+        const Active_Status=true;
+        const roles=[
+            {
+                designation:'Admin',
+                Assigned_Group:['None'],
+                Reporting_To:'None'
+            }
+        ]
+        const user=await User.create({
+            fullName,
+            email,
+            password,
+            roles,
+            Active_Status,
+            VerificationPassword:verificationPassword,
+            Admin:true
+        });
+        if(!user){
+            return next(new AppError('Admin registration failed,please try again',400));
+        }
+        await user.save()
+        user.password=undefined
+    
+        res.status(201).json({
+            success:true,
+            message:'Admin Registered successfully',
+            user,
+        })
 
-    res.status(201).json({
-        success:true,
-        message:'Admin Registered successfully',
-        user,
-    })
+    }catch(e){
+        return next(new AppError(e.message,500))
+    }
 }
 
 const Login=async(req,res,next)=>{
@@ -139,32 +149,37 @@ const Logout=async(req,res)=>{
 };
 
 const changePassword=async(req,res,next)=>{
-    const {oldPassword,newPassword} =req.body;
-    const {id}=req.user;//all information of user is kept in req.user as created in auth.middleware.js
-
-    if(!oldPassword || ! newPassword){
-        return next(new AppError('All fields are mandatory',400))
-    }
-
-    const user= await User.findById(id).select('+password')
-    if(!user){
-        return next(new AppError('User doesn not exist'),400)
-    }
-
-    const isPasswordValid=await user.comparePassword(oldPassword);
-
-    if(!isPasswordValid){
-        return next(new AppError('invalid old password',400))
-    }
-    user.password=newPassword
+    try{
+        const {oldPassword,newPassword} =req.body;
+        const {id}=req.user;//all information of user is kept in req.user as created in auth.middleware.js
     
-    await user.save();
-    user.password=undefined;//remove password from user object
+        if(!oldPassword || ! newPassword){
+            return next(new AppError('All fields are mandatory',400))
+        }
+    
+        const user= await User.findById(id).select('+password')
+        if(!user){
+            return next(new AppError('User doesn not exist'),400)
+        }
+    
+        const isPasswordValid=await user.comparePassword(oldPassword);
+    
+        if(!isPasswordValid){
+            return next(new AppError('invalid old password',400))
+        }
+        user.password=newPassword
+        
+        await user.save();
+        user.password=undefined;//remove password from user object
+    
+        res.status(200).json({
+            success:true,
+            message:'Password changed successfully!'
+        })
 
-    res.status(200).json({
-        success:true,
-        message:'Password changed successfully!'
-    })
+    }catch(e){
+        return next(new AppError(e.message,500))
+    }
 }
 const DeleteUserData=async(req,res,next)=>{
     try{
@@ -207,64 +222,73 @@ const DeleteUserRole=async(req,res,next)=>{
 }
 
 const UpdateUser = async (req, res, next) => {
-    // Destructuring the necessary data from the req object
-    const { roles,fullName,email,userID } = req.body;
-  
-    const user = await User.findById(userID);
-  
-    if (!user) {
-      return next(new AppError('Invalid user id or user does not exist'));
-    }
-  
-    if (fullName) {
-      user.fullName = fullName;
-    }
-  
-    if (email) {
-        user.email = email;
-    }
-    if (roles.length>0) {
-        user.roles = roles;
-    }
+    try{
 
-    // Save the user object
-    await user.save();
-  
-    res.status(200).json({
-      success: true,
-      message: 'User details updated successfully',
-    });
+        // Destructuring the necessary data from the req object
+        const { roles,fullName,email,userID } = req.body;
+      
+        const user = await User.findById(userID);
+      
+        if (!user) {
+          return next(new AppError('Invalid user id or user does not exist'));
+        }
+      
+        if (fullName) {
+          user.fullName = fullName;
+        }
+      
+        if (email) {
+            user.email = email;
+        }
+        if (roles.length>0) {
+            user.roles = roles;
+        }
+    
+        // Save the user object
+        await user.save();
+      
+        res.status(200).json({
+          success: true,
+          message: 'User details updated successfully',
+        });
+    }catch(e){
+        return next(new AppError(e.message,500))
+    }
   }
 
 const resetPassword=async(req,res,next)=>{
-    // Extracting password from req.body object
-    const { password,userId } = req.body;
-    // Check if password is not there then send response saying password is required
-    if (!password) {
-        return next(new AppError('Password is required', 400));
+    try{
+        // Extracting password from req.body object
+        const { password,userId } = req.body;
+        // Check if password is not there then send response saying password is required
+        if (!password) {
+            return next(new AppError('Password is required', 400));
+        }
+        
+        // Checking if token matches in DB and if it is still valid(Not expired)
+        const user = await User.findById(userId);
+        
+        // If not found or expired send the response
+        if (!user) {
+            return next(
+            new AppError('Unable To Reset Password, please try again', 400)
+            );
+        }
+        
+        // Update the password if token is valid and not expired
+        user.password = password;
+        
+        // Saving the updated user values
+        await user.save();
+        
+        // Sending the response when everything goes good
+        res.status(200).json({
+            success: true,
+            message: `Password changed successfully for user ${user.fullName}`,
+        });
+    }catch(e){
+        return next(new AppError(e.message,500))
     }
-    
-    // Checking if token matches in DB and if it is still valid(Not expired)
-    const user = await User.findById(userId);
-    
-    // If not found or expired send the response
-    if (!user) {
-        return next(
-        new AppError('Unable To Reset Password, please try again', 400)
-        );
-    }
-    
-    // Update the password if token is valid and not expired
-    user.password = password;
-    
-    // Saving the updated user values
-    await user.save();
-    
-    // Sending the response when everything goes good
-    res.status(200).json({
-        success: true,
-        message: `Password changed successfully for user ${user.fullName}`,
-    });
 }
 
 export {

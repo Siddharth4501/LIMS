@@ -39,7 +39,7 @@ const GroupList = () => {
       const response = await dispatch(deleteGroupData(data));
       if (response?.payload?.success) {
         toast.success('Group Deleted Successfully');
-        navigate('/Admin/Home')
+        navigate('/Admin/Group/GroupList')
       }
     } catch (error) {
       toast.error(error)
@@ -52,9 +52,9 @@ const GroupList = () => {
         <AdminCommonPanel />
         <div className='w-full '>
           <br /><br />
-          <div className='flex w-full bg-slate-200 border-indigo-700 border-[2px] p-3'>
+          <div className='flex w-full bg-gray-100 border-blue-600 border-2 p-3'>
             <div className='w-1/2'>
-              <input type="text" className='w-3/4  border-blue-800 border-2 rounded-md h-8 p-4 ml-5' value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Search For A Particular User...' />
+              <input type="text" className='w-3/4  border-blue-600 border-2 rounded-md h-8 p-4 ml-5' value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Search For A Particular User...' />
             </div>
             <div className='w-1/2'>
               <button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right mr-4' onClick={() => navigate('/Admin/Group/AddGroup')}>Add Group</button>

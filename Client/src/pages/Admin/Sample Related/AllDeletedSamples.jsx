@@ -21,7 +21,7 @@ const AllDeletedSamples = () => {
     useEffect(()=>{setSamples(sampleData)},[sampleData])
     useEffect(() => {
       const filtered = samples?.filter(item =>
-        item.Name.toLowerCase().includes(query.toLowerCase())
+        item.Name.toLowerCase().includes(query.toLowerCase()) || item.Group.toLowerCase().includes(query.toLowerCase()) || item.Date.toLowerCase().includes(query.toLowerCase()) || item.Type_Of_Testing.some((TOT)=>TOT.toLowerCase().includes(query.toLowerCase()))
       );
       setFilteredItems(filtered);
     }, [query]);
@@ -34,10 +34,11 @@ const AllDeletedSamples = () => {
           samples?.filter((data)=>data.Active===false).length>0?(
               <div className='w-full '>
                 <br /><br />
-                <div className='w-full bg-slate-200 border border-indigo-700 border-[2px] p-4'>
-                  <input type="text" className='w-1/2 border border-blue-800 border-2 rounded-md h-8 p-4 flex mx-auto' value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Search For A Particular Sample...' />
+                <div className='w-full bg-gray-100 border border-blue-600 border-[2px] p-4'>
+                  <input type="text" className='w-1/2 border border-blue-600 border-2 rounded-md h-8 p-4 flex mx-auto outline-0' value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Search For A Particular Sample...' />
                 </div>
                 <br /><br />
+                <span><b>Note1:</b>Search Samples on the basis of Sample Name,Group,Registration Date and Type Of Testing</span>
               {
               filteredItems.length===0?query===''?(
                 <table className="table-auto w-full border-collapse border border-gray-300">

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../Redux/Slices/AuthSlice';
 import { getLogo, getNameOfLab } from '../Redux/Slices/ExtraSlice';
+import toast from 'react-hot-toast';
 
 const AdminCommomNav = () => {
     const {LabNameData,logoData}=useSelector(state=>state.administration)

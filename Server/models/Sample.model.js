@@ -6,71 +6,96 @@ const sampleSchema=new Schema(
         Name:{
             type:String,
             required:[true,'Name is required'],
-            minlength:[5,'Name cannot be less than 8 character'],
-            maxlength:[50,'Name cannot be more than 50 characters'],
             trim:true,
         },
         Quantity:{
-            type:Number,
-            // required:[true,'Description is required'],
+            type:String,
+            required:[true,'Quantity is required'],
             default:0,
         },
         Storage_Conditions:{
             type:Number,
-            // required:[true,'Storage Condition is required'],
+            required:[true,'Storage Condition is required'],
         },
         Registration_Number:{
             type:String,
-            unique:true
-            // required:[true,'Registration Number is required'],
+            trim:true,
+            unique:true,
+            required:[true,'Registration Number is required'],
             
         },
         Customer_Code:{
-            type:Number,
-            // required:[true,'Customer Code is required'],
+            type:String,
+            trim:true,
+            required:[true,'Customer Code is required'],
         },
         Packing_Type:{
             type:String,
             enum:['SEALED','UNSEALED'],
-            default:'SEALED'
+            default:'SEALED',
+            required:[true,'Packing Type is required'],
         },
         Date:{
             type:Date,
+            required:[true,'Registration Date is required'],
         },
         Mfg_Date:{
-            type:String,
-            trim:true,
+            type:Date,
+            required:[true,'Manufacturing Date is required'],
         },
         Treatment_Type:{
             type:String,
+            trim:true,
         },
         Nature_Of_Sample:{
             type:String,
+            trim:true,
+            required:[true,'Nature Of Sample is required'],
         },
         Issued_To:{
             type:String,
+            trim:true,
+            required:[true,'Customer Name is required'],
         },
         Remarks:{
             type:String,
+            trim:true,
+            required:[true,'Remarks is required'],
         },
         Group:
             {
-                type:String,  
+                type:String,
+                trim:true,  
+                required:[true,'Group is required'],
             },
 
         Type_Of_Testing:
             {
                 type:[String],
+                required:[true,'Type Of Testing is required'],
             },
         Tests:[
             {
-                Type_Of_Testing:String,
-                Test:String,
+                Type_Of_Testing:
+                {
+                    type:String,
+                    trim:true,
+                    required:[true,'Type Of Testing is required'],
+                },
+                Test:{
+                    type:String,
+                    trim:true,
+                    required:[true,'Test is required'],
+                }
             },
         ],
-        Registered_By:{type: mongoose.Schema.Types.ObjectId, ref: "User"},  
+        Registered_By:{
+            type: mongoose.Schema.Types.ObjectId, ref: "User",
+            required:[true,'Registered By is required'],
+        },  
         Sample_Status:{
             type:String,
+            trim:true,
         },
         Active:{
             type:Boolean,
@@ -78,12 +103,12 @@ const sampleSchema=new Schema(
         },
         Upload_File:[
             {
-                Analyst_Name:String,
-                Analyst_ID:String,
-                Sample_ID:String,
+                Analyst_Name:{type:String,trim:true,},
+                Analyst_ID:{type:String,trim:true,},
+                Sample_ID:{type:String,trim:true,},
                 FileUrl:{
                     type:String,
-                    trime:true
+                    trim:true
                 }
             },
         ]         

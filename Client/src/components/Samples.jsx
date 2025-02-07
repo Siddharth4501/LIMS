@@ -64,7 +64,17 @@ const Samples = ({difference,data,index}) => {
                       {data.Sample_Status}
                     </td>
                     {
-                      data.Sample_Status==='Approved By TM' ? <td className="border border-gray-300 xl:pl-6 px-1 py-2 text-center max-w-72 flex xl:flex-row flex-col gap-2"><button className="bg-indigo-700 hover:bg-indigo-900 rounded-md text-white px-4 py-1" onClick={handleReportView}>Non NABL</button>---<button className="bg-indigo-700 hover:bg-indigo-900 rounded-md text-white px-8 py-1" onClick={handleNABLView}>NABL</button></td>:<td className="border border-gray-300 xl:pl-6 px-1 py-2 text-center max-w-72  flex xl:flex-row flex-col gap-2"><button className="bg-gray-300 rounded-md px-4 py-1 cursor-not-allowed" disabled>Non NABL</button>---<button className="bg-gray-300 rounded-md px-8 py-1 cursor-not-allowed" disabled>NABL</button></td>
+                      data.Sample_Status==='Approved By TM' ? 
+                      <td className="xl:pl-6 py-2 text-center max-w-80 flex xl:flex-row flex-col gap-2 border-b">
+                        <button className="bg-indigo-700 hover:bg-indigo-800 rounded-md text-white px-4 py-1 " onClick={handleReportView}>Non NABL</button>
+                        ---
+                        <button className="bg-indigo-700 hover:bg-indigo-800 rounded-md text-white px-8 py-1" onClick={handleNABLView}>NABL</button></td>
+                      :
+                      <td className=" xl:pl-6 px-1 py-2 text-center max-w-80 overflow-x-auto flex xl:flex-row flex-col gap-2 border-b">
+                        <button className="bg-gray-300 rounded-md px-4 py-1 cursor-not-allowed" disabled>Non NABL</button>
+                        ---
+                        <button className="bg-gray-300 rounded-md px-8 py-1 cursor-not-allowed" disabled>NABL</button>
+                      </td>
                     }
                     <td className="border border-gray-300 px-4 py-2 text-center max-w-72 overflow-x-auto">                 
                       {data?.Sample_Status==='Forwarded To TM'?<button className="bg-red-700 hover:bg-red-800 rounded-md text-white pl-4 pr-4 pt-1 pb-1" onClick={()=>handleDelete(data._id)}><BsTrash/></button>:<button className="bg-red-700 rounded-md text-white pl-4 pr-4 pt-1 pb-1 cursor-not-allowed" disabled={true}><BsTrash/></button>}

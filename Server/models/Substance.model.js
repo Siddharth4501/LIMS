@@ -4,8 +4,14 @@ const substanceSchema=new Schema(
     {
         Test:
             {
-                Test_Name:String,
-                TestID:String
+                Test_Name:{
+                    type:String,
+                    trim:true,
+                },
+                TestID:{
+                    type:String,
+                    trim:true,
+                },
             },
         GroupID:{
             type:String,
@@ -13,12 +19,21 @@ const substanceSchema=new Schema(
         },
         MethodUnitList:[
             {
-                Method:String,
-                Unit:String,
-                Limit:String
+                Method:{
+                    type:String,
+                    trim:true,
+                },
+                Unit:{
+                    type:String,
+                    trim:true,
+                },
+                Limit:{
+                    type:String,
+                    trim:true,
+                }
             },
         ],  
-        
+
     },
     {
         timestamps:true

@@ -4,7 +4,7 @@ import Substance from "../models/Substance.model.js";
 const SubstanceData=async(req,res,next)=>{
     try{
         const substance=await Substance.find({})//returns array
-        if(!substance){
+        if(substance.length===0){
             return next(new AppError('Error fetching data',400))
         }
         res.status(200).json({
@@ -109,12 +109,15 @@ const SubstanceEdit=async(req,res,next)=>{
 
 const SubstanceDelete = async (req, res, next) => {
     try {
-        const id=req.params.id;
-        const substance = await Substance.findById(id)
+        const{methodID,Method,Unit,Limit}=req.body;
+        const substance = await Substance.findById(methodID)
         if (!substance) {
             return next(new AppError('Substance not found'))
         }
-        await Substance.findByIdAndDelete(id);
+        substance.MethodUnitList=substance.MethodUnitList.filter((item) => {
+            return !(item?.Method===Method && item?.Unit===Unit && item?.Limit===Limit)
+        });
+        await substance.save();
         res.status(200).json({
             success: true,
             message: 'Substance Deleted Successfully',

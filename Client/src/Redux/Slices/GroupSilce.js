@@ -43,7 +43,7 @@ export const getGroupData = createAsyncThunk("group/data", async () => {
   
     })
 
-  export const deleteGroupData=createAsyncThunk("GroupData/Delete",async(data)=>{
+  export const deleteGroupData=createAsyncThunk("GroupData/Delete",async(data,{dispatch})=>{
     try{
       const {groupID}=data
       const id=groupID;
@@ -60,13 +60,14 @@ export const getGroupData = createAsyncThunk("group/data", async () => {
       
       // getting response resolved here
       res = await res;//when promise is resolved it will give data
+      dispatch(getGroupData());
       return res.data;//catched by action
     } catch (error) {
       toast.error(error.response.data.message);
     }
   
     })
-    export const deleteTypeOfTesting=createAsyncThunk("TypeOfTesting/Delete",async(data)=>{
+    export const deleteTypeOfTesting=createAsyncThunk("TypeOfTesting/Delete",async(data,{dispatch})=>{
       try{
         let res=axios.post("http://localhost:5001/api/v1/Group/TypeOfTesting/delete",data,{
           withCredentials: true, // Include cookies
@@ -81,6 +82,7 @@ export const getGroupData = createAsyncThunk("group/data", async () => {
         
         // getting response resolved here
         res = await res;//when promise is resolved it will give data
+        dispatch(getGroupData());
         return res.data;//catched by action
       } catch (error) {
         toast.error(error.response.data.message);
@@ -88,27 +90,28 @@ export const getGroupData = createAsyncThunk("group/data", async () => {
     
         })
       
-        export const deleteTest=createAsyncThunk("Test/Delete",async(data)=>{
-          try{
-            let res=axios.post("http://localhost:5001/api/v1/Group/Test/delete",data,{
-              withCredentials: true, // Include cookies
-            })
-            await toast.promise(res, {
-              loading: "Loading...",
-              success: (data) => {
-                return data?.data?.message;
-              },
-              error: "Failed to Delete Test",
-            });
-            
-            // getting response resolved here
-            res = await res;//when promise is resolved it will give data
-            return res.data;//catched by action
-          } catch (error) {
-            toast.error(error.response.data.message);
-          }
+    export const deleteTest=createAsyncThunk("Test/Delete",async(data,{dispatch})=>{
+      try{
+        let res=axios.post("http://localhost:5001/api/v1/Group/Test/delete",data,{
+          withCredentials: true, // Include cookies
+        })
+        await toast.promise(res, {
+          loading: "Loading...",
+          success: (data) => {
+            return data?.data?.message;
+          },
+          error: "Failed to Delete Test",
+        });
         
-            })
+        // getting response resolved here
+        res = await res;//when promise is resolved it will give data
+        dispatch(getGroupData());
+        return res.data;//catched by action
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
+    
+        })
 
   export const addGroupData=createAsyncThunk("GroupData/add",async(data)=>{
     try{
