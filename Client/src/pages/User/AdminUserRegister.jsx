@@ -237,6 +237,30 @@ const AdminUserRegister = () => {
         return "";
     };
 
+    const validateUserVerificationPassword = (password) => {
+        const specialCharacterRegex = /[!@#$%^&*(),.?":{}|<>]/;
+        const lowercaseRegex = /[a-z]/;
+        const uppercaseStartRegex = /^[A-Z]/;
+
+        if (!password) {
+            return "Verification Password is required.";
+        }
+        if (password.length < 6) {
+            return "Verification Password must be at least 6 characters.";
+        }
+        if (!uppercaseStartRegex.test(password)) {
+            return "Verification Password must start with a capital letter.";
+        }
+        if (!specialCharacterRegex.test(password)) {
+            return "Verification Password must contain at least one special character.";
+        }
+        if (!lowercaseRegex.test(password)) {
+            return "Verification Password must contain at least one lowercase letter.";
+        }
+        return "";
+    };
+
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -254,18 +278,13 @@ const AdminUserRegister = () => {
         const userNameError = validateUserName(fullName);
         const userEmailError = validateUserEmail(email);
         const userPasswordError = validateUserPassword(password);
-        const userVerificationPasswordError = validateUserPassword(verificationPassword);
+        const userVerificationPasswordError = validateUserVerificationPassword(verificationPassword);
 
         if (userNameError || userEmailError || userPasswordError || userVerificationPasswordError) {
             if (userNameError) toast.error(userNameError);
             if (userEmailError) toast.error(userEmailError);
             if (userPasswordError) toast.error(userPasswordError);
             if (userVerificationPasswordError) toast.error(userVerificationPasswordError);
-            return;
-        }
-
-        if (password !== verificationPassword) {
-            toast.error("Passwords do not match.");
             return;
         }
 
