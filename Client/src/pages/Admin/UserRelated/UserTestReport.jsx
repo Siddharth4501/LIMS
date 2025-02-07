@@ -209,11 +209,11 @@ const UserTestReport = () => {
                                             <thead>
                                                 <tr className="bg-gray-100">
                                                     <th className="border px-2 py-1 text-center">Sr. No</th>
-                                                    <th className="border px-2 py-1">Test</th>
+                                                    <th className="border px-2 py-1 test-center">Test</th>
                                                     <th className="border px-2 py-1 text-center">Result</th>
                                                     <th className="border px-2 py-1 text-center">Unit</th>
-                                                    <th className="border px-2 py-1">Method</th>
-                                                    <th className="border px-2 py-1">Limit</th>
+                                                    <th className="border px-2 py-1 text-center">Method</th>
+                                                    <th className="border px-2 py-1 text-center">Limit</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -223,11 +223,11 @@ const UserTestReport = () => {
                                                     return(
                                                         <tr key={`${test}-${index}-${i}`} className="hover:bg-gray-50">
                                                             <td className="border px-2 py-1 text-center">{index + 1}</td>
-                                                            <td className="border px-2 py-1">{test.Test.Test_Name}</td>
+                                                            <td className="border px-2 py-1 text-center">{test.Test.Test_Name}</td>
                                                             <td className="border px-2 py-1 text-center">{test.Result}</td>
                                                             <td className="border px-2 py-1 text-center">{test.Unit}</td>
-                                                            <td className="border px-2 py-1">{test.Method}</td>
-                                                            <td className="border px-2 py-1">None</td>
+                                                            <td className="border px-2 py-1 text-center">{test.Method}</td>
+                                                            <td className="border px-2 py-1 text-center">{test.Limit ? test.Limit:'_____'}</td>
                                                         </tr>
                                                     )
                                                 })}
@@ -253,11 +253,11 @@ const UserTestReport = () => {
                                                     <thead>
                                                         <tr className="bg-gray-100">
                                                             <th className="border px-2 py-1 text-center">Sr. No</th>
-                                                            <th className="border px-2 py-1">Test</th>
+                                                            <th className="border px-2 py-1 text-center">Test</th>
                                                             <th className="border px-2 py-1 text-center">Result</th>
                                                             <th className="border px-2 py-1 text-center">Unit</th>
-                                                            <th className="border px-2 py-1">Method</th>
-                                                            <th className="border px-2 py-1">Limit</th>
+                                                            <th className="border px-2 py-1 text-center">Method</th>
+                                                            <th className="border px-2 py-1 text-center">Limit</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -267,11 +267,11 @@ const UserTestReport = () => {
                                                             return(
                                                                 <tr key={`${test}-${index}-${i}`} className="hover:bg-gray-50">
                                                                     <td className="border px-2 py-1 text-center">{index + 1}</td>
-                                                                    <td className="border px-2 py-1">{test.Test.Test_Name}</td>
+                                                                    <td className="border px-2 py-1 text-center">{test.Test.Test_Name}</td>
                                                                     <td className="border px-2 py-1 text-center">{test.Result}</td>
                                                                     <td className="border px-2 py-1 text-center">{test.Unit}</td>
-                                                                    <td className="border px-2 py-1">{test.Method}</td>
-                                                                    <td className="border px-2 py-1">None</td>
+                                                                    <td className="border px-2 py-1 text-center">{test.Method}</td>
+                                                                    <td className="border px-2 py-1 text-center">{test.Limit ? test.Limit:'_____'}</td>
                                                                 </tr>
                                                             )
                                                         })}
@@ -290,7 +290,7 @@ const UserTestReport = () => {
                     <div className="flex justify-end mt-6">
                         <div className="text-center">
                             <p className="font-semibold">Verified By</p>
-                            <p>(Dr. G. Phanu Kumar)</p>
+                            <p>(Dr. G.Phani Kumar,Sc.F)</p>
                         </div>
                     </div>
                     {/* Notes Section */}
