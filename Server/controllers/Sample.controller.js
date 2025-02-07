@@ -46,7 +46,7 @@ const SampleRegister=async(req,res,next)=>{
         })
     }
     catch(e){
-        //Related to database condition error
+        //Here Related to database condition error
         return next(new AppError(e.message,500))
     }
 }
@@ -54,7 +54,7 @@ const SampleRegister=async(req,res,next)=>{
 const SampleData=async(req,res,next)=>{
     try{
         const samples=await Sample.find({})
-        if(!samples){
+        if(samples.length===0){
             return next(new AppError('Error fetching Sample Data',400))
         }
         
@@ -91,42 +91,46 @@ const DeleteSampleData=async(req,res,next)=>{
 }
 
 const SampleEdit=async(req,res,next)=>{
-    const {ID,TMANID,Status}=req.body;
-    console.log(ID,TMANID,Status);
-    const sample=await Sample.findById(ID)
-    if(!sample){
-        return next(new AppError('Error Upating Sample',400))
-    }
-    console.log()
-    if(TMANID){
-        const TMANData=await TechManager_Analyst.findById(TMANID);
-        if(!TMANData){
-            return next(new AppError("Can't Update Registered Sample Status",400))
+    try{
+        const {ID,TMANID,Status}=req.body;
+        console.log(ID,TMANID,Status);
+        const sample=await Sample.findById(ID)
+        if(!sample){
+            return next(new AppError('Error Upating Sample',400))
         }
-        if(Status==='Pending For Approval At TM'){
-            const reqStatusFoundForPending=TMANData.AN_Status.some((data)=>data.Status==='Pending For Approval At TM');
-            console.log("reqStatusFoundForPending",reqStatusFoundForPending);
-            if(reqStatusFoundForPending){
-                sample.Sample_Status=Status;
-                await sample.save();
-        }}
-        else if(Status==="Approved By TM"){
-            const reqStatusFoundForApproval=TMANData.AN_Status.every((data)=>data.Status==='Approved By TM');
-            console.log("reqStatusFoundForApproval",reqStatusFoundForApproval);
-            if(reqStatusFoundForApproval){
-                sample.Sample_Status=Status;
-                await sample.save();
+        console.log()
+        if(TMANID){
+            const TMANData=await TechManager_Analyst.findById(TMANID);
+            if(!TMANData){
+                return next(new AppError("Can't Update Registered Sample Status",400))
+            }
+            if(Status==='Pending For Approval At TM'){
+                const reqStatusFoundForPending=TMANData.AN_Status.some((data)=>data.Status==='Pending For Approval At TM');
+                console.log("reqStatusFoundForPending",reqStatusFoundForPending);
+                if(reqStatusFoundForPending){
+                    sample.Sample_Status=Status;
+                    await sample.save();
+            }}
+            else if(Status==="Approved By TM"){
+                const reqStatusFoundForApproval=TMANData.AN_Status.every((data)=>data.Status==='Approved By TM');
+                console.log("reqStatusFoundForApproval",reqStatusFoundForApproval);
+                if(reqStatusFoundForApproval){
+                    sample.Sample_Status=Status;
+                    await sample.save();
+            }
+            }
         }
+        else{
+            sample.Sample_Status=Status;
+            await sample.save();
         }
+        res.status(201).json({
+            success:true,
+            message:'Sample edited successfully',
+        })
+    }catch(e){
+        return next(new AppError(e.message,500))
     }
-    else{
-        sample.Sample_Status=Status;
-        await sample.save();
-    }
-    res.status(201).json({
-        success:true,
-        message:'Sample edited successfully',
-    })
 }
 
 const TMDataSave=async(req,res,next)=>{
@@ -278,33 +282,37 @@ const TMANDataUpdate=async(req,res,next)=>{
 }
 
 const uploadFile=async(req,res,next)=>{
-    const {sampleID,AnalystName,AnalystID}=req.body;
-    console.log("rewp",sampleID,AnalystName,AnalystID);
-    if(!req.file){
-        return next(new AppError('File cannot be Added', 400))
-    }
-    const sample=await Sample.findById(sampleID);
-    if(!sample){
-        return next(new AppError('Error in Uploading File',400))
-    }
-    const foundindex=sample.Upload_File.findIndex((item)=>item.Analyst_ID===String(AnalystID))
-    if(foundindex !== -1){
-        sample.Upload_File[foundindex].FileUrl = `/uploads/${req.file.filename}`;
-    }
-    else{
-        const obj={
-            Analyst_Name:AnalystName,
-            Analyst_ID:AnalystID,
-            Sample_ID:sampleID,
-            FileUrl:`/uploads/${req.file.filename}`
+    try{
+        const {sampleID,AnalystName,AnalystID}=req.body;
+        console.log("rewp",sampleID,AnalystName,AnalystID);
+        if(!req.file){
+            return next(new AppError('File cannot be Added', 400))
         }
-        sample.Upload_File.push(obj);
+        const sample=await Sample.findById(sampleID);
+        if(!sample){
+            return next(new AppError('Error in Uploading File',400))
+        }
+        const foundindex=sample.Upload_File.findIndex((item)=>item.Analyst_ID===String(AnalystID))
+        if(foundindex !== -1){
+            sample.Upload_File[foundindex].FileUrl = `/uploads/${req.file.filename}`;
+        }
+        else{
+            const obj={
+                Analyst_Name:AnalystName,
+                Analyst_ID:AnalystID,
+                Sample_ID:sampleID,
+                FileUrl:`/uploads/${req.file.filename}`
+            }
+            sample.Upload_File.push(obj);
+        }
+        await sample.save();
+        res.status(201).json({
+            success:true,
+            message:`File Added Successfully`,
+        })
+    }catch(e){
+        return next(new AppError(e.message,500))
     }
-    await sample.save();
-    res.status(201).json({
-        success:true,
-        message:`File Added Successfully`,
-    })
 }
 
 export {

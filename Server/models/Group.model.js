@@ -13,13 +13,13 @@ const groupSchema=new Schema(
         },
         Type_Of_Testing:{
             type:[String],
-            required:[true,'Type is required'],
+            required:[true,'Type Of Testing is required'],
         },
         Tests:[
             
             {
-                Type_Of_Testing:String,
-                Test:String,
+                Type_Of_Testing:{type:String,trim:true,},
+                Test:{type:String,trim:true,},
            },
         ],
         

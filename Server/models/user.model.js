@@ -9,7 +9,6 @@ const userSchema=new Schema({
         // required:[true,'Name is required'],
         minLength:[5,'Name must be of 5 character'],
         maxLength:[50,'Name should be less than 50 character'],
-        lowercase:true,
         trim:true,//starting and ending space is trimmed
     },
     email:{
@@ -27,14 +26,21 @@ const userSchema=new Schema({
         type:String,
         // required:[true,'Password is required'],
         minLength:[8,'Password must be of at least 8 character'],
-        select:false //doesn't give access to password implicitly
+        select:false, //doesn't give access to password implicitly
+        trim:true,
     },
 
     roles:[
         { 
-            designation:String,
+            designation:{
+                type:String,
+                trim:true,
+            },
             Assigned_Group:[],
-            Reporting_To:String   
+            Reporting_To:{
+                type:String,
+                trim:true,
+            }   
         },
     ],
     Active_Status:{
@@ -42,7 +48,8 @@ const userSchema=new Schema({
         default:true,
     },
     VerificationPassword:{
-        type:String
+        type:String,
+        trim:true,
     },
     Admin:{
         type:Boolean,
