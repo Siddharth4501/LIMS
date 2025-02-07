@@ -8,13 +8,12 @@ import { changePassword } from "../../Redux/Slices/AuthSlice";
 const ChangePassword = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const UserData=JSON.parse(localStorage.getItem('userData') || '{}');
+  const UserData = JSON.parse(localStorage.getItem("userData") || "{}");
   const [userPassword, setUserPassword] = useState({
     oldPassword: "",
     newPassword: "",
   });
 
-  // function to handle input box change
   const handlePasswordChange = (event) => {
     const { name, value } = event.target;
     setUserPassword({
@@ -23,105 +22,77 @@ const ChangePassword = () => {
     });
   };
 
-  // function to handle form submit
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
-    // checking the fields are empty or not
     if (!userPassword.oldPassword || !userPassword.newPassword) {
       toast.error("All fields are mandatory");
       return;
     }
 
-    // validating the password using regex
-    if (
-      !userPassword.newPassword.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/)
-    ) {
+    if (!userPassword.newPassword.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/)) {
       toast.error(
-        "Minimum password length should be 6 with Uppercase, Lowercase, Number and Symbol"
+        "Password must be at least 6 characters long and include uppercase, lowercase, and a number."
       );
       return;
     }
 
-    // calling the api from auth slice
     const res = await dispatch(changePassword(userPassword));
+    setUserPassword({ oldPassword: "", newPassword: "" });
 
-    // clearing the input fields
-    setUserPassword({
-      oldPassword: "",
-      newPassword: "",
-    });
-
-    // redirecting to profile page if password changed
     if (res.payload.success) navigate("/");
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen w-screen bg-gray-100 bg-[url('/src/assets/images/DRDODIBT-BACK.png')] bg-cover bg-center bg-fixed">
-    {/* forget password card */}
-    <form
+      <form
         onSubmit={handleFormSubmit}
-        className="flex flex-col justify-center gap-6 rounded-lg p-4 w-80 h-[26rem] shadow-[0_0_5px_black] border border-blue-600 border-2 bg-gray-300"
-    >
-        <h1 className="text-center text-2xl font-bold">Change Password</h1>
+        className="flex flex-col justify-center gap-6 rounded-lg p-6 w-96 h-[28rem] shadow-lg border border-blue-500 bg-white"
+      >
+        <h1 className="text-center text-3xl font-bold text-gray-800">Change Password</h1>
 
-        <div className="flex flex-col gap-1">
-        <label className="text-lg font-semibold" htmlFor="oldPassword">
-            Old Password
-        </label>
-        <input
+        <div className="flex flex-col gap-2">
+          <label className="text-lg font-medium" htmlFor="oldPassword">Old Password</label>
+          <input
             required
             type="password"
             name="oldPassword"
             id="oldPassword"
             placeholder="Enter your old password"
-            className="bg-gray-100 px-2 py-1 border-2 border-blue-600"
+            className="bg-gray-100 px-3 py-2 border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none"
             value={userPassword.oldPassword}
             onChange={handlePasswordChange}
-        />
+          />
         </div>
 
-        <div className="flex flex-col gap-1">
-        <label className="text-lg font-semibold" htmlFor="newPassword">
-            New Password
-        </label>
-        <input
+        <div className="flex flex-col gap-2">
+          <label className="text-lg font-medium" htmlFor="newPassword">New Password</label>
+          <input
             required
             type="password"
             name="newPassword"
             id="newPassword"
             placeholder="Enter your new password"
-            className="bg-gray-100 px-2 py-1 border-blue-600 border-2 outline-0"
+            className="bg-gray-100 px-3 py-2 border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none"
             value={userPassword.newPassword}
             onChange={handlePasswordChange}
-        />
+          />
         </div>
-        {
-          UserData?.roles.some((role)=>role.designation==='Admin')?(
-            <Link to={"/Admin/Home"}>
-            <p className="link text-accent cursor-pointer flex items-center justify-center w-full gap-2">
-                <AiOutlineArrowLeft /> <span className="font-semibold underline">Back to Profile</span>
-            </p>
-            </Link>
-          ):
-          (
-            <Link to={"/"}>
-            <p className="link text-accent cursor-pointer flex items-center justify-center w-full gap-2">
-                <AiOutlineArrowLeft /> <span className="font-semibold underline">Back to Profile</span>
-            </p>
-            </Link>
-          )
-        }
+
+        <Link to={UserData?.roles?.some((role) => role.designation === "Admin") ? "/Admin/Home" : "/"}>
+          <p className="text-blue-600 cursor-pointer flex items-center justify-center gap-2 hover:underline">
+            <AiOutlineArrowLeft /> <span className="font-medium">Back to Profile</span>
+          </p>
+        </Link>
 
         <button
-        className="w-full bg-yellow-600 hover:bg-yellow-700 transition-all ease-in-out duration-300 rounded-sm py-1 font-semibold text-lg cursor-pointer"
-        type="submit"
+          className="w-full bg-blue-600 hover:bg-blue-700 transition duration-300 rounded-md py-2 text-white font-semibold text-lg"
+          type="submit"
         >
-        Change Password
+          Change Password
         </button>
-    </form>
+      </form>
     </div>
-
   );
 };
 
