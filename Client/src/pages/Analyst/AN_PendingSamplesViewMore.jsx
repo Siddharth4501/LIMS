@@ -208,7 +208,7 @@ const handleResultChange = (e, typeOfTesting, testID,Name) => {
             ...prevState[TypeOfTesting],
             Tests: prevState[TypeOfTesting].Tests.map((item) =>
                 item.Analyst?.ID === userData?._id
-                ? { ...item, Start_Date:String(StartDate),End_Date:String(EndDate) } // Update Date for the matching Analyst
+                ? { ...item, Start_Date:StartDate,End_Date:EndDate}
                 : item
             ),
             },

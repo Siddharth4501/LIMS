@@ -127,7 +127,7 @@ const AddTests = () => {
                                     value={field.Test}
                                     required
                                     onChange={(e) => handleInputChange(index, e)}
-                                    className="w-full p-1 rounded pl-4 font-semibold border-blue-700 border-2 outline-0"
+                                    className="w-full p-1 rounded pl-4 border-blue-700 border-2 outline-0"
                                 /> 
                             </div>    
                             ))}

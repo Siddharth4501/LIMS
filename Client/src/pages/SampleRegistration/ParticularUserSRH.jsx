@@ -21,7 +21,7 @@ const ParticularUserSRH = () => {
     useEffect(()=>{setSamples(sampleData)},[sampleData])
     useEffect(() => {
       const filtered = samples?.filter((item)=>item.Registered_By===userData._id).filter(item =>
-        item.Name.toLowerCase().includes(query.toLowerCase())
+        item.Name.toLowerCase().includes(query.toLowerCase()) || item.Group.toLowerCase().includes(query.toLowerCase()) || item.Date.toLowerCase().includes(query.toLowerCase()) || item.Type_Of_Testing.some((TOT)=>TOT.toLowerCase().includes(query.toLowerCase()))
       );
       setFilteredItems(filtered);
     }, [query]);
@@ -32,10 +32,11 @@ const ParticularUserSRH = () => {
         <div className='w-full'><button className='bg-indigo-700 px-8 py-1 text-white rounded-md float-right' onClick={()=>navigate('/Sample Registration/Home')}>Back</button></div>
       </div>
       <br /><br />
-      <div className='w-full bg-slate-200 border border-indigo-700 border-[2px] p-4'>
-          <input type="text" className='w-1/2 border border-blue-800 border-2 rounded-md h-8 p-5 flex mx-auto' value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Search For A Particular User...' />
+      <div className='w-full bg-gray-100 border-2 border-blue-600 border-[2px] p-4'>
+          <input type="text" className='w-1/2 border-2 border-blue-600 border-2 rounded-md h-8 p-5 flex mx-auto outline-0' value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Search For A Particular User...' />
       </div>
       <br /><br />
+      <span><b>Note1:</b>Search Samples on the basis of Sample Name,Group,Registration Date and Type Of Testing</span>
       {
         filteredItems.length==0?query===''?(
           <table className="table-auto w-full border-collapse border border-gray-300">
@@ -51,7 +52,7 @@ const ParticularUserSRH = () => {
                   </th>
                   <th className="border border-gray-300 px-4 py-2 text-center">Sample Status</th>
                   <th className="border border-gray-300 px-4 py-2 text-center">Report</th>
-                  <th className="border border-gray-300 px-4 py-2 text-center">Active Status</th>
+                  <th className="border border-gray-300 px-4 py-2 text-center">Active/Deleted</th>
                 </tr>
               </thead>
             {
@@ -76,7 +77,7 @@ const ParticularUserSRH = () => {
                   </th>
                   <th className="border border-gray-300 px-4 py-2 text-center">Sample Status</th>
                   <th className="border border-gray-300 px-4 py-2 text-center">Report</th>
-                  <th className="border border-gray-300 px-4 py-2 text-center">Active Status</th>
+                  <th className="border border-gray-300 px-4 py-2 text-center">Active/Deleted</th>
                 </tr>
               </thead>
             {

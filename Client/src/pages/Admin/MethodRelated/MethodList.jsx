@@ -29,16 +29,19 @@ const MethodList = () => {
     setAllSubstanceDataState(substanceData);
   }, [substanceData])
 
-  const handleDelete = async (methodID) => {
+  const handleDelete = async (methodID,Method,Unit,Limit) => {
     try {
       console.log(methodID, "judju")
       const data = {
-        "methodID": methodID
+        "methodID": methodID,
+        "Method":Method,
+        "Unit":Unit,
+        "Limit":Limit
       }
       const response = await dispatch(deleteSubstance(data));
       if (response?.payload?.success) {
         toast.success('Method Deleted Successfully');
-        navigate('/Admin/Home')
+        navigate('/Admin/Substance/MethodList')
       }
     } catch (error) {
       toast.error(error)
@@ -53,9 +56,9 @@ const MethodList = () => {
         <div className='w-full'>
           
           <br /><br />
-          <div className='flex w-full bg-slate-200 border border-indigo-700 border-[2px] p-3'>
+          <div className='flex w-full bg-gray-100 border-2 border-blue-600 p-3'>
             <div className='w-1/2'>
-              <input type="text" className='w-3/4 border border-blue-800 border-2 rounded-md h-8 p-4 ml-5' value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Search For A Particular User...' />
+              <input type="text" className='w-3/4 border-blue-600 border-2 rounded-md h-8 p-4 ml-5' value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Search For A Particular User...' />
             </div>
             <div className='w-1/2'>
               <button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right mr-4' onClick={() => navigate('/Admin/Substance/AddMethod')}>Add Method</button>
@@ -78,7 +81,7 @@ const MethodList = () => {
                               <th className="border border-gray-300 px-4 py-2 text-center">Test ID</th>
                               <th className="border border-gray-300 px-4 py-2 text-center">Method</th>
                               <th className="border border-gray-300 px-4 py-2 text-center">Unit</th>
-                              <th className="border border-gray-300 px-4 py-2 text-center">Expand</th>
+                              <th className="border border-gray-300 px-4 py-2 text-center">Limit</th>
                               <th className="border border-gray-300 px-4 py-2 text-center">Delete</th>
                             </tr>
                           </thead>
@@ -95,8 +98,8 @@ const MethodList = () => {
                                       <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.Test.TestID}</td>
                                       <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{data.Method}</td>
                                       <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{data.Unit}</td>
-                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td>
-                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id)}><BsTrash /></button></td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{data.Limit ? data.Limit:''}</td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id,data.Method,data.Unit,data.Limit)}><BsTrash /></button></td>
                                     </tr>
                                   )
                                 })
@@ -118,7 +121,7 @@ const MethodList = () => {
                               <th className="border border-gray-300 px-4 py-2 text-center">Test ID</th>
                               <th className="border border-gray-300 px-4 py-2 text-center">Method</th>
                               <th className="border border-gray-300 px-4 py-2 text-center">Unit</th>
-                              <th className="border border-gray-300 px-4 py-2 text-center">Expand</th>
+                              <th className="border border-gray-300 px-4 py-2 text-center">Limit</th>
                               <th className="border border-gray-300 px-4 py-2 text-center">Delete</th>
                             </tr>
                           </thead>
@@ -134,7 +137,7 @@ const MethodList = () => {
                                       <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.Test.TestID}</td>
                                       <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{data.Method}</td>
                                       <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{data.Unit}</td>
-                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{data.Limit ? data.Limit:''}</td>
                                       <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id)}><BsTrash /></button></td>
                                     </tr>
                                   )

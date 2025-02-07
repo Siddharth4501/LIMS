@@ -40,7 +40,7 @@ const AllSamplesHistory = () => {
               </div>
               <br /><br />
               <span><b>Note1:</b>Samples whoes status is other than 'Forwared To TM' cannot be deleted</span> <br />
-              <span><b>Note2:</b>Samples on the basis of Sample Name,Group,Registration Date and Type Of Testing</span>
+              <span><b>Note2:</b>Search Samples on the basis of Sample Name,Group,Registration Date and Type Of Testing</span>
               {
                 filteredItems.length === 0 ? query === '' ? (
                   <table className="table-auto w-full border-collapse border border-gray-300">

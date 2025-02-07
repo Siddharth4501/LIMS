@@ -69,7 +69,7 @@ const AddTypeOfTesting = () => {
         const res=await dispatch(updateGroupData(data));
         if(res?.payload?.success){
             toast.success("Type Of Testing added Successfully");
-            navigate('/Admin/Home');
+            navigate('/Admin/Group/TypeOfTestingList');
         }
         else{
             toast.error("Something went Wrong");
@@ -107,7 +107,7 @@ const AddTypeOfTesting = () => {
                                             value={field}
                                             required
                                             onChange={(e) => handleInputChange(index, e)}
-                                            className="w-full pl-4 p-1 rounded font-semibold border border-blue-700 border-2 outline-0"
+                                            className="w-full pl-4 p-1 rounded border border-blue-700 border-2 outline-0"
                                         />
                                     </div> 
                                 ))}

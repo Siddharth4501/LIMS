@@ -99,7 +99,7 @@ const AddError = () => {
                             <input
                                 type="text"
                                 name="TypeOfTesting"
-                                placeholder='Enter Test Name'
+                                placeholder='Type Error Message'
                                 value={errorMsg}
                                 required
                                 onChange={(e) => handleInputChange(e)}

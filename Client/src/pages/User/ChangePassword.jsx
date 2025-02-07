@@ -53,7 +53,14 @@ const ChangePassword = () => {
     });
 
     // redirecting to profile page if password changed
-    if (res.payload.success) navigate("/");
+    if (res.payload.success){
+      if(UserData.Admin===true){
+        navigate('/Admin/Home');
+      }
+      else{
+        navigate("/");
+      }
+    }
   };
 
   return (

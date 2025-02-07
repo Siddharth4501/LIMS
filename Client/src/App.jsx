@@ -102,22 +102,23 @@ function App() {
             <Route path="/Admin/User/UserList" element={<UserList/>} />
             <Route path="/Admin/User/AddUser" element={<AddUser/>} />
             <Route path="/Admin/User/UserList/View_More" element={<UserListViewMore/>} />
-            <Route path="/Admin/User/DeletedUserList" element={<DeletedUserList/>} />
             <Route path="/Admin/User/reset-password" element={<ResetPassword />} />
             <Route path="/Admin/Sample/AllSampleHistory" element={<AllSamplesHistory/>} />
             <Route path="/Admin/Sample/AllSampleHistory/View_More" element={<FullHistory/>} />
-            <Route path="/Admin/Sample/DeletedSampleHistory" element={<AllDeletedSamples/>} />
             <Route path="/Admin/Sample/DeletedSampleHistory/View_More" element={<FullHistory/>} />
             <Route path="/Admin/Substance/MethodList" element={<MethodList/>} />
             <Route path="/Admin/Substance/AddMethod" element={<AddMethod/>} />
             <Route path="/Admin/Error/ErrorList" element={<ErrorList/>} />
             <Route path="/Admin/Error/AddError" element={<AddError/>} />
+
             <Route  element={<AdminPermit/>} >
               <Route path="/Admin/Administration/Logo" element={<Logo/>} />
               <Route path="/Admin/Administration/NameOfLab" element={<NameOfLab/>} />
+              <Route path="/Admin/User/DeletedUserList" element={<DeletedUserList/>} />
+              <Route path="/Admin/Administration/AdminProfile" element={<AdministratorProfile/>} />
+              <Route path="/Admin/Sample/DeletedSampleHistory" element={<AllDeletedSamples/>} />
             </Route>
             
-            <Route path="/Admin/Administration/AdminProfile" element={<AdministratorProfile/>} />
             <Route path="/UserNABLTestReport" element={<NABLReportSelection/>} />
           </Route>
           

@@ -138,8 +138,8 @@ const UserTestReport = () => {
                             {ReportNo?ReportNo:''}
                         </p>
                         <p>
-                            <span className="font-semibold">Issued To:</span> Sofist
-                            Solution's, Malad, Mumbai
+                            <span className="font-semibold">Issued To:</span> {state.Issued_To}
+                            
                         </p>
                     </div>
                     <div>
@@ -163,7 +163,7 @@ const UserTestReport = () => {
                                 {state.Name}
                             </p>
                             <p>
-                                <span className="font-semibold">Mfg. Date:</span> -
+                                <span className="font-semibold">Mfg. Date:</span> - {state.Mfg_Date.split('T')[0]}
                             </p>
                             <p>
                                 <span className="font-semibold">Sample Registration Date:</span>
