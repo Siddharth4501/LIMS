@@ -99,11 +99,11 @@ const handleResultChange = (e, typeOfTesting, testID,Name) => {
                 toast.error(`Result for Test ${element.Test.Test_Name} is blank`);
                 return; // Exit function immediately on error
               }
-            if(element.Start_Date===''){
+            if (!(element.Start_Date)){
                 toast.error(`Start Date for Test ${element.Test.Test_Name} is blank`)
                 return;
             }
-            if(element.End_Date===''){
+            if(!(element.End_Date)){
                 toast.error(`End Date for Test ${element.Test.Test_Name} is blank`)
                 return;
             }
