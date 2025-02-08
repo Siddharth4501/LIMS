@@ -34,10 +34,7 @@ const ErrorAdd=async(req,res,next)=>{
 const FetchError=async(req,res,next)=>{
     try{
         const error=await Error.find({});
-        console.log(error,"cddew")
-        if(error.length===0){
-            return next(new AppError('Error In Fetching Data or Error List is Empty',400));
-        }
+        
         res.status(201).json({
             success: true,
             message: 'Error Fetched Successfully',

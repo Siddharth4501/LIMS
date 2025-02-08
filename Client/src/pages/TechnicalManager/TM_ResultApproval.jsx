@@ -10,6 +10,7 @@ const TM_ResultApproval = () => {
   const navigate=useNavigate();
   const [TmAnDataState,setTmAnDataState]=useState([]);
   const [sampleDataState,setSampleDataState]=useState([])
+
   useEffect(() => {
       (async () => {
       await dispatch(getTMANData());
@@ -50,7 +51,7 @@ const TM_ResultApproval = () => {
         setFound(true);
       }
     })
-  },[TmAnData,sampleData,userData,TmAnDataState,sampleDataState])
+  },[TmAnData,sampleData,userData,TmAnDataState,sampleDataState,found])
   
   const handleNavigation=(TMANdata,filteredSample,TMANID)=>{
     navigate("/ResultApproval/Result_Status",{state:{...TMANdata,...filteredSample,TMANID}})

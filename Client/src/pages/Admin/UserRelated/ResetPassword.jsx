@@ -64,8 +64,8 @@ const ResetPassword = () => {
           className="flex items-center justify-center h-screen"
         >
           {/* forget password card */}
-          <form className="flex flex-col justify-center gap-6 rounded-lg p-4 w-80 h-[26rem] shadow-[0_0_7px_black] bg-gray-200 border-2 border-blue-600">
-            <h1 className="text-center text-2xl font-bold">Reset Password</h1>
+          <form className="flex flex-col justify-center gap-6 rounded-lg p-4 w-80 h-[26rem] shadow-[0_0_7px_black] bg-white border-2 border-blue-600">
+            <h1 className="text-center text-3xl font-bold">Reset Password</h1>
 
             <div className="flex flex-col gap-1">
               <label className="text-lg font-semibold" htmlFor="email">
@@ -77,7 +77,7 @@ const ResetPassword = () => {
                 name="password"
                 id="password"
                 placeholder="Enter your new password"
-                className="px-2 py-1 border-2 border-blue-600 outline-0"
+                className="px-2 py-1 border-2 border-gray-300 outline-0 bg-gray-50"
                 value={data.password}
                 onChange={handleUserInput}
               />
@@ -93,14 +93,14 @@ const ResetPassword = () => {
                 name="cnfPassword"
                 id="cnfPassword"
                 placeholder="Confirm your new password"
-                className="px-2 py-1 border-2 border-blue-600 outline-0"
+                className="px-2 py-1 border-2 border-gray-300 outline-0 bg-gray-50"
                 value={data.cnfPassword}
                 onChange={handleUserInput}
               />
             </div>
 
             <button
-              className="w-full bg-yellow-600 hover:bg-yellow-500 transition-all ease-in-out duration-300 rounded-sm py-2 font-semibold text-lg cursor-pointer"
+              className="w-full bg-blue-600 hover:bg-blue-700 transition duration-300 ease-in-out rounded-sm py-2 font-semibold text-lg cursor-pointer text-white rounded"
               type="submit"
             >
               Reset Password

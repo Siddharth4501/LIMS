@@ -206,9 +206,9 @@ const UserListViewMore = () => {
 
     return (
         <div>
-            <div className='w-full flex border bg-gray-300 p-5'>
-                <div className='w-3/5 text-3xl font-bold pr-10'><span className='float-right'>Full Details Of User</span></div>
-                <div className='w-2/5'><button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right' onClick={() => navigate('/Admin/User/UserList')}>Back</button></div>
+            <div className='w-full flex border-2 bg-gray-100 p-5 border-gray-600'>
+                <div className='w-3/5 text-3xl font-bold pr-10'><span className='float-right'>Complete Details Of User</span></div>
+                <div className='w-2/5'><button className='bg-indigo-700 px-8 py-1 text-white rounded-md float-right' onClick={() => navigate('/Admin/User/UserList')}>Back</button></div>
             </div>
             <br />
             <div className='p-2'>
@@ -216,7 +216,7 @@ const UserListViewMore = () => {
                 <input
                     type="text"
                     name="UserID"
-                    className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2 outline-0"
+                    className="w-full border-2 border-blue-600 rounded-md p-2 outline-0"
                     defaultValue={state._id}
                     disabled={true}
                 />
@@ -227,7 +227,7 @@ const UserListViewMore = () => {
                     <input
                         type="text"
                         name="fullName"
-                        className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2 outline-0"
+                        className="w-full border-2 border-blue-600 rounded-md p-2 outline-0"
                         value={fullName}
                         onChange={handleNameChange}
                     />
@@ -238,7 +238,7 @@ const UserListViewMore = () => {
                     <input
                         type="text"
                         name="Email"
-                        className="w-full border-2 border-blue-600 bg-slate-100 rounded-md p-2 outline-0 "
+                        className="w-full border-2 border-blue-600 rounded-md p-2 outline-0 "
                         value={email}
                         onChange={handleEmailChange}
                     />

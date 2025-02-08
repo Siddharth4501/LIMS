@@ -40,7 +40,7 @@ const TM_SampleAllotment = () => {
       if(filteredSample.length>0){
         setFound(true);
       }
-  },[samples,userData])
+  },[samples,userData,found])
   return (
     <div className="">
       <UserCommonNav assignedRole='Technical Manager'/>

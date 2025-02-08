@@ -171,7 +171,7 @@ const FullHistory = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold mb-2">Storage Conditions</label>
+            <label className="block text-sm font-semibold mb-2">Storage Conditions(in ℃)</label>
             <input
               type="number"
               name="Storage_Conditions"

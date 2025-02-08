@@ -21,10 +21,10 @@ const AllSamplesHistory = () => {
   useEffect(() => { setSamples(sampleData) }, [sampleData])
   useEffect(() => {
     const filtered = samples?.filter(item =>
-      item.Name.toLowerCase().includes(query.toLowerCase()) || item.Group.toLowerCase().includes(query.toLowerCase()) || item.Date.toLowerCase().includes(query.toLowerCase()) || item.Type_Of_Testing.some((TOT)=>TOT.toLowerCase().includes(query.toLowerCase()))
+      item.Active===true && (item.Name.toLowerCase().includes(query.toLowerCase()) || item.Group.toLowerCase().includes(query.toLowerCase()) || item.Date.toLowerCase().includes(query.toLowerCase()) || item.Type_Of_Testing.some((TOT)=>TOT.toLowerCase().includes(query.toLowerCase())))
     );
     setFilteredItems(filtered);
-  }, [query]);
+  }, [query,samples]);
   return (
     <>
       <AdminCommomNav />

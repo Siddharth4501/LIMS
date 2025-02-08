@@ -92,7 +92,7 @@ const DeleteSampleData=async(req,res,next)=>{
 
 const SampleEdit=async(req,res,next)=>{
     try{
-        const {ID,TMANID,Status}=req.body;
+        const {ID,TMANID,Status,completionDate}=req.body;
         console.log(ID,TMANID,Status);
         const sample=await Sample.findById(ID)
         if(!sample){
@@ -116,6 +116,7 @@ const SampleEdit=async(req,res,next)=>{
                 console.log("reqStatusFoundForApproval",reqStatusFoundForApproval);
                 if(reqStatusFoundForApproval){
                     sample.Sample_Status=Status;
+                    sample.Completion_Date=completionDate;
                     await sample.save();
             }
             }
@@ -201,6 +202,16 @@ const TMANDataUpdate=async(req,res,next)=>{
             console.log(TMANID,Substances_To_Be_Analysed,TM_Status,"bale");
             const TMANData=await TechManager_Analyst.findById(TMANID)
             console.log(TMANData,"shava")
+            Object.keys(Substances_To_Be_Analysed).forEach((key) => {
+                Substances_To_Be_Analysed[key].Tests.forEach((test) => {
+                    if (test.StartDate) {
+                        test.StartDate = new Date(test.StartDate);
+                    }
+                    if (test.EndDate) {
+                        test.EndDate = new Date(test.EndDate);
+                    }
+                });
+            });
             TMANData.Substances_To_Be_Analysed = Substances_To_Be_Analysed;
             TMANData.AN_Status.forEach((data) => {
                 if (data.Analyst.ID.toString() === currentUserID) {
@@ -208,13 +219,13 @@ const TMANDataUpdate=async(req,res,next)=>{
                 }
             });
             TMANData.TM_Status = TM_Status;
-            TMANData.save();
+            await TMANData.save();
             res.status(201).json({
                 success:true,
                 message:'TMAN Data Updated Successfully',
             })
         }
-        else if(TM_Status==='Approved By TM'){
+        else if(TM_Status==='Approved By TM' && NABL_Page===false){
             console.log(TMANID,Substances_To_Be_Analysed,TM_Status,"bale");
             const TMANData=await TechManager_Analyst.findById(TMANID)
             console.log(TMANData,"shava")
@@ -233,7 +244,7 @@ const TMANDataUpdate=async(req,res,next)=>{
             if (allPendingForApproval) {
                 TMANData.TM_Status = "Approved By TM";
             }
-            TMANData.save();
+            await TMANData.save();
             res.status(201).json({
                 success:true,
                 message:'TMAN Data Updated Successfully',
@@ -258,13 +269,13 @@ const TMANDataUpdate=async(req,res,next)=>{
             if (allPendingForApproval) {
                 TMANData.TM_Status = "Pending At Analyst";
             }
-            TMANData.save();
+            await TMANData.save();
             res.status(201).json({
                 success:true,
                 message:'TMAN Data Updated Successfully',
             })
         }
-        else if(NABL_Page){
+        else if(TM_Status==='Approved By TM' && NABL_Page===true){
             console.log(TMANID,NABL_Related_Substances_To_Be_Analysed,NABL_Page,"bale");
             const TMANData=await TechManager_Analyst.findById(TMANID)
             console.log(TMANData,"shava")

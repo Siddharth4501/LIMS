@@ -37,7 +37,7 @@ const AddTypeOfTesting = () => {
         console.log(filteredGroup)
         setSelectedGroupID(filteredGroup[0]._id);
     }
-    // Remove a  group from a specific test section
+    // Remove Type of Test from a specific test section
     const removeTypeOfTestingSection = (typeOfTestingIndex) => {
         if(typeOfTestingIndex>0){
         setTypeOfTestingFields((prev) =>
@@ -60,19 +60,40 @@ const AddTypeOfTesting = () => {
             toast.error("At least one Type Of Testing Should Be Added")
             return;
         }
+        // **Used Set to check for duplicate Group Names and Group Location Numbers**
+        const TOTSet = new Set();
+        let hasDuplicates = false;
+
+        typeOfTestingFields.forEach((TOT, index) => {
+
+            if (TOTSet.has(TOT.trim())) {
+                toast.error(`Duplicate Type Of Testing found: "${TOT}" at index ${index + 1}`);
+                hasDuplicates = true;
+            } else {
+                TOTSet.add(TOT.trim());
+            }
+        });
+        console.log(TOTSet,"dw");
+        if (hasDuplicates) return; // **Stop form submission if duplicates exist**
+
         const data={
             "Group_Name":GroupName,
             "GroupID":selectedGroupID,
             "TypeOfTesting":typeOfTestingFields,
             "Tests":[]
         }
-        const res=await dispatch(updateGroupData(data));
-        if(res?.payload?.success){
-            toast.success("Type Of Testing added Successfully");
-            navigate('/Admin/Group/TypeOfTestingList');
-        }
-        else{
-            toast.error("Something went Wrong");
+        try{
+            const res=await dispatch(updateGroupData(data));
+            if(res?.payload?.success){
+                toast.success("Type Of Testing added Successfully");
+                navigate('/Admin/Group/TypeOfTestingList');
+            }
+            else{
+                toast.error("Something went Wrong");
+            }
+
+        }catch(error){
+            toast.error("Something Went Wrong");
         }
     }
 
@@ -85,7 +106,7 @@ const AddTypeOfTesting = () => {
             <form className='flex flex-col lg:w-1/2 w-4/5 min-h-96 mx-auto bg-gray-200 gap-5 shadow-[0_0_6px_gray] py-20 px-10 rounded-md border-blue-600 border-2' onSubmit={handleSumbit}>
                 <div className='border-2 border-gray-700 flex flex-col gap-3 p-2'>
                     <div className='flex lg:flex-row flex-col'>
-                        <label htmlFor="GroupName" className='lg:w-1/3 w-full text-lg font-semibold'>Group:</label>
+                        <label htmlFor="GroupName" className='lg:w-1/3 w-full text-lg font-semibold'>Group<span className='text-red-500'>*</span>:</label>
                         <select name="GroupName" id="GroupID" className='lg:w-2/3 w-full p-1 rounded border border-blue-700 border-2 outline-0' onChange={handleOnChange}>
                             <option value="">Choose Group</option>
                             {
@@ -96,7 +117,7 @@ const AddTypeOfTesting = () => {
                         </select>
                     </div>
                     <div className='flex lg:flex-row flex-col'>
-                        <label htmlFor="TypeOfTesting" className='lg:w-1/3 w-full text-lg font-semibold'>Enter Type Of Testing:</label>
+                        <label htmlFor="TypeOfTesting" className='lg:w-1/3 w-full text-lg font-semibold'>Enter Type Of Testing<span className='text-red-500'>*</span>:</label>
                         <div className='flex flex-col lg:w-2/3 w-full'>
                             {typeOfTestingFields.map((field, index) => (
                                     <div key={`${index}`} className="mb-2 w-full">

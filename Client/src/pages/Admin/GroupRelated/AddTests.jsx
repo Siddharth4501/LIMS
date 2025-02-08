@@ -40,7 +40,7 @@ const AddTests = () => {
         console.log(filteredGroup)
         setSelectedGroupID(filteredGroup[0]._id);
     }
-    // Remove a  group from a specific test section
+    // Remove a  test from a specific test section
     const removeTestSection = (testIndex) => {
         if(testIndex>0){
         setTypeOfTests((prev) =>
@@ -63,19 +63,40 @@ const AddTests = () => {
             toast.error("At least one Test Should Be Added")
             return;
         }
+        // **Used Set to check for duplicate Group Names and Group Location Numbers**
+        const testSet = new Set();
+
+        let hasDuplicates = false;
+
+        typeOfTests.forEach((test, index) => {
+            
+            if (testSet.has(test.Test.trim())) {
+                toast.error(`Duplicate Group Name found: "${test.Test}" at index ${index + 1}`);
+                hasDuplicates = true;
+            } else {
+                testSet.add(test.Test.trim());
+            }
+        });
+        console.log(testSet,"dw");
+        if (hasDuplicates) return; // **Stop form submission if duplicates exist**
+
         const data={
             "Group_Name":GroupName,
             "GroupID":selectedGroupID,
             "TypeOfTesting":typeOfTesting,
             "Tests":typeOfTests
         }
-        const res=await dispatch(updateGroupData(data));
-        if(res?.payload?.success){
-            toast.success("Group Added Successfully");
-            navigate('/Admin/Group/TestsList');
-        }
-        else{
-            toast.error("Something went Wrong");
+        try{
+            const res=await dispatch(updateGroupData(data));
+            if(res?.payload?.success){
+                toast.success("Group Added Successfully");
+                navigate('/Admin/Group/TestsList');
+            }
+            else{
+                toast.error("Something Went Wrong");
+            }
+        }catch(error){
+            toast.error("Something Went Wrong");
         }
     }
 
@@ -88,7 +109,7 @@ const AddTests = () => {
             <form className='flex flex-col xl:w-1/2 w-4/5 min-h-96 mx-auto bg-gray-200 shadow-[0_0_6px_gray] gap-5 pt-10 px-10 rounded-md border-blue-600 border-2' onSubmit={handleSumbit}>
                 <div className='w-full border-2 border-gray-700 p-2 flex flex-col gap-3'>
                     <div className='flex lg:flex-row flex-col '>
-                        <label htmlFor="GroupName" className='lg:w-1/3 w-full text-lg font-semibold'>Group:</label>
+                        <label htmlFor="GroupName" className='lg:w-1/3 w-full text-lg font-semibold'>Group<span className='text-red-500'>*</span>:</label>
                         <select name="GroupName" id="" className='lg:w-2/3 w-full p-1 rounded border-blue-700 border-2 outline-0' onChange={handleOnChange}>
                             <option value="">Choose Group</option>
                             {
@@ -99,7 +120,7 @@ const AddTests = () => {
                         </select>
                     </div>
                     <div className='flex lg:flex-row flex-col'>
-                        <label htmlFor="TypeOfTesting" className='lg:w-1/3 w-full text-lg font-semibold'>Enter Type Of Testing:</label>
+                        <label htmlFor="TypeOfTesting" className='lg:w-1/3 w-full text-lg font-semibold'>Enter Type Of Testing<span className='text-red-500'>*</span>:</label>
                         <select name="TypeOfTesting" id="" className='lg:w-2/3 rounded w-full p-1 border-blue-700 border-2 outline-0' onChange={(e)=>setTypeOfTesting(e.target.value)}>
                             <option value="">Choose Type Of Testing</option>
                             {
@@ -116,7 +137,7 @@ const AddTests = () => {
                     </div>
                 </div>
                 <div className='flex lg:flex-row flex-col border-2 border-gray-700 p-2'>
-                    <label htmlFor="Tests" className='lg:w-1/3 w-full text-lg font-semibold'>Enter Tests:</label>
+                    <label htmlFor="Tests" className='lg:w-1/3 w-full text-lg font-semibold'>Enter Tests<span className='text-red-500'>*</span>:</label>
                     <div className='lg:w-2/3 w-full'>
                         {typeOfTests.map((field, index) => (
                             <div key={`${index}`} className="mb-2 full">

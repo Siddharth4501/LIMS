@@ -32,7 +32,7 @@ const Samples = ({difference,data,index}) => {
         const response = await dispatch(DeleteSampleData(data));
         if (response?.payload?.success) {
           toast.success('Sample Deleted Successfully');
-          navigate('/Admin/Home')
+          navigate('/Admin/Sample/AllSampleHistory')
         }
       } catch (error) {
           toast.error(error)
@@ -65,12 +65,12 @@ const Samples = ({difference,data,index}) => {
                     </td>
                     {
                       data.Sample_Status==='Approved By TM' ? 
-                      <td className="xl:pl-6 py-2 text-center max-w-80 flex xl:flex-row flex-col gap-2 border-b">
+                      <td className="xl:pl-12 py-2 text-center max-w-80 flex xl:flex-row flex-col gap-2 border-b">
                         <button className="bg-indigo-700 hover:bg-indigo-800 rounded-md text-white px-4 py-1 " onClick={handleReportView}>Non NABL</button>
                         ---
                         <button className="bg-indigo-700 hover:bg-indigo-800 rounded-md text-white px-8 py-1" onClick={handleNABLView}>NABL</button></td>
                       :
-                      <td className=" xl:pl-6 px-1 py-2 text-center max-w-80 overflow-x-auto flex xl:flex-row flex-col gap-2 border-b">
+                      <td className=" xl:pl-12 py-2 text-center max-w-80 overflow-x-auto flex xl:flex-row flex-col gap-2 border-b">
                         <button className="bg-gray-300 rounded-md px-4 py-1 cursor-not-allowed" disabled>Non NABL</button>
                         ---
                         <button className="bg-gray-300 rounded-md px-8 py-1 cursor-not-allowed" disabled>NABL</button>

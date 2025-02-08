@@ -111,7 +111,10 @@ const sampleSchema=new Schema(
                     trim:true
                 }
             },
-        ]         
+        ],
+        Completion_Date:{
+            type:Date,
+        }        
     },
     {
         timestamps:true

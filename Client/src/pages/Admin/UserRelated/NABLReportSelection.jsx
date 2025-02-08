@@ -21,28 +21,28 @@ const NABLReportSelection = () => {
         setTmAnDataState(TmAnData);
         },[TmAnData])
     const [substances,setSubstance]=useState()
+    useEffect(() => {
+        const foundItem = TmAnDataState?.find((item)=>item.Sample_Alloted===state._id && item.TM_Status==='Approved By TM');
+        setFound(foundItem);
+        setSubstance(foundItem?.Substances_To_Be_Analysed);
+    }, [TmAnData,TmAnDataState,found]);
+    console.log("first",found)
     console.log(substances,"opin");
     const handleNABLChange=(e,typeOfTesting,testID)=>{
-        const { value } = e.target;
-        console.log(value,"jfojewojr")
+        const isChecked= e.target.checked;
         setSubstance((prevState) => ({
             ...prevState,
             [typeOfTesting]:{
                 ...prevState[typeOfTesting],//always destructured in an object
                 Tests:prevState[typeOfTesting].Tests.map((item) =>//prevState[typeOfTesting] represent previous value of the key 
                 item.Test.TestID===testID
-                    ? { ...item, NABL: value==='on'?true:false || false }
+                    ? { ...item, NABL: isChecked }
                     : item
                 ),
             } 
         }));
     }
-    useEffect(() => {
-        const found = TmAnDataState?.find((item)=>item.Sample_Alloted===state._id && item.TM_Status==='Approved By TM');
-        setFound(found);
-        setSubstance(found?.Substances_To_Be_Analysed);
-    }, [TmAnData,TmAnDataState]);
-    console.log("first",found)
+    
 
     const handleNABLDataSubmit=async()=>{
         let flag=false;
@@ -57,6 +57,7 @@ const NABLReportSelection = () => {
             return
         }
         const data={
+            "TM_Status":"Approved By TM",
             "NABL_Related_Substances_To_Be_Analysed":substances,
             "TMANID":found._id,
             "NABL_Page":true
@@ -82,9 +83,9 @@ const NABLReportSelection = () => {
                 {
                     found?(
                         <div className='w-full' >
-                            <div className={Object.keys(found.Substances_To_Be_Analysed).length>1 ? 'w-full max-h-[600px] overflow-y-auto':'w-full'}>
+                            <div className={Object.keys(substances).length>1 ? 'w-full max-h-[600px] overflow-y-auto':'w-full'}>
                                 {
-                                    Object.keys(found.Substances_To_Be_Analysed)?.map((key,i)=>{
+                                    Object.keys(substances)?.map((key,i)=>{
                                         return(
                                             <div className='mb-3' key={`${key}-${i}`}>
                                                 <div className='w-full text-center text-lg font-semibold'>{key}</div>
@@ -97,13 +98,13 @@ const NABLReportSelection = () => {
                                                         </tr>
                                                     </thead>
                                                     {
-                                                        found.Substances_To_Be_Analysed[key]?.Tests.map((test,index)=>{
+                                                        substances[key]?.Tests.map((test,index)=>{
                                                             return(
                                                                 <tbody key={`${key}-${i}-${index}`}>
                                                                     <tr className="hover:bg-gray-100">
                                                                         <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{index+1}.</td>
                                                                         <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{test.Test.Test_Name}</td>
-                                                                        <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><input type="radio" name={`name-${key}-${i}-${index}`} id={`id-${key}-${i}-${index}`} checked={test.NABL} onChange={(e)=>handleNABLChange(e,key,test.Test.TestID)}/></td>
+                                                                        <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><input type="checkbox" name={`name-${key}-${i}-${index}`} id={`id-${key}-${i}-${index}`} checked={test.NABL} onChange={(e)=>handleNABLChange(e,key,test.Test.TestID)}/></td>
                                                                     </tr>
                                                                 </tbody>
 

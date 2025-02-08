@@ -28,6 +28,7 @@ const AddGroup = () => {
         newFields[index][field] = value;
         setGroupFields(newFields);
     };
+
     // Remove a  group from a specific test section
   const removeGroupSection = (groupIndex) => {
     if(groupIndex>0){
@@ -49,6 +50,31 @@ const AddGroup = () => {
             toast.error("At least one Group Should Be Added")
             return;
         }
+        // **Used Set to check for duplicate Group Names and Group Location Numbers**
+        const nameSet = new Set();
+        const locationSet = new Set();
+        let hasDuplicates = false;
+
+        groupFields.forEach((group, index) => {
+            const { Group_Name, Group_Location_Number } = group;
+
+            if (nameSet.has(Group_Name.trim())) {
+                toast.error(`Duplicate Group Name found: "${Group_Name}" at index ${index + 1}`);
+                hasDuplicates = true;
+            } else {
+                nameSet.add(Group_Name.trim());
+            }
+
+            if (locationSet.has(Group_Location_Number)) {
+                toast.error(`Duplicate Group Location Number found: "${Group_Location_Number}" at index ${index + 1}`);
+                hasDuplicates = true;
+            } else {
+                locationSet.add(Group_Location_Number);
+            }
+        });
+        console.log(nameSet,"dw");
+        if (hasDuplicates) return; // **Stop form submission if duplicates exist**
+
         const data={
             "Group_Names":groupFields,
             "Type_Of_Testing":[],

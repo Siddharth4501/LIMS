@@ -1,10 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../Redux/Slices/AuthSlice';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import toast from 'react-hot-toast';
+import { getLogo, getNameOfLab } from '../Redux/Slices/ExtraSlice';
 
 const UserCommonNav = ({assignedRole}) => {
+    const {LabNameData,logoData}=useSelector(state=>state.administration)
+    const [LabNameDataState,setLabNameDataState]=useState([]);
+    const [logoDataState,setLogoDataState]=useState([]);
+    useEffect(() => {
+        (async () => {
+          await dispatch(getNameOfLab());
+          await dispatch(getLogo());
+        })();
+      }, []);
+    useEffect(() => {
+        setLabNameDataState(LabNameData);
+    }, [LabNameData]);
+    useEffect(() => {
+        setLogoDataState(logoData);
+    }, [logoData]);
     const userData=JSON.parse(localStorage.getItem('userData'));
     const dispatch=useDispatch()
     const navigate = useNavigate();
@@ -38,10 +54,10 @@ const UserCommonNav = ({assignedRole}) => {
     <div className="flex lg:flex-row flex-col items-center justify-between p-4 shadow-md bg-slate-500 border border-2 border-slate-800">
 
         <div className="flex items-center">
-            <img src=" /src/assets/images/DIBT.jpg" alt="Logo"
+            <img src={logoDataState.length>0?`http://localhost:5001${logoDataState[0]?.imageUrl}`:''} alt="Logo"
                 className="h-20 w-22 object-contain mr-8 ml-4 rounded-full"
             />
-            <span className="text-lg text-gray-200 font-bold">Name of Lab : DFRL</span>
+            <span className="text-lg text-gray-200 font-bold">Name of Lab : {LabNameDataState.length>0?LabNameDataState[0].Lab_Name:'DIBT'} </span>
         </div>
         {
             assignedRole ? <div className='text-gray-200 text-2xl w-1/3 font-bold pr-6'><span className='flex justify-end'>{`${assignedRole} Section`}</span></div> : <span></span>

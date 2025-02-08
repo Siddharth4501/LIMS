@@ -4,15 +4,15 @@ const techManager_AnalystSchema=new Schema(
     {
         Sample_Alloted:{ type: mongoose.Schema.Types.ObjectId, ref: "Sample" },
         Substances_To_Be_Analysed: {
-          type: "object",
+          type: Object,
           patternProperties: {
             "^[A-Za-z]+$": { //for dynamic key patternProperties is used here
-              type: "object",
+              type: Object,
               properties: {
                 Tests: {
-                  type: "array",
+                  type: Array,
                   items: {
-                    type: "object",
+                    type: Object,
                     properties: {
                       Test: {
                         Test_Name:{
@@ -24,8 +24,8 @@ const techManager_AnalystSchema=new Schema(
                           trim:true,
                         }
                       },
-                      Method: { type: "string",trim:true, },
-                      Unit: { type: "string",trim:true, },
+                      Method: { type: String,trim:true, },
+                      Unit: { type: String,trim:true, },
                       Analyst: {
                         Name:{
                           type:String,
@@ -33,7 +33,7 @@ const techManager_AnalystSchema=new Schema(
                         },
                         ID:{ type: mongoose.Schema.Types.ObjectId, ref: "User" }
                       },
-                      Result: { type: "string",trim:true, default: "" },
+                      Result: { type: String,trim:true, default: "" },
                       StartDate: { type: Date,default:null},
                       EndDate: { type: Date,default:null},
                       NABL:{type:Boolean,default:false}

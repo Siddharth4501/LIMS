@@ -186,6 +186,19 @@ const AddUser = () => {
     const handleAddMore = () => {
         setSections([...sections, { designation: "", Assigned_Group: [], Reporting_To: "None" }]);
     };
+    // Remove a  group from a specific test section
+    const removeUserSection = (sectionIndex) => {
+        if(sectionIndex>0){
+        setSections((prev) =>
+            prev.filter((_, i) =>
+            i !== sectionIndex
+            )
+        );
+        }
+        else{
+            toast.error("At least one Test Should Be Added");
+        }
+    };
 
     // Handle form submission
     const handleSubmit = async () => {
@@ -271,7 +284,7 @@ const AddUser = () => {
                         </div>
                     </div>
                     {sections.map((section, i) => (
-                        <div className="grid grid-cols-3 gap-6 mb-4 border-blue-500 border-2 rounded-md" key={i}>
+                        <div className="grid grid-cols-3 gap-6 mb-4 border-blue-500 border-2 rounded-md bg-white min-h-64" key={i}>
                             {/* Role Section */}
                             <div className="p-4 ">
                                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -309,7 +322,7 @@ const AddUser = () => {
                                         <label className="block text-sm font-medium text-gray-700 mb-2">
                                             Group<span className="text-red-500">*</span>
                                         </label>
-                                        <div className={groupData.length > 4 ? "max-h-32 overflow-y-auto" : ""}>
+                                        <div className={groupData.length > 4 ? "max-h-48 overflow-y-auto" : ""}>
                                             {groupData.map((item) => (
                                                 <div key={item._id}>
                                                     <input
@@ -360,9 +373,16 @@ const AddUser = () => {
                         sections.length>=4 ?<span className="w-0"></span>:(
                             <div className="w-full mt-2">
                                 <button
+                                    type='button'
+                                    className="bg-red-500 text-white text-sm px-4 py-1 rounded float-left"
+                                    onClick={() => removeUserSection(sections.length - 1)}
+                                >
+                                    Remove
+                                </button>
+                                <button
                                     type="button"
                                     onClick={handleAddMore}
-                                    className="text-sm text-white bg-green-500 py-1 px-4 float-right rounded-md"
+                                    className="text-sm text-white bg-green-500 py-1 px-4 float-right rounded"
                                 >
                                     Add Role
                                 </button>

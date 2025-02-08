@@ -53,7 +53,7 @@ const AN_PendingSamples = () => {
       return filteredSample?.length > 0;
     });
     setFound(found);
-  }, [TmAnData, sampleData, userData, assignedGroups,TmAnDataState,sampleDataState]);
+  }, [TmAnData, sampleData, userData, assignedGroups,TmAnDataState,sampleDataState,found]);
 
   console.log("lala",assignedGroups);
   const handleNavigation=(data,filteredSample,TMANID)=>{

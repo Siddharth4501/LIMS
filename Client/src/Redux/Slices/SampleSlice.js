@@ -66,7 +66,7 @@ export const getSampleData = createAsyncThunk("sample/data", async () => {
   
     })
 
-    export const DeleteSampleData=createAsyncThunk("Sample/Delete",async(data)=>{
+    export const DeleteSampleData=createAsyncThunk("Sample/Delete",async(data,{dispatch})=>{
       try {
         console.log(data,'fgh')
         let res=axios.post("http://localhost:5001/api/v1/Sample/delete",data,{
@@ -75,6 +75,7 @@ export const getSampleData = createAsyncThunk("sample/data", async () => {
     
         // getting response resolved here
         res = await res;//when promise is resolved it will give data
+        await dispatch(getSampleData())
         return res.data;
       } catch (error) {
         toast.error(error.response.data.message);

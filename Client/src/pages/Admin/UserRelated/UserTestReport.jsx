@@ -5,11 +5,13 @@ import { useLocation } from "react-router-dom";
 import { getTMANData } from "../../../Redux/Slices/SampleSlice";
 import { getAllUserData } from "../../../Redux/Slices/AuthSlice";
 import { getGroupData } from "../../../Redux/Slices/GroupSilce";
+import { getSubstanceData } from "../../../Redux/Slices/SubstanceSlice";
 
 const UserTestReport = () => {
     const {TmAnData}=useSelector((state)=>state.sample)
     const {allUserData}=useSelector(state=>state.auth);
     const {groupData}=useSelector(state=>state.group);
+    const { substanceData } = useSelector((state) => state.substance);
     const {state}=useLocation();
     const [ReportNo,setReportNo]=useState('')
     const dispatch=useDispatch();
@@ -19,17 +21,27 @@ const UserTestReport = () => {
     const [allGroupDataState,setAllGroupDataState]=useState([])
     const [filteredTmAnData,setFilteredTmAnData]=useState([]);
     const [ulrNumber,setUlrNumber]=useState([])
-    console.log(state);
-    const handlePrint=()=>{
-        window.print();
-    }
+    const [allSubstanceDataState, setAllSubstanceDataState] = useState([]);
+    const [foundGroupID,setFoundGroupID]=useState('');
+    
     useEffect(() => {
         (async () => {
         await dispatch(getTMANData());
         await dispatch(getAllUserData());
         await dispatch(getGroupData());
+        await dispatch(getSubstanceData());
         })();
     }, []);
+
+    useEffect(() => {
+        setAllSubstanceDataState(substanceData);
+    }, [substanceData])
+    console.log(state);
+
+    const handlePrint=()=>{
+        window.print();
+    }
+    
     console.log(TmAnData)
     useEffect(() => {
         setTmAnDataState(TmAnData);
@@ -40,6 +52,13 @@ const UserTestReport = () => {
     useEffect(() => {
         setAllGroupDataState(groupData);
     },[groupData])
+
+    useEffect(()=>{
+        const foundGroupInstance= allGroupDataState?.find((group)=>group.Group_Name===state.Group);
+        if(foundGroupInstance){
+            setFoundGroupID(foundGroupInstance._id);
+        }
+    },[allGroupDataState])
     useEffect(() => {
         const filteredUser=allUserDataState?.find((user)=>user._id===state.Registered_By);
         setFilteredUser(filteredUser);
@@ -85,6 +104,7 @@ const UserTestReport = () => {
     },[allGroupDataState])
     console.log(ulrNumber,"tyux");
     console.log(allGroupDataState,"fwrf");
+    console.log(foundGroupID,"dwq");
     return (
         <div className="bg-gray-100 p-8">
             <div className="max-w-4xl mx-auto bg-white shadow-md border p-8 rounded-md">
@@ -100,7 +120,7 @@ const UserTestReport = () => {
                     {
                         state.difference==='NABL Report'?(
                             <img
-                                src="/src/assets/images/NABL_Logo.jpg"
+                                src="/src/assets/images/NABL-LOGO.png"
                                 alt="Logo"
                                 className="w-24 h-22 ml-5"
                             />
@@ -205,7 +225,7 @@ const UserTestReport = () => {
                                     </div>
                                     {/* Table */}
                                     <div className="overflow-x-auto">
-                                        <table className="w-full border border-collapse text-left text-sm">
+                                        <table className="w-full border border-collapse text-sm">
                                             <thead>
                                                 <tr className="bg-gray-100">
                                                     <th className="border px-2 py-1 text-center">Sr. No</th>
@@ -227,7 +247,18 @@ const UserTestReport = () => {
                                                             <td className="border px-2 py-1 text-center">{test.Result}</td>
                                                             <td className="border px-2 py-1 text-center">{test.Unit}</td>
                                                             <td className="border px-2 py-1 text-center">{test.Method}</td>
-                                                            <td className="border px-2 py-1 text-center">{test.Limit ? test.Limit:'_____'}</td>
+                                                            <td className="border px-2 py-1 text-center">       
+                                                                {
+                                                                    allSubstanceDataState
+                                                                        ?.filter((subs) => subs.GroupID === foundGroupID)
+                                                                        ?.flatMap((item) =>
+                                                                            item.MethodUnitList
+                                                                                .filter((data) => data.Method === test.Method && data.Limit !== "")
+                                                                                .map((data) => data.Limit)
+                                                                        )
+                                                                        ?.at(0) || "N/A"
+                                                                }         
+                                                            </td>
                                                         </tr>
                                                     )
                                                 })}
@@ -271,7 +302,18 @@ const UserTestReport = () => {
                                                                     <td className="border px-2 py-1 text-center">{test.Result}</td>
                                                                     <td className="border px-2 py-1 text-center">{test.Unit}</td>
                                                                     <td className="border px-2 py-1 text-center">{test.Method}</td>
-                                                                    <td className="border px-2 py-1 text-center">{test.Limit ? test.Limit:'_____'}</td>
+                                                                    <td className="border px-2 py-1 text-center">
+                                                                        {
+                                                                            allSubstanceDataState
+                                                                                ?.filter((subs) => subs.GroupID === foundGroupID)
+                                                                                ?.flatMap((item) =>
+                                                                                    item.MethodUnitList
+                                                                                        .filter((data) => data.Method === test.Method && data.Limit !== "")
+                                                                                        .map((data) => data.Limit)
+                                                                                )
+                                                                                ?.at(0) || "N/A"
+                                                                        } 
+                                                                    </td>
                                                                 </tr>
                                                             )
                                                         })}

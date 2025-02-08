@@ -42,11 +42,11 @@ const UserList = () => {
       },[TmAnData])
 
   useEffect(() => {
-    const filtered = allUserDataState.filter(item =>
-      item.fullName.toLowerCase().includes(query.toLowerCase()) || item.email.toLowerCase().includes(query.toLowerCase())
+    const filtered = allUserDataState?.filter(item =>
+      item.Active_Status===true && (item.fullName.toLowerCase().includes(query.toLowerCase()) || item.email.toLowerCase().includes(query.toLowerCase()))
     );
     setFilteredItems(filtered);
-  }, [query]);
+  }, [query,allUserDataState]);
   useEffect(() => {
     (async () => {
       await dispatch(getAllUserData());
@@ -95,7 +95,7 @@ const UserList = () => {
           <br /><br />
           <div className='flex w-full bg-gray-100 border-blue-600 border-2 p-3'>
             <div className='w-1/2'>
-              <input type="text" className='w-3/4 border-blue-600 border-2 rounded-md h-8 p-4 ml-5' value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Search For A Particular User...' />
+              <input type="text" className='w-3/4 border-blue-600 border-2 rounded-md h-8 p-4 ml-5 outline-0' value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Search For A Particular User...' />
             </div>
             <div className='w-1/2'>
               <button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right mr-4' onClick={() => navigate('/Admin/User/AddUser')}>Add User</button>

@@ -16,11 +16,11 @@ const GroupList = () => {
   const [query, setQuery] = useState('');
   const [filteredItems, setFilteredItems] = useState([]);
   useEffect(() => {
-    const filtered = allGroupDataState.filter(item =>
+    const filtered = allGroupDataState?.filter(item =>
       item.Group_Name.toLowerCase().includes(query.toLowerCase())
     );
     setFilteredItems(filtered);
-  }, [query]);
+  }, [query,allGroupDataState]);
   useEffect(() => {
     (async () => {
       await dispatch(getGroupData());

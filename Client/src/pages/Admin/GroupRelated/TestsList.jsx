@@ -15,12 +15,12 @@ const TestsList = () => {
     const [query, setQuery] = useState('');
     const [filteredItems, setFilteredItems] = useState([]);
     useEffect(() => {
-        const filtered = allGroupDataState.filter(item =>
+        const filtered = allGroupDataState?.filter(item =>
             item.Tests.some(data => data.Test.toLowerCase().includes(query.toLowerCase()))//return boolean value
         );
         //filtered item gives all groups satisfying the condition
         setFilteredItems(filtered);
-    }, [query]);
+    }, [query,allGroupDataState]);
     useEffect(() => {
         (async () => {
             await dispatch(getGroupData());
@@ -143,7 +143,7 @@ const TestsList = () => {
                                                                             <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.Group_Name}</td>
                                                                             {/* <td className="border border-gray-300 px-4 py-2 text-center">{designation.toString()}</td> */}
                                                                             {/* <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td> */}
-                                                                            <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id)}><BsTrash /></button></td>
+                                                                            <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id,testObj.Test)}><BsTrash /></button></td>
                                                                         </tr>
                                                                     )
                                                                 }))

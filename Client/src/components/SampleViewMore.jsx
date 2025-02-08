@@ -12,7 +12,7 @@ const SampleViewMore = () => {
   const { substanceData } = useSelector((state) => state.substance);
   const [allSubstanceDataState, setAllSubstanceDataState] = useState([]);
   const [openDropdown, setOpenDropdown] = useState({});
-  console.log("openDropdown", openDropdown)
+
   const toggleDropdown = (id, index) => {
     setOpenDropdown((prev) => ({
       ...prev,
@@ -22,7 +22,17 @@ const SampleViewMore = () => {
       }
     }));
   };
-
+  
+  const [openMethodDropdown, setOpenMethodDropdown] = useState({});
+  const toggleMethodDropdown = (id, index) => {
+    setOpenMethodDropdown((prev) => ({
+      ...prev,
+      [id]: {
+        ...prev[id], // Preserve existing indices
+        [index]: !prev[id]?.[index] // Toggle only the specific dropdown
+      }
+    }));
+  };
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -124,7 +134,6 @@ const SampleViewMore = () => {
     "ID": ''
   }); // Track Analyst for "Apply to All"
   const [applyToAllMethod, setApplyToAllMethod] = useState('')//Track Method for apply to All
-  const [applyToAllUnit, setApplyToAllUnit] = useState('')////Track Unit for apply to All
 
   const handleApplyToAllAnalyst = (analyst, testType) => {
     // Updates all rows with the selected Analyst value
@@ -149,7 +158,7 @@ const SampleViewMore = () => {
       Method: methodValue,
     }));
     setRowData(updatedRowData);
-    setApplyToAllMethod(methodValue);
+    // setApplyToAllMethod(methodValue);
   };
 
   const handleApplyToAllUnit = (unitValue, testType) => {
@@ -160,7 +169,6 @@ const SampleViewMore = () => {
       Unit: unitValue,
     }));
     setRowData(updatedRowData);
-    setApplyToAllUnit(unitValue);
   };
 
 
@@ -171,14 +179,14 @@ const SampleViewMore = () => {
       handleApplyToAllAnalyst(applyToAllAnalyst, testType);
     }
   };
-  const handleApplyToAllMethodBtn = (isChecked, testType) => {
-    if (isChecked && applyToAllMethod) {
-      handleApplyToAllMethod(applyToAllMethod, testType);
+  const handleApplyToAllMethodBtn = (isChecked, testType,testIndex) => {
+    if (isChecked && testType && testIndex) {
+      handleApplyToAllMethod(rowData[testType].Tests[testIndex]?.Method, testType);
     }
   }
-  const handleApplyToAllUnitBtn = (isChecked, testType) => {
-    if (isChecked && applyToAllUnit) {
-      handleApplyToAllUnit(applyToAllUnit, testType);
+  const handleApplyToAllUnitBtn = (isChecked, testType,testIndex) => {
+    if (isChecked && testType && testIndex) {
+      handleApplyToAllUnit(rowData[testType].Tests[testIndex]?.Unit,testType);
     }
   }
   const handleSubmit = async () => {
@@ -248,7 +256,7 @@ const SampleViewMore = () => {
   return (
     <div>
       <div className="mt-3 mb-2 border-2 border-md border-blue-600 bg-zinc-100 py-2 px-4 w-3/5 mx-auto rounded-md">
-        <div className='flex justify-center gap-2'><b className='text-lg'>Due Date:</b> <input type="date" name="DueDate" id="DueDate" min={state.Date.split('T')[0]} onChange={(e) => handleDueDate(e)} className='px-4 border-2 border-blue-600' /></div>
+        <div className='flex justify-center gap-2'><b className='text-lg'>Due Date<span className="text-red-500">*</span>:</b> <input type="date" name="DueDate" id="DueDate" min={state.Date.split('T')[0]} onChange={(e) => handleDueDate(e)} className='px-4 border-2 border-blue-600' /></div>
       </div>
       <br />
       <div className='w-full'>
@@ -281,8 +289,8 @@ const SampleViewMore = () => {
                   </div>
                 )}
 
-                <div className={`p-4 ${state.Tests.filter((item) => item.Type_Of_Testing === section.testType).length > 2
-                  ? "max-h-[500px] overflow-y-auto"
+                <div className={`p-4 ${state.Tests.filter((item) => item.Type_Of_Testing === section.testType).length > 3
+                  ? "max-h-[600px] overflow-y-auto"
                   : ""
                   }`}>
                   {state.Tests.filter(
@@ -317,7 +325,7 @@ const SampleViewMore = () => {
                           }}
                           value={rowData[section.testType].Tests[index]?.Analyst?.Name || ''}
                         >
-                          <option value="" id=''>Analyst</option>
+                          <option value="" id=''>Select Analyst</option>
                           {
                             allUserDataState
                               ?.filter((element) => element.Active_Status === true)
@@ -334,72 +342,59 @@ const SampleViewMore = () => {
                         </select>
                       </div>
 
-                      <div>
-                        <button
-                          className="bg-sky-600 text-white p-2 mb-1 rounded-md text-xs hover:bg-sky-800 focus:outline-none"
-                          onClick={() => handleApplyToAllMethodBtn(true, section.testType)}
-                        >
-                          Apply to All
-                        </button>
-                        <select
-                          className="bg-white p-2 border border-gray-300 rounded-lg text-gray-700 w-full"
-                          onChange={(e) => {
-                            updateRowData(section.testType, index, 'Method', e.target.value);
-                            setApplyToAllMethod(e.target.value)
-                          }}
-                          value={rowData[section.testType].Tests[index]?.Method || ''}
-                        >
-                          <option value="">Method</option>
-                          {
-                            allSubstanceDataState
-                              ?.map((substance) => {
-                                // Find the substance where TestID matches item._id
-
-                                if (substance.Test.Test_Name !== item.Test) return null;
-                                return substance?.MethodUnitList?.map((ele, ele_idx) => (
-                                  <option key={`${ele.Method}-${ele_idx}`} value={ele.Method}>
-                                    {ele.Method}
-                                  </option>
-                                ));
-                              })
-                          }
-                        </select>
-                      </div>
-                      {/* <div>
-                        <button
-                          className="bg-sky-600 text-white p-2 mb-1 rounded-md text-xs hover:bg-sky-800 focus:outline-none"
-                          onClick={() => handleApplyToAllUnitBtn(true,section.testType)}
-                        >
-                          Apply to All
-                        </button>
-                        <select
-                          className="bg-white p-2 border border-gray-300 rounded-lg text-gray-700 w-full"
-                          onChange={(e) => {
-                            updateRowData(section.testType,index, 'Unit', e.target.value)
-                            setApplyToAllUnit(e.target.value)
-                          }}
-                          value={rowData[section.testType].Tests[index]?.Unit || ''}
-                        >
-                          <option value="">Unit</option>
-                          {
-                            allSubstanceDataState
-                              ?.map((substance) => {
-                                // Find the substance where TestID matches item._id
-                                if (substance.Test.Test_Name !== item.Test) return null;
-                                return substance?.MethodUnitList?.map((ele,ele_idx) => (
-                                  <option key={`${ele.Unit}-${ele_idx}`} value={ele.Unit}>
-                                    {ele.Unit}
-                                  </option>
-                                ));
-                              })
-                          }    
-                        </select>
-                      </div> */}
-
                       <div className="relative">
                         <button
                           className="bg-sky-600 text-white p-2 mb-1 rounded-md text-xs hover:bg-sky-800 focus:outline-none"
-                          onClick={() => handleApplyToAllUnitBtn(true, section.testType)}
+                          onClick={() => handleApplyToAllMethodBtn(true, section.testType,index)}
+                        >
+                          Apply to All
+                        </button>
+
+                        {/* Custom dropdown using <ul> */}
+                        <div className="relative">
+                          <button
+                            className="bg-white p-2 border border-gray-300 rounded-lg text-gray-700 w-full text-left"
+                            onClick={() => toggleMethodDropdown(section.id, index)} // Toggle dropdown visibility
+                          > 
+                            {rowData[section.testType].Tests[index]?.Method || "Select Method"}
+                          </button>
+                          {/* Dropdown options */}
+                          {openMethodDropdown[section.id]?.[index] && (
+                            <ul className="absolute z-10 bg-white border border-gray-300 rounded-lg w-full shadow-lg max-h-40 overflow-y-auto">
+                              <li
+                                className="p-2 hover:bg-gray-100 cursor-pointer"
+                                onClick={() => {
+                                  updateRowData(section.testType, index, "Method", "");
+                                  setOpenMethodDropdown((prev) => !prev);
+                                }}
+                              >
+                                Method
+                              </li>
+
+                              {allSubstanceDataState?.flatMap((substance) => {
+                                if (substance.Test.Test_Name !== item.Test) return [];
+                                return substance.MethodUnitList?.map((ele, ele_idx) => (
+                                  <li
+                                    key={`${ele.Method}-${ele_idx}`}
+                                    className="p-2 hover:bg-gray-100 cursor-pointer"
+                                    onClick={() => {
+                                      updateRowData(section.testType, index, "Method", ele.Method);
+                                      setOpenMethodDropdown((prev) => !prev);
+                                    }}
+                                  >
+                                    {ele.Method}
+                                  </li>
+                                ));
+                              })}
+                            </ul>
+                          )}
+                        </div>
+                      </div>
+                      
+                      <div className="relative">
+                        <button
+                          className="bg-sky-600 text-white p-2 mb-1 rounded-md text-xs hover:bg-sky-800 focus:outline-none"
+                          onClick={() => handleApplyToAllUnitBtn(true, section.testType,index)}
                         >
                           Apply to All
                         </button>
@@ -409,7 +404,7 @@ const SampleViewMore = () => {
                           <button
                             className="bg-white p-2 border border-gray-300 rounded-lg text-gray-700 w-full text-left"
                             onClick={() => toggleDropdown(section.id, index)} // Toggle dropdown visibility
-                          >
+                          > 
                             {rowData[section.testType].Tests[index]?.Unit || "Select Unit"}
                           </button>
                           {/* Dropdown options */}
@@ -419,7 +414,7 @@ const SampleViewMore = () => {
                                 className="p-2 hover:bg-gray-100 cursor-pointer"
                                 onClick={() => {
                                   updateRowData(section.testType, index, "Unit", "");
-                                  setApplyToAllUnit("");
+                                  // setApplyToAllUnit("");
                                   setOpenDropdown((prev) => !prev);
                                 }}
                               >
@@ -434,7 +429,7 @@ const SampleViewMore = () => {
                                     className="p-2 hover:bg-gray-100 cursor-pointer"
                                     onClick={() => {
                                       updateRowData(section.testType, index, "Unit", ele.Unit);
-                                      setApplyToAllUnit(ele.Unit);
+                                      // setApplyToAllUnit(ele.Unit);
                                       setOpenDropdown((prev) => !prev);
                                     }}
                                   >

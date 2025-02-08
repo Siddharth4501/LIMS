@@ -10,6 +10,7 @@ const TM_ResultApprovalViewMore = () => {
     const navigate=useNavigate();
     const dispatch=useDispatch()
     const [substances,setSubstance]=useState(state.Substances_To_Be_Analysed)
+    
     console.log(substances,"opin");
     const handleResultChange=(e,typeOfTesting,testID)=>{
         const { value } = e.target;
@@ -30,17 +31,20 @@ const TM_ResultApprovalViewMore = () => {
             "TMANID":state.TMANID,
             "Substances_To_Be_Analysed":substances,
             "TM_Status":"Approved By TM",
-            "clickedAnalystID":state.analystClicked.Analyst.ID
+            "clickedAnalystID":state.analystClicked.Analyst.ID,
+            "NABL_Page":false
         }
         console.log(data,"hehe")
         const res=await dispatch(updateTMANData(data))
         if(res?.payload?.success){
             //here in res?.payload?.success ,the success parameter comes from res.json at backend
             const ID=state.Sample_Alloted;
+            const presentDate=new Date();
             const obj={
                 "ID":ID,
                 "TMANID":state.TMANID,
-                "Status":"Approved By TM"
+                "Status":"Approved By TM",
+                "completionDate":presentDate
             };
             const response=await dispatch(updateSample(obj))
             if(response?.payload?.success){

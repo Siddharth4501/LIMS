@@ -45,7 +45,7 @@ const AN_CompletedSamples = () => {
       return filteredSample?.length > 0;
     });
     setUserFound(found);
-  }, [TmAnData, sampleData, userData, assignedGroups,TmAnDataState,sampleDataState]);
+  }, [TmAnData, sampleData, userData, assignedGroups,TmAnDataState,sampleDataState,userFound]);
 
   console.log("lala", assignedGroups);
   useEffect(() => {
@@ -101,7 +101,7 @@ const AN_CompletedSamples = () => {
                         <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{filteredSample[0]?.Name}</td>
                         <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.Due_Date.split('T')[0]}</td>
                         <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{filteredSample[0]?.Storage_Conditions}</td>
-                        <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{filteredSample[0]?.Date.split('T')[0]}</td>
+                        <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{filteredSample[0]?.Completion_Date?.split('T')[0]}</td>
                         <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.TM_Status}</td>
                         <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-900' onClick={() => handleNavigation(filteredSample[0])}>View</button></td>
                       </tr>

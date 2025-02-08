@@ -50,7 +50,7 @@ const TM_PendingSample = () => {
         setFound(true);
       }
     })
-  },[TmAnData,sampleData,userData,TmAnDataState,sampleDataState])
+  },[TmAnData,sampleData,userData,TmAnDataState,sampleDataState,found])
   return (
     <div>
       <UserCommonNav assignedRole='Technical Manager'/>

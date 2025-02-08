@@ -16,11 +16,11 @@ const TypeOfTestingList = () => {
   const [filteredItems, setFilteredItems] = useState([]);
   // const [indexs,setIndexs]=useState(0)
   useEffect(() => {
-    const filtered = allGroupDataState.filter(item =>
+    const filtered = allGroupDataState?.filter(item =>
       item.Type_Of_Testing.some(data => data.toLowerCase().includes(query.toLowerCase()))
     );
     setFilteredItems(filtered);
-  }, [query]);
+  }, [query,allGroupDataState]);
   useEffect(() => {
     (async () => {
       await dispatch(getGroupData());
@@ -57,7 +57,7 @@ const TypeOfTestingList = () => {
           <br /><br />
           <div className='flex w-full bg-gray-100 border-blue-600 border-2 p-3'>
             <div className='w-1/2'>
-              <input type="text" className='w-3/4 border-blue-600 border-2 rounded-md h-8 p-4 ml-5' value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Search For A Particular User...' />
+              <input type="text" className='w-3/4 border-blue-600 border-2 rounded-md h-8 p-4 ml-5 outline-0' value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Search For A Particular User...' />
             </div>
             <div className='w-1/2'>
               <button className='bg-indigo-700 px-4 py-1 text-white rounded-md float-right mr-4' onClick={() => navigate('/Admin/Group/AddTypeOfTesting')}>Add Type Of Testing</button>
@@ -126,7 +126,7 @@ const TypeOfTestingList = () => {
                         </thead>
                         <tbody>
                           {
-                            filteredItems.map((item, index) => {
+                            filteredItems?.map((item, index) => {
                               return (
                                 item.Type_Of_Testing.filter((data) =>
                                   data.toLowerCase().includes(query.toLowerCase())
@@ -140,7 +140,7 @@ const TypeOfTestingList = () => {
                                       <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.Group_Name}</td>
                                       {/* <td className="border border-gray-300 px-4 py-2 text-center">{designation.toString()}</td>
                                                       <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td> */}
-                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id)}><BsTrash /></button></td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id,TOT)}><BsTrash /></button></td>
                                     </tr>
                                   )
                                 }))

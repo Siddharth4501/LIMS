@@ -65,7 +65,7 @@ const AddError = () => {
             <form className='flex flex-col xl:w-1/2 w-4/5 min-h-96 mx-auto bg-gray-200 shadow-[0_0_6px_gray] gap-5 pt-10 px-10 rounded-md border-blue-600 border-2' onSubmit={handleSumbit}>
                 <div className='w-full flex flex-col gap-3'>
                     <div className='flex lg:flex-row flex-col '>
-                        <label htmlFor="GroupName" className='lg:w-1/3 w-full text-lg font-semibold'>Group:</label>
+                        <label htmlFor="GroupName" className='lg:w-1/3 w-full text-lg font-semibold'>Group<span className='text-red-500'>*</span>:</label>
                         <select name="GroupName" id="" className='lg:w-2/3 w-full p-1 rounded border-blue-700 border-2 outline-0' onChange={handleOnChange}>
                             <option value="">Choose Group</option>
                             {
@@ -76,7 +76,7 @@ const AddError = () => {
                         </select>
                     </div>
                     <div className='flex lg:flex-row flex-col'>
-                        <label htmlFor="TypeOfTesting" className='lg:w-1/3 w-full text-lg font-semibold'>Type Of Testing:</label>
+                        <label htmlFor="TypeOfTesting" className='lg:w-1/3 w-full text-lg font-semibold'>Type Of Testing<span className='text-red-500'>*</span>:</label>
                         <select name="TypeOfTesting" id="" className='lg:w-2/3 rounded w-full p-1 border-blue-700 border-2 outline-0' onChange={(e)=>setTypeOfTesting(e.target.value)}>
                             <option value="">Choose Type Of Testing</option>
                             {
@@ -93,7 +93,7 @@ const AddError = () => {
                     </div>
                 </div>
                 <div className='flex lg:flex-row flex-col'>
-                    <label htmlFor="Tests" className='lg:w-1/3 w-full text-lg font-semibold'>Error Message:</label>
+                    <label htmlFor="Tests" className='lg:w-1/3 w-full text-lg font-semibold'>Error Message<span className='text-red-500'>*</span>:</label>
                     <div className='lg:w-2/3 w-full'>
                         <div className="mb-2 full">
                             <input

@@ -15,11 +15,11 @@ const MethodList = () => {
   const [query, setQuery] = useState('');
   const [filteredItems, setFilteredItems] = useState([]);
   useEffect(() => {
-    const filtered = allSubstanceDataState.filter(item =>
+    const filtered = allSubstanceDataState?.filter(item =>
       item.Test.Test_Name.toLowerCase().includes(query.toLowerCase())
     );
     setFilteredItems(filtered);
-  }, [query]);
+  }, [query,allSubstanceDataState]);
   useEffect(() => {
     (async () => {
       await dispatch(getSubstanceData());
@@ -138,7 +138,7 @@ const MethodList = () => {
                                       <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{data.Method}</td>
                                       <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{data.Unit}</td>
                                       <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{data.Limit ? data.Limit:''}</td>
-                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id)}><BsTrash /></button></td>
+                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id,data.Method,data.Unit,data.Limit)}><BsTrash /></button></td>
                                     </tr>
                                   )
                                 })

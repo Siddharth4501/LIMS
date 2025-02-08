@@ -34,13 +34,13 @@ const handleResultChange = (e, typeOfTesting, testID,Name) => {
         // Update existing entry
         updatedColumn[existingIndex] = {
             ...updatedColumn[existingIndex],
-            Result: value,
+            Result: String(value),
         };
         } else {
         // Add new entry if not found
         updatedColumn.push({
             Name: Name,
-            Result: value,
+            Result: String(value),
         });
         }
         return updatedColumn;
@@ -53,32 +53,35 @@ const handleResultChange = (e, typeOfTesting, testID,Name) => {
         ...prevState[typeOfTesting],
         Tests: prevState[typeOfTesting].Tests.map((item) =>
             item.Test.TestID === testID
-            ? { ...item, Result: value || "" } // Update Result for the matching TestID
+            ? { ...item, Result: String(value) || "" } // Update Result for the matching TestID
             : item
         ),
         },
     }));
     };
     const handleStartDate=(e,typeOfTesting,testID)=>{
-        const {value}=e.target;
+        const {value}=e.target;//value of input type 'date is always string
+        const dateValue = new Date(value);
+        console.log(dateValue,"StartDate")
         setSubstance((prevState)=>({
             ...prevState,
             [typeOfTesting]:{
                 ...prevState[typeOfTesting],
                 Tests: prevState[typeOfTesting].Tests.map((item) =>
-                    item.Test.TestID === testID ? { ...item, Start_Date: value } : item
+                    item.Test.TestID === testID ? { ...item, Start_Date: dateValue } : item
                   ),
             }
         }));
     }
     const handleEndDate=(e,typeOfTesting,testID)=>{
         const {value}=e.target;
+        const dateValue = new Date(value);
         setSubstance((prevState)=>({
             ...prevState,
             [typeOfTesting]:{
                 ...prevState[typeOfTesting],
                 Tests: prevState[typeOfTesting].Tests.map((item) =>
-                    item.Test.TestID === testID ? { ...item, End_Date: value } : item
+                    item.Test.TestID === testID ? { ...item, End_Date: dateValue } : item
                 ),
             }
         }));
@@ -171,7 +174,7 @@ const handleResultChange = (e, typeOfTesting, testID,Name) => {
             testID:row["ID"],
             TypeOfTesting: row["Type Of Testing"],  
             Name: row["Name"],    
-            Result: row["Result"],
+            Result: String(row["Result"]),
           }
           extractedData.push(obj);
         }); // Assuming "Result" is the column name
@@ -295,7 +298,7 @@ const handleResultChange = (e, typeOfTesting, testID,Name) => {
                                                                 <button type='button' className='px-4 py-1 text-white min-w-32 rounded bg-sky-600 hover:bg-sky-700' onClick={()=>handleDateApplyToAll(key, item.Test.TestID)}>Apply To All</button>
                                                             </div>
                                                             <div>
-                                                                <input type="date" name={`Start_Date-${key}`} id={`Start_Date-${key}`} min={state.Date.split('T')[0]} max={state.Due_Date.split('T')[0]} value={item.Start_Date} className='border-2 border-blue-600 p-1 m-2 rounded outline-0' onChange={(e)=>handleStartDate(e,key,item.Test.TestID)}/>-<input type="date" name={`End_Date-${key}`} id={`Start_Date-${key}`} value={item.End_Date} className='border-2 border-blue-600 p-1 mb-2 rounded m-2 outline-0' min={state.Date.split('T')[0]} max={state.Due_Date.split('T')[0]} onChange={(e)=>handleEndDate(e,key,item.Test.TestID)}/>
+                                                                <input type="date" name={`Start_Date-${key}`} id={`Start_Date-${key}`} min={state.Date.split('T')[0]} max={state.Due_Date.split('T')[0]} value={item.Start_Date ?item.Start_Date.toISOString().split('T')[0]:''} className='border-2 border-blue-600 p-1 m-2 rounded outline-0' onChange={(e)=>handleStartDate(e,key,item.Test.TestID)}/>-<input type="date" name={`End_Date-${key}`} id={`Start_Date-${key}`} value={item.End_Date ? item.End_Date.toISOString().split('T')[0]: ''} className='border-2 border-blue-600 p-1 mb-2 rounded m-2 outline-0' min={state.Date.split('T')[0]} max={state.Due_Date.split('T')[0]} onChange={(e)=>handleEndDate(e,key,item.Test.TestID)}/>
                                                             </div>
                                                         </td>
                                                     </tr>

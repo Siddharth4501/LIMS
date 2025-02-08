@@ -187,7 +187,7 @@ const handleSubmit=async()=>{
             hasError = true;
             return;
         }
-
+        const methodSet = new Set(); 
         item.methodSection?.forEach((data,i) => {
             if (!data.Method) {
                 toast.error(`Section-${index+1} Line-${i+1} Method  Is Necessary`);
@@ -198,6 +198,14 @@ const handleSubmit=async()=>{
                 toast.error(`Section-${index+1} Line-${i+1} Unit Is Necessary`);
                 hasError = true;
                 return;
+            }
+            const methodKey = `${data.Method.trim()}-${data.Unit.trim()}-${data.Limit.trim()}`;
+            if (methodSet.has(methodKey)) {
+                toast.error(`Duplicate method found in Section-${index + 1}, Line-${i + 1}`);
+                hasError = true;
+                return;
+            } else {
+                methodSet.add(methodKey.trim());
             }
         });
 
@@ -220,21 +228,6 @@ const handleSubmit=async()=>{
         toast.error(error?.message || "An error occurred.");
     }
 }
-// const handleDelete=async(userID)=>{
-//     try {
-//       console.log(userID,"judju")
-//       const data={
-//         "userID":userID
-//       }
-//       const response = await dispatch(DeleteUserData(data));
-//       if (response?.payload?.success) {
-//         toast.success('User Deleted Successfully');
-//         navigate('/Admin/Home')
-//       }
-//     } catch (error) {
-//         toast.error(error)
-//     }
-//   }
   return (
     <div className="min-h-screen w-screen bg-[url('/src/assets/images/DRDODIBT-BACK.png')] bg-cover bg-center bg-fixed">
       <AdminCommomNav/>

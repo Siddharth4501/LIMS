@@ -326,7 +326,7 @@ const Register = () => {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-2 w-full">
           <div>
-            <label className="block text-sm font-semibold mb-2">Customer Name</label>
+            <label className="block text-sm font-semibold mb-2">Customer Name<span className="text-red-500">*</span></label>
             <input
               type="text"
               name="Issued_To"
@@ -336,7 +336,7 @@ const Register = () => {
             />
           </div>
           <div>
-          <label className="block text-sm font-semibold mb-2">Nature Of Sample</label>
+          <label className="block text-sm font-semibold mb-2">Nature Of Sample<span className="text-red-500">*</span></label>
           <input
             type="text"
             name="Nature_Of_Sample"
@@ -346,7 +346,7 @@ const Register = () => {
           />
           </div>
           <div>
-            <label className="block text-sm font-semibold mb-2">Sample Name</label>
+            <label className="block text-sm font-semibold mb-2">Sample Name<span className="text-red-500">*</span></label>
             <input
               type="text"
               name="Name"
@@ -356,7 +356,7 @@ const Register = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold mb-2">Registration Date</label>
+            <label className="block text-sm font-semibold mb-2">Registration Date<span className="text-red-500">*</span></label>
             <input
               type="Date"
               name="Date"
@@ -366,7 +366,7 @@ const Register = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold mb-2">Customer Code</label>
+            <label className="block text-sm font-semibold mb-2">Customer Code<span className="text-red-500">*</span></label>
             <input
               type="text"
               name="Customer_Code"
@@ -376,7 +376,7 @@ const Register = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold mb-2">Manufacturing Date</label>
+            <label className="block text-sm font-semibold mb-2">Manufacturing Date<span className="text-red-500">*</span></label>
             <input
               type="date"
               name="Mfg_Date"
@@ -386,7 +386,7 @@ const Register = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold mb-2">Quantity</label>
+            <label className="block text-sm font-semibold mb-2">Quantity<span className="text-red-500">*</span></label>
             <input
               type="text"
               name="Quantity"
@@ -396,7 +396,7 @@ const Register = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold mb-2">Storage Conditions(in ℃)</label>
+            <label className="block text-sm font-semibold mb-2">Storage Conditions(in ℃)<span className="text-red-500">*</span></label>
             <input
               type="number"
               name="Storage_Conditions"
@@ -407,7 +407,7 @@ const Register = () => {
           </div>
           
           <div>
-            <label className="block text-sm font-semibold mb-2">Packing Type</label>
+            <label className="block text-sm font-semibold mb-2">Packing Type<span className="text-red-500">*</span></label>
             <select
               name="Packing_Type"
               className="w-full border-2 border-blue-600 rounded-md p-2 outline-0"
@@ -430,7 +430,7 @@ const Register = () => {
             />
           </div> 
           <div className="p-2">
-            <label className="block text-sm font-semibold mb-2">Group</label>
+            <label className="block text-sm font-semibold mb-2">Group<span className="text-red-500">*</span></label>
             <select
               name="Group"
               className="w-full border-2 border-blue-600 rounded-md p-2 outline-0"
@@ -449,7 +449,7 @@ const Register = () => {
             </select>
           </div>
           <div className="px-2 pt-2 pb-0">
-              <h2 className="text-sm font-semibold mb-2">Type of Testing</h2>
+              <h2 className="text-sm font-semibold mb-2">Type of Testing<span className="text-red-500">*</span></h2>
 
               <div className={`${choosenGroup!=''?'p-4 border border-gray-600 rounded-md':' rounded-md'}`}>
                 {
@@ -514,7 +514,7 @@ const Register = () => {
               </div>
             </div> 
             <div className="pt-0 px-2 pb-2">
-              <h2 className="text-sm font-semibold mb-2">Tests</h2>
+              <h2 className="text-sm font-semibold mb-2">Tests<span className="text-red-500">*</span></h2>
               {
                 choosenGroup==''?(
                   <div className="w-full">
@@ -623,7 +623,7 @@ const Register = () => {
             </div>
             <div className="p-2">
               <div className="">
-                <label className="block text-sm font-semibold mb-2">Remarks</label>
+                <label className="block text-sm font-semibold mb-2">Remarks<span className="text-red-500">*</span></label>
                 <input
                   type="text"
                   name="Remarks"
