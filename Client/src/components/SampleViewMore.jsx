@@ -10,14 +10,27 @@ import { getSubstanceData } from '../Redux/Slices/SubstanceSlice';
 const SampleViewMore = () => {
   const { state } = useLocation();
   const { substanceData } = useSelector((state) => state.substance);
-    const [allSubstanceDataState, setAllSubstanceDataState] = useState([]);
-  const dispatch=useDispatch();
-  const navigate=useNavigate();
-  const [rowData, setRowData] = useState([]);
-  const [dueDate,setDueDate]=useState();
-  const [allUserDataState,setAllUserDataState]=useState([]);
+  const [allSubstanceDataState, setAllSubstanceDataState] = useState([]);
+  const [openDropdown, setOpenDropdown] = useState({});
+  console.log("openDropdown", openDropdown)
+  const toggleDropdown = (id, index) => {
+    setOpenDropdown((prev) => ({
+      ...prev,
+      [id]: {
+        ...prev[id], // Preserve existing indices
+        [index]: !prev[id]?.[index] // Toggle only the specific dropdown
+      }
+    }));
+  };
 
-  const {allUserData}=useSelector((state)=>state.auth)
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [rowData, setRowData] = useState([]);
+  const [dueDate, setDueDate] = useState();
+  const [allUserDataState, setAllUserDataState] = useState([]);
+
+  const { allUserData } = useSelector((state) => state.auth)
   useEffect(() => {
     (async () => {
       await dispatch(getAllUserData());
@@ -25,7 +38,7 @@ const SampleViewMore = () => {
   }, []);
   useEffect(() => {
     setAllUserDataState(allUserData);
-  },[allUserData])
+  }, [allUserData])
   useEffect(() => {
     (async () => {
       await dispatch(getSubstanceData());
@@ -34,22 +47,22 @@ const SampleViewMore = () => {
   useEffect(() => {
     setAllSubstanceDataState(substanceData);
   }, [substanceData])
-  console.log(allUserData,"jkl",state.Group)
-  const handleDueDate=(e)=>{
+  console.log(allUserData, "jkl", state.Group)
+  const handleDueDate = (e) => {
     setDueDate(e.target.value);
   }
-  
+
   useEffect(() => {
     const initialRowData = {};
     state.Type_Of_Testing.forEach((testType) => {
-      initialRowData[testType] = {Tests: [] };
+      initialRowData[testType] = { Tests: [] };
       initialRowData[testType].Tests = state.Tests
         .filter((test) => test.Type_Of_Testing === testType)
-        .map((test) => ({ Test:{"Test_Name":test.Test,"TestID":test._id},Analyst: {"Name":'',"ID":''}, Method: '', Unit: '',Result:'',Start_Date:null,End_Date:null,NABL:false }));
+        .map((test) => ({ Test: { "Test_Name": test.Test, "TestID": test._id }, Analyst: { "Name": '', "ID": '' }, Method: '', Unit: '', Result: '', Start_Date: null, End_Date: null, NABL: false }));
     });//make Test as an obj whith unique id
     setRowData(initialRowData);
   }, [state.Tests, state.Type_Of_Testing]);
-  console.log(rowData,"ddef")
+  console.log(rowData, "ddef")
 
   const [sections, setSections] = useState([{ id: 0, testType: '' }]);
   const [selectedTestTypes, setSelectedTestTypes] = useState([]);
@@ -85,163 +98,163 @@ const SampleViewMore = () => {
   };
 
   // Updates row data for tests
-  const updateRowData = (testType,index, field, value,ID) => {
-    if(ID){
-      console.log(testType,index,field,value,"svg",rowData,ID);
-      const updatedRowData = {...rowData};
-      const obj={
-        "Name":value,
-        "ID":ID
+  const updateRowData = (testType, index, field, value, ID) => {
+    if (ID) {
+      console.log(testType, index, field, value, "svg", rowData, ID);
+      const updatedRowData = { ...rowData };
+      const obj = {
+        "Name": value,
+        "ID": ID
       }
       updatedRowData[testType].Tests[index][field] = obj;
       setRowData(updatedRowData);
     }
-    else{
+    else {
 
-      console.log(testType,index,field,value,"svg1",rowData);
-      const updatedRowData = {...rowData};
+      console.log(testType, index, field, value, "svg1", rowData);
+      const updatedRowData = { ...rowData };
       updatedRowData[testType].Tests[index][field] = value;
       setRowData(updatedRowData);
     }
   };
-  
 
-const [applyToAllAnalyst, setApplyToAllAnalyst] = useState({
-  "Name":'',
-  "ID":''
-}); // Track Analyst for "Apply to All"
-const [applyToAllMethod,setApplyToAllMethod]=useState('')//Track Method for apply to All
-const [applyToAllUnit,setApplyToAllUnit]=useState('')////Track Unit for apply to All
 
-const handleApplyToAllAnalyst = (analyst,testType) => {
-  // Updates all rows with the selected Analyst value
-  const updatedRowData={ ...rowData }
-  updatedRowData[testType].Tests = rowData[testType].Tests.map((row) => ({
-    ...row,
-    Analyst:{
-      ...row.Analyst,
-      Name:analyst.Name,
-      ID:analyst.ID
+  const [applyToAllAnalyst, setApplyToAllAnalyst] = useState({
+    "Name": '',
+    "ID": ''
+  }); // Track Analyst for "Apply to All"
+  const [applyToAllMethod, setApplyToAllMethod] = useState('')//Track Method for apply to All
+  const [applyToAllUnit, setApplyToAllUnit] = useState('')////Track Unit for apply to All
+
+  const handleApplyToAllAnalyst = (analyst, testType) => {
+    // Updates all rows with the selected Analyst value
+    const updatedRowData = { ...rowData }
+    updatedRowData[testType].Tests = rowData[testType].Tests.map((row) => ({
+      ...row,
+      Analyst: {
+        ...row.Analyst,
+        Name: analyst.Name,
+        ID: analyst.ID
+      }
+    }));
+    setRowData(updatedRowData);
+    setApplyToAllAnalyst(analyst);
+  }
+
+  const handleApplyToAllMethod = (methodValue, testType) => {
+    // Updates all rows with the selected Analyst value
+    const updatedRowData = { ...rowData }
+    updatedRowData[testType].Tests = rowData[testType].Tests.map((row) => ({
+      ...row,
+      Method: methodValue,
+    }));
+    setRowData(updatedRowData);
+    setApplyToAllMethod(methodValue);
+  };
+
+  const handleApplyToAllUnit = (unitValue, testType) => {
+    // Update all rows with the selected Analyst value
+    const updatedRowData = { ...rowData }
+    updatedRowData[testType].Tests = rowData[testType].Tests.map((row) => ({
+      ...row,
+      Unit: unitValue,
+    }));
+    setRowData(updatedRowData);
+    setApplyToAllUnit(unitValue);
+  };
+
+
+  //To Update the "Apply to All" checkbox handling
+  const handleApplyToAllAnalystBtn = (isChecked, testType) => {
+
+    if (isChecked && applyToAllAnalyst) {
+      handleApplyToAllAnalyst(applyToAllAnalyst, testType);
     }
-  }));
-  setRowData(updatedRowData);
-  setApplyToAllAnalyst(analyst);
-}
-
-const handleApplyToAllMethod = (methodValue,testType) => {
-  // Updates all rows with the selected Analyst value
-  const updatedRowData={ ...rowData }
-  updatedRowData[testType].Tests = rowData[testType].Tests.map((row) => ({
-    ...row,
-    Method: methodValue,
-  }));
-  setRowData(updatedRowData);
-  setApplyToAllMethod(methodValue);
-};
-
-const handleApplyToAllUnit = (unitValue,testType) => {
-  // Update all rows with the selected Analyst value
-  const updatedRowData={ ...rowData }
-  updatedRowData[testType].Tests = rowData[testType].Tests.map((row) => ({
-    ...row,
-    Unit: unitValue,
-  }));
-  setRowData(updatedRowData);
-  setApplyToAllUnit(unitValue);
-};
-
-
-//To Update the "Apply to All" checkbox handling
-const handleApplyToAllAnalystBtn = (isChecked,testType) => {
-  
-  if (isChecked && applyToAllAnalyst) {  
-    handleApplyToAllAnalyst(applyToAllAnalyst,testType);
-  }
-};
-const handleApplyToAllMethodBtn = (isChecked,testType) => {
-  if (isChecked && applyToAllMethod) {  
-    handleApplyToAllMethod(applyToAllMethod,testType);
-  }
-}
-const handleApplyToAllUnitBtn = (isChecked,testType) => {
-  if (isChecked && applyToAllUnit) {  
-    handleApplyToAllUnit(applyToAllUnit,testType);
-  }
-}
-const handleSubmit = async() => {
-  if(!dueDate){
-    toast.error("Due Date is Required");
-    return;
-  }
-  let flag = false;
-
-  const keys = Object.keys(rowData); // Get all keys from rowData
-
-  for (let keyIndex = 0; keyIndex < keys.length; keyIndex++) {
-    const key = keys[keyIndex]; // Get the current key
-    const tests = rowData[key].Tests; // Get the Tests array
-
-    for (let testIndex = 0; testIndex < tests.length; testIndex++) {
-      const test = tests[testIndex]; // Get the current test
-
-      if (test.Method === '') {
-        toast.error(`Method is required at Type Of Testing: ${key}, Test: ${test.Test.Test_Name}, Index: ${testIndex+1}`);
-        flag = true;
-        break;
-      }
-      if (test.Unit === '') {
-        toast.error(`Unit is required at Type Of Testing: ${key}, Test: ${key}, Index: ${testIndex+1}`);
-        flag = true;
-        break;
-      }
-      if (test.Analyst.Name === '' || test.Analyst.ID === '' ) {
-        toast.error(`Analyst is required at Type Of Testing: ${key}, Test: ${test.Test.Test_Name}, Index: ${testIndex+1}`);
-        flag = true;
-        break;
-      }
-    }
-
-    if (flag) break; // Stop execution if an error is found
-  }
-
-  if (flag) return; // Prevent further execution
-
-  const allotmentData={
-    "TM_Data":rowData,
-    "Due_Date":dueDate,
-    "Sample_Id":state._id,
-    "TM_Status":"Pending At Analyst",
-  }
-  console.log("allotmentData",allotmentData);
-  const res=await dispatch(sendTMData(allotmentData));
-  if(res?.payload?.success){
-    const ID=state._id
-    const obj={
-      "ID":ID,
-      "Status":"Pending At Analyst"
-    };
-    const response=await dispatch(updateSample(obj))
-    if(response?.payload?.success){
-      //here in res?.payload?.success ,the success parameter comes from res.json at backend
-      toast.success("data submitted successfully")
-      navigate('/SampleAllotment')
+  };
+  const handleApplyToAllMethodBtn = (isChecked, testType) => {
+    if (isChecked && applyToAllMethod) {
+      handleApplyToAllMethod(applyToAllMethod, testType);
     }
   }
-  else {
-    toast.error("Please fill all the fields");
+  const handleApplyToAllUnitBtn = (isChecked, testType) => {
+    if (isChecked && applyToAllUnit) {
+      handleApplyToAllUnit(applyToAllUnit, testType);
+    }
   }
-}
-console.log("dhoku",rowData);
+  const handleSubmit = async () => {
+    if (!dueDate) {
+      toast.error("Due Date is Required");
+      return;
+    }
+    let flag = false;
+
+    const keys = Object.keys(rowData); // Get all keys from rowData
+
+    for (let keyIndex = 0; keyIndex < keys.length; keyIndex++) {
+      const key = keys[keyIndex]; // Get the current key
+      const tests = rowData[key].Tests; // Get the Tests array
+
+      for (let testIndex = 0; testIndex < tests.length; testIndex++) {
+        const test = tests[testIndex]; // Get the current test
+
+        if (test.Method === '') {
+          toast.error(`Method is required at Type Of Testing: ${key}, Test: ${test.Test.Test_Name}, Index: ${testIndex + 1}`);
+          flag = true;
+          break;
+        }
+        if (test.Unit === '') {
+          toast.error(`Unit is required at Type Of Testing: ${key}, Test: ${key}, Index: ${testIndex + 1}`);
+          flag = true;
+          break;
+        }
+        if (test.Analyst.Name === '' || test.Analyst.ID === '') {
+          toast.error(`Analyst is required at Type Of Testing: ${key}, Test: ${test.Test.Test_Name}, Index: ${testIndex + 1}`);
+          flag = true;
+          break;
+        }
+      }
+
+      if (flag) break; // Stop execution if an error is found
+    }
+
+    if (flag) return; // Prevent further execution
+
+    const allotmentData = {
+      "TM_Data": rowData,
+      "Due_Date": dueDate,
+      "Sample_Id": state._id,
+      "TM_Status": "Pending At Analyst",
+    }
+    console.log("allotmentData", allotmentData);
+    const res = await dispatch(sendTMData(allotmentData));
+    if (res?.payload?.success) {
+      const ID = state._id
+      const obj = {
+        "ID": ID,
+        "Status": "Pending At Analyst"
+      };
+      const response = await dispatch(updateSample(obj))
+      if (response?.payload?.success) {
+        //here in res?.payload?.success ,the success parameter comes from res.json at backend
+        toast.success("data submitted successfully")
+        navigate('/SampleAllotment')
+      }
+    }
+    else {
+      toast.error("Please fill all the fields");
+    }
+  }
+  console.log("dhoku", rowData);
   return (
     <div>
       <div className="mt-3 mb-2 border-2 border-md border-blue-600 bg-zinc-100 py-2 px-4 w-3/5 mx-auto rounded-md">
-        <div className='flex justify-center gap-2'><b className='text-lg'>Due Date:</b> <input type="date" name="DueDate" id="DueDate" min={state.Date.split('T')[0]} onChange={(e)=>handleDueDate(e)} className='px-4 border-2 border-blue-600'/></div>
+        <div className='flex justify-center gap-2'><b className='text-lg'>Due Date:</b> <input type="date" name="DueDate" id="DueDate" min={state.Date.split('T')[0]} onChange={(e) => handleDueDate(e)} className='px-4 border-2 border-blue-600' /></div>
       </div>
       <br />
       <div className='w-full'>
         {sections.map((section) => (
           <div key={section.id} className='w-full'>
-            <div  className="w-full p-4 bg-gray-200 mb-12">
+            <div className="w-full p-4 bg-gray-200 mb-12">
               <div className="border border-gray-300 rounded-lg shadow-sm bg-white">
                 {section.testType === '' ? (
                   <div className="flex items-center p-4 border-b">
@@ -286,7 +299,7 @@ console.log("dhoku",rowData);
                       <div>
                         <button
                           className="bg-sky-600 text-white p-2 rounded-md text-xs hover:bg-sky-800 focus:outline-none"
-                          onClick={() => handleApplyToAllAnalystBtn(true,section.testType)}
+                          onClick={() => handleApplyToAllAnalystBtn(true, section.testType)}
                         >
                           Apply to All
                         </button>
@@ -295,11 +308,11 @@ console.log("dhoku",rowData);
                           onChange={(e) => {
                             const selectedOption = e.target.options[e.target.selectedIndex];
                             const selectedId = selectedOption.id;
-                            {console.log(selectedId,"igh")}
-                            updateRowData(section.testType,index, 'Analyst', e.target.value,selectedId);
-                            setApplyToAllAnalyst(()=>({
-                              "Name":e.target.value,
-                              "ID":selectedOption.id
+                            { console.log(selectedId, "igh") }
+                            updateRowData(section.testType, index, 'Analyst', e.target.value, selectedId);
+                            setApplyToAllAnalyst(() => ({
+                              "Name": e.target.value,
+                              "ID": selectedOption.id
                             })); // Track the value for "Apply to All"
                           }}
                           value={rowData[section.testType].Tests[index]?.Analyst?.Name || ''}
@@ -307,16 +320,16 @@ console.log("dhoku",rowData);
                           <option value="" id=''>Analyst</option>
                           {
                             allUserDataState
-                            ?.filter((element)=>element.Active_Status===true)
-                            ?.filter((user) =>
-                              user.roles?.some(
-                                (item) => item?.designation === "Analyst" && item?.Assigned_Group.includes(state.Group)
+                              ?.filter((element) => element.Active_Status === true)
+                              ?.filter((user) =>
+                                user.roles?.some(
+                                  (item) => item?.designation === "Analyst" && item?.Assigned_Group.includes(state.Group)
+                                )
                               )
-                            )
-                            .map((data) => {
-                              return <option key={data._id} id={data._id} value={data.fullName}>{data.fullName}</option>;
-                            })
-                          
+                              .map((data) => {
+                                return <option key={data._id} id={data._id} value={data.fullName}>{data.fullName}</option>;
+                              })
+
                           }
                         </select>
                       </div>
@@ -324,14 +337,14 @@ console.log("dhoku",rowData);
                       <div>
                         <button
                           className="bg-sky-600 text-white p-2 mb-1 rounded-md text-xs hover:bg-sky-800 focus:outline-none"
-                          onClick={() => handleApplyToAllMethodBtn(true,section.testType)}
+                          onClick={() => handleApplyToAllMethodBtn(true, section.testType)}
                         >
                           Apply to All
                         </button>
                         <select
                           className="bg-white p-2 border border-gray-300 rounded-lg text-gray-700 w-full"
                           onChange={(e) => {
-                            updateRowData(section.testType,index, 'Method', e.target.value);
+                            updateRowData(section.testType, index, 'Method', e.target.value);
                             setApplyToAllMethod(e.target.value)
                           }}
                           value={rowData[section.testType].Tests[index]?.Method || ''}
@@ -341,9 +354,9 @@ console.log("dhoku",rowData);
                             allSubstanceDataState
                               ?.map((substance) => {
                                 // Find the substance where TestID matches item._id
-                                
-                                if (substance.Test.Test_Name !== item.Test) return null;  
-                                return substance?.MethodUnitList?.map((ele,ele_idx) => (
+
+                                if (substance.Test.Test_Name !== item.Test) return null;
+                                return substance?.MethodUnitList?.map((ele, ele_idx) => (
                                   <option key={`${ele.Method}-${ele_idx}`} value={ele.Method}>
                                     {ele.Method}
                                   </option>
@@ -352,7 +365,7 @@ console.log("dhoku",rowData);
                           }
                         </select>
                       </div>
-                      <div>
+                      {/* <div>
                         <button
                           className="bg-sky-600 text-white p-2 mb-1 rounded-md text-xs hover:bg-sky-800 focus:outline-none"
                           onClick={() => handleApplyToAllUnitBtn(true,section.testType)}
@@ -381,13 +394,65 @@ console.log("dhoku",rowData);
                               })
                           }    
                         </select>
+                      </div> */}
+
+                      <div className="relative">
+                        <button
+                          className="bg-sky-600 text-white p-2 mb-1 rounded-md text-xs hover:bg-sky-800 focus:outline-none"
+                          onClick={() => handleApplyToAllUnitBtn(true, section.testType)}
+                        >
+                          Apply to All
+                        </button>
+
+                        {/* Custom dropdown using <ul> */}
+                        <div className="relative">
+                          <button
+                            className="bg-white p-2 border border-gray-300 rounded-lg text-gray-700 w-full text-left"
+                            onClick={() => toggleDropdown(section.id, index)} // Toggle dropdown visibility
+                          >
+                            {rowData[section.testType].Tests[index]?.Unit || "Select Unit"}
+                          </button>
+                          {/* Dropdown options */}
+                          {openDropdown[section.id]?.[index] && (
+                            <ul className="absolute z-10 bg-white border border-gray-300 rounded-lg w-full shadow-lg max-h-40 overflow-y-auto">
+                              <li
+                                className="p-2 hover:bg-gray-100 cursor-pointer"
+                                onClick={() => {
+                                  updateRowData(section.testType, index, "Unit", "");
+                                  setApplyToAllUnit("");
+                                  setOpenDropdown((prev) => !prev);
+                                }}
+                              >
+                                Unit
+                              </li>
+
+                              {allSubstanceDataState?.flatMap((substance) => {
+                                if (substance.Test.Test_Name !== item.Test) return [];
+                                return substance.MethodUnitList?.map((ele, ele_idx) => (
+                                  <li
+                                    key={`${ele.Unit}-${ele_idx}`}
+                                    className="p-2 hover:bg-gray-100 cursor-pointer"
+                                    onClick={() => {
+                                      updateRowData(section.testType, index, "Unit", ele.Unit);
+                                      setApplyToAllUnit(ele.Unit);
+                                      setOpenDropdown((prev) => !prev);
+                                    }}
+                                  >
+                                    {ele.Unit}
+                                  </li>
+                                ));
+                              })}
+                            </ul>
+                          )}
+                        </div>
                       </div>
+
                     </div>
                   ))}
                 </div>
 
               </div>
-              
+
 
             </div>
           </div>
@@ -406,7 +471,7 @@ console.log("dhoku",rowData);
               </div>
               <br /><br /><br /><br />
             </div>
-            
+
           )
         }
       </div>
