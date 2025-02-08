@@ -45,10 +45,10 @@ const UserTestReport = () => {
     console.log(TmAnData)
     useEffect(() => {
         setTmAnDataState(TmAnData);
-    },[TmAnData])
+    }, [TmAnData])
     useEffect(() => {
         setAllUserDataState(allUserData);
-    },[allUserData])
+    }, [allUserData])
     useEffect(() => {
         setAllGroupDataState(groupData);
     },[groupData])
@@ -60,43 +60,43 @@ const UserTestReport = () => {
         }
     },[allGroupDataState])
     useEffect(() => {
-        const filteredUser=allUserDataState?.find((user)=>user._id===state.Registered_By);
+        const filteredUser = allUserDataState?.find((user) => user._id === state.Registered_By);
         setFilteredUser(filteredUser);
-    },[allUserDataState]);
-    useEffect(()=>{
-        const filteredItem=TmAnDataState?.filter((item)=>item.Sample_Alloted===state._id );
-        if(filteredItem?.length>0){
+    }, [allUserDataState]);
+    useEffect(() => {
+        const filteredItem = TmAnDataState?.filter((item) => item.Sample_Alloted === state._id);
+        if (filteredItem?.length > 0) {
             setFilteredTmAnData(filteredItem);
         }
-    },[TmAnDataState])
-    console.log(filteredTmAnData,"filteredTmAnData")
-    useEffect(()=>{
-        const generateReportNumber = ()=> {
-            const RegistrationNo=parseInt(state.Registration_Number.split('/')[2],10);
+    }, [TmAnDataState])
+    console.log(filteredTmAnData, "filteredTmAnData")
+    useEffect(() => {
+        const generateReportNumber = () => {
+            const RegistrationNo = parseInt(state.Registration_Number.split('/')[2], 10);
             const date = new Date();
             const year = date.getFullYear();
             const lastTwoDigits = year % 100;
             let newNumber = `DIBT/AR/${lastTwoDigits}/`;
-            
-            if (RegistrationNo) {  
+
+            if (RegistrationNo) {
                 newNumber += String(RegistrationNo).padStart(6, '0');
                 setReportNo(newNumber);
             }
         };
         generateReportNumber();
-    },[]);
+    }, []);
 
-    useEffect(()=>{
-        if(state.difference==='NABL Report'){
-            const generateULRNumber=()=>{
+    useEffect(() => {
+        if (state.difference === 'NABL Report') {
+            const generateULRNumber = () => {
                 let ULRNum = `TC`;
-                const RegistrationNo=String(parseInt(state.Registration_Number.split('/')[2],10)).padStart(6, '0');
+                const RegistrationNo = String(parseInt(state.Registration_Number.split('/')[2], 10)).padStart(6, '0');
                 const date = new Date();
                 const year = date.getFullYear();
                 const lastTwoDigits = (year % 100);
-                const GroupLocationNumber=String(allGroupDataState?.find(group=>group.Group_Name===state.Group)?.Group_Location_Number);
-                const RunningNumber=String(parseInt(state.Registration_Number.split('/')[2],10)).padStart(8, '0')
-                ULRNum +=RegistrationNo + lastTwoDigits + GroupLocationNumber + RunningNumber + 'F'
+                const GroupLocationNumber = String(allGroupDataState?.find(group => group.Group_Name === state.Group)?.Group_Location_Number);
+                const RunningNumber = String(parseInt(state.Registration_Number.split('/')[2], 10)).padStart(8, '0')
+                ULRNum += RegistrationNo + lastTwoDigits + GroupLocationNumber + RunningNumber + 'F'
                 setUlrNumber(ULRNum);
             }
             generateULRNumber();
@@ -118,16 +118,16 @@ const UserTestReport = () => {
                         className="w-24 h-22"
                     />
                     {
-                        state.difference==='NABL Report'?(
+                        state.difference === 'NABL Report' ? (
                             <img
-                                src="/src/assets/images/NABL-LOGO.png"
+                                src="/src/assets/images/NABL LOGO.png"
                                 alt="Logo"
                                 className="w-24 h-22 ml-5"
                             />
-                        ):
-                        (
-                            ''
-                        )
+                        ) :
+                            (
+                                ''
+                            )
                     }
                     {/* Title */}
                     <div className="text-center flex-1">
@@ -143,11 +143,11 @@ const UserTestReport = () => {
                     </div>
                 </div>
                 {
-                    state.difference==='NABL Report'?(
+                    state.difference === 'NABL Report' ? (
                         <div className="w-full border-b border">
-                            <div className="float-right"><b>ULR No. : </b>{ulrNumber?ulrNumber:''}</div>
+                            <div className="float-right"><b>ULR No. : </b>{ulrNumber ? ulrNumber : ''}</div>
                         </div>
-                    ):(
+                    ) : (
                         <div className="h-0 w-0"></div>
                     )
                 }
@@ -155,11 +155,11 @@ const UserTestReport = () => {
                     <div>
                         <p>
                             <span className="font-semibold">Report No:</span>
-                            {ReportNo?ReportNo:''}
+                            {ReportNo ? ReportNo : ''}
                         </p>
                         <p>
                             <span className="font-semibold">Issued To:</span> {state.Issued_To}
-                            
+
                         </p>
                     </div>
                     <div>
@@ -170,55 +170,49 @@ const UserTestReport = () => {
                     </div>
                 </div>
 
-                <div className="border-t mt-6 pt-4">
+                <table className="mt-6 w-full">
                     <h3 className="font-semibold text-lg">Sample Details:</h3>
-                    <div className="grid grid-cols-2 gap-4 mt-4">
-                        <div>
-                            <p className="">
-                                <span className="font-semibold">Registration No:</span>
-                                {state.Registration_Number}
-                            </p>
-                            <p>
-                                <span className="font-semibold">Sample Name:</span> 
-                                {state.Name}
-                            </p>
-                            <p>
-                                <span className="font-semibold">Mfg. Date:</span> - {state.Mfg_Date.split('T')[0]}
-                            </p>
-                            <p>
-                                <span className="font-semibold">Sample Registration Date:</span>
-                                {state.Date.split('T')[0]}
-                            </p>
-                            <p>
-                                <span className="font-semibold">Storage Conditions (in ℃):</span> 
-                                {state.Storage_Conditions}
-                            </p>
-                        </div>
-                        <div>
-                            <p>
-                                <span className="font-semibold">Batch No/Customer Code:</span>
-                                - {state.Customer_Code}
-                            </p>
-                            <p>
-                                <span className="font-semibold">Sample Description:</span>
-                                {state.Remarks}
-                            </p>
-                            <p>
-                                <span className="font-semibold">Sample Drawn By:</span> - {filteredUser?filteredUser.fullName : ''}
-                            </p>
-                            <p>
-                                <span className="font-semibold">Quantity Received:</span> - 
-                                {state.Quantity}
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                    <tbody>
+                        <tr>
+                            <td className="border border-black p-2 font-semibold">Registration No:</td>
+                            <td className="border border-black p-2">{state.Registration_Number}</td>
+                            <td className="border border-black p-2 font-semibold">Batch No/Customer Code:</td>
+                            <td className="border border-black p-2">{state.Customer_Code}</td>
+                        </tr>
+                        <tr>
+                            <td className="border border-black p-2 font-semibold">Sample Name:</td>
+                            <td className="border border-black p-2">{state.Name}</td>
+                            <td className="border border-black p-2 font-semibold">Sample Description:</td>
+                            <td className="border border-black p-2">{state.Remarks}</td>
+                        </tr>
+                        <tr>
+                            <td className="border border-black p-2 font-semibold">Mfg. Date:</td>
+                            <td className="border border-black p-2">{state.Mfg_Date.split('T')[0]}</td>
+                            <td className="border border-black p-2 font-semibold">Sample Drawn By:</td>
+                            <td className="border border-black p-2">{filteredUser ? filteredUser.fullName : ''}</td>
+                        </tr>
+                        <tr>
+                            <td className="border border-black p-2 font-semibold">Sample Registration Date:</td>
+                            <td className="border border-black p-2">{state.Date.split('T')[0]}</td>
+                            <td className="border border-black p-2 font-semibold">Quantity Received:</td>
+                            <td className="border border-black p-2">{state.Quantity}</td>
+                        </tr>
+                        <tr>
+                            <td className="border border-black p-2 font-semibold">Storage Conditions (in ℃):</td>
+                            <td className="border border-black p-2">{state.Storage_Conditions}</td>
+                            <td className="border border-black p-2"></td>
+                            <td className="border border-black p-2"></td>
+                        </tr>
+                    </tbody>
+                </table>
 
-                <div className="border-t mt-6 pt-4">
+
+
+                <div className="mt-6 pt-4">
                     <h3 className="font-semibold text-lg mb-4">Test Results : </h3>
                     {
-                        state.difference==='Normal Report' && filteredTmAnData.length>0?Object.keys(filteredTmAnData[0]?.Substances_To_Be_Analysed)?.map((key,i) => {
-                            return(
+                        state.difference === 'Normal Report' && filteredTmAnData.length > 0 ? Object.keys(filteredTmAnData[0]?.Substances_To_Be_Analysed)?.map((key, i) => {
+                            return (
                                 <div className="mb-5" key={`${key}-${i}`}>
                                     <div className="text-center font-medium text-base mb-2">
                                         {key}
@@ -267,13 +261,14 @@ const UserTestReport = () => {
                                         </table>
                                     </div>
                                 </div>
-                            )})
+                            )
+                        })
 
                             :
-                            state.difference==='NABL Report' && filteredTmAnData.length>0?Object.keys(filteredTmAnData[0]?.Substances_To_Be_Analysed)?.map((key,i) => {
-                                const filteredItem=filteredTmAnData[0]?.Substances_To_Be_Analysed[key].Tests.filter((data)=>data.NABL===true );
-                                if(filteredItem.length>0){
-                                    return(
+                            state.difference === 'NABL Report' && filteredTmAnData.length > 0 ? Object.keys(filteredTmAnData[0]?.Substances_To_Be_Analysed)?.map((key, i) => {
+                                const filteredItem = filteredTmAnData[0]?.Substances_To_Be_Analysed[key].Tests.filter((data) => data.NABL === true);
+                                if (filteredItem.length > 0) {
+                                    return (
                                         <div className="mb-5" key={`${key}-${i}`}>
                                             <div className="text-center font-medium text-base mb-2">
                                                 {key}
@@ -322,11 +317,12 @@ const UserTestReport = () => {
                                                 </table>
                                             </div>
                                         </div>
-                                    )}
-                                })
+                                    )
+                                }
+                            })
                                 :
                                 <span className="w-0"></span>
-                            }
+                    }
 
                     {/* Verified By Section */}
                     <div className="flex justify-end mt-6">
@@ -351,9 +347,9 @@ const UserTestReport = () => {
                 </div>
 
                 <div className="w-full">
-                    <button className="flex justify-center mx-auto bg-blue-500 px-4 py-1 text-white my-5 hover:bg-blue-600 " onClick={handlePrint}><span className="pt-1 pr-1"><FaPrint/></span>Print</button>
+                    <button className="flex justify-center mx-auto bg-blue-500 px-4 py-1 text-white my-5 hover:bg-blue-600 " onClick={handlePrint}><span className="pt-1 pr-1"><FaPrint /></span>Print</button>
                 </div>
-        
+
             </div>
         </div>
     );
