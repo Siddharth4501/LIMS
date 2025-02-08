@@ -311,7 +311,7 @@ const SampleViewMore = () => {
                         >
                           Apply to All
                         </button>
-                        <select
+                        <select 
                           className="bg-white p-2 border border-gray-300 rounded-lg text-gray-700 w-full mt-2"
                           onChange={(e) => {
                             const selectedOption = e.target.options[e.target.selectedIndex];
@@ -360,7 +360,7 @@ const SampleViewMore = () => {
                           </button>
                           {/* Dropdown options */}
                           {openMethodDropdown[section.id]?.[index] && (
-                            <ul className="absolute z-10 bg-white border border-gray-300 rounded-lg w-full shadow-lg max-h-40 overflow-y-auto">
+                            <ul className="absolute z-10 bg-white border border-gray-300 rounded-lg w-full shadow-lg max-h-48 overflow-y-auto">
                               <li
                                 className="p-2 hover:bg-gray-100 cursor-pointer"
                                 onClick={() => {
@@ -409,7 +409,7 @@ const SampleViewMore = () => {
                           </button>
                           {/* Dropdown options */}
                           {openDropdown[section.id]?.[index] && (
-                            <ul className="absolute z-10 bg-white border border-gray-300 rounded-lg w-full shadow-lg max-h-40 overflow-y-auto">
+                            <ul className="absolute z-10 bg-white border border-gray-300 rounded-lg w-full shadow-lg max-h-48 overflow-y-auto">
                               <li
                                 className="p-2 hover:bg-gray-100 cursor-pointer"
                                 onClick={() => {
