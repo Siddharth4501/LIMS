@@ -9,7 +9,7 @@ const SubstanceData=async(req,res,next)=>{
         }
         res.status(200).json({
             success:true,
-            message:'Substance Data Fetched Successfully',
+            message:'Method Data Fetched Successfully',
             substance,
         })
     }
@@ -81,7 +81,7 @@ const SubstanceAdd = async (req, res, next) => {
             });
 
             if (!substanceInstance) {
-                return next(new AppError('Substance could not be created, please try again', 400));
+                return next(new AppError('Method could not be created, please try again', 400));
             }
 
             await substanceInstance.save();
@@ -102,7 +102,7 @@ const SubstanceAdd = async (req, res, next) => {
 const SubstanceEdit=async(req,res,next)=>{
     res.status(200).json({
         success:true,
-        message:'Substance Data Edited Successfully',
+        message:'Method Data Edited Successfully',
         
     })
 }
@@ -112,7 +112,7 @@ const SubstanceDelete = async (req, res, next) => {
         const{methodID,Method,Unit,Limit}=req.body;
         const substance = await Substance.findById(methodID)
         if (!substance) {
-            return next(new AppError('Substance not found'))
+            return next(new AppError('Method not found'))
         }
         substance.MethodUnitList=substance.MethodUnitList.filter((item) => {
             return !(item?.Method===Method && item?.Unit===Unit && item?.Limit===Limit)
@@ -120,7 +120,7 @@ const SubstanceDelete = async (req, res, next) => {
         await substance.save();
         res.status(200).json({
             success: true,
-            message: 'Substance Deleted Successfully',
+            message: 'Method Deleted Successfully',
         })
     }
     catch (e) {

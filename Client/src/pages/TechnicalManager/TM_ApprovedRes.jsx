@@ -73,7 +73,8 @@ const TM_ApprovedRes = () => {
                 <th className="border border-gray-300 px-4 py-2 text-center">Sample Name</th>
                 <th className="border border-gray-300 px-4 py-2 text-center">Customer Code</th>
                 <th className="border border-gray-300 px-4 py-2 text-center">Due Date</th>   
-                <th className="border border-gray-300 px-4 py-2 text-center">Completion Date</th>              
+                <th className="border border-gray-300 px-4 py-2 text-center">Completion Date</th>
+                <th className="border border-gray-300 px-4 py-2 text-center">Analysts</th>            
                 <th className="border border-gray-300 px-4 py-2 text-center">Status</th>
                 <th className="border border-gray-300 px-4 py-2 text-center">Expand</th>
             </tr>
@@ -96,6 +97,29 @@ const TM_ApprovedRes = () => {
                       <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{filteredSample[0]?.Customer_Code}</td>
                       <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.Due_Date.split('T')[0]}</td>
                       <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{filteredSample[0]?.Completion_Date?.split('T')[0]}</td>
+                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">
+                        {
+                          item.AN_Status.map((analyst,i)=>{
+                            return(
+                              <div className='max-w-full'>
+                                {
+                                  i+1<item.AN_Status.length ?(
+                                  <span>
+                                    {analyst.Analyst.Name},
+                                  </span>
+
+                                  ):
+                                  (
+                                    <span>
+                                      {analyst.Analyst.Name}
+                                    </span>
+                                  )
+                                }
+                              </div>
+                            )
+                          })
+                        }
+                      </td>
                       <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.TM_Status}</td>
                       <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-900' onClick={()=>handleNavigation(filteredSample[0])}>View</button></td>
                     </tr>

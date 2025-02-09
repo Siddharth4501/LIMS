@@ -108,7 +108,7 @@ export const login = createAsyncThunk("auth/login", async (data) => {
     }
   })
 
-  export const DeleteUserRole=createAsyncThunk("UserRole/Delete",async(data)=>{
+  export const DeleteUserRole=createAsyncThunk("UserRole/Delete",async(data,{dispatch})=>{
     try {
       console.log(data,'fgh')
       let res=axios.post("http://localhost:5001/api/v1/user/role/delete",data,{
@@ -117,6 +117,7 @@ export const login = createAsyncThunk("auth/login", async (data) => {
   
       // getting response resolved here
       res = await res;//when promise is resolved it will give data
+      dispatch(getAllUserData());
       return res.data;
     } catch (error) {
       toast.error(error.response.data.message);
@@ -192,11 +193,11 @@ export const AdminRegister = createAsyncThunk("/Admin/auth/signup", async (data)
       withCredentials: true, // Include cookies
     })
     toast.promise(res, {
-      loading: "Wait! Creating your account",
+      loading: "Wait! Creating Admin Account",
       success: (data) => {
         return data?.data?.message;
       },
-      error: "Failed to create account",
+      error: "Failed to Create Account",
     });
 
     // getting response resolved here

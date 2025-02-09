@@ -196,7 +196,7 @@ const AddUser = () => {
         );
         }
         else{
-            toast.error("At least one Test Should Be Added");
+            toast.error("At least one Role Should Be Added");
         }
     };
 

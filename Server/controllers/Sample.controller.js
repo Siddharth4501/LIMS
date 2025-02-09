@@ -222,7 +222,7 @@ const TMANDataUpdate=async(req,res,next)=>{
             await TMANData.save();
             res.status(201).json({
                 success:true,
-                message:'TMAN Data Updated Successfully',
+                message:'TM/AN Data Updated Successfully',
             })
         }
         else if(TM_Status==='Approved By TM' && NABL_Page===false){
@@ -247,7 +247,7 @@ const TMANDataUpdate=async(req,res,next)=>{
             await TMANData.save();
             res.status(201).json({
                 success:true,
-                message:'TMAN Data Updated Successfully',
+                message:'TM/AN Data Updated Successfully',
             })
         }
         else if(TM_Status==='Rejected By TM'){

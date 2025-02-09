@@ -121,12 +121,12 @@ const UserData=async(req,res,next)=>{
     try{
         const users=await User.find({})
         if(!users){
-            return next(new AppError('Error fetching Sample Data',400))
+            return next(new AppError('Error fetching User Data',400))
         }
         
         res.status(201).json({
             success:true,
-            message:'All sample Registration Data Fetch Successfully',
+            message:'User Data Fetched Successfully',
             users,
         })
     }

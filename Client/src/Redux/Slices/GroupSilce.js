@@ -31,7 +31,7 @@ export const getGroupData = createAsyncThunk("group/data", async () => {
         success: (data) => {
           return data?.data?.message;
         },
-        error: "Failed to update data",
+        error: "Failed to update Group Data",
       });
       
       // getting response resolved here
@@ -55,7 +55,7 @@ export const getGroupData = createAsyncThunk("group/data", async () => {
         success: (data) => {
           return data?.data?.message;
         },
-        error: "Failed to delete data",
+        error: "Failed to Delete  Group Data",
       });
       
       // getting response resolved here
@@ -123,7 +123,7 @@ export const getGroupData = createAsyncThunk("group/data", async () => {
         success: (data) => {
           return data?.data?.message;
         },
-        error: "Failed to add Group",
+        error: "Failed to Add Group",
       });
       
       // getting response resolved here

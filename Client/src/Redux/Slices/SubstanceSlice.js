@@ -30,7 +30,7 @@ export const getSubstanceData = createAsyncThunk("substance/data", async () => {
         success: (data) => {
           return data?.data?.message;
         },
-        error: "Failed to send data",
+        error: "Failed to send Method Data",
       });
   
       // getting response resolved here
@@ -52,7 +52,7 @@ export const getSubstanceData = createAsyncThunk("substance/data", async () => {
           success: (data) => {
             return data?.data?.message;
           },
-          error: "Failed to delete data",
+          error: "Failed to delete Method Data",
         });
         
         // getting response resolved here

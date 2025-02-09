@@ -17,7 +17,7 @@ export const registerSample=createAsyncThunk("Sample/register",async(data)=>{
       success: (data) => {
         return data?.data?.message;
       },
-      error: "Failed to send data",
+      error: "Failed to Register Sample",
     });
 
     // getting response resolved here
@@ -54,7 +54,7 @@ export const getSampleData = createAsyncThunk("sample/data", async () => {
         success: (data) => {
           return data?.data?.message;
         },
-        error: "Failed to update data",
+        error: "Failed to update Sample Data",
       });
   
       // getting response resolved here
@@ -92,7 +92,7 @@ export const sendTMData=createAsyncThunk("TMUser/send",async(data)=>{
       success: (data) => {
         return data?.data?.message;
       },
-      error: "Failed to send data",
+      error: "Failed to Send TM/AN data",
     });
 
     // getting response resolved here
@@ -128,7 +128,7 @@ export const updateTMANData=createAsyncThunk("TMANuser/Update",async(data)=>{
       success: (data) => {
         return data?.data?.message;
       },
-      error: "Failed to update data",
+      error: "Failed to update TM/AN Data",
     });
 
     // getting response resolved here
@@ -150,7 +150,7 @@ export const updateTMANData=createAsyncThunk("TMANuser/Update",async(data)=>{
         success: (data) => {
           return data?.data?.message;
         },
-        error: "Failed to send data",
+        error: "Failed to Upload Analysis File",
       });
   
       // getting response resolved here
