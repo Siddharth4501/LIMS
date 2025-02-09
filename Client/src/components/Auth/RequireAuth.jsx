@@ -10,7 +10,7 @@ const RequireAuth = ({ allowedRoles }) => {
   return isLoggedIn &&  userData && userData?.Active_Status===true && allowedRoles.find((myRole) => userData.roles.some((role)=>role.designation===myRole)) ? (
     <Outlet />
     
-  ) : isLoggedIn &&  userData && userData?.Active_Status===true ? (
+  ) : isLoggedIn &&  userData && userData?.Active_Status===true ? userData.Admin===true ? <Navigate to={"/Admin/Home"}/> :  (
     <Navigate to={"/denied"} state={{ from: location }} replace />
   ) : (
     <Navigate to={"/login"} state={{ from: location }} replace />
