@@ -154,18 +154,18 @@ const UserTestReport = () => {
                 <div className="grid grid-cols-2 gap-4 mt-6">
                     <div>
                         <p>
-                            <span className="font-semibold">Report No:</span>
+                            <span className="font-semibold">Report No: </span>
                             {ReportNo ? ReportNo : ''}
                         </p>
                         <p>
-                            <span className="font-semibold">Issued To:</span> {state.Issued_To}
+                            <span className="font-semibold">Issued To: </span> {state.Issued_To}
 
                         </p>
                     </div>
                     <div>
                         <p>
-                            <span className="font-semibold">Report Issue Date:</span>
-                            25/11/2024
+                            <span className="font-semibold">Report Issue Date: </span>
+                            {state.Completion_Date.split('T')[0]}
                         </p>
                     </div>
                 </div>
