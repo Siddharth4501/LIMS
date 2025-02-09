@@ -58,7 +58,7 @@ const AllSamplesHistory = () => {
                       </tr>
                     </thead>
                     {
-                      samples?.filter((data) => data.Active === true)?.sort((a, b) => a.Name.localeCompare(b.Name))?.map((element, index) => {
+                      samples?.filter((data) => data.Active === true)?.sort((a, b) => new Date(b.Date).getTime() - new Date(a.Date).getTime())?.map((element, index) => {
                         return <Samples key={`${'All Sample History'}-${element._id}`} difference='All Sample History' data={element} index={index} />
                       })
                     }
@@ -81,7 +81,7 @@ const AllSamplesHistory = () => {
                       </tr>
                     </thead>
                     {
-                      filteredItems?.filter((data) => data.Active === true)?.sort((a, b) => a.Name.localeCompare(b.Name))?.map((element, index) => {
+                      filteredItems?.filter((data) => data.Active === true)?.sort((a, b) => new Date(b.Date).getTime() - new Date(a.Date).getTime())?.map((element, index) => {
                         return <Samples key={`${'All Sample History'}-${element._id}`} difference='All Sample History' data={element} index={index} />
                       })
                     }
