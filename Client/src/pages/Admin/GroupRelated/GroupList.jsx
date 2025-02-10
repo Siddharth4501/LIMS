@@ -27,8 +27,8 @@ const GroupList = () => {
     })();
   }, []);
   useEffect(() => {
-    setAllGroupDataState(groupData);
-  }, [groupData])
+    setAllGroupDataState([...groupData].sort((a, b) => a.Group_Name.localeCompare(b.Group_Name)));
+  }, [groupData]);
 
   const handleDelete = async (groupID) => {
     try {

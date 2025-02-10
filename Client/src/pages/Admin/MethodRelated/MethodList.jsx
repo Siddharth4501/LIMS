@@ -26,8 +26,8 @@ const MethodList = () => {
     })();
   }, []);
   useEffect(() => {
-    setAllSubstanceDataState(substanceData);
-  }, [substanceData])
+    setAllSubstanceDataState([...substanceData].sort((a, b) => a.Test.Test_Name.localeCompare(b.Test.Test_Name)));
+  }, [substanceData]);
 
   const handleDelete = async (methodID,Method,Unit,Limit) => {
     try {
