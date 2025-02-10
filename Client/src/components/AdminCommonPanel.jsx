@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Navigate, NavLink } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 const AdminCommonPanel = () => {
     const userData=JSON.parse(localStorage.getItem('userData'));
     const [openMenu, setOpenMenu] = useState("");
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
+    const navigate=useNavigate();
     const toggleMenu = (menu) => {
         setOpenMenu(openMenu === menu ? "" : menu);
     };
@@ -49,41 +49,27 @@ const AdminCommonPanel = () => {
                             </button>
                             {openMenu === "masterList" && (
                                 <div className="pl-6">
-                                    <p className="p-2 hover:bg-gray-300">
-                                        <NavLink to={"/Admin/Group/GroupList"}>
-                                            Group List
-                                        </NavLink>     
-                                    </p>
-                                    <p className="p-2 hover:bg-gray-300">
-                                        <NavLink to={"/Admin/Group/TypeOfTestingList"}>
-                                            Type Of Testing List
-                                        </NavLink>
-                                    </p>
-                                    <p className="p-2 hover:bg-gray-300">
-                                        <NavLink to={"/Admin/Group/TestsList"}>
-                                            Tests List
-                                        </NavLink>
-                                    </p>
-                                    <p className="p-2 hover:bg-gray-300">
-                                        <NavLink to={"/Admin/Substance/MethodList"}>
-                                            Method List
-                                        </NavLink>
-                                    </p>
-                                    <p className="p-2 hover:bg-gray-300">
-                                        <NavLink to={"/Admin/Error/ErrorList"}>
-                                            Error List
-                                        </NavLink>
-                                    </p>
-                                    <p className="p-2 hover:bg-gray-300">
-                                        <NavLink to={"/Admin/User/UserList"}>
-                                            User List
-                                        </NavLink>
-                                    </p>
-                                    <p className="p-2 hover:bg-gray-300">
-                                        <NavLink to={"/Admin/User/DeletedUserList"}>
-                                            Deleted User List
-                                        </NavLink>
-                                    </p>
+                                    <button className="p-2 hover:bg-gray-300 w-full text-start" onClick={()=>navigate('/Admin/Group/GroupList')}>
+                                        Group List
+                                    </button>
+                                    <button className="p-2 hover:bg-gray-300 w-full text-start" onClick={()=>navigate('/Admin/Group/TypeOfTestingList')}>
+                                        Type Of Testing List
+                                    </button>
+                                    <button className="p-2 hover:bg-gray-300 w-full text-start" onClick={()=>navigate('/Admin/Group/TestsList')}>
+                                        Tests List
+                                    </button>
+                                    <button className="p-2 hover:bg-gray-300 w-full text-start" onClick={()=>navigate('/Admin/Substance/MethodList')}>
+                                        Method List
+                                    </button>
+                                    <button className="p-2 hover:bg-gray-300 w-full text-start" onClick={()=>navigate('/Admin/Error/ErrorList')}>
+                                        Error List
+                                    </button>
+                                    <button className="p-2 hover:bg-gray-300 w-full text-start" onClick={()=>navigate('/Admin/User/UserList')}>
+                                        User List
+                                    </button>
+                                    <button className="p-2 hover:bg-gray-300 w-full text-start" onClick={()=>navigate('/Admin/User/DeletedUserList')}>
+                                        Deleted User List
+                                    </button>
                                 </div>
                             )}
                         </div>
@@ -97,16 +83,12 @@ const AdminCommonPanel = () => {
                             </button>
                             {openMenu === "sampleRegistration" && (
                                 <div className="pl-6">
-                                    <p className="p-2 hover:bg-gray-300">
-                                        <NavLink to={"/Admin/Sample/AllSampleHistory"}>
-                                            Registered Samples
-                                        </NavLink>
-                                    </p>
-                                    <p className="p-2 hover:bg-gray-300">
-                                        <NavLink to={"/Admin/Sample/DeletedSampleHistory"}>
-                                            Deleted Samples
-                                        </NavLink>
-                                    </p>
+                                    <button className="p-2 hover:bg-gray-300 w-full text-start" onClick={()=>navigate('/Admin/Sample/AllSampleHistory')}>
+                                        Registered Samples
+                                    </button>
+                                    <button className="p-2 hover:bg-gray-300 w-full text-start" onClick={()=>navigate('/Admin/Sample/DeletedSampleHistory')}>
+                                        Deleted Samples
+                                    </button>
                                 </div>
                             )}
                         </div>
@@ -120,21 +102,15 @@ const AdminCommonPanel = () => {
                             </button>
                             {openMenu === "administration" && (
                                 <div className="pl-6">
-                                    <p className="p-2 hover:bg-gray-300">
-                                        <NavLink to={"/Admin/Administration/Logo"}>
-                                            Logo
-                                        </NavLink>
-                                    </p>
-                                    <p className="p-2 hover:bg-gray-300">
-                                        <NavLink to={"/Admin/Administration/NameOfLab"}>
-                                            Name Of Lab
-                                        </NavLink>
-                                    </p>
-                                    <p className="p-2 hover:bg-gray-300">
-                                        <NavLink to={"/Admin/Administration/AdminProfile"}>
-                                            Self Profile
-                                        </NavLink>
-                                    </p>
+                                    <button className="p-2 hover:bg-gray-300 w-full text-start" onClick={()=>navigate('/Admin/Administration/Logo')}>
+                                        Logo
+                                    </button>
+                                    <button className="p-2 hover:bg-gray-300 w-full text-start" onClick={()=>navigate('/Admin/Administration/NameOfLab')}>
+                                        Name Of Lab
+                                    </button>
+                                    <button className="p-2 hover:bg-gray-300 w-full text-start" onClick={()=>navigate('/Admin/Administration/AdminProfile')}>
+                                        Self Profile
+                                    </button>
                                 </div>
                             )}
                         </div>
