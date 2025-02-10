@@ -6,12 +6,32 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllUserData } from '../Redux/Slices/AuthSlice';
 import { updateSample } from '../Redux/Slices/SampleSlice';
 import { getSubstanceData } from '../Redux/Slices/SubstanceSlice';
+import { getGroupData } from '../Redux/Slices/GroupSilce';
 
 const SampleViewMore = () => {
   const { state } = useLocation();
   const { substanceData } = useSelector((state) => state.substance);
+  const { groupData } = useSelector((state) => state.group);
   const [allSubstanceDataState, setAllSubstanceDataState] = useState([]);
   const [openDropdown, setOpenDropdown] = useState({});
+
+  const [groupID,setGroupID]=useState();
+  const [allGroupDataState, setAllGroupDataState] = useState([]);
+  useEffect(() => {
+      (async () => {
+        await dispatch(getGroupData());
+      })();
+    }, []);
+  useEffect(() => {
+    setAllGroupDataState(groupData);
+  }, [groupData])
+  useEffect(()=>{
+    const grpObj=allGroupDataState?.find((group)=>group.Group_Name===state.Group)
+    if(grpObj){
+      setGroupID(grpObj._id);
+    }
+  },[allGroupDataState])
+
 
   const toggleDropdown = (id, index) => {
     setOpenDropdown((prev) => ({
@@ -33,6 +53,18 @@ const SampleViewMore = () => {
       }
     }));
   };
+
+  const [openUnitDropdown, setOpenUnitDropdown] = useState({});
+  const toggleUnitDropdown = (id, index) => {
+    setOpenUnitDropdown((prev) => ({
+      ...prev,
+      [id]: {
+        ...prev[id], // Preserve existing indices
+        [index]: !prev[id]?.[index] // Toggle only the specific dropdown
+      }
+    }));
+  };
+
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -57,7 +89,6 @@ const SampleViewMore = () => {
   useEffect(() => {
     setAllSubstanceDataState(substanceData);
   }, [substanceData])
-  console.log(allUserData, "jkl", state.Group)
   const handleDueDate = (e) => {
     setDueDate(e.target.value);
   }
@@ -72,7 +103,6 @@ const SampleViewMore = () => {
     });//make Test as an obj whith unique id
     setRowData(initialRowData);
   }, [state.Tests, state.Type_Of_Testing]);
-  console.log(rowData, "ddef")
 
   const [sections, setSections] = useState([{ id: 0, testType: '' }]);
   const [selectedTestTypes, setSelectedTestTypes] = useState([]);
@@ -110,7 +140,6 @@ const SampleViewMore = () => {
   // Updates row data for tests
   const updateRowData = (testType, index, field, value, ID) => {
     if (ID) {
-      console.log(testType, index, field, value, "svg", rowData, ID);
       const updatedRowData = { ...rowData };
       const obj = {
         "Name": value,
@@ -121,7 +150,6 @@ const SampleViewMore = () => {
     }
     else {
 
-      console.log(testType, index, field, value, "svg1", rowData);
       const updatedRowData = { ...rowData };
       updatedRowData[testType].Tests[index][field] = value;
       setRowData(updatedRowData);
@@ -133,7 +161,6 @@ const SampleViewMore = () => {
     "Name": '',
     "ID": ''
   }); // Track Analyst for "Apply to All"
-  const [applyToAllMethod, setApplyToAllMethod] = useState('')//Track Method for apply to All
 
   const handleApplyToAllAnalyst = (analyst, testType) => {
     // Updates all rows with the selected Analyst value
@@ -233,7 +260,6 @@ const SampleViewMore = () => {
       "Sample_Id": state._id,
       "TM_Status": "Pending At Analyst",
     }
-    console.log("allotmentData", allotmentData);
     const res = await dispatch(sendTMData(allotmentData));
     if (res?.payload?.success) {
       const ID = state._id
@@ -252,7 +278,6 @@ const SampleViewMore = () => {
       toast.error("Please fill all the fields");
     }
   }
-  console.log("dhoku", rowData);
   return (
     <div>
       <div className="mt-3 mb-2 border-2 border-md border-blue-600 bg-zinc-100 py-2 px-4 w-3/5 mx-auto rounded-md">
@@ -316,7 +341,6 @@ const SampleViewMore = () => {
                           onChange={(e) => {
                             const selectedOption = e.target.options[e.target.selectedIndex];
                             const selectedId = selectedOption.id;
-                            { console.log(selectedId, "igh") }
                             updateRowData(section.testType, index, 'Analyst', e.target.value, selectedId);
                             setApplyToAllAnalyst(() => ({
                               "Name": e.target.value,
@@ -372,13 +396,17 @@ const SampleViewMore = () => {
                               </li>
 
                               {(() => {
+                                const allMethods1 = allSubstanceDataState
+                                ?.filter((subs)=>subs.GroupID===groupID)
+                                ?.filter((substance) => substance.Test.TestID === allGroupDataState?.find((group)=>group.Group_Name===state.Group).Tests.find((test)=>test.Test === substance?.Test.Test_Name)._id) // Filter first
                                 const allMethods = allSubstanceDataState
+                                  ?.filter((subs)=>subs.GroupID===groupID)
                                   ?.filter((substance) => substance.Test.Test_Name === item.Test) // Filter first
                                   ?.flatMap((substance) => substance.MethodUnitList?.flatMap((met) => met.Method) || []);
-
                                 // Ensures uniqueness
                                 const uniqueMethods = [...new Set(allMethods)];
-
+                                console.log(allMethods1);
+                                console.log(allMethods);
                                 return uniqueMethods.map((ele, ele_idx) => (
                                   <li
                                     key={`${ele}-${ele_idx}`}
@@ -410,40 +438,43 @@ const SampleViewMore = () => {
                         <div className="relative">
                           <button
                             className="bg-white p-2 border border-gray-300 rounded-lg text-gray-700 w-full text-left"
-                            onClick={() => toggleDropdown(section.id, index)} // Toggle dropdown visibility
+                            onClick={() => toggleUnitDropdown(section.id, index)} // Toggle dropdown visibility
                           >
                             {rowData[section.testType].Tests[index]?.Unit || "Select Unit"}
                           </button>
                           {/* Dropdown options */}
-                          {openDropdown[section.id]?.[index] && (
+                          {openUnitDropdown[section.id]?.[index] && (
                             <ul className="absolute z-10 bg-white border border-gray-300 rounded-lg w-full shadow-lg max-h-48 overflow-y-auto">
                               <li
                                 className="p-2 hover:bg-gray-100 cursor-pointer"
                                 onClick={() => {
                                   updateRowData(section.testType, index, "Unit", "");
-                                  // setApplyToAllUnit("");
-                                  setOpenDropdown((prev) => !prev);
+                                  setOpenUnitDropdown((prev) => !prev);
                                 }}
                               >
                                 Unit
                               </li>
-
-                              {allSubstanceDataState?.flatMap((substance) => {
-                                if (substance.Test.Test_Name !== item.Test) return [];
-                                return substance.MethodUnitList?.map((ele, ele_idx) => (
+                              {(() => {
+                                const allUnits = allSubstanceDataState
+                                  ?.filter((subs)=>subs.GroupID===groupID)
+                                  ?.filter((substance) => substance.Test.Test_Name === item.Test) // Filter first
+                                  ?.flatMap((substance) => substance.MethodUnitList?.flatMap((met) => met.Unit) || []);
+                                // Ensures uniqueness
+                                const uniqueUnits = [...new Set(allUnits)];
+                                return uniqueUnits.map((ele, ele_idx) => (
                                   <li
-                                    key={`${ele.Unit}-${ele_idx}`}
+                                    key={`${ele}-${ele_idx}`}
                                     className="p-2 hover:bg-gray-100 cursor-pointer"
                                     onClick={() => {
-                                      updateRowData(section.testType, index, "Unit", ele.Unit);
-                                      // setApplyToAllUnit(ele.Unit);
-                                      setOpenDropdown((prev) => !prev);
+                                      updateRowData(section.testType, index, "Unit", ele);
+                                      setOpenUnitDropdown((prev) => !prev);
                                     }}
                                   >
-                                    {ele.Unit}
+                                    {ele}
                                   </li>
                                 ));
-                              })}
+                              })()}
+                              
                             </ul>
                           )}
                         </div>
