@@ -207,12 +207,12 @@ const SampleViewMore = () => {
     }
   };
   const handleApplyToAllMethodBtn = (isChecked, testType, testIndex) => {
-    if (isChecked && testType && testIndex) {
+    if (isChecked && testType && testIndex>=0) {
       handleApplyToAllMethod(rowData[testType].Tests[testIndex]?.Method, testType);
     }
   }
   const handleApplyToAllUnitBtn = (isChecked, testType, testIndex) => {
-    if (isChecked && testType && testIndex) {
+    if (isChecked && testType && testIndex>=0) {
       handleApplyToAllUnit(rowData[testType].Tests[testIndex]?.Unit, testType);
     }
   }
@@ -325,7 +325,7 @@ const SampleViewMore = () => {
                       key={index}
                       className="grid grid-cols-5 gap-4 mb-4 p-3 border border-gray-200 rounded-lg shadow-sm bg-gray-100"
                     >
-                      <div className="font-bold rounded-md p-2">{index + 1}</div>
+                      <div className="font-bold rounded-md px-2 pt-6">{index + 1}.</div>
                       <div className="flex items-center border-l-2 pl-2">
                         <span>{item.Test}</span>
                       </div>
@@ -337,7 +337,7 @@ const SampleViewMore = () => {
                           Apply to All
                         </button>
                         <select
-                          className="bg-white p-2 border border-gray-300 rounded-lg text-gray-700 w-full mt-2"
+                          className="bg-white p-2 border border-gray-300 rounded-lg text-gray-700 w-full mt-1"
                           onChange={(e) => {
                             const selectedOption = e.target.options[e.target.selectedIndex];
                             const selectedId = selectedOption.id;
@@ -396,17 +396,16 @@ const SampleViewMore = () => {
                               </li>
 
                               {(() => {
-                                const allMethods1 = allSubstanceDataState
-                                ?.filter((subs)=>subs.GroupID===groupID)
-                                ?.filter((substance) => substance.Test.TestID === allGroupDataState?.find((group)=>group.Group_Name===state.Group).Tests.find((test)=>test.Test === substance?.Test.Test_Name)._id) // Filter first
                                 const allMethods = allSubstanceDataState
                                   ?.filter((subs)=>subs.GroupID===groupID)
-                                  ?.filter((substance) => substance.Test.Test_Name === item.Test) // Filter first
+                                  ?.filter((substance) => {
+                                    const group = allGroupDataState?.find((group) => group.Group_Name === state.Group);
+                                    const matchedTestID = group?.Tests.find((test) => test.Test === item.Test)?._id;
+                                    return substance?.Test.TestID === matchedTestID;
+                                  }) // Filter first
                                   ?.flatMap((substance) => substance.MethodUnitList?.flatMap((met) => met.Method) || []);
                                 // Ensures uniqueness
                                 const uniqueMethods = [...new Set(allMethods)];
-                                console.log(allMethods1);
-                                console.log(allMethods);
                                 return uniqueMethods.map((ele, ele_idx) => (
                                   <li
                                     key={`${ele}-${ele_idx}`}
@@ -457,7 +456,11 @@ const SampleViewMore = () => {
                               {(() => {
                                 const allUnits = allSubstanceDataState
                                   ?.filter((subs)=>subs.GroupID===groupID)
-                                  ?.filter((substance) => substance.Test.Test_Name === item.Test) // Filter first
+                                  ?.filter((substance) => {
+                                    const group = allGroupDataState?.find((group) => group.Group_Name === state.Group);
+                                    const matchedTestID = group?.Tests.find((test) => test.Test === item.Test)?._id;
+                                    return substance?.Test.TestID === matchedTestID;
+                                  }) // Filter first
                                   ?.flatMap((substance) => substance.MethodUnitList?.flatMap((met) => met.Unit) || []);
                                 // Ensures uniqueness
                                 const uniqueUnits = [...new Set(allUnits)];
