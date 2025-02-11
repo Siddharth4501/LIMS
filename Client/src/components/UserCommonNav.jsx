@@ -57,7 +57,7 @@ const UserCommonNav = ({assignedRole}) => {
             <img src={logoDataState.length>0?`http://localhost:5001${logoDataState[0]?.imageUrl}`:''} alt="Logo"
                 className="h-20 w-22 object-contain mr-8 ml-4 rounded-full"
             />
-            <span className="text-lg text-gray-200 font-bold">Name of Lab : {LabNameDataState.length>0?LabNameDataState[0].Lab_Name:'DIBT'} </span>
+            <span className="text-lg text-gray-200 font-bold">{LabNameDataState.length>0?LabNameDataState[0].Lab_Name:'DIBT'} </span>
         </div>
         {
             assignedRole ? <div className='text-gray-200 text-2xl w-1/3 font-bold pr-6'><span className='flex justify-end'>{`${assignedRole} Section`}</span></div> : <span></span>
