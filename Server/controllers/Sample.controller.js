@@ -6,7 +6,7 @@ const SampleRegister=async(req,res,next)=>{
     try{
         const {Name,Quantity,Storage_Conditions,Customer_Code,Packing_Type,Date,Mfg_Date,Treatment_Type,Nature_Of_Sample,Issued_To,Remarks,Group,Type_Of_Testing,Tests,ID}=req.body;
         
-        if(!Name || !Quantity || !Storage_Conditions || !Customer_Code || !Packing_Type || !Date || !Mfg_Date || !Nature_Of_Sample || !Issued_To || !Remarks || !Group || Type_Of_Testing.length==0 || Tests.length==0 ||  !ID){
+        if(!Name || !Quantity || !Storage_Conditions || !Customer_Code || !Packing_Type || !Date || !Nature_Of_Sample || !Issued_To || !Remarks || !Group || Type_Of_Testing.length===0 || Tests.length===0 ||  !ID){
             return next(new AppError('All fields are required',400))
         }
         const registrationNumber = await Sample.generateRegistrationNumber();

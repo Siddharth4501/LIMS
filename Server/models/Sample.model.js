@@ -41,7 +41,6 @@ const sampleSchema=new Schema(
         },
         Mfg_Date:{
             type:Date,
-            required:[true,'Manufacturing Date is required'],
         },
         Treatment_Type:{
             type:String,
