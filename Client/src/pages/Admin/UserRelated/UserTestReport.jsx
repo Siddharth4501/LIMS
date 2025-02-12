@@ -89,14 +89,13 @@ const UserTestReport = () => {
     useEffect(() => {
         if (state.difference === 'NABL Report') {
             const generateULRNumber = () => {
-                let ULRNum = `TC`;
-                const RegistrationNo = String(parseInt(state.Registration_Number.split('/')[2], 10)).padStart(6, '0');
+                let ULRNum = `TC11645`;
                 const date = new Date();
                 const year = date.getFullYear();
                 const lastTwoDigits = (year % 100);
                 const GroupLocationNumber = String(allGroupDataState?.find(group => group.Group_Name === state.Group)?.Group_Location_Number);
                 const RunningNumber = String(parseInt(state.Registration_Number.split('/')[2], 10)).padStart(8, '0')
-                ULRNum += RegistrationNo + lastTwoDigits + GroupLocationNumber + RunningNumber + 'F'
+                ULRNum += lastTwoDigits + GroupLocationNumber + RunningNumber + 'F'
                 setUlrNumber(ULRNum);
             }
             generateULRNumber();
@@ -117,18 +116,7 @@ const UserTestReport = () => {
                         alt="Logo"
                         className="w-24 h-22"
                     />
-                    {
-                        state.difference === 'NABL Report' ? (
-                            <img
-                                src="/src/assets/images/NABL LOGO.png"
-                                alt="Logo"
-                                className="w-24 h-22 ml-5"
-                            />
-                        ) :
-                            (
-                                ''
-                            )
-                    }
+                    
                     {/* Title */}
                     <div className="text-center flex-1">
                         <h1 className="text-xl font-bold uppercase">
@@ -141,6 +129,18 @@ const UserTestReport = () => {
                         </p>
                         <h2 className="text-lg font-bold mt-2">Test Report</h2>
                     </div>
+                    {
+                        state.difference === 'NABL Report' ? (
+                            <img
+                                src="/src/assets/images/NABL-LOGO.png"
+                                alt="Logo"
+                                className="w-24 h-22 mr-5"
+                            />
+                        ) :
+                            (
+                                ''
+                            )
+                    }
                 </div>
                 {
                     state.difference === 'NABL Report' ? (
@@ -187,7 +187,7 @@ const UserTestReport = () => {
                         </tr>
                         <tr>
                             <td className="border border-black p-2 font-semibold">Mfg. Date:</td>
-                            <td className="border border-black p-2">{state.Mfg_Date.split('T')[0]}</td>
+                            <td className="border border-black p-2">{state.Mfg_Date ?state.Mfg_Date.split('T')[0] : 'N/A'}</td>
                             <td className="border border-black p-2 font-semibold">Sample Drawn By:</td>
                             <td className="border border-black p-2">{filteredUser ? filteredUser.fullName : ''}</td>
                         </tr>
@@ -325,7 +325,7 @@ const UserTestReport = () => {
                     }
 
                     {/* Verified By Section */}
-                    <div className="flex justify-end mt-6">
+                    <div className="flex justify-end mt-24">
                         <div className="text-center">
                             <p className="font-semibold">Verified By</p>
                             <p>(Dr. G.Phani Kumar,Sc.F)</p>
