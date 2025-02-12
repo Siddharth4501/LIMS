@@ -169,6 +169,22 @@ const AddMethod = () => {
   };
 console.log("nop",testSection);
 
+const applyToAllMethod = (testIndex, methodIndex) => {
+  setTestSection((prev) => {
+    const { Method, Unit, Limit } = prev[testIndex].methodSection[methodIndex]; // Get values to apply
+
+    return prev.map((test) => ({
+      ...test,
+      methodSection: test.methodSection.map((method, j) =>
+        j === methodIndex
+          ? { ...method, Method, Unit, Limit } // Apply values to matching method index
+          : method
+      ),
+    }));
+  });
+};
+
+
 const handleSubmit=async()=>{
     if(!selectedGroup || !selectedGroupID){
         toast.error("Choose A Group");
@@ -228,6 +244,7 @@ const handleSubmit=async()=>{
         toast.error(error?.message || "An error occurred.");
     }
 }
+console.log("testSection",testSection)
   return (
     <div className="min-h-screen w-screen bg-[url('/src/assets/images/DRDODIBT-BACK.png')] bg-cover bg-center bg-fixed">
       <AdminCommomNav/>
@@ -359,6 +376,13 @@ const handleSubmit=async()=>{
                             className="w-full border-2 border-blue-700 p-2 border"
                             />
                         </div>
+                        
+                        <button
+                            className="bg-blue-600 text-white text-sm px-4 py-1 rounded"
+                            onClick={() => applyToAllMethod(testIndex, methodIndex)}
+                        >
+                            Apply To All
+                        </button>
                         <button
                             className="bg-red-500 text-white px-4 py-1 rounded"
                             onClick={() => removeMethod(testIndex, methodIndex)}
@@ -384,7 +408,7 @@ const handleSubmit=async()=>{
                       </div>
                     </div>
                 ))}
-
+                
                 <button
                     className="bg-blue-500 text-white px-4 py-2 rounded"
                     onClick={addTestSection}
