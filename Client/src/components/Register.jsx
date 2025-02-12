@@ -116,7 +116,7 @@ const Register = () => {
 
     console.log(Tests, "sor1")
     console.log(Name, Quantity, Storage_Condititons, Customer_Code, Packing_Type, Date,Mfg_Date, Treatment_Type,Nature_Of_Sample, Remarks, Issued_To,Group, selectedAnalysis, selectedTests, "jjj")
-    if(!Name || !Quantity || !Storage_Condititons || !Customer_Code || !Packing_Type || !Date || !Mfg_Date || !Nature_Of_Sample || !Issued_To || !Remarks || !Group || !Type_Of_Testing.length || !Tests.length){
+    if(!Name || !Quantity || !Storage_Condititons || !Customer_Code || !Packing_Type || !Date || !Nature_Of_Sample || !Issued_To || !Remarks || !Group || !Type_Of_Testing.length || !Tests.length){
       toast.error("All fields are necessary");
       return
     }
@@ -376,12 +376,11 @@ const Register = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold mb-2">Manufacturing Date<span className="text-red-500">*</span></label>
+            <label className="block text-sm font-semibold mb-2">Manufacturing Date</label>
             <input
               type="date"
               name="Mfg_Date"
               className="w-full border-2 border-blue-600 rounded-md p-2 outline-0"
-              required
               placeholder="Enter Manufacturing Date..."
             />
           </div>
