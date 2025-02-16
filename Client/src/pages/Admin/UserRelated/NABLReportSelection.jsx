@@ -10,6 +10,7 @@ const NABLReportSelection = () => {
     const dispatch=useDispatch();
     const {state}=useLocation();
     const [found,setFound]=useState()
+    const [selectAllTestsState,setSelectAllTestState]=useState(false);
     useEffect(() => {
           (async () => {
           await dispatch(getTMANData());
@@ -28,6 +29,19 @@ const NABLReportSelection = () => {
     }, [TmAnData,TmAnDataState,found]);
     console.log("first",found)
     console.log(substances,"opin");
+    useEffect(() => {
+        if (!substances || Object.keys(substances).length === 0) {
+            setSelectAllTestState(false);
+            return;
+        }
+    
+        const allTestsSelected = Object.values(substances).every((substance) =>
+            substance.Tests?.every((test) => test.NABL === true)
+        );
+    
+        setSelectAllTestState(allTestsSelected);
+    }, [substances]);
+    
     const handleNABLChange=(e,typeOfTesting,testID)=>{
         const isChecked= e.target.checked;
         setSubstance((prevState) => ({
@@ -42,7 +56,24 @@ const NABLReportSelection = () => {
             } 
         }));
     }
-    
+    const handleSelectAllTests=(e)=>{
+        const isChecked= e.target.checked;
+        setSubstance((prevState) => {
+            const updatedState = Object.keys(prevState).reduce((acc, key) => {
+                acc[key] = {
+                    ...prevState[key],
+                    Tests: prevState[key].Tests.map((item) => ({
+                        ...item,
+                        NABL: isChecked, // Updating NABL immutably
+                    })),
+                };
+                return acc;
+            }, {});
+        
+            return updatedState;
+        });
+        
+    }
 
     const handleNABLDataSubmit=async()=>{
         let flag=false;
@@ -78,12 +109,19 @@ const NABLReportSelection = () => {
   return (
     <div className='bg-gray-100 min-h-screen'>
         <br /><br /><br />
-        <div className='w-3/4 min-h-96 flex justify-center bg-white m-auto border-2 border-slate-600'>
+        <div className='w-3/4 flex justify-center bg-white m-auto border-2 border-slate-600'>
             <div className='w-full p-2'>
                 {
                     found?(
                         <div className='w-full' >
-                            <div className={Object.keys(substances).length>1 ? 'w-full max-h-[600px] overflow-y-auto':'w-full'}>
+                            <div className={Object.keys(substances).length>0 ? 'w-full max-h-[600px] overflow-y-auto':'w-full'}>
+                                <div className='w-full'>
+                                    <div className='float-right'>
+                                        <label htmlFor="SelectAllCheckBoxName" className='p-1 font-semibold'>Select All:</label>
+                                        <input type="checkbox" name="SelectAllCheckBoxName" id="SelectAllCheckBoxID" className=' h-4 w-4' checked={selectAllTestsState} onChange={(e)=>handleSelectAllTests(e)} />
+                                    </div>
+                                </div>
+                                <br />
                                 {
                                     Object.keys(substances)?.map((key,i)=>{
                                         return(
