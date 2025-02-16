@@ -9,12 +9,12 @@ const FullHistory = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { state } = useLocation();//gets value througn data passes from previous component as second parameter of navigate hook
-  const [testData, setTestData] = useState([])
+  const [testData, setTestData] = useState([]);
   const [allUserDataState, setAllUserDataState] = useState([]);
   const [registrationUser, setRegistrationUser] = useState('');
   const [TmAnDataState, setTmAnDataState] = useState([]);
   const [foundTMANData, setFoundTMANData] = useState();
-  console.log(state);
+
   useEffect(() => {
     (async () => {
       await dispatch(getTMANData());
@@ -28,11 +28,13 @@ const FullHistory = () => {
     const foundObj = TmAnDataState?.find((data) => data.Sample_Alloted === state._id);
     setFoundTMANData(foundObj);
   }, [TmAnDataState])
+
   useEffect(() => {
     (async () => {
       await dispatch(getAllUserData());
     })();
   }, []);
+
   useEffect(() => {
     setAllUserDataState(allUserData);
   }, [allUserData])
@@ -99,7 +101,6 @@ const FullHistory = () => {
       toast.error("File Not Uploaded by Analyst Yet");
     }
   };
-  console.log(foundTMANData, "dqeq")
   return (
     <div className="space-y-6 max-w-full mx-auto p-6">
       <div className="font-bold text-2xl text-center">Complete Sample Information</div>
@@ -172,7 +173,7 @@ const FullHistory = () => {
             type="text"
             name="Mfg_Date"
             className="w-full border-2 border-blue-600 rounded-md p-2 bg-white"
-            defaultValue={state.Mfg_Date ? state.Mfg_Date.split('T')[0] : ''}
+            defaultValue={state.Mfg_Date ? state.Mfg_Date.split('T')[0] : 'NA'}
             disabled={true}
           />
         </div>
@@ -215,7 +216,7 @@ const FullHistory = () => {
             type="text"
             name="Treatment_Type"
             className="w-full border-2 border-blue-600 rounded-md p-2 bg-white"
-            defaultValue={state.Treatment_Type ? state.Treatment_Type : ''}
+            defaultValue={state.Treatment_Type ? state.Treatment_Type : 'NA'}
             disabled={true}
           />
         </div>
@@ -236,7 +237,7 @@ const FullHistory = () => {
         <label className="block text-sm font-semibold mb-2">Group</label>
         <select
           name="Group"
-          className="w-full border-2 border-blue-600 rounded-md p-2 bg-white"
+          className="w-full border-2 border-blue-600 rounded-md p-2 bg-white outline-0"
         >
           <option value={state.Group}>{state.Group}</option>
         </select>
@@ -261,31 +262,77 @@ const FullHistory = () => {
           }
         </div>
       </div>
-      <div className="">
-        <h2 className="text-sm font-semibold mb-2">Tests</h2>
-        <div className={`${state.Tests.length > 4
-          ? "max-h-64 overflow-y-auto border-2 border-blue-600"
-          : "border-2 border-blue-600"
-          }`}>
+      {
+        state.difference === 'ParticularUser Sample History' ? (
+          <div className="">
+            <h2 className="text-sm font-semibold mb-2">Tests</h2>
+            <div className={`${state.Tests.length > 4
+              ? "max-h-96 overflow-y-auto border-2 border-blue-600"
+              : "border-2 border-blue-600"
+              }`}>
 
-          {
-            testData.map((item, index) => {
-              return (
-                <div key={index} className='flex flex-col pl-2 bg-white'>
-                  <div className='font-semibold'>{item.Type_Of_Testing}</div>
-                  {
-                    item.Tests.map((data, i) => {
-                      return <div key={i}>{i + 1}.{data}</div>
-                    })
-                  }
+              {
+                testData.map((item, index) => {
+                  return (
+                    <div key={index} className='flex flex-col pl-2 bg-white'>
+                      <div className='font-semibold'>{item.Type_Of_Testing}</div>
+                      {
+                        item.Tests.map((data, i) => {
+                          return <div key={i}>{i + 1}.{data}</div>
+                        })
+                      }
 
+                    </div>
+                  )
+                })
+              }
+            </div>
+
+          </div>
+
+        )
+        :
+        (
+          <div>
+            {
+              foundTMANData ? (
+                <div className="mt-12">
+                  <h2 className="text-sm font-semibold mb-2">Tests</h2>
+                  <div
+                    className={`${state.Tests.length > 0
+                      ? "max-h-96 overflow-y-auto border-2 border-blue-600"
+                      : "border-2 border-blue-600"
+                      }`}
+                  >
+                    <table className="w-full border-collapse border border-gray-300">
+                      <thead>
+                        <tr className="bg-white">
+                          <th className="border border-gray-300 px-4 py-2 text-left bg-gray-200">Type of Testing</th>
+                          <th className="border border-gray-300 px-4 py-2 text-left bg-gray-200">Test Name</th>
+                          <th className="border border-gray-300 px-4 py-2 text-left bg-gray-200">Result</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {Object.keys(foundTMANData.Substances_To_Be_Analysed).map((key) => (
+                          foundTMANData.Substances_To_Be_Analysed[key].Tests.map((ele, ele_idx) => (
+                            <tr key={`TestShow-${ele.Test.TestID}-${ele_idx}`} className="bg-white">
+                              <td className="border border-gray-300 px-4 py-2 font-semibold">{key}</td>
+                              <td className="border border-gray-300 px-4 py-2">{ele.Test.Test_Name}</td>
+                              <td className="border border-gray-300 px-4 py-2">{ele.Result}</td>
+                            </tr>
+                          ))
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
+              ) : (
+                <span></span>
               )
-            })
-          }
-        </div>
-
-      </div>
+            }
+          </div>
+        )
+      }
       <div>
         <label className="block text-sm font-semibold mb-2">Remarks</label>
         <input
@@ -317,48 +364,10 @@ const FullHistory = () => {
             (
               <span></span>
             )
-        }
-        {
-          foundTMANData ? (
-            <div className="mt-12">
-              <h2 className="text-sm font-semibold mb-2">Tests</h2>
-              <div
-                className={`${state.Tests.length > 0
-                  ? "max-h-64 overflow-y-auto border-2 border-blue-600"
-                  : "border-2 border-blue-600"
-                  }`}
-              >
-                <table className="w-full border-collapse border border-gray-300">
-                  <thead>
-                    <tr className="bg-gray-200">
-                      <th className="border border-gray-300 px-4 py-2 text-left">Type of Test</th>
-                      <th className="border border-gray-300 px-4 py-2 text-left">Test Name</th>
-                      <th className="border border-gray-300 px-4 py-2 text-left">Result</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {Object.keys(foundTMANData.Substances_To_Be_Analysed).map((key, fd_idx) => (
-                      foundTMANData.Substances_To_Be_Analysed[key].Tests.map((ele, ele_idx) => (
-                        <tr key={`TestShow-${ele.Test.TestID}-${ele_idx}`} className="bg-white">
-                          <td className="border border-gray-300 px-4 py-2 font-semibold">{key}</td>
-                          <td className="border border-gray-300 px-4 py-2">{ele.Test.Test_Name}</td>
-                          <td className="border border-gray-300 px-4 py-2">{ele.Result}</td>
-                        </tr>
-                      ))
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          ) : (
-            <span></span>
-          )
-        }
+        }   
       </div>
     </div>
   );
 };
-
-
 
 export default FullHistory
