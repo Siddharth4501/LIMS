@@ -187,7 +187,7 @@ const UserTestReport = () => {
                         </tr>
                         <tr>
                             <td className="border border-black p-2 font-semibold">Mfg. Date:</td>
-                            <td className="border border-black p-2">{state.Mfg_Date ?state.Mfg_Date.split('T')[0] : 'N/A'}</td>
+                            <td className="border border-black p-2">{state.Mfg_Date ?state.Mfg_Date.split('T')[0] : 'NA'}</td>
                             <td className="border border-black p-2 font-semibold">Sample Drawn By:</td>
                             <td className="border border-black p-2">{filteredUser ? filteredUser.fullName : ''}</td>
                         </tr>
