@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { deleteGroupData, deleteTypeOfTesting, getGroupData } from '../../../Redux/Slices/GroupSilce';
+import { deleteTypeOfTesting, getGroupData } from '../../../Redux/Slices/GroupSilce';
 import { BsTrash } from "react-icons/bs";
 import toast from 'react-hot-toast';
 import AdminCommomNav from '../../../components/AdminCommomNav';
@@ -14,13 +14,31 @@ const TypeOfTestingList = () => {
   const [allGroupDataState, setAllGroupDataState] = useState([]);
   const [query, setQuery] = useState('');
   const [filteredItems, setFilteredItems] = useState([]);
-  // const [indexs,setIndexs]=useState(0)
+  const [flattenedTypeOfTestings, setFlattenedTypeOfTestings] = useState([]);
+
+  // Pagination state
+  const [totalPagesState,setTotalPagesState]=useState();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5); // Number of items per page
+
+  // Handle page change
+  const handlePageChange = (page) => {
+      setCurrentPage(page);
+  };
+  
+  // Filter tests based on search query
   useEffect(() => {
-    const filtered = allGroupDataState?.filter(item =>
-      item.Type_Of_Testing.some(data => data.toLowerCase().includes(query.toLowerCase()))
-    );
-    setFilteredItems(filtered);
-  }, [query,allGroupDataState]);
+      if (query.trim() === '') {
+          setFilteredItems(flattenedTypeOfTestings);
+      } else {
+          const filtered = flattenedTypeOfTestings.filter(tot => 
+              tot.typeOfTest.toLowerCase().includes(query.toLowerCase())
+          );
+          setFilteredItems(filtered);
+      }
+      setCurrentPage(1);
+  }, [query, flattenedTypeOfTestings]);
+
   useEffect(() => {
     (async () => {
       await dispatch(getGroupData());
@@ -30,9 +48,44 @@ const TypeOfTestingList = () => {
     setAllGroupDataState([...groupData].sort((a, b) => a.Group_Name.localeCompare(b.Group_Name)));
   }, [groupData]);
 
+  // Flatten all tests from groups
+  useEffect(() => {
+      const allTypeOfTesting = allGroupDataState?.flatMap(group => 
+          group.Type_Of_Testing.map(data => ({
+              typeOfTest:data,
+              groupID: group._id,
+              groupName: group.Group_Name
+          }))
+      );
+      setFlattenedTypeOfTestings(allTypeOfTesting);
+  }, [allGroupDataState]);
+
+  const [currentDataState,setCurrentDataState]=useState()
+  // Calculate current page data
+  useEffect(()=>{
+  if(filteredItems.length>0 && query !==''){
+      const totalPages = Math.ceil(filteredItems?.length / itemsPerPage);
+      setTotalPagesState(totalPages);
+  }
+  else{
+      const totalPages = Math.ceil(filteredItems?.length / itemsPerPage);
+      setTotalPagesState(totalPages);
+  }
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  if(filteredItems.length>0 && query !==''){
+      const currentData = filteredItems?.slice(startIndex, endIndex);
+      setCurrentDataState(currentData);
+  }
+  else{
+      const currentData = filteredItems?.slice(startIndex, endIndex);
+      setCurrentDataState(currentData);
+  }
+  
+  },[filteredItems,allGroupDataState,itemsPerPage,currentPage,totalPagesState]);
+
   const handleDelete = async (groupID,TypeOfTesting) => {
     try {
-      console.log(groupID,TypeOfTesting, "judju")
       const data = {
         "groupID": groupID,
         "Type_Of_Testing":TypeOfTesting
@@ -68,6 +121,7 @@ const TypeOfTestingList = () => {
             (
               <div>
                 <br /><br />
+                <span><b>Note1:</b>Search on the basis of Type Of Testing</span>
                 {
                   filteredItems.length === 0 ? query === '' ? (
                     <div>
@@ -78,30 +132,24 @@ const TypeOfTestingList = () => {
                             <th className="border border-gray-300 px-4 py-2 text-center">Type Of Testing</th>
                             <th className="border border-gray-300 px-4 py-2 text-center">Group ID</th>
                             <th className="border border-gray-300 px-4 py-2 text-center">Group</th>
-                            {/* <th className="border border-gray-300 px-4 py-2 text-center">Roles</th>
-                                <th className="border border-gray-300 px-4 py-2 text-center">Expand</th> */}
                             <th className="border border-gray-300 px-4 py-2 text-center">Delete</th>
                           </tr>
                         </thead>
                         <tbody>
                           {
       
-                            allGroupDataState.map((item, index) => {
+                            currentDataState?.map((data, index) => {
+                              const currentIndex = indexsCounter++;
                               return (
-                                item.Type_Of_Testing.map((data, i) => {
-                                  const currentIndex = indexsCounter++;
-                                  return (
-                                    <tr className="hover:bg-gray-100" key={`${data}-${i}`} >
-                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{currentIndex}</td>
-                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{data}</td>
-                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item._id}</td>
-                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.Group_Name}</td>
-                                      {/* <td className="border border-gray-300 px-4 py-2 text-center">{designation.toString()}</td>
-                                                      <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td> */}
-                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id,data)}><BsTrash /></button></td>
-                                    </tr>
-                                  )
-                                }))
+                                <tr className="hover:bg-gray-100" key={`${data.typeOfTest}-${data.groupID}-${index}`} >
+                                  <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{currentIndex}</td>
+                                  <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{data.typeOfTest}</td>
+                                  <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{data.groupID}</td>
+                                  <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{data.groupName}</td>
+                                  <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(data.groupID,data.typeOfTest)}><BsTrash /></button></td>
+                                </tr>
+                              )
+                                
                             })
                           }
       
@@ -119,36 +167,48 @@ const TypeOfTestingList = () => {
                             <th className="border border-gray-300 px-4 py-2 text-center">Type Of Testing</th>
                             <th className="border border-gray-300 px-4 py-2 text-center">Group ID</th>
                             <th className="border border-gray-300 px-4 py-2 text-center">Group</th>
-                            {/* <th className="border border-gray-300 px-4 py-2 text-center">Roles</th>
-                              <th className="border border-gray-300 px-4 py-2 text-center">Expand</th> */}
                             <th className="border border-gray-300 px-4 py-2 text-center">Delete</th>
                           </tr>
                         </thead>
                         <tbody>
                           {
-                            filteredItems?.map((item, index) => {
+                            currentDataState?.map((TOT, index) => {
+                              const currentIndex = indexsCounter++;
                               return (
-                                item.Type_Of_Testing.filter((data) =>
-                                  data.toLowerCase().includes(query.toLowerCase())
-                                ).map((TOT, i) => {
-                                  const currentIndex = indexsCounter++;
-                                  return (
-                                    <tr className="hover:bg-gray-100" key={`${TOT}-${i}`} >
-                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{currentIndex}</td>
-                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{TOT}</td>
-                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item._id}</td>
-                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.Group_Name}</td>
-                                      {/* <td className="border border-gray-300 px-4 py-2 text-center">{designation.toString()}</td>
-                                                      <td className="border border-gray-300 px-4 py-2 text-center"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td> */}
-                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id,TOT)}><BsTrash /></button></td>
-                                    </tr>
-                                  )
-                                }))
+                                <tr className="hover:bg-gray-100" key={`${TOT.typeOfTest}-${TOT.groupID}-${index}`} >
+                                  <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{currentIndex}</td>
+                                  <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{TOT.typeOfTest}</td>
+                                  <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{TOT.groupID}</td>
+                                  <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{TOT.groupName}</td>
+                                  <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(TOT.groupID,TOT.typeOfTest)}><BsTrash /></button></td>
+                                </tr>
+                              )
+                                
                             })
                           }
       
                         </tbody>
                       </table>
+                      {/* Pagination Controls */}
+                      <div className="flex justify-center mt-4">
+                          <button
+                              onClick={() => handlePageChange(currentPage - 1)}
+                              disabled={currentPage === 1}
+                              className="bg-indigo-700 text-white px-4 py-1 rounded-md mx-1 disabled:opacity-50"
+                          >
+                              Previous
+                          </button>
+                          <span className="mx-2">
+                              Page {currentPage} of {totalPagesState}
+                          </span>
+                          <button
+                              onClick={() => handlePageChange(currentPage + 1)}
+                              disabled={currentPage === totalPagesState}
+                              className="bg-indigo-700 text-white px-4 py-1 rounded-md mx-1 disabled:opacity-50"
+                          >
+                              Next
+                          </button>
+                      </div>
                     </div>
                   )
                 }

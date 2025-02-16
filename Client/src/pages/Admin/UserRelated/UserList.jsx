@@ -25,12 +25,10 @@ const UserList = () => {
   }, []);
 
   // Pagination state
+  const [totalPagesState,setTotalPagesState]=useState();
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(2); // Number of items per page
-
-  // Calculate total pages
-  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
-
+  const [itemsPerPage] = useState(6); // Number of items per page
+ 
   // Handle page change
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -42,10 +40,13 @@ const UserList = () => {
       },[TmAnData])
 
   useEffect(() => {
-    const filtered = allUserDataState?.filter(item =>
-      item.Active_Status===true && (item.fullName.toLowerCase().includes(query.toLowerCase()) || item.email.toLowerCase().includes(query.toLowerCase()))
-    );
-    setFilteredItems(filtered);
+    if(query.trim() !== ''){
+      const filtered = allUserDataState?.filter(item =>
+        item.Active_Status===true && (item.fullName.toLowerCase().includes(query.toLowerCase()) || item.email.toLowerCase().includes(query.toLowerCase()))
+      );
+      setFilteredItems(filtered);
+    }
+    setCurrentPage(1);
   }, [query,allUserDataState]);
   useEffect(() => {
     (async () => {
@@ -53,15 +54,12 @@ const UserList = () => {
     })();
   }, []);
   useEffect(() => {
-    setAllUserDataState(allUserData);
+    setAllUserDataState([...allUserData]?.sort((a, b) => a.fullName.localeCompare(b.fullName)));
   },[allUserData])
 
-  console.log("first",allUserDataState,allUserData);
   const handleDelete = async (userID,name) => {
     try {
-      console.log(userID, "judju")
       const foundData=TmAnDataState?.filter((element)=>element.AN_Status.some((data)=>data.Analyst.ID===String(userID) && data.Status !=='Approved By TM'));
-      console.log(foundData,"foundData")
       if(foundData.length>0){
         toast.error(`Alloted Sample Results Are Still Pending At Analyst-${name},Can't be Deleted`)
         return;
@@ -78,14 +76,31 @@ const UserList = () => {
       toast.error(error)
     }
   }
+
   const [currentDataState,setCurrentDataState]=useState()
+
   // Calculate current page data
   useEffect(()=>{
+    if(filteredItems.length>0 && query !==''){
+      const totalPages = Math.ceil(filteredItems?.length / itemsPerPage);
+      setTotalPagesState(totalPages);
+    }
+    else{
+      const totalPages = Math.ceil(allUserDataState?.filter((item)=>item.Active_Status===true)?.length / itemsPerPage);
+      setTotalPagesState(totalPages);
+    }
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    const currentData = filteredItems.slice(startIndex, endIndex);
-    setCurrentDataState(currentData);
-  },[filteredItems]);
+    if(filteredItems.length>0 && query !==''){
+      const currentData = filteredItems?.slice(startIndex, endIndex);
+      setCurrentDataState(currentData);
+    }
+    else{
+      const currentData = allUserDataState?.filter((item)=>item.Active_Status===true)?.slice(startIndex, endIndex);
+      setCurrentDataState(currentData);
+    }
+    
+  },[filteredItems,allUserDataState,currentPage,itemsPerPage,totalPagesState]);
   return (
     <>
       <AdminCommomNav />
@@ -102,11 +117,12 @@ const UserList = () => {
             </div>
           </div>
           <br /><br />
+          <span><b>Note1:</b>Search User on the basis of Name or Email</span>
           {
             allUserDataState?.filter((data) => data.Active_Status === true).length>0?(
               <div>
                 {
-                  filteredItems.length == 0 ? query === '' ? (
+                  filteredItems.length === 0 ? query === '' ? (
                     <div>
                       <table className='table-auto w-full border-collapse border border-gray-300'>
                         <thead>
@@ -122,54 +138,13 @@ const UserList = () => {
                         </thead>
                         <tbody>
                           {
-                            allUserDataState?.filter((data) => data.Active_Status === true).filter((element)=>element.roles.some((ele)=>ele.designation !=='Admin'))?.sort((a, b) => a.fullName.localeCompare(b.fullName))?.map((item, index) => {
-                              const designation = [];
-                              console.log(allUserDataState,"frtakxo")
-                              item.roles.map((role) => {
-                                designation.push(role.designation)
-                              })
-                              return (
-                                <tr className="hover:bg-gray-100" key={item._id} >
-                                  <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{index + 1}</td>
-                                  <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.fullName}</td>
-                                  <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item._id}</td>
-                                  <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{designation.toString()}</td>
-                                  <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td>
-                                  <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/reset-password', { state: { ...item } })}>Click</button></td>
-                                  <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id,item.fullName)}><BsTrash /></button></td>
-                                </tr>
-                              )
-                            })
-                          }
-      
-                        </tbody>
-                      </table>
-                    </div>
-                  ) : (
-                    <div className='text-2xl font-bold w-full text-center'>No Results Found!!!</div>
-                  ) : (
-                    <div>
-                      <table className='table-auto w-full border-collapse border border-gray-300'>
-                        <thead>
-                          <tr className="bg-slate-200">
-                            <th className="border border-gray-300 px-4 py-2 text-center">S.No.</th>
-                            <th className="border border-gray-300 px-4 py-2 text-center">User Name.</th>
-                            <th className="border border-gray-300 px-4 py-2 text-center">User ID</th>
-                            <th className="border border-gray-300 px-4 py-2 text-center">Roles</th>
-                            <th className="border border-gray-300 px-4 py-2 text-center">Expand</th>
-                            <th className="border border-gray-300 px-4 py-2 text-center">Reset Password</th>
-                            <th className="border border-gray-300 px-4 py-2 text-center">Delete</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {
-                            filteredItems?.filter((data) => data.Active_Status === true).filter((element)=>element.roles.some((ele)=>ele.designation !=='Admin'))?.sort((a, b) => a.fullName.localeCompare(b.fullName))?.map((item, index) => {
+                            currentDataState?.filter((data) => data.Active_Status === true).filter((element)=>element.roles.some((ele)=>ele.designation !=='Admin'))?.map((item, index) => {
                               const designation = [];
                               item.roles.map((role) => {
                                 designation.push(role.designation)
                               })
                               return (
-                                <tr className="hover:bg-gray-100" key={item._id} >
+                                <tr className="hover:bg-gray-100" key={`all-${item._id}`} >
                                   <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{index + 1}</td>
                                   <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.fullName}</td>
                                   <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item._id}</td>
@@ -194,11 +169,71 @@ const UserList = () => {
                           Previous
                         </button>
                         <span className="mx-2">
-                          Page {currentPage} of {totalPages}
+                          Page {currentPage} of {totalPagesState}
                         </span>
                         <button
                           onClick={() => handlePageChange(currentPage + 1)}
-                          disabled={currentPage === totalPages}
+                          disabled={currentPage === totalPagesState}
+                          className="bg-indigo-700 text-white px-4 py-1 rounded-md mx-1 disabled:opacity-50"
+                        >
+                          Next
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className='text-2xl font-bold w-full text-center'>No Results Found!!!</div>
+                  ) : (
+                    <div>
+                      <table className='table-auto w-full border-collapse border border-gray-300'>
+                        <thead>
+                          <tr className="bg-slate-200">
+                            <th className="border border-gray-300 px-4 py-2 text-center">S.No.</th>
+                            <th className="border border-gray-300 px-4 py-2 text-center">User Name.</th>
+                            <th className="border border-gray-300 px-4 py-2 text-center">User ID</th>
+                            <th className="border border-gray-300 px-4 py-2 text-center">Roles</th>
+                            <th className="border border-gray-300 px-4 py-2 text-center">Expand</th>
+                            <th className="border border-gray-300 px-4 py-2 text-center">Reset Password</th>
+                            <th className="border border-gray-300 px-4 py-2 text-center">Delete</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {
+                            currentDataState?.filter((data) => data.Active_Status === true).filter((element)=>element.roles.some((ele)=>ele.designation !=='Admin'))?.map((item, index) => {
+                              const designation = [];
+                              item.roles.map((role) => {
+                                designation.push(role.designation)
+                              })
+                              return (
+                                <tr className="hover:bg-gray-100" key={`filtered-${item._id}`} >
+                                  <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{index + 1}</td>
+                                  <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.fullName}</td>
+                                  <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item._id}</td>
+                                  <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{designation.toString()}</td>
+                                  <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/UserList/View_More', { state: { ...item } })}>View</button></td>
+                                  <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-indigo-700 text-white px-4 py-1 rounded-md hover:bg-indigo-800' onClick={() => navigate('/Admin/User/reset-password', { state: { ...item } })}>Click</button></td>
+                                  <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id,item.fullName)}><BsTrash /></button></td>
+                                </tr>
+                              )
+                            })
+                          }
+      
+                        </tbody>
+                      </table>
+                      {/* Pagination Controls */}
+                      <div className="flex justify-center mt-4">
+                        <button
+                          onClick={() => handlePageChange(currentPage - 1)}
+                          disabled={currentPage === 1}
+                          className="bg-indigo-700 text-white px-4 py-1 rounded-md mx-1 disabled:opacity-50"
+                        >
+                          Previous
+                        </button>
+                        <span className="mx-2">
+                          Page {currentPage} of {totalPagesState}
+                        </span>
+                        <button
+                          onClick={() => handlePageChange(currentPage + 1)}
+                          disabled={currentPage === totalPagesState}
                           className="bg-indigo-700 text-white px-4 py-1 rounded-md mx-1 disabled:opacity-50"
                         >
                           Next

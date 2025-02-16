@@ -14,12 +14,29 @@ const MethodList = () => {
   const [allSubstanceDataState, setAllSubstanceDataState] = useState([]);
   const [query, setQuery] = useState('');
   const [filteredItems, setFilteredItems] = useState([]);
+  const [flattenedMethodsList, setFlattenedMethodsList] = useState([]);
+  
+  // Pagination state
+  const [totalPagesState,setTotalPagesState]=useState();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5); // Number of items per page
+
+  // Handle page change
+  const handlePageChange = (page) => {
+      setCurrentPage(page);
+  };
   useEffect(() => {
-    const filtered = allSubstanceDataState?.filter(item =>
-      item.Test.Test_Name.toLowerCase().includes(query.toLowerCase())
-    );
-    setFilteredItems(filtered);
-  }, [query,allSubstanceDataState]);
+    if(query.trim() ===''){
+      setFilteredItems(flattenedMethodsList);
+    }
+    else{
+      const filtered = flattenedMethodsList?.filter(item =>
+        item.testName.toLowerCase().includes(query.toLowerCase())
+      );
+      setFilteredItems(filtered);
+    }
+    setCurrentPage(1);
+  }, [query,flattenedMethodsList]);
   useEffect(() => {
     (async () => {
       await dispatch(getSubstanceData());
@@ -29,9 +46,45 @@ const MethodList = () => {
     setAllSubstanceDataState([...substanceData].sort((a, b) => a.Test.Test_Name.localeCompare(b.Test.Test_Name)));
   }, [substanceData]);
 
+  // Flatten all tests from groups
+  useEffect(() => {
+      const allMethodsList = allSubstanceDataState?.flatMap(substance => 
+          substance?.MethodUnitList?.map(data => ({
+              methodID:substance._id,
+              methodList:data,
+              testName: substance.Test.Test_Name,
+              testID: substance.Test.TestID
+          }))
+      );
+      setFlattenedMethodsList(allMethodsList);
+  }, [allSubstanceDataState]);
+
+  const [currentDataState,setCurrentDataState]=useState()
+  // Calculate current page data
+  useEffect(()=>{
+  if(filteredItems.length>0 && query !==''){
+      const totalPages = Math.ceil(filteredItems?.length / itemsPerPage);
+      setTotalPagesState(totalPages);
+  }
+  else{
+      const totalPages = Math.ceil(filteredItems?.length / itemsPerPage);
+      setTotalPagesState(totalPages);
+  }
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  if(filteredItems.length>0 && query !==''){
+      const currentData = filteredItems?.slice(startIndex, endIndex);
+      setCurrentDataState(currentData);
+  }
+  else{
+      const currentData = filteredItems?.slice(startIndex, endIndex);
+      setCurrentDataState(currentData);
+  }
+  
+  },[filteredItems,allSubstanceDataState,itemsPerPage,currentPage,totalPagesState]);
+
   const handleDelete = async (methodID,Method,Unit,Limit) => {
     try {
-      console.log(methodID, "judju")
       const data = {
         "methodID": methodID,
         "Method":Method,
@@ -70,6 +123,7 @@ const MethodList = () => {
               <div>
 
                   <br /><br />
+                  <span><b>Note1:</b>Search Methods on the basis of Test</span>
                   {
                     filteredItems.length == 0 ? query === '' ? (
                       <div>
@@ -87,22 +141,21 @@ const MethodList = () => {
                           </thead>
                           <tbody>
                             {
-                              allSubstanceDataState?.map((item, index) => {
-                                return item.MethodUnitList.map((data) => {
-                                  const currentIndex = indexsCounter++;
-                                  return (
-        
-                                    <tr className="hover:bg-gray-100" key={`${item._id}-${data.Method}-${currentIndex}`} >
-                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{currentIndex}</td>
-                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.Test.Test_Name}</td>
-                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.Test.TestID}</td>
-                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{data.Method}</td>
-                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{data.Unit}</td>
-                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{data.Limit ? data.Limit:''}</td>
-                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id,data.Method,data.Unit,data.Limit)}><BsTrash /></button></td>
-                                    </tr>
-                                  )
-                                })
+                              currentDataState?.map((item, index) => {
+                                const currentIndex = indexsCounter++;
+                                return (
+      
+                                  <tr className="hover:bg-gray-100" key={`${item.methodID}-${item.methodList.Method}-${currentIndex}`} >
+                                    <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{currentIndex}</td>
+                                    <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.testName}</td>
+                                    <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.testID}</td>
+                                    <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.methodList.Method}</td>
+                                    <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.methodList.Unit}</td>
+                                    <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.methodList.Limit ? item.methodList.Limit:''}</td>
+                                    <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item.methodID,item.methodList.Method,item.methodList.Unit,item.methodList.Limit)}><BsTrash /></button></td>
+                                  </tr>
+                                )
+                                
                               })
                             }
         
@@ -127,26 +180,45 @@ const MethodList = () => {
                           </thead>
                           <tbody>
                             {
-                              filteredItems?.map((item, index) => {
-                                return item.MethodUnitList.map((data) => {
-                                  const currentIndex = indexsCounter++;
-                                  return (
-                                    <tr className="hover:bg-gray-100" key={`Search-Related-${item._id}-${data.Method}-${currentIndex}`} >
-                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{currentIndex}</td>
-                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.Test.Test_Name}</td>
-                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.Test.TestID}</td>
-                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{data.Method}</td>
-                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{data.Unit}</td>
-                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{data.Limit ? data.Limit:''}</td>
-                                      <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item._id,data.Method,data.Unit,data.Limit)}><BsTrash /></button></td>
-                                    </tr>
-                                  )
-                                })
+                              currentDataState?.map((item, index) => {
+                                const currentIndex = indexsCounter++;
+                                return (
+                                  <tr className="hover:bg-gray-100" key={`Search-Related-${item.methodID}-${item.methodList.Method}-${currentIndex}`} >
+                                    <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{currentIndex}</td>
+                                    <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.testName}</td>
+                                    <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.testID}</td>
+                                    <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.methodList.Method}</td>
+                                    <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.methodList.Unit}</td>
+                                    <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto">{item.methodList.Limit ? item.methodList.Limit:''}</td>
+                                    <td className="border border-gray-300 px-4 py-2 text-center max-w-72  overflow-x-auto"><button type="button" className='bg-red-700 text-white px-4 py-1 rounded-md hover:bg-red-800' onClick={() => handleDelete(item.methodID,item.methodList.Method,item.methodList.Unit,item.methodList.Limit)}><BsTrash /></button></td>
+                                  </tr>
+                                )
+                                
                               })
                             }
         
                           </tbody>
                         </table>
+                        {/* Pagination Controls */}
+                        <div className="flex justify-center mt-4">
+                            <button
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                disabled={currentPage === 1}
+                                className="bg-indigo-700 text-white px-4 py-1 rounded-md mx-1 disabled:opacity-50"
+                            >
+                                Previous
+                            </button>
+                            <span className="mx-2">
+                                Page {currentPage} of {totalPagesState}
+                            </span>
+                            <button
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                disabled={currentPage === totalPagesState}
+                                className="bg-indigo-700 text-white px-4 py-1 rounded-md mx-1 disabled:opacity-50"
+                            >
+                                Next
+                            </button>
+                        </div>
                       </div>
                     )
                   }
