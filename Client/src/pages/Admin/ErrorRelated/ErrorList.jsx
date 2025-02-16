@@ -31,7 +31,6 @@ const ErrorList = () => {
 
   const handleDelete=async(errorID)=>{
     try {
-      console.log(errorID,"judju")
       const data={
         "errorID":errorID
       }
@@ -66,6 +65,7 @@ const ErrorList = () => {
               <div className='w-full'>
 
                 <br /><br />
+                <span><b>Note1:</b>Search on the basis of Type Of Testing</span>
                 {
                   filteredItems.length == 0 ? query === '' ? (
                     <div>

@@ -15,24 +15,26 @@ const GroupList = () => {
   const [allGroupDataState, setAllGroupDataState] = useState([]);
   const [query, setQuery] = useState('');
   const [filteredItems, setFilteredItems] = useState([]);
+
   useEffect(() => {
     const filtered = allGroupDataState?.filter(item =>
       item.Group_Name.toLowerCase().includes(query.toLowerCase())
     );
     setFilteredItems(filtered);
   }, [query,allGroupDataState]);
+
   useEffect(() => {
     (async () => {
       await dispatch(getGroupData());
     })();
   }, []);
+  
   useEffect(() => {
     setAllGroupDataState([...groupData].sort((a, b) => a.Group_Name.localeCompare(b.Group_Name)));
   }, [groupData]);
 
   const handleDelete = async (groupID) => {
     try {
-      console.log(groupID, "judju")
       const data = {
         "groupID": groupID
       }
@@ -65,6 +67,7 @@ const GroupList = () => {
               <div>
 
                   <br /><br />
+                  <span><b>Note1:</b>Search on the basis of Group Name</span>
                   {
                     filteredItems.length === 0 ? query === '' ? (
                       <div>

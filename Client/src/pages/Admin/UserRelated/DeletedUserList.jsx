@@ -42,6 +42,7 @@ const DeletedUserList = () => {
                 </div>
               </div>
               <br /><br />
+              <span><b>Note1:</b>Search User on the basis of Name or Email</span>
               {
                 filteredItems?.length == 0 ? query === '' ? (
                   <div>
