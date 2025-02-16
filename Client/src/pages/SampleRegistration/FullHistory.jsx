@@ -2,14 +2,32 @@ import React,{useState,useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getAllUserData } from '../../Redux/Slices/AuthSlice';
+import { getTMANData } from '../../Redux/Slices/SampleSlice';
 const FullHistory = () => {
     const {allUserData}=useSelector(state=>state.auth);
+    const { TmAnData }=useSelector((state)=>state.sample)
     const dispatch=useDispatch();
     const navigate=useNavigate();
     const {state}=useLocation();//gets value througn data passes from previous component as second parameter of navigate hook
     const [testData,setTestData]=useState([])
     const [allUserDataState, setAllUserDataState] = useState([]);
     const [registrationUser,setRegistrationUser]=useState('');
+    const [TmAnDataState,setTmAnDataState]=useState([]);
+    const [foundTMANData,setFoundTMANData]=useState();
+  console.log(state);
+    useEffect(() => {
+          (async () => {
+          await dispatch(getTMANData());
+          })();
+      }, []);
+    useEffect(() => {
+        setTmAnDataState(TmAnData);
+      },[TmAnData])
+    
+    useEffect(()=>{
+      const foundObj=TmAnDataState?.find((data)=>data.Sample_Alloted === state._id);
+      setFoundTMANData(foundObj);
+    },[TmAnDataState])
     useEffect(() => {
       (async () => {
         await dispatch(getAllUserData());
@@ -45,7 +63,6 @@ const FullHistory = () => {
       setTestData(Tests)
     },[])
     const handleBackNavigation=()=>{
-      console.log("first")
       if(state.difference==='All Sample History'){
         navigate('/Admin/Sample/AllSampleHistory')
       }
@@ -64,8 +81,6 @@ const FullHistory = () => {
       
     }
     const handleDownload = (url) => {
-      console.log(url, "url");
-    
       if (url) {
         const fileUrl = `http://localhost:5001${url}`; // Fixed URL format
     
@@ -84,6 +99,7 @@ const FullHistory = () => {
         toast.error("File Not Uploaded by Analyst Yet");
       }
     };
+    console.log(foundTMANData,"dqeq")
   return (
     <div  className="space-y-6 max-w-full mx-auto p-6">
         <div className="font-bold text-2xl text-center">Complete Sample Information</div>
@@ -156,7 +172,7 @@ const FullHistory = () => {
               type="text"
               name="Mfg_Date"
               className="w-full border-2 border-blue-600 rounded-md p-2 bg-white"
-              defaultValue={state.Mfg_Date.split('T')[0]}
+              defaultValue={state.Mfg_Date?state.Mfg_Date.split('T')[0]:''}
               disabled={true}
             />
           </div>
@@ -199,7 +215,7 @@ const FullHistory = () => {
               type="text"
               name="Treatment_Type"
               className="w-full border-2 border-blue-600 rounded-md p-2 bg-white"
-              defaultValue={state.Treatment_Type}
+              defaultValue={state.Treatment_Type ?state.Treatment_Type: '' }
               disabled={true}
             />
           </div>
@@ -301,6 +317,43 @@ const FullHistory = () => {
             (
               <span></span>
             )
+          }
+          {
+            foundTMANData?(
+              Object.keys(foundTMANData.Substances_To_Be_Analysed).map((key,fd_idx)=>{
+                return(
+                  <div className="mt-12" key={`ResultShow-${key}-${fd_idx}`}>
+                    <h2 className="text-sm font-semibold mb-2">Tests</h2>
+                    <div className={`${state.Tests.length > 0
+                      ? "max-h-64 overflow-y-auto border-2 border-blue-600"
+                      : "border-2 border-blue-600"
+                      }`}>
+
+                      {
+                        foundTMANData?.Substances_To_Be_Analysed[key].Tests.map((ele,ele_idx) => {
+                          return (
+                            <div key={`TestShow-${ele.Test.TestID}-${ele_idx}`} className='flex flex-col pl-2 bg-white'>
+                              <div className='font-semibold'>{key}</div>
+                              <div className='flex gap-4'>
+                                <div className='border-r border-gray-300'>
+                                  <div className='font-semibold'>Test</div>
+                                  <div>{ele.Test.Test_Name}</div>
+                                </div>
+                                <div>
+                                  <div className='font-semibold'>Result</div>
+                                  <div>{ele.Result}</div>
+                                </div>
+                              </div>
+                            </div>
+                          )
+                        })}                  
+                      </div>
+                  </div>
+                )
+              })
+            )
+            :
+            <span></span>
           }
         </div>
       </div>
