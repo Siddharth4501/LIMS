@@ -151,7 +151,7 @@ const UserTestReport = () => {
                         <div className="h-0 w-0"></div>
                     )
                 }
-                <div className="grid grid-cols-2 gap-4 mt-6">
+                <div className="grid grid-cols-2 gap-4 mt-24">
                     <div>
                         <p>
                             <span className="font-semibold">Report No: </span>
