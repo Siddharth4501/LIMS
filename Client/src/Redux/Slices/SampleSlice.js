@@ -35,7 +35,7 @@ export const getSampleData = createAsyncThunk("sample/data", async () => {
       let res=axios.get("http://localhost:5001/api/v1/Sample/data",{
         withCredentials: true, // Include cookies
       })//here await is not used purposely because of the following toast syntax
-  
+
       // getting response resolved here
       res = await res;//when promise is resolved it will give data
       return res.data;
