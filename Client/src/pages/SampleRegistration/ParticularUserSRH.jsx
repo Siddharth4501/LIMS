@@ -13,6 +13,7 @@ const ParticularUserSRH = () => {
     const { sampleData }=useSelector((state)=>state.sample)
     const userData=JSON.parse(localStorage.getItem("userData"));
     const[samples,setSamples]=useState([]);
+    const [loading, setLoading] = useState(true); // Added state for loading while fectching data from api
  
     // Pagination state
     const [totalPagesState,setTotalPagesState]=useState();
@@ -23,12 +24,14 @@ const ParticularUserSRH = () => {
     const handlePageChange = (page) => {
       setCurrentPage(page);
     };
-
+     
     useEffect(() => {
       (async () => {
+        setLoading(true); // Sets loading to true before fetching data
         await dispatch(getSampleData());
+        setLoading(false); // Sets loading to false after data is fetched
       })();
-    }, []);
+    }, [dispatch]);
 
     useEffect(() => { setSamples([...sampleData]?.sort((a, b) => new Date(b.Date).getTime() - new Date(a.Date).getTime())) }, [sampleData])
 
@@ -79,6 +82,12 @@ const ParticularUserSRH = () => {
       <br /><br />
       <span><b>Note1:</b>Search Samples on the basis of Sample Name,Group,Registration Date and Type Of Testing</span>
       {
+        loading ? (
+          <div className='w-screen flex justify-center items-center mt-6'>
+            <img src="/src/assets/images/1486.gif" alt="Loading....." />
+          </div>
+        )
+        :
         filteredItems.length==0?query===''?(
           <div>
             <table className="table-auto w-full border-collapse border border-gray-300">

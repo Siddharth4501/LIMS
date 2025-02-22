@@ -12,17 +12,21 @@ const AllSamplesHistory = () => {
   const { sampleData } = useSelector((state) => state.sample)
   const [samples, setSamples] = useState([]);
   const [query, setQuery] = useState('');
-  const [filteredItems, setFilteredItems] = useState([]);
-  
+  const [filteredItems, setFilteredItems] = useState([]); 
+  const [loading, setLoading] = useState(true); // Added state for loading while fectching data from api
+ 
   useEffect(() => {
     (async () => {
+      setLoading(true); // Sets loading to true before fetching data
       await dispatch(getSampleData());
+      setLoading(false); // Sets loading to false after data is fetched
     })();
-  }, []);
+  }, [dispatch]);
+
   // Pagination state
   const [totalPagesState,setTotalPagesState]=useState();
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5); // Number of items per page
+  const [itemsPerPage] = useState(25); // Number of items per page
   
   // Handle page change
   const handlePageChange = (page) => {
@@ -71,6 +75,12 @@ const AllSamplesHistory = () => {
       <div className='flex'>
         <AdminCommonPanel />
         {
+          loading ? (
+            <div className='h-[84vh] w-screen flex justify-center items-center'>
+              <img src="/src/assets/images/1486.gif" alt="Loading....." />
+            </div>
+          )
+          :
           samples?.filter((data) => data.Active === true).length>0?(
 
             <div className='w-full'>
