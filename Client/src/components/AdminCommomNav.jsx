@@ -50,7 +50,7 @@ const AdminCommomNav = () => {
                     <img src={logoDataState.length>0?`http://localhost:5001${logoDataState[0]?.imageUrl}`:''} alt="Logo"
                         className="h-20 w-22 object-contain mr-8 ml-4 rounded-full"
                     />
-                    <span className="text-lg text-gray-200 font-bold">{LabNameDataState.length>0?LabNameDataState[0].Lab_Name:'DIBT'} </span>
+                    <span className="text-lg text-gray-200 font-bold">{LabNameDataState.length>0?LabNameDataState[0].Lab_Name:'LIMS'} </span>
                 </div>
                 <div className='mx-6'>
                     <select name="" id="" className="p-2 rounded-lg border-2 border-blue-600 outline-0" onChange={handleAdminNavigation}>
