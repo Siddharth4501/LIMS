@@ -11,6 +11,7 @@ const UserListViewMore = () => {
     const {state}=useLocation();
     const dispatch=useDispatch()
     const navigate=useNavigate();
+    const [incomingState,setIncomingState]=useState();
     const { groupData } = useSelector((state) => state.group);
     const { allUserData } = useSelector((state) => state.auth);
     const [allUserDataState,setAllUserDataState]=useState([])
@@ -23,6 +24,10 @@ const UserListViewMore = () => {
         userName: "",
         userEmail: "",
     });
+
+    useEffect(()=>{
+        setIncomingState(state);
+    },[state])
 
     const getAvailableRoles = (sectionIndex) => {
         const selectedRoles = sections.map((section) => section.designation);
@@ -42,7 +47,7 @@ const UserListViewMore = () => {
         const roles=state.roles.map((role)=>role.designation);
         setPrevRoles(roles);
     }, []);
-    console.log(sections,"olr")
+
     useEffect(() => {
         (async () => {
             await dispatch(getGroupData());
@@ -54,12 +59,14 @@ const UserListViewMore = () => {
           
       })();
     }, [dispatch]);
+
     useEffect(() => {
         setAllUserDataState(allUserData);
     }, [allUserData])
+
     const userInitialState = () => {
         const arr = [];
-        state.roles.map((item) => {
+        incomingState?.roles.map((item) => {
             const obj = {
                 designation: "",
                 Assigned_Group: [],
@@ -75,7 +82,7 @@ const UserListViewMore = () => {
 
     useEffect(() => {
         setSections(userInitialState());
-    }, []);
+    }, [incomingState]);
 
     const handleRoleDelete = async (userID, role) => {
         try {
@@ -90,7 +97,11 @@ const UserListViewMore = () => {
             const response = await dispatch(DeleteUserRole(data));
             if (response?.payload?.success) {
                 toast.success(`Role ${role} deleted successfully`);
-                navigate('/Admin/User/UserList');
+                const newRoles=state.roles?.filter((item)=>item.designation !== role);
+                const newState = { ...state, roles: newRoles };
+                
+                setIncomingState(newState);
+                navigate('/Admin/User/UserList/View_More', { state: newState, replace: true });
             }
         } catch (error) {
             toast.error(error);
@@ -196,7 +207,7 @@ const UserListViewMore = () => {
         try {
           const res = await dispatch(UpdateUser(data));
           if (res?.payload?.success) {
-              toast.success(`User ${fullName} Successfully Updata`);
+              toast.success(`User ${fullName} Successfully Updated`);
               navigate("/Admin/User/UserList");
           }
         } catch (error) {
@@ -205,7 +216,7 @@ const UserListViewMore = () => {
     };
 
     return (
-        <div>
+        <div className='h-screen max-w-screen'>
             <div className='w-full flex border-2 bg-gray-100 p-5 border-gray-600'>
                 <div className='w-3/5 text-3xl font-bold pr-10'><span className='float-right'>Complete Details Of User</span></div>
                 <div className='w-2/5'><button className='bg-indigo-700 px-8 py-1 text-white rounded-md float-right' onClick={() => navigate('/Admin/User/UserList')}>Back</button></div>
@@ -279,7 +290,7 @@ const UserListViewMore = () => {
                                     <tr className="hover:bg-gray-100" key={`newSection-${index}`}>
                                         <td className="border border-gray-300 px-4 py-2 text-center">{index + 1}.</td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
-                                            <select name={`name-${item.designation}-${index}`} id={`name-${item.designation}-${index}`} value={item.designation || ''} className='bg-slate-100 py-1 w-3/4 border-2 border-blue-700 outline-0' onChange={(e) => handleRoleChange(e, index)}>
+                                            <select name={`name-${item.designation}-${index}`} id={`name-${item.designation}-${index}`} value={item.designation || ''} className='py-1 w-3/4 border-2 border-blue-700 outline-0' onChange={(e) => handleRoleChange(e, index)}>
                                                 <option value="">Role</option>
                                                 {getAvailableRoles(index).map((role, i) => (
                                                     <option value={role} key={`remainingRole-${role}-${i}`}>{role}</option>
@@ -291,7 +302,7 @@ const UserListViewMore = () => {
                                           item.designation==='Sample Registration'?(
                                             <span className="">______</span>        
                                           ):(
-                                            <select name="" id="" className='bg-slate-100 py-1 w-3/4 border-2 border-blue-700 outline-0' value={item.Assigned_Group[0] || ''} onChange={(e) => handleGroupChange(e.target.value, index)}>
+                                            <select name="" id="" className='py-1 w-3/4 border-2 border-blue-700 outline-0' value={item.Assigned_Group[0] || ''} onChange={(e) => handleGroupChange(e.target.value, index)}>
                                                 <option value="">Group</option>
                                                 {groupData.map((group, grpi) => (
                                                     <option value={group.Group_Name} key={`Group-${group.Group_Name}-${grpi}`}>{group.Group_Name}</option>
@@ -302,7 +313,7 @@ const UserListViewMore = () => {
                                         {
                                           item.designation==='Sample Review'?(
                                             <td className="border border-gray-300 px-4 py-2 text-center">
-                                              <select name="" id="" className='bg-slate-100 py-1 w-3/4 border-2 border-blue-700 outline-0' value="Technical Manager" onChange={(e) => handleRepToChange("Technical Manager", index)}>
+                                              <select name="" id="" className='py-1 w-3/4 border-2 border-blue-700 outline-0' value="Technical Manager" onChange={(e) => handleRepToChange("Technical Manager", index)}>
                                                 <option value="">Reporting To</option>
                                                 <option value="Technical Manager" key={`RepTo-Technical Manager-${index}`}>Technical Manager</option>
 
@@ -322,7 +333,7 @@ const UserListViewMore = () => {
                 {sections?.length >= 4 ? (
                     <span className='w-0'></span>
                 ) : (
-                    <div className='w-screen py-2 border border-gray-300'>
+                    <div className='w-full py-2 border border-gray-300'>
                         <button className='flex justify-center m-auto bg-green-600 text-white py-1 px-4 text-sm rounded hover:bg-green-700 font-semibold' onClick={handleAddSection}>Add Role</button>
                     </div>
                 )}
